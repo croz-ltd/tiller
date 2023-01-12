@@ -1,0 +1,55 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { FormLayout } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Form Layout
+
+The `FormLayout` component makes creating forms easier by providing you with a focused display for your form which
+can be divided into sections with desired content and actions.
+
+The component has a couple of types to choose from, with each being unique in its visual representation of the component:
+ - **Simple** (default) - provides a layout that supports sections.
+ - **Card** - provides a layout with titles and/or subtitles on the left side and section's content on the right side with **only** section's content wrapped in a Card component.
+ - **Full Width** - provides a layout with titles and/or subtitles on the left side and section's content on the right side, **both** wrapped in a Card component.
+
+**NOTE**: `FormLayout` gives you a template for making forms, you still need to wrap the component in Formik or other form-handling libraries.
+
+## Usage
+
+**1)** Define your form layout with `FormLayout` (optionally choose a type with `type` prop).
+
+**2)** Define your sections with `FormLayout.Section` with optional title and subtitle props.
+
+**3)** Define your section's content with `FormLayout.Section.Content` and optionally remove the spacing with `removeSpacing` prop.
+Place your desired field components inside this element. If you wish to have the title and/or subtitle separated from the form fields you can do so
+by defining `FormLayout.Field` with the name **equal to the field element** you wish to place inside the `FormLayout.Field` (see [Separate Labels story](#separate-labels)).
+
+**4)** Define your section's actions with `FormLayout.Section.Actions`. The component automatically separates elements defined here after the content.
+
+If you wish to **change the background** of the Form Layout components, you can do so using tokens (see [Form Layout Tokens](#form-layout-tokens)).
+
+## Best Practices
+
+- Use sections as intended, with each being about certain specific attributes to keep the user focused.
+- Do not overpopulate the sections and avoid creating them without a proper title and/or subtitle to keep the user informed about the context (unless the context is clearly defined somewhere else).
+
+All props are described in detail on the [Form Layout Props section](#form-layout-props)
+of the documentation.
+
+<Stories includePrimary={true} />
+
+## Form Layout Props:
+
+<ArgsTable of={FormLayout} />
+
+### FormLayout.Section Props:
+
+<ArgsTable of={FormLayout.Section} />
+
+### FormLayout.Section.Content Props:
+
+<ArgsTable of={FormLayout.Section.Content} include={["removeSpacing"]} />
+
+## Form Layout Tokens:
+<ThemeTokens component="FormLayout"/>

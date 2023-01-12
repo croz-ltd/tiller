@@ -1,0 +1,59 @@
+/*
+ *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ *
+ */
+
+import React from "react";
+
+import { Form, FormikValues, FormikErrors, FormikTouched } from "formik";
+
+import { FormContainer } from "@tiller-ds/formik-elements";
+
+import { action } from "@storybook/addon-actions";
+
+export type FormikDecoratorProps<T extends {}> = {
+  initialValues?: FormikValues;
+  initialErrors?: FormikErrors<T>;
+  initialTouched?: FormikTouched<T>;
+  validationSchema?: React.ReactNode;
+  children?: React.ReactNode;
+};
+
+export default function FormikDecorator<T extends {}>({
+  initialValues = {},
+  initialErrors = {},
+  initialTouched = {},
+  validationSchema,
+  children,
+}: FormikDecoratorProps<T>) {
+  return (
+    <FormContainer
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={action("onSubmit")}
+      initialErrors={initialErrors}
+      initialTouched={initialTouched}
+    >
+      {({ values }) => {
+        return (
+          <Form>
+            {children}
+            <pre className="text-xs text-center p-4">{JSON.stringify(values)}</pre>
+          </Form>
+        );
+      }}
+    </FormContainer>
+  );
+}

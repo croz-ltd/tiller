@@ -1,0 +1,56 @@
+import { Story, Canvas, Preview } from "@storybook/addon-docs";
+import { Meta } from "@storybook/addon-docs";
+import designError from './designError.png';
+
+<Meta
+  title="Introduction"
+  parameters={{
+    previewTabs: {
+      canvas: { hidden: true },
+      "storybook/playroom/panel": {
+        hidden: true,
+      },
+    },
+    playroom: {
+      disable: true,
+    },
+    viewMode: "docs",
+  }}
+/>
+
+# Introduction
+
+Welcome to Tiller design system.
+
+## Support
+
+For all questions and doubts, do not hesitate to email **tiller@croz.net**.
+
+## How to import component
+
+Component Library is divided into `modules`. Each folder represents one module.
+
+To import a component, the corresponding module needs to be installed first. One way to install the module is to enter the name of the module in the `package.json` file in format `"@tiller-ds/core": "0.0.0-dev"` and run `yarn install`.
+
+In case you are using `tiller-starter template`, `@tiller-ds/core` module will be installed by default.
+
+## Storybook Design Tab
+
+If you are new to Storybook, you may have a problem with `WebGL` when viewing the **Design** tab in Storybook.
+
+<img className="w-96" src={designError} alt="Design Error" />
+
+Fortunately, there is a very simple solution.
+
+#### **Chrome**
+
+WebGL should be enabled in recent versions of Chrome. If you aren’t able to run WebGL in Chrome, make sure that you update to the most recent version of Chrome.
+
+If you are using the most recent version of Chrome and can’t access WebGL content, make sure that hardware acceleration is enabled in your Chrome settings.
+
+1. Go to **chrome://settings** in your address bar, or click the **Chrome menu** in the upper-right corner of your browser window and select **Settings**.
+2. Use the search bar to locate the hardware acceleration setting, or scroll to the bottom of the Settings page, click **Advanced** and look in the **System** section.
+3. Toggle **Use hardware acceleration when available** to **on** (the toggle is blue when hardware acceleration is on, and white when hardware acceleration is off).
+
+In case option iz already set to **on**, **reset** it, and relaunch Chrome.
+

@@ -1,0 +1,32 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Toggle } from "@tiller-ds/form-elements";
+import { ToggleField } from "@tiller-ds/formik-elements";
+import { ThemeTokens } from "../utils";
+
+
+# Toggle Field
+
+`ToggleField` is a control that is used to quickly switch between two possible states.
+
+Toggles are only used for these binary actions that occur immediately after the user “flips the switch”.
+
+They are commonly used for “on/off” switches.
+
+Use `labels` with a toggle so the action is clear. Labels should be three words or less and appear on the side of a toggle.
+
+This is a **field** component, which means it is differs from `Toggle` by having an integrated logic for `onClick`, `checked`
+functions which `Toggle` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+<Stories includePrimary={true} />
+
+## Toggle Field Props:
+
+<ArgsTable of={ToggleField} />
+
+## Toggle Props:
+
+<ArgsTable of={Toggle} />
+
+## Toggle Tokens:
+<ThemeTokens component="Toggle"/>

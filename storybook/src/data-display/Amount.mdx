@@ -1,0 +1,20 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Amount } from "@tiller-ds/data-display";
+
+# Amount
+
+Tiller Amount component has four possible amount styles: `decimal`, `currency`, `percent`, `unit`.
+
+You can also add `currencyDisplay` prop to apply various currency representations. For example, `usd` currency can be represented with `$`, `US dollars`, or `USD`.
+
+Currency constant used in Stories below is defined by: `const currency = "hrk";`
+
+## **Prerequisites for functioning**:
+ - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+<Stories includePrimary={true} />
+
+## Amount Props:
+
+<ArgsTable of={Amount} />

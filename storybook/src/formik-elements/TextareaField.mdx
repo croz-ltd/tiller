@@ -1,0 +1,45 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Textarea } from "@tiller-ds/form-elements";
+import { TextareaField } from "@tiller-ds/formik-elements";
+import { ThemeTokens } from "../utils";
+
+# Textarea Field
+
+A `TextareaField` lets users enter long form text which spans over multiple lines.
+
+TextArea is typically used for descriptions, comments, and other longer free-form content.
+
+You must `label` textareas. `Placeholder` text is **not** a suitable substitute for a label, as it disappears when users click inside the textarea.
+
+Use `textareaClassname` prop to provide className for the textarea container.
+
+Standard form attributes are supported e.g. `required`, `disabled`, etc.
+
+This is a **field** component, which means it is differs from `Textarea` by having an integrated logic for `onChange`, `onBlur` and `onReset`
+functions which `Textarea` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+## When not to use:
+
+Users can find open-ended questions difficult to answer.
+
+It might be better to break up one complex question into a series of simple ones,
+
+for example where users can select from options using radios.
+
+Do not use the textarea component if you need to let users enter shorter answers no longer than a single line, such as a phone number or name.
+
+In this case, you should use the `Input` component.
+
+<Stories includePrimary={true} />
+
+## Textarea Field Props:
+
+<ArgsTable of={TextareaField} />
+
+## Textarea Props:
+
+<ArgsTable of={Textarea} />
+
+## Textarea Tokens:
+<ThemeTokens component="Textarea"/>

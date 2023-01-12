@@ -1,0 +1,41 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { SidebarNavigation, SidebarNavigationDropdown } from "@tiller-ds/menu";
+import { ThemeTokens } from "../utils";
+
+# Sidebar Navigation
+
+`Sidebar Navigation` gives you a complete styled side navigation for your website, ready to store links to your pages, subitems, dropdown and even bottom actions for most frequently
+visited links.
+
+The component comes in 3 possible variants:
+ - primary color styled (defined in your config file)
+ - dark version
+ - light version
+
+If you aren't a fan of a full styled navigation and want only the navigation itself to be styled according to your primary color, you can edit your dropdowns to be
+themed differently via the props sent to the dropdown menu.
+
+The best possible documentation for this component would be the [Props documentation](#sidebar-navigation-props)
+and the code of the stories listed below.
+
+<Stories includePrimary={true} />
+
+## Sidebar Navigation Props:
+
+<ArgsTable of={SidebarNavigation} />
+
+## SidebarNavigation.Item Props:
+
+<ArgsTable of={SidebarNavigation.Item} />
+
+## SidebarNavigation.Dropdown Props:
+
+<ArgsTable of={SidebarNavigation.Dropdown} />
+
+## SidebarNavigation.Dropdown.Item / SidebarNavigation.BottomAction / SidebarNavigation.SubItem Props:
+
+<ArgsTable of={SidebarNavigationDropdown.Item} />
+
+## Sidebar Navigation Tokens:
+<ThemeTokens component="SidebarNavigation"/>

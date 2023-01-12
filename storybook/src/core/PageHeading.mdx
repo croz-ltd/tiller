@@ -1,0 +1,71 @@
+import { Canvas, Story, ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { PageHeading } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Page Heading
+
+The `PageHeading` component is used to display a descriptive heading with or without subtitles, actions and breadcrumbs on your page.
+
+<Canvas>
+  <Story id="component-library-core-pageheading--with-subtitle-and-actions" />
+</Canvas>
+
+
+You can customize the `PageHeading` component in the [Page Heading Factory](#page-heading-factory).
+
+## Usage
+
+There are various page heading appearances you can achieve by using this component.
+
+You can:
+ - Define your title with `PageHeading.Title` (not exclusively text).
+ - Define your subtitle with `PageHeading.Subtitle` (not exclusively text).
+ - Define your actions with `PageHeading.Actions` and pass your desired actions (most commonly Buttons) to the subcomponent.
+The component itself will automatically display the actions on the right (or under the title on mobile displays).
+See [this story](#with-subtitle-and-actions) for best example of this usage.
+-  Define your breadcrumbs with `PageHeading.Breadcrumbs`, which will render above the title (see [Breadcrumbs documentation](/docs/component-library-core-breadcrumbs--simple#breadcrumbs) if you are unfamiliar with this component).
+Since this essentially represents the `Breadcrumbs` component, you can pass all of its props here (see [Breadcrumbs props](/docs/component-library-core-breadcrumbs--simple#breadcrumbs-props)).
+Inside `PageHeading.Breadcrumbs` define `PageHeading.Breadcrumb` elements with desired content inside (not exclusively text).
+See [this story](#with-breadcrumbs) for best example of this usage.
+- Define your meta text with `PageHeading.Meta`. This will render your desired meta content underneath the title and subtitle.
+See [this story](#with-meta) for best example of this usage.
+
+## Page Heading Factory
+
+The `Page Heading Factory` story is used to easily create a Page Heading, giving you the
+ability to modify most of the props and make the Page Heading of your choice by
+using **controls**.
+
+To create your custom Page Heading: <br />
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Page Heading Factory` story
+of the Page Heading.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Page Heading.
+- After you click the `Show code` button below your custom Page Heading, the code of the Page Heading will be generated.
+
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional unless you replace the following:
+  - `PageHeadingTitle` -> `PageHeading.Title`
+  - `PageHeadingSubtitle` -> `PageHeading.Subtitle`
+  - `PageHeadingActions` -> `PageHeading.Actions`
+  - `PageHeadingMeta` -> `PageHeading.Meta`
+  - `PageHeadingBreadcrumbs` -> `PageHeading.Breadcrumbs`
+  - `PageHeadingBreadcrumb` -> `PageHeading.Breadcrumb`
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-pageheading--page-heading-factory" />
+</Canvas>
+
+<Stories  />
+
+## Page Heading Props:
+
+<ArgsTable of={PageHeading} />
+
+## Page Heading Tokens:
+<ThemeTokens component="PageHeading"/>

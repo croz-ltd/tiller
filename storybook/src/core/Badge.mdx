@@ -1,0 +1,91 @@
+import { ArgsTable, Story, Stories, Canvas } from "@storybook/addon-docs";
+
+import { Badge } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Badge
+
+The `Badge` component is used to display data of your choice in a colored pill-shaped fashion.
+
+It has 2 possible sizes - **basic and small**.
+
+When the `small` prop is not explicitly stated, the component defaults to **basic** size.
+
+## Best Practices
+
+- Use the component to display short strings.
+- If you want to display a certain attribute of the object, choose the most important one or one that suits the context of what you are trying to convey.
+
+The best example of Badge usage is displayed in the [tags variant of the Autocomplete Field component](/docs/component-library-formik-elements-autocompletefield--with-tags).
+
+All props are described in detail on the [Badge Props section](#badge-props)
+of the documentation.
+
+## Badge Factory
+
+The `Badge Factory` story is used to easily create a Badge, giving you the
+ability to modify most of the props and make the Badge of your choice by
+using **controls**.
+
+To create your custom Badge: <br />
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Badge Factory` story
+of the Badge.
+- Modify props using controls. **Note:** `Container ClassName` represents arbitrary additional classes injected into the component's class name (ex. hover effects, etc.).
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Badge.
+- After you click the `Show code` button below your custom Badge, the code of the Badge will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-badge--badge-factory" />
+</Canvas>
+
+## Variants
+
+The look of the badges in most of its possible shapes and forms is demonstrated below:
+
+<div className="flex flex-row items-center space-x-10 py-4 justify-center">
+  <div className="text-center flex flex-col space-y-2">
+    <div className="flex space-x-2">
+      <Badge color="yellow">Badge</Badge>
+      <Badge color="indigo" dot={true}>
+        Badge
+      </Badge>
+      <Badge color="teal" onRemoveButtonClick={() => {}}>
+        Badge
+      </Badge>
+      <Badge color="purple" variant="outlined">
+        Badge
+      </Badge>
+    </div>
+    <div className="text-sm">Basic size</div>
+  </div>
+  <div className="text-center flex flex-col space-y-2">
+    <div className="flex space-x-2">
+      <Badge color="yellow" small={true}>
+        Badge
+      </Badge>
+      <Badge color="indigo" dot={true} small={true}>
+        Badge
+      </Badge>
+      <Badge color="teal" onRemoveButtonClick={() => {}} small={true}>
+        Badge
+      </Badge>
+      <Badge color="purple" variant="outlined" small={true}>
+        Badge
+      </Badge>
+    </div>
+    <div className="text-sm">Small size</div>
+  </div>
+</div>
+
+<Stories />
+
+## Badge Props:
+
+<ArgsTable of={Badge} />
+
+## Badge Tokens:
+<ThemeTokens component="Badge"/>

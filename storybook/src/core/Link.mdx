@@ -1,0 +1,35 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Link } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+
+# Link
+
+The `Link` component is used to redirect the user to a specific destination url.
+
+By using the `to` prop (**component must be wrapped inside a router**), you can specify the destination url where you'll be transferred to when you
+click the link.
+
+The `variant` prop specifies the look of the link. The default selected variant is **main**, which selects `linkColor` from your
+default config's `color` configuration (located in your _tillerConfig_ file).
+
+The out-of-the-box configuration for link color is:
+
+```ts
+linkColor: {
+  main: "blue-800",
+  hover: "blue-600",
+},
+```
+
+All props are described in detail on the [Link Props](#link-props) section of the documentation.
+
+<Stories includePrimary={true}/>
+
+## Link Props:
+
+<ArgsTable of={Link} include={["children", "to", "variant", "tokens"]}/>
+
+## Link Tokens:
+<ThemeTokens component="Link"/>

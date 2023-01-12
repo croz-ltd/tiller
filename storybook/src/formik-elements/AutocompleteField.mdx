@@ -1,0 +1,342 @@
+import { Meta, ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { AutocompleteField } from "@tiller-ds/formik-elements";
+import { Autocomplete } from "@tiller-ds/selectors";
+import { ThemeTokens } from "../utils";
+
+
+<Meta title="Docs|AutocompleteField" component={ AutocompleteField } />
+
+# Autocomplete Field
+
+`AutocompleteField` allows users to choose option(s) from set of options offered by the component with the possibility of
+typing in the field.
+The component typically appears in forms and dialogs.
+
+This is a **field** component, which means it is differs from `Autocomplete` by having an integrated logic for `onChange`, `onBlur` and `onReset`
+functions which `Autocomplete` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+Props are described on the [AutocompleteField Props section](#autocompletefield-props)
+of the documentation.
+
+## Autocomplete Field Factory
+
+The `Autocomplete Field Factory` story is used to easily visualize your autocomplete field, giving you the
+ability to modify the look and make the Autocomplete Field component of your choice by
+using **controls**.
+
+To create your custom Autocomplete Field component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Autocomplete Field Factory` story
+of the Autocomplete Field.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Autocomplete Field.
+- After you click the `Show code` button below your custom Autocomplete Field, the code of the Autocomplete Field will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--autocomplete-field-factory" />
+</Canvas>
+
+## Important Note
+
+Due to the nature of Storybook and its code display, the codes below contain props in the format of `{...props}`.
+In order to eliminate too long code displays and undefined functions, we've included these props in the display below.
+Copy the props according to the usage of the code you're viewing.
+
+## Used Types
+
+```ts
+export type Item = {
+  username: string;
+  name: string;
+  surname: string;
+};
+```
+
+
+## Used Props
+
+```ts
+const commonProps = {
+  name: "test",
+  itemToString: (item: Item) => `${item.name} ${item.surname}`,
+  sort: (items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name)),
+};
+```
+
+```ts
+const commonSimpleProps = {
+  name: "test",
+  itemToString: (item: string) => `${item}`,
+  sort: (items: string[]) => items.sort((a, b) => a.localeCompare(b)),
+};
+```
+
+```ts
+const complexProps = {
+  name: "test",
+  getOptionLabel: (item: Item) => (
+    <div className="flex items-center justify-between flex-wrap">
+      <div>
+        {item.name} {item.surname}
+      </div>
+      <div className="flex-shrink-0 text-sm leading-5 text-gray-500">@{item.username}</div>
+    </div>
+  ),
+  sort: (items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name)),
+};
+```
+
+```ts
+const backendProps = {
+  ...commonProps,
+  options: (query: string) =>
+  promiseTimeout(
+    Promise.resolve(
+      query.length > 0
+      ? items.filter(
+      (item) =>
+      item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      item.surname.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      item.username.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      item.name
+      .concat(" " + item.surname)
+      .toLowerCase()
+      .indexOf(query.toLowerCase()) !== -1
+      )
+      : items
+    ),
+    500
+  ),
+  getOptionValue: (item: Item) => item.username,
+};
+```
+
+```ts
+const backendSimpleProps = {
+  ...commonSimpleProps,
+  options: (query: string) =>
+  promiseTimeout(
+    Promise.resolve(
+      query.length > 0
+      ? simpleItems.filter(
+      (item) =>
+      item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+      item.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      )
+      : simpleItems
+    ),
+    500
+  ),
+};
+```
+
+```ts
+const frontendProps = {
+  ...commonProps,
+  options: items,
+  getOptionValue: (item: Item) => item.username,
+  filter: (name: string, option) =>
+  (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase()),
+};
+```
+
+```ts
+  const frontendSimpleProps = {
+  ...commonSimpleProps,
+  options: simpleItems,
+  filter: (name: string, option) => (option.toLowerCase() + " " + option.toLowerCase()).includes(name.toLowerCase()),
+};
+```
+
+**All possible usages of Autocomplete Field with props listed above are represented below:**
+
+## With Label
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-label" />
+</Canvas>
+
+## Without Label
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--without-label" />
+</Canvas>
+
+## With Value
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-value" />
+</Canvas>
+
+## Disabled
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--disabled" />
+</Canvas>
+
+## With Placeholder
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-placeholder" />
+</Canvas>
+
+## With Help
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-help" />
+</Canvas>
+
+## With Tooltip
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-tooltip" />
+</Canvas>
+
+## With Error
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-error" />
+</Canvas>
+
+## With Complex Display
+
+You can pass a complex (non-string) value as a `getOptionLabel` prop. That way, you can customize
+the display of an item in the dropdown. Note: the display determined by `getOptionLabel` prop is only shown when an item is
+in the dropdown and unchecked. Once the item is selected, the value displayed in the field is
+determined by `itemToString` prop if `allowMultiple` is disabled or by `getMultipleSelectedLabel` prop if
+`allowMultiple` is enabled.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-complex-display" />
+</Canvas>
+
+## With Multiple Selection
+
+Multiple selection is possible by enabling the `allowMultiple` prop.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-multiple-selection" />
+</Canvas>
+
+## With Multiple Selection And Values
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-multiple-selection-and-values" />
+</Canvas>
+
+## With Multiple Selection And Visible Labels
+
+By passing a function as `getMultipleSelectedLabel` prop you can enable a custom display of selected items
+inside the field instead of a counter shown by default.
+(more info on the prop is in the [props](/docs/component-library-formik-elements-autocompletefield--autocomplete-field-factory#autocompletefield-props) section).
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-multiple-selection-and-visible-labels" />
+</Canvas>
+
+## **(NEW) With Tags**
+
+By enabling the `tags` prop, the look and feel of autocomplete field changes in order to accompany the display of selected
+items as tags below the field. This gives you the ability to visualize selected items more explicitly and easily remove
+selected tags or add new tags. <br />
+It is recommended to use this variant with non-complex types (strings), but the usage with complex types is also possible.
+**Note**: `tags` prop requires `allowMultiple` prop to also be enabled in order to function.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-tags" />
+</Canvas>
+
+You can also use complex values for tags, but be careful because this is a bit more complicated to implement due to the nature of objects.
+Make sure you secure your `onAddCustomTag` function if you wish to have this option enabled when using complex types.
+The example below represents the secured usage of this function, no matter the input value.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-complex-tags" />
+</Canvas>
+
+## **(NEW) With Contained Tags**
+
+Another variant for displaying tags is achieved by turning on the `tagsContained` prop. By doing this, the look and feel
+of the component changes to a more contained one as tags are put inside the field itself.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-contained-tags" />
+</Canvas>
+
+## **(NEW) With Complex Tags**
+
+You can also pass complex objects as tags, there's no restriction to simple types. The `onAddCustomTag` prop takes care of how your newly added props will
+be saved. See the description of `onAddCustomTag` prop in the [AutocompleteField Props section](#autocompletefield-props)
+of the documentation for best explanation of its usage.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-complex-tags" />
+</Canvas>
+
+## With Filtering on Frontend
+
+If you enable filtering on the frontend you will experience **faster responses without loading animations** because
+the component won't fetch from backend every time the input value changes.
+But, depending on the dataset, this may not be what you want sometimes.
+
+This way, you're handing an array of data to the component instead of an async fetch (via `options` prop),
+but it's important to define the filtering method on the frontend with the `filter` prop.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-filtering-on-frontend" />
+</Canvas>
+
+## With Misused Props
+
+If you, for example, do the following:
+  - fetch an array from backend, but don't enable the `allowMultiple` prop or vice versa,
+  - pass an array instead of an async promise (decide to do full frontend fetch and filtering), but don't pass the `filter` prop <br />
+...the component automatically becomes disabled and notifies you to adjust the props accordingly.
+
+<Canvas>
+  <Story id="component-library-formik-elements-autocompletefield--with-misused-props" />
+</Canvas>
+
+## Usage
+
+- Use `AutocompleteField` in a form as a way to allow the user to enter a value associated with a key, such as entering their name in a field labeled name
+and choosing from the list of available options.
+
+- You may wish to review the general forms documentation about designing forms.
+
+## Accessibility
+
+- Ensure that your color/contrast ratios and typography are accessible.
+
+- All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
+
+- **Tip**: don't show too much info, some props like maxItems are optional for a reason, and the default value exists because
+it represents an optimal UX design.
+
+## Best Practices
+
+- Use the sort prop to sort items, it is much easier for a user to find the item if the items are sorted
+- **Prefer Autocomplete Field over Select Field in most cases**, it gives the same features with the extra ability to search
+- If you want to truly have a Select Field experience on Autocomplete Field (all options listed), set the `maxItems` prop to
+the length of your items array
+- If the size of your dataset is not large or you want a seamless experience, you may want to enable **filtering on frontend**
+for faster visual response without loading animations
+- Make sure to follow up with your validation (be it on frontend on backend) if you enable `required` prop, because the prop only
+visually defines the field as required
+
+## AutocompleteField Props:
+
+### Field-specific props:
+<ArgsTable of={AutocompleteField} />
+
+### Other props:
+<ArgsTable of={Autocomplete} />
+
+## Autocomplete Tokens:
+<ThemeTokens component="Autocomplete"/>

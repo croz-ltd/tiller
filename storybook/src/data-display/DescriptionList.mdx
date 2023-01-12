@@ -1,0 +1,55 @@
+import { ArgsTable, Story, Stories, Canvas } from "@storybook/addon-docs";
+
+import { DescriptionList } from "@tiller-ds/data-display";
+import { ThemeTokens } from "../utils";
+
+# Description List
+
+Description lists are a way to organize and explain related information. They’re particularly useful when you need to list and define terms such as in a glossary.
+
+The `<dl>` HTML element represents a **description list**. The element encloses a list of groups of terms (specified using the `<dt>` element) and descriptions (provided by `<dd>` elements).
+
+Common uses for this element are to implement a `glossary` or to `display metadata` (a list of key-value pairs).
+
+Use when you need to present merchants with a list of items or terms alongside descriptions and explanations.
+
+## Description List Factory
+
+The `Description List Factory` story is used to easily visualize your description lists, giving you the
+ability to modify the look and make the Description List component of your choice by
+using **controls**.
+
+To create your custom Description List component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Description List Factory` story
+of the Description List.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Description List.
+- After you click the `Show code` button below your custom Description List, the code of the Description List will be generated.
+
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional **unless you replace the following**:
+    - `DescriptionListItem ` -> `DescriptionList.Item `
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-data-display-descriptionlist--description-list-factory" />
+</Canvas>
+
+<Stories />
+
+## Best Practices:
+Description lists should:
+
+- Contain terms and associated explanations, or descriptions for each term.
+- Provide information that isn’t action-oriented.
+- Not be an excuse for using unnecessarily complicated or jargon-filled language.
+
+## Description List Props:
+
+<ArgsTable of={DescriptionList} />
+
+## Description List Tokens:
+<ThemeTokens component="DescriptionList"/>

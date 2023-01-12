@@ -1,0 +1,24 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { NumberInput } from "@tiller-ds/form-elements";
+
+# Number Input
+
+A `NumberInput` supports many of the same features as `Input`, but only accepts numeric input.
+
+The field uses third party library `react-number-format` for formatting field value.
+
+
+## Best practices
+
+`NumberInput` should be used for actual number values, such as counts and measures.
+
+Do not use it for other digit-based values, such as telephone, credit card, and social security numbers.
+
+When applicable, set the most common choice as the default value. For example, airline, bus, train and other travel companies typically default the number of passengers to 1.
+
+<Stories includePrimary={true} />
+
+## Number Input Props:
+
+<ArgsTable of={NumberInput} />

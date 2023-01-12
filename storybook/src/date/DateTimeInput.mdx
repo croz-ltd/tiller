@@ -1,0 +1,23 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { DateTimeInput } from "@tiller-ds/date";
+import { ThemeTokens } from "../utils";
+
+
+# Date Time Input
+
+Date Time Input is an input field for selecting both a date and a time.
+
+Allows choosing date then time. There are 4 steps available (year, date, hour and minute), so tabs are required to visually distinguish date/time steps.
+
+## **Prerequisites for functioning**:
+ - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+<Stories includePrimary={true} />
+
+## Date Time Input Props:
+
+<ArgsTable of={DateTimeInput} />
+
+## Date Time Input Tokens:
+<ThemeTokens component="DateTimeInput"/>

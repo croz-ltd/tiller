@@ -1,0 +1,21 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { CheckboxGroup } from "@tiller-ds/form-elements";
+import { ThemeTokens } from "../utils";
+
+# CheckboxGroup
+
+`Checkbox Group` component represents a checkbox group that enables selection of single or multiple options.
+
+If the `required` attribute is set to true, at least one checkbox must be selected.
+
+(for integration with Formik see docs [here](/docs/component-library-formik-elements-checkboxgroupfield--simple))
+
+<Stories includePrimary={true} />
+
+## CheckboxGroup Props:
+
+<ArgsTable of={CheckboxGroup} />
+
+## CheckboxGroup Tokens:
+<ThemeTokens component="CheckboxGroup"/>

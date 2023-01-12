@@ -1,0 +1,26 @@
+import { Stories, ArgsTable } from "@storybook/addon-docs";
+
+import { Tooltip } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Tooltip
+
+The `Tooltip` component is used to display a custom tooltip when hovering over a desired content (not exclusively text).
+
+<Tooltip label="This is a tooltip text">
+  <p>Try me out</p>
+</Tooltip>
+
+The tooltip's `label` prop represents the content which appears when hovering over the children
+and is not restricted to a text format (see [this story](#custom-tooltip)).
+
+`Tooltip` represents a very straightforward, easy to use component suitable for giving the user required info on hover.
+
+<Stories includePrimary={true} />
+
+## Tooltip Props:
+
+<ArgsTable of={Tooltip} />
+
+## Tooltip Tokens:
+<ThemeTokens component="Tooltip"/>

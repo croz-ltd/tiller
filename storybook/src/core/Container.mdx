@@ -1,0 +1,36 @@
+import {ArgsTable, Stories} from "@storybook/addon-docs";
+
+import { Container } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Container
+
+The `Container` component is used to contain the content of your website in order to avoid stretching your content
+to the edges, which is an undesired behaviour on websites.
+
+The component has a couple of variants to choose from, with each being unique in its behaviour according to the screen size:
+ - **Max** (default) - provides padding when width is 640px or greater and has a maximum width of 1536px.
+ - **Constrained Padded** - always provides padding and has a maximum width of 1280px.
+ - **Narrow Constrained** - provides an outer container which always provides padding along with the inner container with a maximum width 768px.
+ - **Full Width** - provides padding when width is 640px or greater and has a maximum width of 1280px.
+ - **Full Width Container** - uses TailwindCSS's [_container_ class](https://tailwindcss.com/docs/container) and always provides padding.
+
+For detailed information about classes used in each variant, jump ahead to [Container tokens](#container-tokens).
+
+## Best Practices
+
+- Use the 'narrow constrained' variant if your page doesn't contain too much information in order to accentuate and draw focus to your content and avoid too much blank space.
+- Use variants which include padding on all screen sizes if your website is most often used on mobile devices.
+- Use 'full width' or 'max' variants if your website is most often used on desktop devices.
+
+All props are described in detail on the [Container Props section](#container-props)
+of the documentation.
+
+<Stories includePrimary={true} />
+
+## Container Props:
+
+<ArgsTable of={Container} />
+
+## Container Tokens:
+<ThemeTokens component="Container"/>

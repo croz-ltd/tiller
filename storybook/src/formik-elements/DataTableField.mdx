@@ -1,0 +1,180 @@
+import {ArgsTable, Stories} from "@storybook/addon-docs";
+
+import { DataTable } from "@tiller-ds/data-display";
+
+# DataTableField
+
+The `DataTableField` component represents a data table with editing and/or adding capabilities for easier data modification.
+
+This is a **field** component, which means it is differs from `DataTable` by having an integrated logic for functions which
+`DataTable` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+Props are described in detail on the [DataTableField Props section](#data-table-field-props) of the documentation.
+
+## Used Types
+
+```ts
+type Item = {
+  id: number;
+  name: string;
+  age: number;
+  surname: string;
+};
+```
+
+## Used Props
+
+```ts
+const names = ["Pero", "Ivo", "Ana", "Ivica"];
+const surname = ["Peric", "Ivic", "Anic", "Ivicici"];
+
+const allData: Item[] = range(0, 3).map((value) => ({
+  id: value + 1,
+  name: names[value % names.length],
+  surname: surname[value % surname.length],
+  age: (12 + value * 13) % 50,
+}));
+
+const InlineEditValidationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+  surname: Yup.string().required("Surname is required"),
+});
+```
+
+## Used Hooks
+
+```ts
+const [dataTableState, dataTableHook] = useDataTable();
+const [dataTableFieldState, dataTableFieldHook] = useDataTableField<Item[]>("customers");
+```
+
+Props inferred from **dataTableFieldHook** (see props docs for more info):
+ - setNewRowFieldName
+ - onNewRowSubmit
+ - onNewRowReset
+ - onRowEdit
+ - onEditingRow
+ - onRowEditCancel
+ - onRowEditField
+ - onRowEditSave
+ - onRowDelete
+
+Props inferred from **dataTableFieldState** (see props docs for more info):
+ - data
+ - rowEditingIndex
+ - saveEnabled
+
+## Usage
+
+#### If you want to create a data table with **only adding** capabilities, follow these steps:
+
+**1)** Define your field hook using `useDataTableField('desiredFieldName', ArbitraryValidationSchema)`.
+
+**2)** For adding a new item to the table, wrap your desired inputs inside `DataTableField.NewRow`.
+  - Each of the inputs should be hooked to the `dataTableFieldHook` (inferred from `useDataTableField`) and
+    given a following name: `dataTableFieldHook.setNewRowFieldName('desiredName')`.
+  - The button for adding an item should have a `dataTableFieldHook.onNewRowSubmit` function defined as an _onClick_ event.
+  - The button for resetting values inside the fields should have a `dataTableFieldHook.onNewRowReset` function defined as an _onClick_ event.
+
+**3)** Define your `DataTable`:
+  - pass your `dataTableFieldState.data` as your _data_ prop
+  - pass your`dataTableFieldState.rowEditingIndex` as your _rowEditingIndex_ prop
+
+**Best examples** of these usages are represented in the following stories:
+  - [With New Row](#with-new-row)
+  - [With New Row And Initial Values](#with-new-row-and-initial-values)
+
+<br />
+
+#### If you want to create a data table with **only editing** capabilities, follow these steps:
+
+**1)** Define your field hook using `useDataTableField('desiredFieldName', ArbitraryValidationSchema)`.
+
+**2)** Define your `DataTable`:
+  - pass your `dataTableFieldState.data` as your _data_ prop.
+  - pass your`dataTableFieldState.rowEditingIndex` as your _rowEditingIndex_ prop.
+  - pass your`dataTableFieldState.saveEnabled` as your _saveEnabled_ prop
+    (which enables you to disable your arbitrary save button according to this value).
+
+**3)** Define your `DataTable.Column` for editing actions and pass the following as children:
+```ts
+{(item: Item, index, row, { isEditMode }, saveEnabled) =>
+  isEditMode ? (
+    <div className="flex space-x-2">
+      <IconButton
+       icon={<Icon type="x" className="text-gray-500" />}
+       label="Cancel"
+       onClick={dataTableFieldHook.onRowEditCancel}
+       />
+      <IconButton
+        icon={<Icon type="check" className="text-gray-500" />}
+        label="Save"
+        onClick={() => dataTableFieldHook.onRowEditSave(index)}
+        disabled={!saveEnabled}
+        />
+    </div>
+  ) : (
+    <div className="flex space-x-2">
+      <IconButton
+         icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />}
+         label="Edit"
+         onClick={() => dataTableFieldHook.onRowEdit(index)}
+         />
+      <IconButton
+        icon={<Icon type="trash" variant="fill" className="text-gray-500" />}
+        label="Delete"
+        onClick={() => dataTableFieldHook.onRowDelete(index)}
+        />
+    </div>
+  )
+}
+```
+
+ - This is only an example of the usage, above components are most commonly used for such actions, but
+   you can define others as well.
+ - **Important:**
+      - For the _cancel_ button, pass the `() => dataTableFieldHook.onRowEditCancel()` function as an _onClick_ event.
+      - For the _save_ button, pass the `() => dataTableFieldHook.onRowEditSave(index)` function as an _onClick_ event.
+      - For the _edit_ button, pass the `() => dataTableFieldHook.onRowEdit(index)` function as an _onClick_ event.
+      - For the _delete_ button, pass the `() => dataTableFieldHook.onRowDelete(index)` function as an _onClick_ event.
+      - If you wish to disable the save button according to the validation, pass the _!saveEnabled_ prop as the _disabled_ prop of the save button.
+
+**4)** Define your `DataTable.Column`, which contain inputs and pass the following as children (for each column):
+```ts
+{(item: Item, index: number, row, { isEditMode }) =>
+  isEditMode ? (
+    <>
+      <InputField
+        name={dataTableFieldHook.onRowEditField(index, "name")}
+        onFocus={() => dataTableFieldHook.onEditingRow("name")}
+      />
+    </>
+  ) : (
+    item.name || ""
+  )
+}
+```
+
+ - This is only an example of the usage, above components are most commonly used for such actions, but
+   you can define others as well.
+ - **Important:**
+      - For the _name_ prop of the field, pass the `dataTableField.onRowEditField(index, fieldName)`.
+      - If you wish to disable the save button according to the validation and retain the focus on your field
+        when validation triggers, pass the `() => dataTableFieldHook.onEditingRow(fieldName)` function as an _onFocus_ event of the field.
+
+**Best example** of this usage is represented in the following story:
+  - [With Inline Edit](#with-inline-edit) - with validation when clicking the save button
+  - [With Inline Edit And Instant Validation](#with-inline-edit-and-instant-validation) - with instant validation and conditional disabling of the save button
+
+<br />
+
+#### If you want to create a data table with **adding and editing** capabilities, combine the above-mentioned steps.
+
+**Best example** of this usage is represented in the following story:
+  - [With New Row And Inline Edit](#with-new-row-and-inline-edit)
+
+<Stories includePrimary={true} />
+
+## Data Table Props:
+
+<ArgsTable of={ DataTable } />

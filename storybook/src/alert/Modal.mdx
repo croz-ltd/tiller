@@ -1,0 +1,54 @@
+import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { Modal } from "@tiller-ds/alert";
+import { ThemeTokens } from "../utils";
+
+# Modal
+
+Modal dialogs interrupt users and demand an **action**. They are appropriate when user’s attention needs to be directed toward important information.
+
+Import `useModal` hook also from `@tiller-ds/alert` module.
+
+Here is code example of the `basic` modal:
+
+<Canvas>
+  <Story id="component-library-alert-modal--simple" />
+</Canvas>
+
+In case you need a modal `without an icon` you can use this:
+
+<Canvas>
+  <Story id="component-library-alert-modal--without-icon" />
+</Canvas>
+
+When modals become too long for the user’s viewport or device, they `scroll` independent of the page itself. Try the story below to see what we mean.
+
+<Canvas>
+  <Story id="component-library-alert-modal--with-scrollbar" />
+</Canvas>
+
+## Modal With State
+
+`State` prop is used for fetching or storing the **state** of the modal.
+It can store simple or complex types. The state stores a value given to the modal in the `onOpen function`.
+For example, if you want to pass a `string` value to a modal `onOpen`, you would define the modal as
+```const modal = useModal<string>()``` and open the modal with ```modal.onOpen('someString')```.
+
+Code example of the modal `with state`:
+
+<Canvas>
+  <Story id="component-library-alert-modal--with-state" />
+</Canvas>
+
+Code example of the modal `with state render prop`:
+
+<Canvas>
+  <Story id="component-library-alert-modal--with-state-render-prop" />
+</Canvas>
+
+## Modal Props:
+
+<ArgsTable of={Modal} />
+
+## Modal Tokens:
+<ThemeTokens component="Modal"/>

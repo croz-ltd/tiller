@@ -1,0 +1,52 @@
+import { ArgsTable, Story, Stories, Canvas } from "@storybook/addon-docs";
+
+import { ButtonGroups } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Button Groups
+
+The `Button Groups` component is used to display multiple buttons grouped together.
+
+The component uses the `Button` component internally, hence the `ButtonGroups.Button` subcomponent inherits all the props from the `Button` component
+for easy customization of the overall look of the grouped buttons.
+
+See the stories' code for best showcase on how to use this component.
+
+All props are described in detail on the [Button Groups Props](#button-groups-props) section of the documentation.
+
+## Best Practices
+
+- Use the component for previous and next buttons often found on websites (see [Icon Only story](#with-icon)).
+- Use the component for toggles between - for example - changing the display of the calendar (see [Basic story](#basic)).
+- Avoid using the component for pagination since Tiller Design System already has the Pagination component which uses Button Groups to display navigation for
+your displayed items (see [Pagination](/docs/component-library-core-pagination--simple))
+
+## Button Groups Factory
+
+The `Button Groups Factory` story is used to easily create a Button Groups component, giving you the
+ability to modify most of the props and make the component of your choice by
+using `Controls`.
+
+**Limitations:**
+ - You can only pass text values as button content (see [IconOnly](#icon-only) and [WithIcon](#with-icon) stories to see how to add icons additionally).
+ - Due to Storybook's limitations, the shown code will not be functional **unless you replace the following**:
+      - `ButtonGroupsButton` -> `ButtonGroups.Button`
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-buttongroups--button-groups-factory" />
+</Canvas>
+
+<Stories />
+
+## Button Groups Props:
+
+<ArgsTable of={ButtonGroups} />
+
+### ButtonGroups.Button Props:
+
+<ArgsTable of={ButtonGroups.Button} include={["children", "className", "custom", "hidden", "id", "leadingIcon", "menu", "rounded", "size", "trailingIcon", "variant", "tokens"]} />
+
+## Button Groups Tokens:
+<ThemeTokens component="ButtonGroups"/>

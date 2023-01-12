@@ -1,0 +1,41 @@
+import { Canvas, Story, ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { ProgressBar } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+
+# Progress Bar
+
+The `ProgressBar` component is used to display the completion of an arbitrary process in a form of a stepper with steps.
+
+<Canvas>
+  <Story id="component-library-core-progress-bar--simple" />
+</Canvas>
+
+## Usage
+
+It is recommended to nest the `ProgressBar` component inside the `Card` component for optimal appearance.
+
+When defining the progress bar, you can:
+ - define it as completed or change the starting index via props.
+ - define steps with `ProgressBar.Step` and mark them as active or inactive.
+
+All props are described in detail on the [Progress Bar Props](#progress-bar-props) section of the documentation.
+
+## Accessibility
+
+- The component is optimized for mobile usage and changes the look when on mobile from a row display to a column display.
+- The component has a horizontal scroll if all steps can't fit inside the container.
+
+<Stories includePrimary={true} />
+
+## Progress Bar Props:
+
+<ArgsTable of={ProgressBar} />
+
+### ProgressBar.Step Props:
+
+<ArgsTable of={ProgressBar.Step} />
+
+## Progress Bar Tokens:
+<ThemeTokens component="ProgressBar"/>

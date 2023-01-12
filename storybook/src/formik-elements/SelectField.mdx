@@ -1,0 +1,74 @@
+import {Meta, ArgsTable, Story, Canvas, Stories} from "@storybook/addon-docs";
+
+import { SelectField } from "@tiller-ds/formik-elements";
+import { Select } from "@tiller-ds/selectors";
+import { ThemeTokens } from "../utils";
+
+<Meta title="Docs|SelectField" component={ SelectField } />
+
+# SelectField
+
+`SelectField` allows users to choose one or more items from the list offered by the component. They typically appear in forms and dialogs.
+
+The component has various props intended to make improve ease of use as much as possible.
+
+Props are described in detail on the [SelectField Props section](#selectfield-props)
+of the documentation.
+
+You can customize the `SelectField` component in the [SelectField Factory](#select-field-factory).
+
+## Usage
+
+- Use `SelectField` in a form as a way to allow the user to choose option(s) s from the dropdown.
+
+- You may wish to review the general forms documentation about designing forms.
+
+## Accessibility
+
+ - Ensure that your color/contrast ratios and typography are accessible.
+
+ - All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
+
+ - If you have required inputs, use JavaScript to visually and physically align validation messages with labels for certain input fields
+
+## Best Practices
+
+We recommend using [Autocomplete Field](/docs/component-library-formik-elements-autocompletefield--with-label) over this component in most cases.
+Use this component when:
+ - it doesn't make sense for the user to have the ability to enter text alongside selecting items (ex. specific selection with few options)
+ - you want to pass a more complex component (such as `Intl`) to show options (`AutocompleteField` cannot show values fetched by `Intl` component)
+
+
+## Select Field Factory
+
+The `Select Field Factory` story is used to easily visualize your select field, giving you the
+ability to modify the look and make the Select Field component of your choice by
+using **controls**.
+
+To create your custom Select Field component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Select Field Factory` story
+of the Select Field.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Select Field.
+- After you click the `Show code` button below your custom Select Field, the code of the Select Field will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-formik-elements-selectfield--select-field-factory" />
+</Canvas>
+
+<Stories />
+
+## SelectField Props:
+
+### Field-specific props:
+<ArgsTable of={SelectField} />
+
+### Other props:
+<ArgsTable of={Select} />
+
+## Select Tokens:
+<ThemeTokens component="Select"/>

@@ -1,0 +1,23 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { MaskedInput } from "@tiller-ds/form-elements";
+
+# Masked Input
+
+A `MaskedInput` is an enhanced input field that improves readability by providing visual and non-visual cues to a user about the expected value.
+
+User won’t be able to enter anything that does not match the mask.
+
+Passing a `mask` prop into the `MaskedInput` component with a valid value will enable formatting to occur when the field is blurred.
+
+Here's an example of the `mask` prop used in Stories below.
+
+```ts
+const mask = ["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
+```
+
+<Stories includePrimary={true} />
+
+## Masked Input Props:
+
+<ArgsTable of={MaskedInput} />

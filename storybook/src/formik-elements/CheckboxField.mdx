@@ -1,0 +1,77 @@
+import { Story, Stories, ArgsTable, Canvas } from "@storybook/addon-docs";
+
+import { Checkbox } from "@tiller-ds/form-elements";
+import { ThemeTokens } from "../utils";
+
+# Checkbox Field
+
+The `CheckboxField` component is used when there is an option or list of options and the user may select any number of choices, including zero. <br />
+
+This is a **field** component, which means it is differs from `Checkbox` by having an integrated logic for functions which
+`Checkbox` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+The component can be used with or without the label and has a customizable look through props.
+
+Props are described in detail on the [CheckboxField Props section](#checkbox-field-props) of the documentation.
+
+You can customize the `CheckboxField` component in the [CheckboxField Factory](/story/component-library-formik-elements-checkboxfield--checkbox-field-factory).
+
+## Usage
+
+Primarily for use in forms, checkboxes are used to collect input from users. Users can select a number of options ranging from zero to multiple options.
+
+Use `CheckboxField` when:
+
+- users have to select one or more options from a list of related items
+- an explicit action is required to apply settings
+
+## Accessibility
+
+- Ensure that the checkbox can be reached and interacted with by both keyboard controls and clicks.
+
+- Keep the aria-checked attribute up to date following user interactions.
+
+- Provide styles that indicate when the checkbox has focus.
+
+## Checkbox Field Factory
+
+The `Checkbox Field Factory` story is used to easily visualize your checkbox field, giving you the
+ability to modify the look and make the Checkbox Field component of your choice by
+using **controls**.
+
+To create your custom Checkbox Field component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Checkbox Field Factory` story
+of the Checkbox Field.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Checkbox Field.
+- After you click the `Show code` button below your custom Checkbox Field, the code of the Checkbox Field will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-formik-elements-checkboxfield--checkbox-field-factory" />
+</Canvas>
+
+<Stories />
+
+## Checkbox Field Props:
+
+`CheckboxField` component has one unique prop:
+ - `name` (_string_): the accessor value for the input field component (for validation, fetching, etc.).
+
+Other props are inferred from the `Checkbox` component and are displayed below:
+
+<ArgsTable of={ Checkbox } />
+
+## Checkbox Field Tokens:
+
+```ts
+CheckboxField: {
+    base: "inline-flex items-center space-x-4",
+  },
+```
+
+## Checkbox Tokens:
+<ThemeTokens component="Checkbox"/>

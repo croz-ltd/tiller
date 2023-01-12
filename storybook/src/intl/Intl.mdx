@@ -1,0 +1,119 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Intl } from "@tiller-ds/intl";
+
+# Intl
+
+Intl represents a component which can communicate with external translation services or
+local dictionary files. See prop docs for best info on how to use the component.
+
+## Intl Provider
+
+Key prerequisite for basic functioning of some components is `Intl Provider`.
+If you use these components without wrapping them inside the provider your app will crash.
+This is because these components use `react-intl` peer dependency in order to function and properly
+display components which depend on your location.
+
+<br />
+
+The list of components which require your app to be wrapped inside `Intl Provider`:
+ - Amount
+ - Date
+ - DateInput
+ - DatePicker
+ - DateRangeInput
+ - DateTimeInput
+ - Number
+ - NumberInput
+
+## Default Intl Dictionary
+
+We ship Tiller with a default dictionary which contains necessary translations (localized so far) for the components:
+
+```json
+{
+    messages: {
+        required: "Obavezno polje",
+        "autocomplete.noTags": "Nema odabranih oznaka",
+        "autocomplete.addTag": "Dodaj oznaku:",
+        "autocomplete.noResults": "Nema rezultata za:",
+        "select.noResults": "Nema rezultata",
+    },
+    translations: {
+        hr: {
+            required: "Obavezno polje",
+            "autocomplete.noTags": "Nema odabranih oznaka",
+            "autocomplete.addTag": "Dodaj oznaku:",
+            "autocomplete.noResults": "Nema rezultata za:",
+            "select.noResults": "Nema rezultata",
+        },
+        en: {
+            required: "Required field",
+            "autocomplete.noTags": "No tags selected",
+            "autocomplete.addTag": "Add tag:",
+            "autocomplete.noResults": "No results for:",
+            "select.noResults": "No results",
+        },
+    },
+};
+```
+
+### Example of the easiest usage (inside index.tsx):
+
+```ts
+root.render(
+  <React.StrictMode>
+    <IntlProvider lang={"en"} loadDictionary={undefined}>
+      <ThemeProvider themeConfig={tillerConfig}>
+        <App />
+      </ThemeProvider>
+    </IntlProvider>
+  </React.StrictMode>
+);
+```
+
+### (NEW) keyConfig prop for IntlProvider:
+
+You can now replace default labels from two components using your custom dictionary. This is a new feature which will expand
+over time.
+
+By providing the keyConfig with a valid configuration of type **CommonKeys** you can override default values for:
+  - previousText and nextText of Pagination component (if you pass others via Pagination props those will override the dictionary values)
+  - required label shown when hovering over a required marker for a field (*)
+
+CommonKeys type is defined as below:
+
+```ts
+CommonKeys = {
+      required?: string,
+      "autocomplete.noTags?": string,
+      "autocomplete.addTag?": string,
+      "autocomplete.noResults?": string,
+      "select.noResults?": string,
+};
+```
+
+Example of usage which overrides the required label is shown below:
+
+```ts
+<IntlProvider lang={"en"} loadDictionary={undefined} dictionary={someDictionary} keyConfig={{required: "requiredTooltip"}}>
+  <ThemeProvider themeConfig={tillerConfig}>
+    <App />
+  </ThemeProvider>
+</IntlProvider>
+```
+
+**Note:** the key-value pairs inside your dictionary are expected to be **flattened**.
+
+e.g. of **supported** format:
+
+```json
+
+      "login.labels.header": "Login Here",
+```
+
+<Stories includePrimary={true} />
+
+## Intl Props:
+
+<ArgsTable of={Intl} />

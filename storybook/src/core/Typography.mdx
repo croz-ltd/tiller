@@ -1,0 +1,114 @@
+import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { Typography } from "@tiller-ds/core";
+import { Icon } from "@tiller-ds/icons";
+import { ThemeTokens } from "../utils";
+
+# Typography
+
+The `Typography` component places the desired text in a container with flex layout and is most commonly used
+for placing an icon besides your text (or any `React.ReactNode` component).
+
+You can pass your custom `icon` to the left or the right of the text using an optional `iconPlacement` prop (defaults to left), a custom
+`className` for the component or a custom `color` for the component.
+
+You can also customize the general look of the component with the `variant` prop or the size with the `element` prop.
+
+All props are described in detail on the [Typography Props section](/docs/component-library-core-typography--with-icon#typography-props)
+of the documentation.
+
+You can customize the `Typography` component in the [Typography Factory](/docs/component-library-core-typography--typography-factory#typography-factory).
+
+<br />
+
+## Default Variant
+
+The default variant places your text in a container:
+
+<Story id="component-library-core-typography--example" />
+
+The possible variants of this component are demonstrated below:
+
+<>
+  <Typography element="div">Example</Typography>
+  <Typography variant="subtext" element="div">
+    Example
+  </Typography>
+  <Typography variant="title" element="div">
+    Example
+  </Typography>
+  <Typography variant="subtitle" element="div">
+    Example
+  </Typography>
+</>
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-typography--example" />
+</Canvas>
+
+## With Icon Variant
+
+This variant of the component places your custom icon and text in a container with predefined optimal placements and spacings.
+
+<Story id="component-library-core-typography--with-icon" />
+
+Using the `iconPlacement` prop, the icon can be *leading* or *trailing* (if the prop is not passed, the component defaults
+to the *leading* variant).
+
+The possible variants of this component are demonstrated below:
+
+<div className="flex space-x-4 ">
+  <div>
+    <Typography icon={<Icon type="envelope" />}>Example</Typography>
+    <Typography variant="subtext" icon={<Icon type="envelope" />}>
+      Example
+    </Typography>
+    <Typography variant="title" icon={<Icon type="envelope" />}>
+      Example
+    </Typography>
+    <Typography variant="subtitle" icon={<Icon type="envelope" />}>
+      Example
+    </Typography>
+  </div>
+  <div>
+    <Typography icon={<Icon type="envelope" />} iconPlacement="trailing">Example</Typography>
+    <Typography variant="subtext" icon={<Icon type="envelope" />} iconPlacement="trailing">
+      Example
+    </Typography>
+    <Typography variant="title" icon={<Icon type="envelope" />} iconPlacement="trailing">
+      Example
+    </Typography>
+    <Typography variant="subtitle" icon={<Icon type="envelope" />} iconPlacement="trailing">
+      Example
+    </Typography>
+  </div>
+</div>
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-typography--with-icon" />
+</Canvas>
+
+## Typography Factory
+
+The `Typography Factory` story is used to easily create a Typography, giving you the
+ability to modify most of the props and make the typography of your choice by
+using `Controls`. <br />
+
+You can customize the `Element`, `Variant`, `Color`, `Icon`, `Icon Placement` and Typography Content inside `Children` control. <br />
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-typography--typography-factory" />
+</Canvas>
+
+## Typography Props:
+
+<ArgsTable of={Typography} />
+
+## Typography Tokens:
+<ThemeTokens component="Typography"/>

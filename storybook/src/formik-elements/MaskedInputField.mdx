@@ -1,0 +1,22 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { MaskedInputField } from "@tiller-ds/formik-elements";
+
+# Masked Input Field
+
+Masked input field is used to create an input component which masks your entered content in a
+wrapper defined by your arbitrary mask.
+
+It is particularly useful to, for example, show phone numbers in a more visually pleasing way.
+
+Here's an example of the `mask` used in Stories below.
+
+```ts
+const mask = ["(", /[1-9]/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
+```
+
+<Stories includePrimary={true} />
+
+## Masked Input Field Props:
+
+<ArgsTable of={MaskedInputField} />

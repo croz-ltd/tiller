@@ -1,0 +1,40 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta
+  title="Installation"
+  parameters={{
+    previewTabs: {
+      canvas: { hidden: true },
+      "storybook/playroom/panel": {
+        hidden: true,
+      },
+    },
+    playroom: {
+      disable: true,
+    },
+    viewMode: "docs",
+  }}
+/>
+
+# Installation
+
+1. Install node.js
+2. Install yarn
+3. Create project with `yarn create react-app yeey-app --template @croz/tiller-cra` command for CRA or `npx degit croz-ltd/tiller-vite` for Vite template
+4. Run `yarn start`/`yarn run dev` command to start your project
+
+## Usage with custom project setup
+
+If you use your own starter, basic steps needed for Tiller to work are next:
+
+1. Dependency to `@tiller-ds/theme` and other wanted modules for your app.
+2. `tailwind.config.js` with this minimal config:
+```js
+module.exports = {
+  presets: [require('@tiller-ds/theme').preset]
+};
+```
+3. Import of tiller styles in your main css file:
+```
+@import "@tiller-ds/theme/styles/tiller.css";
+```

@@ -1,0 +1,45 @@
+import { ArgsTable, Story, Stories, Canvas } from "@storybook/addon-docs";
+
+import { DropdownMenu } from "@tiller-ds/menu";
+import { ThemeTokens } from "../utils";
+
+# Dropdown Menu
+
+The `DropdownMenu` component is a component which triggers a dropdown menu when clicked on and features a
+host of customizability features to create a dropdown menu of your liking.
+
+All props are described in detail on the [Dropdown Menu Props](#dropdown-menu-props) section of the documentation.
+
+## Dropdown Menu Factory
+
+The `Dropdown Menu Factory` story is used to easily visualize your dropdown menu, giving you the
+ability to modify the look and make the Dropdown Menu component of your choice by
+using **controls**.
+
+To create your custom Dropdown Menu component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Dropdown Menu Factory` story
+of the Dropdown Menu.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Dropdown Menu.
+- After you click the `Show code` button below your custom Dropdown Menu, the code of the Dropdown Menu will be generated.
+
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional **unless you replace the following**:
+    - `DropdownMenuItem ` -> `DropdownMenu.Item `
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-menu-dropdownmenu--dropdown-menu-factory" />
+</Canvas>
+
+<Stories />
+
+## Dropdown Menu Props:
+
+<ArgsTable of={DropdownMenu} />
+
+## Dropdown Menu Tokens:
+<ThemeTokens component="DropdownMenu"/>

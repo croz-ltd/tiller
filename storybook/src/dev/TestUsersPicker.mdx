@@ -1,0 +1,86 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { TestUsersPicker } from "@tiller-ds/dev";
+
+# Test Users Picker
+
+This component represents a tool used to **select a test user from a list of test users**, thus making it easier for you to switch profiles on the fly.
+
+It represents an overlay containing the test users list when the keyboard shortcut is pressed.
+
+The component exchanges a **JSON Web Token (JWT)** with backend, which is then used to authenticate the user.
+
+The tool is intended for developers to use when testing the application. **It is not intended to be used in production.**
+
+## Usage
+
+ - Render the component in the root of your application (most commonly App.tsx)
+
+ - To show the Test Users Picker display, use the following key combination: **`Ctrl + Shift + U`**
+
+ - To select a user, click on the user's name
+
+ - After selecting the desired user, refresh the page to see the changes
+
+**NOTE:** you will probably need to include your own provider and wrap the `TestUsersPicker` component inside of it for best functionality,
+as you will need to update the state which is handed over in a _chosenUsername_ prop when you pick a user and communicate with the backend.
+
+An example of a provider that handles users for a sample site is given below:
+
+```tsx
+export default function TestUsersProvider({ children }: TestUsersProviderProps) {
+  const [chosenUsername, setChosenUsername] = useLocalStorage<any>("chosenUsername", DEFAULT_USERS);
+  const [users, setUsers] = useLocalStorage<Record<string, TestUser[]>>("users", {});
+  const [loaded, setLoaded] = React.useState(false);
+
+  const onChoose = (username: string) => {
+    setChosenUsername({
+      ...chosenUsername,
+      [SAMPLE_APP]: username,
+    });
+  };
+
+  React.useEffect(() => {
+    let cancelled = false;
+
+    fetchTestUsers().then((data) => {
+      if (!cancelled) {
+        setUsers(data);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [setUsers]);
+
+  React.useEffect(() => {
+    Object.keys(chosenUsername).forEach((key) => {
+      const appUsers = users[key] || [];
+      const user = appUsers.find((item: TestUser) => item.username === chosenUsername[key]);
+      if (user) {
+        setAuthenticationBearer(key, user.jwt); //custom user-defined function for setting the token authentication
+      }
+    });
+
+    setLoaded(true);
+  }, [users, chosenUsername]);
+
+  return (
+    <>
+      <TestUsersPicker users={users[SAMPLE_APP]} onChoose={onChoose} chosenUsername={chosenUsername[SAMPLE_APP]} />
+      {loaded && children}
+    </>
+  );
+}
+```
+
+The code above communicates with a backend service which has endpoints and JWT authentication setup for each user for a successful exchange.
+
+Below are the examples of the tool in use.
+
+<Stories includePrimary={true} />
+
+## Test Users Picker Props:
+
+<ArgsTable of={TestUsersPicker} />

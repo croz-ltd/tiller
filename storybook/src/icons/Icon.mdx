@@ -1,0 +1,108 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Icon } from "@tiller-ds/icons";
+import { ThemeTokens } from "../utils";
+
+# Icon
+
+The `Icon` component is used to easily display an arbitrary icon.
+
+For each `Icon` component, Tiller uses **Phosphor** icon family.
+
+You can search the full list of these icons [here](https://phosphoricons.com/).
+
+All props are described in detail on the [Icon Props](#icon-props) section of the documentation.
+
+Since Phosphor icons used are of font type and not SVG, the size of the individual icon is defined by `font size` CSS property. `Size` prop allows for usage of certain predefined sizes based on tailwinds default font size classes:
+
+```json
+{
+  1: "text-xs",
+  2: "text-sm",
+  3: "text-base",
+  4: "text-lg",
+  5: "text-xl", (default size prop)
+  6: "text-2xl",
+  7: "text-3xl",
+  8: "text-4xl",
+  9: "text-5xl",
+  10: "text-6xl",
+  11: "text-7xl",
+  12: "text-8xl",
+  13: "text-9xl",
+}
+```
+
+If there's a need for an arbitrary value so you can define a certain uncommon icon size - use `style` prop and define a custom font size.
+
+## Using custom Icon library
+
+In case you don't like the default icon configuration, you can easily adjust it depending on your needs. If you created the project using [tiller-start-cra](https://github.com/croz-ltd/tiller-start-cra) or [tiller-starter-vite](https://github.com/croz-ltd/tiller-starter-vite), you have a `tillerConfig.tsx` file by default.
+Inside, the icon configuration is defined as
+```tsx
+export const defaultIconConfig: IconConfig = {
+  ...iconConfig,
+};
+```
+
+Here you can specify your customized icons, for example:
+```tsx
+  expanderOpen: (props: Partial<IconProps>) => (
+    <span className={props.className}>-</span>
+  ),
+  expanderClose: (props: Partial<IconProps>) => (
+    <span className={props.className}>+</span>
+  ),
+```
+This `defaultIconConfig` is passed in `ThemeProvider` inside `index.tsx` file.
+
+Every icon is customizable. The list of icons **required** by the Tiller Design System is:
+```tsx
+  dismiss: (props: Partial<IconProps>) => <Icon type="x" variant="bold" {...props} />,
+  breadcrumbs: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
+  expanderOpen: (props: Partial<IconProps>) => <Icon type="caret-up" {...props} />,
+  expanderClose: (props: Partial<IconProps>) => <Icon type="caret-down" {...props} />,
+  paginatorPrevious: (props: Partial<IconProps>) => <Icon type="caret-left" {...props} />,
+  paginatorNext: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
+  completed: (props: Partial<IconProps>) => <Icon type="check" variant="bold" {...props} />,
+  warning: (props: Partial<IconProps>) => <Icon type="warning" variant="fill" {...props} />,
+  sortDesc: (props: Partial<IconProps>) => <Icon type="caret-down" variant="bold" {...props} />,
+  sortAsc: (props: Partial<IconProps>) => <Icon type="caret-up" variant="bold" {...props} />,
+  date: (props: Partial<IconProps>) => <Icon type="calendar-blank" variant="fill" {...props} />,
+  time: (props: Partial<IconProps>) => <Icon type="clock" variant="fill" {...props} />,
+  inputError: (props: Partial<IconProps>) => <Icon type="warning-circle" variant="fill" {...props} />,
+  showPassword: (props: Partial<IconProps>) => <Icon type="eye" variant="fill" {...props} />,
+  hidePassword: (props: Partial<IconProps>) => <Icon type="eye-slash" variant="fill" {...props} />,
+  menu: (props: Partial<IconProps>) => <Icon type="list" {...props} />,
+  search: (props: Partial<IconProps>) => <Icon type="magnifying-glass" {...props} />,
+  upload: (props: Partial<IconProps>) => <Icon type="paperclip" {...props} />,
+  file: (props: Partial<IconProps>) => <Icon type="paperclip" {...props} />,
+  loading: (props: Partial<IconProps>) => <LoadingIcon {...props} />,
+  undo: (props: Partial<IconProps>) => <Icon type="arrow-counter-clockwise" {...props} />,
+  redo: (props: Partial<IconProps>) => <Icon type="arrow-clockwise" {...props} />,
+  listBullets: (props: Partial<IconProps>) => <Icon type="list-bullets" {...props} />,
+  listNumbers: (props: Partial<IconProps>) => <Icon type="list-numbers" {...props} />,
+  textItalic: (props: Partial<IconProps>) => <Icon type="text-italic" {...props} />,
+  textBolder: (props: Partial<IconProps>) => <Icon type="text-bolder" {...props} />,
+  textUnderline: (props: Partial<IconProps>) => <Icon type="text-underline" {...props} />,
+  textStrikethrough: (props: Partial<IconProps>) => <Icon type="text-strikethrough" {...props} />,
+  textIndent: (props: Partial<IconProps>) => <Icon type="text-indent" {...props} />,
+  textOutdent: (props: Partial<IconProps>) => <Icon type="text-outdent" {...props} />,
+  textAlignLeft: (props: Partial<IconProps>) => <Icon type="text-align-left" {...props} />,
+  textAlignCenter: (props: Partial<IconProps>) => <Icon type="text-align-center" {...props} />,
+  textAlignRight: (props: Partial<IconProps>) => <Icon type="text-align-right" {...props} />,
+  textAlignJustify: (props: Partial<IconProps>) => <Icon type="text-align-justify" {...props} />,
+  table: (props: Partial<IconProps>) => <Icon type="table" {...props} />,
+  link: (props: Partial<IconProps>) => <Icon type="link-simple-break" {...props} />,
+  linkBreak: (props: Partial<IconProps>) => <Icon type="link" {...props} />,
+```
+
+
+<Stories includePrimary={true} />
+
+## Icon Props:
+
+<ArgsTable of={Icon} />
+
+## Icon Tokens:
+<ThemeTokens component="Icon"/>

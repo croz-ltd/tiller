@@ -1,0 +1,174 @@
+import { Canvas, Story, ArgsTable } from "@storybook/addon-docs";
+
+import { Card, Button, Pagination } from "@tiller-ds/core";
+import { IntlProvider } from "@tiller-ds/intl";
+import { PageResizer } from "@tiller-ds/selectors";
+import { ThemeTokens } from "../utils";
+
+# Card
+
+The `Card` component is the most contained and organized way to show your data on a screen. It is widely used
+on web pages because it makes you focus on the content inside and basically serves as a container for your content.
+
+The component can be displayed with or without `Header` and `Footer`.
+
+All props are described in detail on the [Card Props](#card-props) section of the documentation.
+
+You can customize the `Card` component in the [Card Factory](#card-factory-limited).
+
+## Basic Variant
+
+The `Basic` variant gives a visual foundation for your components.
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-card--basic" />
+</Canvas>
+
+## With Header
+
+The `With Header` variant represents a card with the header on top, which can be further customized.
+
+More info on different variations of the header is on the [Card Header](#card-header) section of the documentation.
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-card--with-header" />
+</Canvas>
+
+## With Footer
+
+The `With Footer` variant represents a card with the footer on the bottom, which can be further customized.
+
+More info on different variations of the footer is on the [Card Footer](#card-footer) section of the documentation.
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-card--with-footer" />
+</Canvas>
+
+## With Header and Footer
+
+The `With Header and Footer` variant represents a card with both the header on top and a footer on the bottom.
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-card--with-header-and-footer" />
+</Canvas>
+
+## Loading
+
+The `Loading` variant represents a card in the state of loading, suitable for putting the Card in this state
+whenever, for example, the data represented in the card is still fetching from the backend.
+
+This state can easily be triggered by passing a **`status`** prop to the Card and giving it a value of *`waiting`*
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-card--loading" />
+</Canvas>
+
+<hr />
+<br />
+
+### Card Header
+
+`Card Header` is versatile and allows you to customize it to your desires.
+
+However, there are a few common versions of the header - `Default` and `With Actions` - each optionally
+given an expander when initializing the `Card` component with: `<Card isExpanded={true}>`.
+
+<div className="space-y-4">
+  <Card>
+    <Card.Header type="default">
+      <Card.Header.Title>Title</Card.Header.Title>
+      <Card.Header.Subtitle>Subtitle</Card.Header.Subtitle>
+    </Card.Header>
+  </Card>
+  <Card isExpanded={true}>
+    <Card.Header type="expander">
+      <Card.Header.Title>Title</Card.Header.Title>
+      <Card.Header.Subtitle>Subtitle</Card.Header.Subtitle>
+    </Card.Header>
+  </Card>
+  <Card isExpanded={true}>
+    <Card.Header type="button">
+      <Card.Header.Title>Title</Card.Header.Title>
+      <Card.Header.Subtitle>Subtitle</Card.Header.Subtitle>
+      <Card.Header.Actions>
+        <Button>Button</Button>
+        <Button>Button</Button>
+      </Card.Header.Actions>
+    </Card.Header>
+  </Card>
+</div>
+
+### Card Body
+
+`Card Body` is where you place your desired content. Anywhere from `Description Lists`, `Data Tables` and so on.
+
+You can pass a custom `className` to the body or enable `removeSpacing` prop to remove the default padding.
+
+### Card Footer
+
+`Card Footer` is versatile and allows you to customize it to your desires.
+
+However, there are a few common versions of the header - `With Actions` and `Pagination`.
+
+<IntlProvider>
+  <div className="flex flex-col space-y-4">
+    <Card isExpanded={true}>
+      <Card.Footer>
+        <div className="flex justify-end">
+          <Button className="mr-3" variant="outlined" type="reset" onClick={() => {}}>
+            Cancel
+          </Button>
+          <Button type="submit">Submit</Button>
+        </div>
+      </Card.Footer>
+    </Card>
+    <Card isExpanded={true}>
+      <Card.Footer>
+        <div className="flex items-center justify-between">
+          <PageResizer pageSize={10} pageSizes={[10, 20, 30]} totalElements={50} onPageSizeChange={() => {}} />
+          <Pagination onPageChange={() => {}} pageNumber={6} pageSize={10} totalElements={150} />
+        </div>
+      </Card.Footer>
+    </Card>
+  </div>
+</IntlProvider>
+
+<br />
+
+## Card Factory
+
+In `Card Factory`, you can choose whether you want the Card with the header, footer, both or none.
+
+Also, you can customize the `Title`, `Subtitle`, `Header Type` and `Footer Type`.
+
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional unless you replace the following:
+     - `CardHeader` -> `Card.Header`
+     - `CardHeaderTitle` -> `Card.Header.Title`
+     - `CardHeaderSubtitle` -> `Card.Header.Subtitle`
+     - `CardHeaderActions` -> `Card.Header.Actions`
+     - `CardBody` -> `Card.Body`
+     - `CardFooter` -> `Card.Footer`
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-card--card-factory" />
+</Canvas>
+
+## Card Props:
+
+<ArgsTable of={Card} />
+
+## Card Tokens:
+<ThemeTokens component="Card"/>

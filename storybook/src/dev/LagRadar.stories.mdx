@@ -1,0 +1,43 @@
+import { Meta } from "@storybook/addon-docs";
+
+import lagRadar from './lagRadar.png';
+
+<Meta
+    title="Component Library/Dev/LagRadar"
+    parameters={{
+        previewTabs: {
+            canvas: { hidden: true },
+            "storybook/playroom/panel": {
+                hidden: true,
+            },
+        },
+        playroom: {
+            disable: true,
+        },
+        viewMode: "docs",
+    }}
+/>
+
+# Lag Radar
+
+This component represents a tool that can be used to **measure the performance** of your website.
+
+By executing various actions on your website, the component will measure the time it takes for the browser to respond to these actions
+(page load).
+
+The results are displayed in a form of colors on the radar. The green represents low page load, while all the
+colors towards red represent an increased page load.
+
+The tool is intended for developers to use when testing the application. **It is not intended to be used in production.**
+
+## Usage
+
+ - Render the component in the root of your application (most commonly App.tsx)
+
+ - To show the Lag Radar display, use the following key combination: **`Ctrl + Shift + L`**
+
+ - Track the page load using the radar display
+
+The look of Lag Radar is displayed below:
+
+<img className="w-96" src={lagRadar} alt="Lag Radar" />

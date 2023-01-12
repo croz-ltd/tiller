@@ -1,0 +1,40 @@
+import { ArgsTable, Story, Stories, Canvas } from "@storybook/addon-docs";
+
+import { Alert } from "@tiller-ds/alert";
+import { ThemeTokens } from "../utils";
+
+# Alert
+
+An alert displays a short, important message in a way that attracts the user's attention without interrupting the user's task.
+
+All props are described in detail on the [Alert Props](#alert-props) section of the documentation.
+
+## Tabs Factory
+
+The `Alert Factory` story is used to easily visualize your alerts, giving you the
+ability to modify the look and make the Tabs component of your choice by
+using **controls**.
+
+To create your custom Tabs component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Alert Factory` story
+of the Alert.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Alert.
+- After you click the `Show code` button below your custom Alert, the code of the Alert will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-alert-alert--alert-factory" />
+</Canvas>
+
+<Stories />
+
+## Alert Props:
+
+<ArgsTable of={Alert} />
+
+## Alert Tokens:
+<ThemeTokens component="Alert"/>

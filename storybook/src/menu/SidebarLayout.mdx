@@ -1,0 +1,28 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { SidebarLayout, SidebarNavigation } from "@tiller-ds/menu";
+import { ThemeTokens } from "../utils";
+
+# Sidebar Layout
+
+`Sidebar Layout` gives you a complete template for your website, featuring a sidebar navigation and a content section.
+
+The best possible documentation for this component would be the [Props documentation](#sidebar-layout-props)
+and the code of the stories listed below.
+
+<Stories includePrimary={true} />
+
+## Sidebar Layout Props:
+
+<ArgsTable of={SidebarLayout} />
+
+### Sidebar Navigation Props:
+
+<ArgsTable of={SidebarNavigation} />
+
+### SidebarNavigation.Item Props:
+
+<ArgsTable of={SidebarNavigation.Item} />
+
+## Sidebar Layout Tokens:
+<ThemeTokens component="SidebarLayout"/>

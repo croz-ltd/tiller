@@ -1,0 +1,53 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta
+    title="Component Library/Dev/FormDebug"
+    parameters={{
+        previewTabs: {
+            canvas: { hidden: true },
+            "storybook/playroom/panel": {
+                hidden: true,
+            },
+        },
+        playroom: {
+            disable: true,
+        },
+        viewMode: "docs",
+    }}
+/>
+
+# Form Debug
+
+This component represents a tool that can be used to **track your form values** easily without having to dig into developer tools.
+
+The tool is intended for developers to use when testing the application. **It is not intended to be used in production.**
+
+## Usage
+
+ - Render the `FormDebugProvider` component in the root of your application (most commonly App.tsx) so that **it wraps your all your page content**
+
+ - Make sure to wrap your `FormDebug` component with the `FormDebugProvider` component in order to consume the form values later on
+
+    ```html
+    <FormDebugProvider>
+        <FormDebug />
+        ...
+    </FormDebugProvider>
+    ```
+
+ - Inside an arbitrary form (wrapped with `Formik`/`FormContainer` and `form`/`Form`), render the `FormDebugConsumer` component
+
+     ```html
+    <FormContainer {...props}>
+        <Form>
+            <FormDebugConsumer />
+            ...
+        </Form>
+    <FormContainer />
+    ```
+
+ - When testing, position yourself to a page with a form where you rendered the `FormDebugConsumer` component
+
+ - To show the Form Debug display, use the following key combination: **`Ctrl + Shift + S`**
+
+ - Track your form information within the shown display

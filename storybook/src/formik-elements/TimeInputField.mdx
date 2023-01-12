@@ -1,0 +1,30 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { TimeInput } from "@tiller-ds/date";
+import { TimeInputField } from "@tiller-ds/formik-elements";
+import { ThemeTokens } from "../utils";
+
+
+# Time Input Field
+
+Time Input allow users to enter a specific time value. They can be used for a wide range of scenarios.
+
+Common use cases include:
+- Setting an alarm
+- Scheduling a meeting
+
+This is a **field** component, which means it is differs from `TimeInputField` by having an integrated logic for `onChange`, `onBlur` and `onReset`
+functions which `TimeInput` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+<Stories includePrimary={true} />
+
+## Time Input Field Props:
+
+<ArgsTable of={TimeInputField} />
+
+## Time Input Props:
+
+<ArgsTable of={TimeInput} />
+
+## Time Input Tokens:
+<ThemeTokens component="TimeInput"/>

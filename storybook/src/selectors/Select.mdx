@@ -1,0 +1,108 @@
+import {Meta, ArgsTable, Story, Canvas, Stories} from "@storybook/addon-docs";
+
+import { Select } from "@tiller-ds/selectors";
+import { ThemeTokens } from "../utils";
+
+<Meta title="Docs|Select" component={ Select } />
+
+# Select
+
+The `Select` component allows users to choose option(s) from set of options offered by the component.
+The component typically appears in forms and dialogs.
+
+This is a **non-field** component, which means it is differs from `Select` by lacking logic for seamless
+state changing. The custom usage of `onChange`, `onBlur` and `onReset` props is required.
+
+Props are described in detail on the [Select Props section](#select-props)
+of the documentation.
+
+## Select Factory
+
+The `Select Factory` story is used to easily visualize your select, giving you the
+ability to modify the look and make the Select component of your choice by
+using **controls**.
+
+To create your custom Select component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Select Factory` story
+of the Select.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Select.
+- After you click the `Show code` button below your custom Select, the code of the Select will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-selectors-select--select-factory" />
+</Canvas>
+
+## Important Note
+
+Due to the nature of Storybook and its code display, the codes below contain props in the format of `{...props}`.
+In order to eliminate too long code displays and undefined functions, we've included these props in the display below.
+Copy the props according to the usage of the code you're viewing.
+
+## Used Types
+
+```ts
+export type Item = {
+  username: string;
+  name: string;
+  surname: string;
+};
+```
+
+## Used Props
+
+```ts
+const complexProps = {
+name,
+onBlur,
+onChange,
+options: items,
+getOptionLabel: (item: Item) => (
+<div className="flex items-center justify-between flex-wrap">
+<div>
+{item.name} {item.surname}
+</div>
+<div className="flex-shrink-0 text-sm leading-5 text-gray-500">@{item.username}</div>
+</div>
+),
+sort: (items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name)),
+};
+
+const commonProps = {
+...complexProps,
+getOptionValue: (item: Item) => item.username,
+};
+```
+
+## Usage
+
+- Use `Select` in a form as a way to allow the user to choose option(s) s from the dropdown.
+
+- You may wish to review the general forms documentation about designing forms.
+
+## Accessibility
+
+ - Ensure that your color/contrast ratios and typography are accessible.
+
+ - All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
+
+ - If you have required inputs, use JavaScript to visually and physically align validation messages with labels for certain input fields
+
+## Best Practices
+
+We recommend using [Autocomplete](/docs/component-library-form-elements-autocomplete--with-label) over this component in most cases.
+Use this component when:
+ - it doesn't make sense for the user to have the ability to enter text alongside selecting items (ex. specific selection with few options)
+ - you want to pass a more complex component (such as `Intl`) to show options (`Autocomplete` cannot show values fetched by `Intl` component)
+
+<Stories />
+
+## Select Props:
+<ArgsTable of={Select} />
+
+## Select Tokens:
+<ThemeTokens component="Select"/>

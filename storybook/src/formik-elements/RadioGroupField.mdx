@@ -1,0 +1,37 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { RadioGroup } from "@tiller-ds/form-elements";
+
+# Radio Group Field
+
+A `RadioGroupField` is a form element that lets users select a single choice from a list of at least two options. The user can only select one radio option at a time.
+
+Radio groups should:
+
+- Include at least two or more options.
+- Allow users to select only one option.
+- Include at most 6 options. If there's a chance the Radio might later expand to include more than 6 options, use a Select instead.
+- List options in a rational order that makes logical sense.
+
+## **Prerequisites for functioning**:
+ - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Best practices
+
+- Avoid nesting radio buttons within other radio buttons.
+- If an option is strongly recommended, add `(Recommended)` to the label. Be sure to add it to the label, not the help text.
+- Use the same name attribute on all radio buttons in the group. This ensures that if there is more than one group in the form, each one stays associated with its own group.
+- If a radio group is “Optional”, users won't be able to unselect a selected radio. If you need to give users a way to unselect, consider using another type of form field.
+
+<Stories includePrimary={true} />
+
+## Radio Group Field Props:
+
+`RadioGroupField` component has one unique prop:
+ - `name` (_string_): the accessor value for the input field component (for validation, fetching, etc.).
+
+Other props are inferred from the `RadioGroup` component and are displayed below:
+
+## Radio Group Props:
+
+<ArgsTable of={ RadioGroup } />

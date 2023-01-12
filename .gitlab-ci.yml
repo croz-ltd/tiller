@@ -1,0 +1,3 @@
+include:
+  - project: croz/internal/ops/gitlab-ci-common
+    file: /internal-tiller.yml

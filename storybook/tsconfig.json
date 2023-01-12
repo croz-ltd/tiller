@@ -1,0 +1,12 @@
+{
+  "extends": "./.storybook/tsconfig.storybook.json",
+  "include": [
+    "./src/**/*.js",
+    "./src/**/*.jsx",
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./**/*.d.ts",
+    "./setupTests.ts",
+    "./mdx.d.ts"
+  ]
+}

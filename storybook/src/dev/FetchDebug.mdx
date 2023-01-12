@@ -1,0 +1,26 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import {FetchDebug, FetchDebugContent} from "@tiller-ds/dev";
+
+# Fetch Debug
+
+This component represents a tool used to **debug and simulate fetch requests**.
+
+You can pause the requests, change the latency and track the progress of fetch requests.
+
+The requests are categorized into waiting, active and history groups.
+
+The tool is intended for developers to use when testing the application. **It is not intended to be used in production.**
+
+## Usage
+
+ - Render the component in the root of your application (most commonly App.tsx)
+
+ - To show the Fetch Debug display, use the following key combination: **`Ctrl + Shift + F`**
+
+ - Modify the settings using the checkbox for pause and the slider for latency
+
+ - Track the requests in the waiting, active and history groups
+
+
+<Stories includePrimary={true} />

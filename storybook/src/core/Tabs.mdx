@@ -1,0 +1,66 @@
+import { Canvas, Story, ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Tabs } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+# Tabs
+
+The `Tabs` component is used to display tabs for quick and easy navigation through arbitrary pages on your website.
+
+<Canvas>
+  <Story id="component-library-core-tabs--simple" />
+</Canvas>
+
+The component can be stacked or displayed in its full-width via `fullWidth` prop (see [this story](#full-width)).
+
+You can also define the icon placement to be before or after the label via `iconPlacement` prop
+(see the [leading icons](#with-leading-icons) or [trailing icons](#with-trailing-icons) stories).
+
+Furthermore, the `defaultIndex` prop allows you to specify which tab is the default one on component render.
+
+## Usage
+
+The component is recommended to be used as following:
+ - define the component with or without above-mentioned props.
+ - define the `Tabs.Tab` subcomponent with a required `label` prop, as well as optional `icon` and `onClick` props.
+ - place the desired content inside the `Tabs.Tab` subcomponent to render it when that tab is active.
+
+All props are described in detail on the [Tabs Props](#tabs-props) section of the documentation.
+
+## Tabs Factory
+
+The `Tabs Factory` story is used to easily visualize your tabs, giving you the
+ability to modify the look and make the Tabs component of your choice by
+using **controls**.
+
+To create your custom Tabs component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Tabs Factory` story
+of the Tabs.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Tabs.
+- After you click the `Show code` button below your custom Tabs, the code of the Tabs will be generated.
+
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional **unless you replace the following**:
+    - `TabsTab` -> `Tabs.Tab`
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-tabs--tabs-factory" />
+</Canvas>
+
+<Stories />
+
+## Tabs Props:
+
+<ArgsTable of={Tabs} />
+
+### Tabs.Tab Props:
+
+<ArgsTable of={Tabs.Tab} />
+
+## Tabs Tokens:
+<ThemeTokens component="Tabs"/>

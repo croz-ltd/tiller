@@ -1,0 +1,156 @@
+import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { DragZone } from "@tiller-ds/upload";
+import { ThemeTokens } from "../utils";
+
+# Drag Zone
+
+`DragZone` component is one of the two approaches Tiller provides for handling file upload. DragZone serves mainly as a
+drag and drop window for the file upload. It could be used inside forms, but also on its own (for example details
+page).
+
+Under the hood, it uses [react-uploady](https://github.com/rpldy/react-uploady) for handling the file upload
+logic. For more advanced file upload customizations also check their documentation.
+
+To use `DragZone` in a component, you must also have a call to `useFileUpload` hook, so it can track which files are
+currently in the file list. `useFileUpload` hook also provides a list of the uploaded files which can be used in
+`FileList` Component, or in your custom implementation of the uploaded file list.
+
+Basic example looks something like this:
+
+<Canvas>
+    <Story id="component-library-upload-dragzone--simple"/>
+</Canvas>
+
+*Note that you usually do not need to provide `send` parameter. Here the mock version is used for storybook
+    purposes only.*
+
+`DragZone` also allows multiple file upload at the same time with the `allowMultiple` prop:
+
+<Canvas>
+    <Story id="component-library-upload-dragzone--with-multiple-files"/>
+</Canvas>
+
+`DragZone` is commonly used with the `FileList` component, which renders current file list in a simple table.
+
+<Canvas>
+    <Story id="component-library-upload-dragzone--and-file-list"/>
+</Canvas>
+
+If you want to have a file upload inside a form which already uses Formik, see `DragZoneField`.
+
+## useFileUpload details
+
+`useFileUpload` is used as an actual logic what is currently in the file list. It can be initialized with the file
+list previously fetched from the backend.
+
+It can be used in two ways:
+1. as a controlled file list where you must manually update which files are currently uploaded
+2. as an uncontrolled file list where you specify default update handler and do not think about anything else
+
+In both cases, you need to provide callback logic for the file upload event.
+
+For the first case, you will have something like this:
+
+```tsx
+function MyUploadComponent() {
+  const fileUploadHookValue = useFileUpload();
+  const [uploadedFileIds, setUploadedFileIds] = React.useState<string[]>([]);
+
+  React.useEffect(() => {
+    fileUploadHookValue.onUpdateCallback((added, removed) => {
+      setUploadedFileIds(oldFileIds => {
+        let newFileIds = [...oldFileIds];
+        if (added !== undefined) {
+          newFileIds.push(added);
+        }
+        if (removed !== undefined) {
+          newFileIds = newFileIds.filter(id => id !== removed);
+        }
+        // update internal file id list with correct updated list
+        fileUploadHookValue.onUploadedFileIds(newFileIds);
+        return newFileIds;
+      });
+    });
+  }, []);
+
+  return (
+    <DragZone
+      title="Upload files"
+      url="/api/upload-file"
+      hook={fileUploadHookValue}
+    />
+  );
+}
+```
+
+This is a bit tedious, so if you do not have a valid reason to store a list yourself, you can use it like this:
+
+```tsx
+function MyShorterUploadComponent() {
+  const fileUploadHookValue = useFileUpload([], true);
+
+  return (
+    <DragZone
+      title="Upload files"
+      url="/api/upload-file"
+      hook={fileUploadHookValue}
+    />
+  );
+}
+```
+
+If you need the values of the current file list (and you will need that if you want to show to user what he/she has
+uploaded), you can use `fileUploadHookValue.uploadedFiles`.
+
+## Details about upload to backend
+
+Tiller implementation of the file upload expects certain backend behaviour to function properly.
+Backend call for file upload will be called immediately when user drops a file in the `DragZone`.
+Backend should save the file and return an object which returns at least an id which Tiller can use to differentiate
+uploaded files. If the response from the backend cannot be changed, `mapUploadResponse` can be used to adjust the
+difference. Also, by default, it uses XHR multipart request to send data to the backend.
+
+In case you need to send additional parameters for the backend call, check `destinationOptions` param which allows
+sending headers, http method, request parameters and files parameter name.
+
+If you want to have different behaviour (maybe saving all the files together with the form, or sending files to
+backend with JSON and base64) you must provide custom `send` method which will handle that specific logic.
+
+By default, `useFileUpload` works with Tiller's `File` type which provides basic info about the uploaded file.
+If your backend saves more information, you can extend the `File` type with your custom information:
+
+```tsx
+type Document = {
+   size: number;
+   uploadDate: string;
+   fileType: FileType;
+   author: string;
+} & File;
+
+function MyBetterUploaderComponent() {
+  const fileUploadHookValue = useFileUpload<Document>([], true);
+
+  return (
+    <>
+      <DragZone
+        title="Upload files"
+        url="/api/upload-file-but-better"
+        hook={fileUploadHookValue}
+      />
+      <div>
+        {fileUploadHookValue.uploadedFiles.map(doc => (
+          <p>{doc.name}, {doc.size}MB, author: {doc.author}</p>
+        ))}
+      </div>
+    </>
+  );
+}
+```
+
+## Drag Zone Props:
+
+<ArgsTable of={DragZone} />
+
+## Drag Zone Tokens:
+<ThemeTokens component="DragZone"/>

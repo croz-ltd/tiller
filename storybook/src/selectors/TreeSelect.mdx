@@ -1,0 +1,54 @@
+import { Stories, ArgsTable } from "@storybook/addon-docs";
+
+import { TreeSelect } from "@tiller-ds/selectors";
+import { ThemeTokens } from "../utils";
+
+# Tree Select
+
+The `TreeSelect` component allows users to choose an option from a set of options (displayed in a hierarchy)
+offered by the component. The component typically appears in forms and dialogs.
+
+This is a **non-field** component, which means it is differs from `TreeSelectField` by lacking logic for seamless
+state changing. The custom usage of `onChange`, `onBlur` and `onReset` props is required.
+
+Props are described in detail on the [Tree Select Props section](#tree-select-props)
+of the documentation.
+
+## Important Note
+
+Due to the nature of Storybook and its code display, the codes below contain props in the format of `{...props}`.
+In order to eliminate too long code displays and undefined functions, we've included these props in the display below.
+Copy the props according to the usage of the code you're viewing.
+
+## Used Types
+
+```ts
+export type TreeItem = {
+  name: string;
+  code?: string;
+  items?: TreeItem[];
+};
+```
+
+## Used Props
+
+```ts
+const commonProps = {
+  name,
+  onChange,
+  onBlur,
+  options: treeItems,
+  // eslint-disable-next-line react/display-name
+  getOptionLabel: (option: TreeItem) => <>{option.name}</>,
+  getItems: (option: TreeItem) => option.items || [],
+};
+```
+
+<Stories includePrimary={true} />
+
+## Tree Select Props:
+
+<ArgsTable of={TreeSelect} />
+
+## Tree Select Tokens:
+<ThemeTokens component="Select"/>

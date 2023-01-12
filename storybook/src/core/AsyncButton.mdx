@@ -1,0 +1,52 @@
+import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { AsyncButton } from "@tiller-ds/core";
+
+# Async Button
+
+Async button represents a **state-focused button** intended to indicate when a certain action is in progress and
+whether the action has been successfully executed.
+
+The component inherits all props from the button component, but changes the behaviour of the **`onClick`** prop, which
+expects a **promise** as a return type and changes the button state accordingly. <br />
+
+This behaviour is useful if, alongside some custom behaviour, you want to visually indicate to the user the outcome
+of some action, such as incorrect form validation.
+
+All props are described in detail on the [Async Button Props section](#async-button-props)
+of the documentation.
+
+Possible Async Button states are demonstrated below (click the button to see the state):
+
+<br />
+
+## Success
+
+If the promise is returned as **fulfilled**, the button changes to `success` state.
+
+<Canvas>
+  <Story id="component-library-core-asyncbutton--success" />
+</Canvas>
+
+## Error
+
+If the promise returns an **error**, the button changes to `error` state.
+
+<Canvas>
+  <Story id="component-library-core-asyncbutton--error" />
+</Canvas>
+
+## Form Example
+
+This story demonstrates how the button could behave according to the form state. If the form is not validated correctly using
+a validation schema the button will apply its error state on form submission. Otherwise, the button will apply its
+success state.
+
+<Canvas>
+  <Story id="component-library-core-asyncbutton--form-example" />
+</Canvas>
+
+
+## Async Button Props:
+
+<ArgsTable of={AsyncButton} />

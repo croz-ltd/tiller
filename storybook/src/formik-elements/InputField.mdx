@@ -1,0 +1,64 @@
+import { Meta, ArgsTable, Story, Canvas, Stories } from "@storybook/addon-docs";
+
+import { InputField } from "@tiller-ds/formik-elements";
+import { ThemeTokens } from "../utils";
+
+<Meta title="Docs|InputField" component={ InputField } />
+
+# InputField
+
+`InputField` allows users to enter text into a UI. They typically appear in forms and dialogs.
+
+This is a **field** component, which means it is differs from `Input` by having a provided logic for seamless
+wrapping of the component inside Formik for easier form creation.
+
+Props are described on the [InputField Props section](#inputfield-props)
+of the documentation.
+
+You can customize the `InputField` component in the [InputField Factory](#input-field-factory).
+
+## Usage
+
+- Use `InputField` in a form as a way to allow the user to enter a value associated with a key, such as entering their name in a field labeled name.
+
+- You may wish to review the general forms documentation about designing forms.
+
+## Accessibility
+
+Ensure that your color/contrast ratios and typography are accessible.
+
+All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
+
+Try to give all inputs a type='' attribute (types include email, tel, text, submit, etc.). When supported by a browser, they improve the experience of all users.
+
+If you have required inputs, use JavaScript to visually and physically align validation messages with labels for certain input fields
+
+## Input Field Factory
+
+The `Input Field Factory` story is used to easily visualize your input field, giving you the
+ability to modify the look and make the Input Field component of your choice by
+using **controls**.
+
+To create your custom Input Field component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Input Field Factory` story
+of the Input Field.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Input Field.
+- After you click the `Show code` button below your custom Input Field, the code of the Input Field will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-formik-elements-inputfield--input-field-factory" />
+</Canvas>
+
+<Stories />
+
+## InputField Props:
+
+<ArgsTable of={InputField} />
+
+## Input Tokens:
+<ThemeTokens component="Input"/>

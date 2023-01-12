@@ -1,0 +1,34 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { DateRangeInputField } from "@tiller-ds/formik-elements";
+import { ThemeTokens } from "../utils";
+
+# DateRangeInputField
+
+`DateRangeInputField` allows users to choose a starting and an ending date from a popup calendar display.
+
+This is a **field** component, which means it is differs from `DateRangeInput` by having a provided logic for seamless
+wrapping of the component inside Formik for easier form creation.
+
+The component accepts the following as initial values for **start** and **end** accessor name props:
+  - null
+  - undefined
+  - empty string or a string in a '_yyyy-mm-dd_' format
+  - type Date - example: _new Date()_, example 2: _new Date("2019-01-20")_
+
+If a string value is given, the component itself makes sure to convert the string into a Date format.
+
+Props are described on the [DateRangeInputField Props section](/docs/component-library-formik-elements-daterangeinputfield--with-error#date-range-input-props)
+of the documentation.
+
+## **Prerequisites for functioning**:
+ - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+<Stories includePrimary={true} />
+
+## Date Range Input Props:
+
+<ArgsTable of={DateRangeInputField} />
+
+## Date Input Tokens:
+<ThemeTokens component="DateInput"/>

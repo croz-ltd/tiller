@@ -1,0 +1,31 @@
+import { ArgsTable, Story, Canvas} from "@storybook/addon-docs";
+
+import { FileList } from "@tiller-ds/upload";
+import { ThemeTokens } from "../utils";
+
+# File List
+
+`FileList` Component goes hand in hand with `DragZone` or `UploadButton`, dependent of which one you use in your app.
+It serves as a simple list that show currently uploaded files, and provides helper actions to manage them.
+
+Basic usage is like this:
+
+<Canvas>
+  <Story id="component-library-upload-file-list--simple" />
+</Canvas>
+
+You can also have actions on the `FileList`:
+
+<Canvas>
+    <Story id="component-library-upload-file-list--with-actions" />
+</Canvas>
+
+Note that calling `helpers.deleteFile` only deletes file from the frontend list. If you want to remove it on the
+backend, you need to call appropriate endpoint yourself.
+
+## File List Props:
+
+<ArgsTable of={FileList} />
+
+## File List Tokens:
+<ThemeTokens component="FileList"/>

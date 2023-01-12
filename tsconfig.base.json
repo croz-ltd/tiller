@@ -1,0 +1,99 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "jsx": "react",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2015",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "rootDir": ".",
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "skipDefaultLibCheck": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "outDir": "../../dist/out-tsc",
+    "types": [
+      "node",
+      "resize-observer-browser"
+    ],
+    "paths": {
+      "@tiller-ds/alert": [
+        "libs/alert/src/index.tsx"
+      ],
+      "@tiller-ds/core": [
+        "libs/core/src/index.tsx"
+      ],
+      "@tiller-ds/data-display": [
+        "libs/data-display/src/index.tsx"
+      ],
+      "@tiller-ds/date": [
+        "libs/date/src/index.tsx"
+      ],
+      "@tiller-ds/dev": [
+        "libs/dev/src/index.tsx"
+      ],
+      "@tiller-ds/form-elements": [
+        "libs/form-elements/src/index.tsx"
+      ],
+      "@tiller-ds/form-elements-advanced": [
+        "libs/form-elements-advanced/src/index.tsx"
+      ],
+      "@tiller-ds/formik-elements": [
+        "libs/formik-elements/src/index.tsx"
+      ],
+      "@tiller-ds/icons": [
+        "libs/icons/src/index.tsx"
+      ],
+      "@tiller-ds/intl": [
+        "libs/intl/src/index.tsx"
+      ],
+      "@tiller-ds/menu": [
+        "libs/menu/src/index.tsx"
+      ],
+      "@tiller-ds/patterns": [
+        "libs/patterns/src/index.tsx"
+      ],
+      "@tiller-ds/selectors": [
+        "libs/selectors/src/index.tsx"
+      ],
+      "@tiller-ds/storybook": [
+        "storybook/src/index.tsx"
+      ],
+      "@tiller-ds/theme": [
+        "libs/theme/src/index.tsx"
+      ],
+      "@tiller-ds/upload": [
+        "libs/upload/src/index.tsx"
+      ],
+      "@tiller-ds/util": [
+        "libs/util/src/index.tsx"
+      ]
+    }
+  },
+  "files": [
+    "./node_modules/@nrwl/react/typings/cssmodule.d.ts",
+    "./node_modules/@nrwl/react/typings/image.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "dist",
+    "nx-cache"
+  ]
+}

@@ -1,0 +1,29 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { NumberInputField } from "@tiller-ds/formik-elements";
+
+# Number Input Field
+
+A `NumberInputField` supports many of the same features as `Input`, but only accepts numeric input.
+
+The field uses third party library `react-number-format` for formatting field value.
+
+This is a **field** component, which means it is differs from `NumberInput` by having a provided logic for seamless
+wrapping of the component inside Formik for easier form creation.
+
+## **Prerequisites for functioning**:
+ - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Best practices
+
+`NumberInputField` should be used for actual number values, such as counts and measures.
+
+Do not use it for other digit-based values, such as telephone, credit card, and social security numbers.
+
+When applicable, set the most common choice as the default value. For example, airline, bus, train and other travel companies typically default the number of passengers to 1.
+
+<Stories includePrimary={true} />
+
+## Number Input Field Props:
+
+<ArgsTable of={NumberInputField} />

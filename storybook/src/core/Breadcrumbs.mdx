@@ -1,0 +1,53 @@
+import { ArgsTable, Story, Stories, Canvas } from "@storybook/addon-docs";
+
+import { Breadcrumbs } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+
+# Breadcrumbs
+
+The `Breadcrumbs` component is used to display navigation on your site in order to easily orient the user.
+
+It has 4 different variants:
+ - None
+ - Solid
+ - Slash
+ - Chevron
+ - Big Chevron
+
+All props are described in detail on the [Breadcrumbs Props](#breadcrumbs-props) section of the documentation.
+
+## Breadcrumbs Factory
+
+The `Breadcrumbs Factory` story is used to easily visualize your breadcrumbs, giving you the
+ability to modify the look and make the Breadcrumbs of your choice by
+using **controls**.
+
+To create your custom Breadcrumbs:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Breadcrumbs Factory` story
+of the Breadcrumbs.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Breadcrumbs.
+- After you click the `Show code` button below your custom Breadcrumbs, the code of the Breadcrumbs will be generated.
+
+**Limitations:**
+  - Due to Storybook's limitations, the shown code will not be functional **unless you replace the following**:
+      - `Breadcrumb` -> `Breadcrumbs.Breadcrumb`
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-breadcrumbs--breadcrumbs-factory" />
+</Canvas>
+
+<Stories />
+
+## Breadcrumbs Props:
+
+<ArgsTable of={Breadcrumbs} />
+
+## Breadcrumbs Tokens:
+
+<ThemeTokens component="Breadcrumbs"/>

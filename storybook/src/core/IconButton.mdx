@@ -1,0 +1,28 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { IconButton } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+
+# Icon Button
+
+The `IconButton` component is used to display a button in the form of an icon with or without the tooltip when hovering over it.
+
+By using the `to` prop (**component must be wrapped inside a router**), you can specify the destination url where you'll be transferred to when you
+click the button.
+
+Also, you can specify a custom event to trigger when you click the button via the `onClick` prop. This prop can be used alone or alongside the `to` prop
+if you want something else to occur aside from routing you to a specific url.
+
+If you don't want the tooltip to appear when hovering over the icon button (**on** by default), you can disable it with `showTooltip` prop.
+
+All props are described in detail on the [Icon Button Props](#icon-button-props) section of the documentation.
+
+<Stories includePrimary={true} />
+
+## Icon Button Props:
+
+<ArgsTable of={IconButton} />
+
+## Icon Button Tokens:
+<ThemeTokens component="IconButton"/>

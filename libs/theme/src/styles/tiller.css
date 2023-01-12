@@ -1,0 +1,136 @@
+/*
+ *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ *
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.spinner {
+  animation: rotator 1.4s linear infinite;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
+}
+
+:root {
+  --reach-menu-button: 1;
+  --reach-tooltip: 1;
+  --reach-dialog: 1;
+}
+
+[data-reach-menu],
+[data-reach-menu-popover],
+[data-reach-popover] {
+  display: block;
+  position: absolute;
+  outline: none;
+  z-index: 100;
+}
+
+[data-reach-menu][hidden],
+[data-reach-menu-popover][hidden] {
+  display: none;
+}
+
+[data-reach-menu-list],
+[data-reach-menu-items] {
+  display: block;
+  white-space: nowrap;
+  outline: none;
+}
+
+[data-reach-menu-item] {
+  cursor: pointer;
+  display: block;
+  user-select: none;
+}
+
+[data-reach-menu-item][data-selected] {
+  outline: none;
+}
+
+[data-reach-tooltip] {
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 100vh;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+.sticky-first tr>th:first-child,tr>td:first-child {
+  position: sticky;
+  left: 0;
+}
+
+.sticky-last tr>th:last-child,tr>td:last-child {
+  position: sticky;
+  right: 0;
+}
+
+.unset-first tr>td:first-child {
+  position: unset;
+}
+
+.unset-last tr>td:last-child {
+  position: unset;
+}
+
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+  display: none;
+}

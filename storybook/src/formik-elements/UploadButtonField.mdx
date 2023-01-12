@@ -1,0 +1,29 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { UploadButton } from "@tiller-ds/upload";
+
+# Upload Button Field
+
+Upload Button is the second approach for handling file uploads in Tiller. It works similar to `<input type="file />`
+as it's a simple button that opens file explorer. Functionality is mostly the same as the `DragZone` component, so
+if you need more info about logic behind file upload, check that docs.
+
+This is a **field** component, which means it is differs from `UploadButton` by having an integrated logic for hooks you pass to the component
+and field props it inherits through Formik. There is no need for any custom logic, just wrap the component inside Formik and pass it a hook for easier form creation.
+
+<Stories includePrimary={true} />
+
+## Upload Button Field Props:
+
+`UploadButtonField` component has one unique prop:
+ - `name` (_string_): the accessor value for the field component (for validation, fetching, etc.).
+
+Other props are inferred from the `UploadButton` component and are displayed below:
+
+## Upload Button Props:
+
+<ArgsTable of={UploadButton} />
+
+## Upload Button Tokens:
+
+Upload button has no specific tokens, as it uses `Button` component for it's rendering.

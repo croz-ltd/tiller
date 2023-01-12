@@ -1,0 +1,50 @@
+import { Meta, ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { NotificationProvider } from "@tiller-ds/alert";
+import { ThemeTokens } from "../utils";
+
+
+<Meta title="Docs|NotificationProvider" component={ NotificationProvider } />
+
+# Notification Provider
+
+`NotificationProvider` component is used to summon a notification on the desired page by defining
+the look of the `Notification` component.
+
+## Usage: Step-by-step Instructions
+
+  **1.** Wrap your app (or the area where the rendering of the components is enabled) in the `NotificationProvider`
+component <br /> <br />
+  **2.** On the page which displays the notification (either by executing a task or by any desired function) define
+a `useNotificationContext()` function imported from our library and assign it to a constant. <br /> <br />
+  **3.** By using a **`.push`** method, define the notification you would like to display by using props
+  from the `Notification` component (**props are defined [here](/docs/component-library-alert-notification--with-actions-right#notification-props)**) <br /> <br />
+
+### Example:
+
+    const notifications = useNotificationContext()
+
+    notifications.push({
+      **title: "Example Notification",
+      description: "Example notification description."
+      icon: { type: "check-circle", variant: "outline", color: "green" },
+      onDismiss:
+    });
+
+All props are described on the [Notification Provider Props section](/docs/component-library-alert-notificationprovider--example#notification-provider-props)
+of the documentation.
+
+The story below demonstrates the functionality of the `NotificationProvider`:
+
+### Example
+
+<Canvas>
+  <Story id="component-library-alert-notificationprovider--example" />
+</Canvas>
+
+## Notification Provider Props:
+
+<ArgsTable of={NotificationProvider} />
+
+## Notification Provider Tokens:
+<ThemeTokens component="NotificationProvider"/>

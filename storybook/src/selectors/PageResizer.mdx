@@ -1,0 +1,150 @@
+import { Canvas, Story, ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { PageResizer } from "@tiller-ds/selectors";
+import { ThemeTokens } from "../utils";
+
+# Page Resizer
+
+`PageResizer` component lets you adjust the number of shown items from your arbitrary items list.
+
+It is recommended to use the component hand-in-hand with the `Pagination` component using the `useLocalPagination` hook
+or state management tools (see [Pagination docs](/docs/component-library-core-pagination--simple) for more info).
+
+<Canvas>
+  <Story id="component-library-selectors-pageresizer--simple" />
+</Canvas>
+
+
+Props are described in detail on the [Page Resizer Props section](#page-resizer-props)
+of the documentation.
+
+## Usage
+
+There are multiple ways of using the component. One is an easier one, but not recommended in certain cases, while the
+other requires state management tools.
+
+**1)** Use `Page Resizer` in sync with the `Pagination` component by passing the `paginationState` from the `useLocalPagination` hook.
+
+```ts
+const [pageSize, setPageSize] = React.useState(5);
+const [paginationState, paginationHook] = useLocalPagination(items, pageSize);
+return (
+  <PageResizer {...paginationState} pageSizes={[3, 5, 10]} onPageSizeChange={setPageSize} />
+)
+  ```
+
+**2)** You can manually control your page size without having to rely on the hook.
+This can be useful in cases where you need to show a big chunk of data and loading it all at once is not sufficient,
+so you resort to using tools like React Redux and its `useSelector()` to access the state of your page.
+
+Use the `PageResizer` component without the hook in the following form:
+
+```ts
+<Pagination
+  onPageSizeChange={someFunction}
+  pageSize={state.pageSize}
+  totalElements={state.totalElements}
+  pageSizes={[3, 5, 10]}
+>
+```
+
+## Accessibility
+
+- If you wish to have custom text displayed alongside the selector, you can do so by providing the `PageResizer` component with children
+(shown in [Custom section](/docs/component-library-selectors-pageresizer--custom). Provide the component only with a selector element
+to have no text displayed alongside the select component.
+
+## Best Practices
+
+- If working with a simple application without large chunks of data to load, resort to the first described way of using the component.
+
+- If working with large datasets resort to hook-less `PageResizer` and pass the page states as props to the component.
+
+- If you wish to control the display of your data intuitively, use the `Pagination` component alongside this one
+(similar logic applies).
+
+## Used Types
+
+```ts
+export type Item = {
+  username: string;
+  name: string;
+  surname: string;
+};
+```
+
+## Used Props
+
+```ts
+const items: Item[] = [
+  {
+    username: "pperic",
+    name: "Pero",
+    surname: "Peric",
+  },
+  {
+    username: "iivic",
+    name: "Ivo",
+    surname: "Ivic",
+  },
+  {
+    username: "aanic",
+    name: "Ana",
+    surname: "Anic",
+  },
+  {
+    username: "pivic",
+    name: "Pero",
+    surname: "Ivic",
+  },
+  {
+    username: "panic",
+    name: "Pero",
+    surname: "Anic",
+  },
+  {
+    username: "aperic",
+    name: "Ana",
+    surname: "Peric",
+  },
+  {
+    username: "mmaric",
+    name: "Marko",
+    surname: "Maric",
+  },
+  {
+    username: "mivic",
+    name: "Mirko",
+    surname: "Ivic",
+  },
+  {
+    username: "manic",
+    name: "Mirko",
+    surname: "Anic",
+  },
+  {
+    username: "lmaric",
+    name: "Lana",
+    surname: "Maric",
+  },
+  {
+    username: "livic",
+    name: "Lana",
+    surname: "Ivic",
+  },
+  {
+    username: "lanic",
+    name: "Lana",
+    surname: "Anic",
+  },
+];
+```
+
+<Stories includePrimary={true} />
+
+## Page Resizer Props:
+
+<ArgsTable of={PageResizer} />
+
+## Page Resizer Tokens:
+<ThemeTokens component="PageResizer"/>

@@ -1,0 +1,233 @@
+import { Story, Stories, Canvas, ArgsTable } from "@storybook/addon-docs";
+
+import { Button } from "@tiller-ds/core";
+import { Icon } from "@tiller-ds/icons";
+import { ThemeTokens } from "../utils";
+
+# Button
+
+The `Button` component has 5 possible sizes - **`xs, sm, md, lg and xl`**.
+
+When the `size` parameter is not explicitly stated, the component defaults to **`md`** size.
+
+Its 3 variants - **`Filled`**, **`Outlined`** and **`Text`** - can be defined by
+desired colors.
+
+Other props are described in detail on the [Button Props section](#button-props)
+of the documentation.
+
+You can customize the `Button` component in the [Button Factory](#button-factory).
+
+<br />
+
+## Filled Variant
+
+The `Filled` variant uses `text-white`, `bg-color-600` and `hover:bg-color-800` properties.
+
+The look of this variant in different sizes is demonstrated below:
+
+<div className="flex flex-row items-center space-x-4">
+  <div className="text-center">
+    <Button children="Primary" size={"xs"} variant="filled" />
+    <h4>xs</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Primary" size={"sm"} variant="filled" />
+    <h4>sm</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Primary" size={"md"} variant="filled" />
+    <h4>md</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Primary" size={"lg"} variant="filled" />
+    <h4>lg</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Primary" size={"xl"} variant="filled" />
+    <h4>xl</h4>
+  </div>
+</div>
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-button--filled" />
+</Canvas>
+
+## Outlined Variant
+
+The `Outlined` variant uses `text-color-600`, `border-color-600` and `hover:bg-color-100` properties.
+
+The look of this variant in different sizes is demonstrated below:
+
+<div className="flex flex-row items-center space-x-4">
+  <div className="text-center">
+    <Button children="Secondary" size={"xs"} variant="outlined" />
+    <h4>xs</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Secondary" size={"sm"} variant="outlined" />
+    <h4>sm</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Secondary" size={"md"} variant="outlined" />
+    <h4>md</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Secondary" size={"lg"} variant="outlined" />
+    <h4>lg</h4>
+  </div>
+  <div className="text-center">
+    <Button children="Secondary" size={"xl"} variant="outlined" />
+    <h4>xl</h4>
+  </div>
+</div>
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-button--outlined" />
+</Canvas>
+
+## Text Variant
+
+There is also a `Text` variant for the button, which represents a text-only button.
+
+The variant uses `text-color-600` and `hover:bg-color-100` properties.
+
+The look of this variant in different sizes is demonstrated below:
+
+<div className="flex flex-row items-center space-x-4">
+  <div className="text-center">
+    <Button children="White" size={"xs"} variant="text" />
+    <h4>xs</h4>
+  </div>
+  <div className="text-center">
+    <Button children="White" size={"sm"} variant="text" />
+    <h4>sm</h4>
+  </div>
+  <div className="text-center">
+    <Button children="White" size={"md"} variant="text" />
+    <h4>md</h4>
+  </div>
+  <div className="text-center">
+    <Button children="White" size={"lg"} variant="text" />
+    <h4>lg</h4>
+  </div>
+  <div className="text-center">
+    <Button children="White" size={"xl"} variant="text" />
+    <h4>xl</h4>
+  </div>
+</div>
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-button--text" />
+</Canvas>
+
+## Disabled Variant
+
+Disabled buttons (regardless of their variants) differ from said variants by `opacity`,
+which is set to `50%`.
+
+<div className="flex flex-row items-center space-x-4">
+  <div className="text-center">
+    <Button children="Disabled" variant="filled" disabled={true} />
+  </div>
+  <div className="text-center">
+    <Button children="Disabled" variant="outlined" disabled={true} />
+  </div>
+  <div className="text-center">
+    <Button children="Disabled" variant="text" disabled={true} />
+  </div>
+</div>
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="component-library-core-button--disabled" />
+</Canvas>
+
+## Leading / Trailing Icon
+
+The optional `Leading` / `Trailing` icon can be set for the `Button`.<br />
+You can change whether you want the leading or the trailing icon in the `Controls`
+of the **Button Factory** story in Storybook.<br /> The icon color changes according to text color, as demonstrated
+below:
+
+<div className="flex space-x-4">
+  <div className="space-y-4">
+    <Button children="Leading" variant="filled" leadingIcon={<Icon type="pencil" />} />
+    <br />
+    <Button children="Leading" variant="outlined" leadingIcon={<Icon type="pencil" />} />
+    <br />
+    <Button children="Leading" variant="text" leadingIcon={<Icon type="pencil" />} />
+  </div>
+  <div className="space-y-4">
+    <Button children="Trailing" variant="filled" trailingIcon={<Icon type="pencil" />} />
+    <br />
+    <Button children="Trailing" variant="outlined" trailingIcon={<Icon type="pencil" />} />
+    <br />
+    <Button children="Trailing" variant="text" trailingIcon={<Icon type="pencil" />} />
+  </div>
+</div>
+
+Code sample of leading variant:
+
+<Canvas>
+  <Story id="component-library-core-button--leading-icon" />
+</Canvas>
+
+Code sample of trailing variant:
+
+<Canvas>
+  <Story id="component-library-core-button--trailing-icon" />
+</Canvas>
+
+## Custom Via Tokens
+
+If you want a custom button use `tokens` and/or `className`.
+
+If you want to create a one-off custom button using tokens, pass the desired changed tokens which will apply
+only to an instance of button to which you pass these tokens via `tokens` prop.
+
+If you pass an empty object ({}) as `tokens` the button will have no styles, so you can create your arbitrary button using
+`className`.
+
+Code sample of a one-off Button created with tokens:
+
+<Canvas>
+  <Story id="component-library-core-button--custom-via-tokens" />
+</Canvas>
+
+## Button Factory
+
+The `Button Factory` story is used to easily create a button, giving you the
+ability to modify most of the props and make the button of your choice by
+using `Controls`. <br />
+
+To create your custom button: <br />
+
+- switch to the `Canvas` section of the Storybook and navigate to `Button Factory` story
+  of the Button
+- modify a wide array of options which translate to enabled (and modified) or disabled props on code view
+- when you're happy with what you've created, switch back to the `Docs` section, and you will automatically be
+  navigated to your created button
+- after you click the `Show code` button below your custom button, the code of the button will be generated
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-core-button--button-factory" />
+</Canvas>
+
+<Stories title="All Stories" />
+
+## Button Props:
+
+<ArgsTable of={Button} include={["children", "className", "custom", "hidden", "id", "leadingIcon", "menu", "rounded", "size", "trailingIcon", "variant", "tokens" ]} />
+
+## Button Tokens:
+<ThemeTokens component="Button"/>

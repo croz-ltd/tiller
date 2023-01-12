@@ -1,0 +1,163 @@
+import { Canvas, ArgsTable, Story, Stories } from "@storybook/addon-docs";
+
+import { Pagination } from "@tiller-ds/core";
+import { ThemeTokens } from "../utils";
+
+
+# Pagination
+
+`Pagination` component lets you easily display your dataset with arbitrary page size, pager text and more.
+The component is also optimized for mobile usage.
+
+<Canvas>
+  <Story id="component-library-core-pagination--simple" />
+</Canvas>
+
+Props are described on the [Pagination Props section](/docs/component-library-core-pagination--two--pages#pagination-props)
+of the documentation.
+
+`Pagination` uses the `ButtonGroups` component to display buttons for navigation.
+
+Alongside tokens for `Pagination`, the `ButtonGroups` tokens are also listed at the end of the docs.
+
+## Usage
+
+There are multiple ways of using the component. One is an easier one, but not recommended in certain cases, while the
+other requires state management tools.
+
+**1)** Use `Pagination` with the provided hook.
+The hook gives you access to:
+  - your data via `paginationState.pageData` prop
+  - pages size via `paginationState.pageSize` prop.
+  - current page number via `paginationState.pageNumber` prop.
+  - number of total elements via `paginationState.totalElements` prop.
+
+Use the hook and pass it to `Pagination` in the following form:
+
+```ts
+const [paginationState, paginationHook] = useLocalPagination(yourData, pageSize);
+return (
+  <Pagination {...paginationState} {...paginationHook} />
+)
+  ```
+
+**2)** You can manually control your page number, page size and total elements without having to rely on the hook.
+This can be useful in cases where you need to show a big chunk of data and loading it all at once is not sufficient,
+so you resort to using tools like React Redux and its `useSelector()` to access the state of your page.
+
+Use the `Pagination` component without the hook in the following form:
+
+```ts
+<Pagination
+  onPageChange={someFunction}
+  pageNumber={state.pageNumber}
+  pageSize={state.pageSize}
+  totalElements={state.totalElements}
+>
+```
+
+## Accessibility
+
+- The component is optimized for mobile usage and changes the look when on mobile to two buttons: Previous and Next.
+
+- If you wish to have custom text displayed alongside the pager, you can do so by providing the `Pagination` component with children
+(shown in [Custom section](/docs/component-library-core-pagination--custom). Provide the component with an empty
+fragment to have no text shown alongside the buttons.
+
+## Best Practices
+
+- If working with a simple application without large chunks of data to load, resort to the first described way of using the component.
+
+- If working with large datasets resort to hook-less `Pagination` and pass the page states as props to the component.
+
+- If you wish to control how much data is displayed, use the `Page Resizer` component alongside this one
+(similar logic applies).
+
+## Used Types
+
+```ts
+export type Item = {
+  username: string;
+  name: string;
+  surname: string;
+};
+```
+
+## Used Props
+
+```ts
+const items: Item[] = [
+  {
+    username: "pperic",
+    name: "Pero",
+    surname: "Peric",
+  },
+  {
+    username: "iivic",
+    name: "Ivo",
+    surname: "Ivic",
+  },
+  {
+    username: "aanic",
+    name: "Ana",
+    surname: "Anic",
+  },
+  {
+    username: "pivic",
+    name: "Pero",
+    surname: "Ivic",
+  },
+  {
+    username: "panic",
+    name: "Pero",
+    surname: "Anic",
+  },
+  {
+    username: "aperic",
+    name: "Ana",
+    surname: "Peric",
+  },
+  {
+    username: "mmaric",
+    name: "Marko",
+    surname: "Maric",
+  },
+  {
+    username: "mivic",
+    name: "Mirko",
+    surname: "Ivic",
+  },
+  {
+    username: "manic",
+    name: "Mirko",
+    surname: "Anic",
+  },
+  {
+    username: "lmaric",
+    name: "Lana",
+    surname: "Maric",
+  },
+  {
+    username: "livic",
+    name: "Lana",
+    surname: "Ivic",
+  },
+  {
+    username: "lanic",
+    name: "Lana",
+    surname: "Anic",
+  },
+];
+```
+
+<Stories includePrimary={true} />
+
+## Pagination Props:
+
+<ArgsTable of={Pagination} />
+
+## Pagination Tokens:
+<ThemeTokens component="Pagination"/>
+
+## ButtonGroups Tokens:
+<ThemeTokens component="ButtonGroups"/>

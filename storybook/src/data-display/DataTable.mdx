@@ -1,0 +1,162 @@
+import { ArgsTable, Story, Canvas, Stories } from "@storybook/addon-docs";
+
+import { DataTable } from "@tiller-ds/data-display";
+import { ThemeTokens } from "../utils";
+
+# Data Table
+
+`Data Tables` are used to organize and display all information from a data set.
+
+Data Tables display information in a way that's easy to scan, so that users can look for patterns and insights. They can be embedded in primary content, such as cards. They can include:
+
+- A corresponding visualization
+- Navigation
+- Tools to query and manipulate data
+
+Here's an example of the `allData` object used in Stories shown below.
+
+```ts
+type Item = {
+  id: number;
+  name: string;
+  age: number;
+  surname: string;
+  appliedFor: string;
+  jobDescription: string;
+  salary: {
+    annual: number;
+    bonus: number;
+  };
+};
+
+const names = ["Pero", "Ivo", "Ana", "Ivica"];
+const surname = ["Peric", "Ivic", "Anic", "Ivicici"];
+const jobs = ["Nurse", "Teacher", "Software developer", "Lawyer"];
+const jobDescription = [
+  "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+  "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+  "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+  "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+];
+const allData: Item[] = range(0, 152).map((value) => ({
+  id: value + 1,
+  name: names[value % names.length],
+  surname: surname[value % surname.length],
+  age: (12 + value * 13) % 50,
+  appliedFor: jobs[value % jobs.length],
+  jobDescription: jobDescription[value % jobs.length],
+  salary: {
+    annual: (value + 5) * 12000,
+    bonus: (value + 5) * 200,
+  },
+}));
+```
+
+You can get `smallData` object used in Stories below by slicing `allData` object:
+```ts
+const smallData = slice(allData, 0, 5);
+```
+
+## Basic DataTable markup
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--simple" />
+</Canvas>
+
+## Best Practices
+
+Data Tables should:
+
+- Show values across multiple categories and measures.
+- Allow for filtering and ordering when comparison is not a priority.
+- Help visualize and scan many values from an entire data set.
+- Help find other values in the data hierarchy through use of links.
+- Minimize clutter by only including values that supports the data’s purpose.
+- Wrap instead of truncate content. This is because if row titles start with the same word, they’ll all appear the same when truncated.
+
+
+## DataTable with Selectors
+
+In case you want select rows in the DataTable, you must provide `hook={dataTableHook}` prop.
+
+The `hook` manages selection of items in the data table, sorting, etc.
+
+Import `useDataTable` hook also from `@tiller-ds/data-display`.
+
+### Selectors at Beginning
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--with-selector-at-beginning" />
+</Canvas>
+
+### Selectors at End
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--with-selector-at-end" />
+</Canvas>
+
+## DataTable with Horizontal Scroll
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--with-horizontal-scroll" />
+</Canvas>
+
+Use `firstColumnFixed` prop to make first column **sticky** in DataTable. Use `lastColumnFixed` for the last column.
+
+### First Column Sticky
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--with-horizontal-scroll-and-first-column-fixed" />
+</Canvas>
+
+### Last Column Sticky
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--with-horizontal-scroll-and-last-column-fixed" />
+</Canvas>
+
+## DataTable with Header, Expander, Selectors & Pagination
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--kitchen-sink" />
+</Canvas>
+
+## Data Table Factory
+
+The `Data Table Factory` story is used to easily create a Data Table, giving you the
+ability to modify most of the props and make the Data Table of your choice by
+using **controls**.
+
+To create your custom Data Table: <br />
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Data Table Factory` story
+of the Badge.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Data Table.
+- After you click the `Show code` button below your custom Data Table, the code of the Data Table will be generated.
+
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional unless you replace the following:
+  - `DataTableCardHeader` -> `DataTable.CardHeader`
+  - `DataTableCardHeaderTitle` -> `DataTable.CardHeader.Title`
+  - `DataTableCardHeaderActions` -> `DataTable.CardHeader.Actions`
+  - `CardBody` -> `Card.Body`
+  - `CardFooter` -> `Card.Footer`
+  - `DataTableColumn` -> `DataTable.Column`
+  - `DataTableExpander` -> `DataTable.Expander`
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-data-display-datatable--data-table-factory" />
+</Canvas>
+
+<Stories title="All Stories" />
+
+## Data Table Props:
+
+<ArgsTable of={DataTable} />
+
+## Data Table Tokens:
+<ThemeTokens component="DataTable"/>

@@ -1,0 +1,33 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { Linkify } from "@tiller-ds/core";
+
+# Linkify
+
+The `Linkify` component is used to detect links among text handed over as children to the component.
+
+It uses the `LinkifyLibrary` component **react-linkify** library to deal with the logic of parsing the text and detecting links.
+
+Links can range from links without defined protocol, e-mails, etc. and are **automatically** turned into clickable colored links.
+
+The `variant` prop specifies the look of the found link(s). The default selected variant is **main**, which selects `linkColor` from your
+default config's `color` configuration (located in your _tillerConfig_ file).
+
+The out-of-the-box configuration for link color is:
+
+```ts
+linkColor: {
+  main: "blue-800",
+  hover: "blue-600",
+},
+```
+
+All props are described in detail on the [Linkify Props](#linkify-props) section of the documentation.
+
+<Stories includePrimary={true} />
+
+## Linkify Props:
+
+<ArgsTable of={Linkify} include={["children", "variant", "tokens"]} />
+
+**Linkify library-specific props** are described in detail on the [Linkify Documentation page](https://linkify.js.org/docs/options.html).

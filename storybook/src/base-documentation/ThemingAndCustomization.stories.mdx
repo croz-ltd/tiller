@@ -1,0 +1,188 @@
+import { Meta } from "@storybook/addon-docs";
+
+<Meta
+  title="Theming and customization"
+  parameters={{
+    previewTabs: {
+      canvas: { hidden: true },
+      "storybook/playroom/panel": {
+        hidden: true,
+      },
+    },
+    playroom: {
+      disable: true,
+    },
+    viewMode: "docs",
+  }}
+/>
+
+# Theming and customization
+
+Customizations on theme level are implemented using design tokens which we call **Tiller tokens**.
+
+Tiller tokens allow us to customize the general look and feel of the Tiller design system. Changing a token results in changing the look and feel of all the components that use that specific token.
+
+## How tokens work
+
+Behind the scenes Tiller uses Tailwind CSS to style all the components. Every component uses the default Tiller theme which has different tokens set for all the components.
+
+Tokens are seperated in three different categories:
+
+1. **Global tokens** - default tailwind color palettes, spacing settings and other (eg. `blue-400` = `#60a5fa`). Used to define possible values for other layers.
+2. **Decision tokens** - custom theme overrides, mostly for colors and text configurations (eg. `primary-400` = `blue-400`, `secondary` = `yellow-600`). Used to define global configuration for most of the design system.
+3. **Component specific tokens** - custom component configurations (eg. `Button.primary.backgroundColor` = `primary-400`). Used to fine tune specific components.
+
+## Global tokens
+
+Options tokens are all available values that you can use to set a certain decision token of a component. They are customized in `tailwind.config.js` file.
+
+Since Tiller uses Tailwind CSS behind the scenes, option tokens are mostly Tailwind class names which are defined by tailwind default configuration and `tailwind.config.js` file in your project (which customizes the default Tailwind configuration).
+
+Since any edit to the tailwind configuration file changes how tailwind classes behave - changing the tailwind configuration file is considered as a change to the options tokens.
+
+Examples of options tokens:
+
+- `text-sm` class
+- `text-purple-400` class
+- `purple-200` color
+- `pl-2` class
+
+More on customizing tailwind configuration in their official [documentation](https://tailwindcss.com/docs/configuration)
+
+## Decision tokens
+
+Decision tokens define the look and feel of Tiller apps. Decision tokens use options tokens as values.
+
+They are also defined inside `tailwind.config.js` file as custom aliases for colors.
+
+### Structure of theme decision tokens
+
+Under the hood they look something like this:
+
+```json
+theme: {
+  extend: {
+    colors: {
+      // brand
+      primary: {
+        ...colors.indigo,
+        DEFAULT: colors.indigo["600"],
+        light: colors.indigo["100"],
+        dark: colors.indigo["800"],
+        contrast: colors.white
+      },
+      ...
+      // status
+      info: {
+        ...colors.blue,
+        DEFAULT: colors.blue["600"],
+        light: colors.blue["100"],
+        dark: colors.blue["900"],
+        contrast: colors.white
+      }
+    },
+  },
+}
+```
+
+For full list you can check `preset.ts`, which you should be using inside your tailwind config.
+
+As you can see, all the tokens utilize tailwinds default color palette or default theme.
+You can also override that with your fixed hex values, or override global token layer for them to be usable for aliases.
+There are also utility methods in `@tiller-ds/theme` called `color` and `font` which enable you to shorthand define a whole color / font config.
+
+Here is an example of a `tailwind.config.js` which overrides the default color used in the application.
+
+```js
+const { preset, color } = require('@tiller-ds/theme');
+
+module.exports = {
+  presets: [preset],
+  theme: {
+    extend: {
+      colors: {
+        // brand
+        primary: color("blue", {
+          dark: "900",
+          light: "300",
+          default: "500",
+          contrast: "white",
+        }),
+        secondary: color("yellow"),
+        tertiary: color("teal"),
+        // status
+        success: color("green", { dark: "900" }),
+        danger: color("red", { dark: "900" }),
+        warning: color("orange", { dark: "900" }),
+        info: color("blue", { dark: "900" }),
+      },
+    }
+  }
+};
+```
+
+*Note: if you override `content` or `safelist` attributes, please pay attention that those are not merged with Tiller's preset so additional configuration may be needed.*
+
+## Customizing individual components
+
+Besides customization of decision tokens of the theme, you can customize classes used on individual components.
+By changing individual components you can override specific attributes which you need, while preserving everything else from default theme.
+
+To customize component classes edit the `component` property of `tillerConfig` object inside `tillerConfig.ts` file.
+
+Each component has its own properties which apply certain tailwind classes to the component.
+
+Component tokens are listed in the `Docs` section of each component.
+
+Example:
+
+```ts
+import { ThemeConfigFactory } from "@tiller-ds/theme";
+
+export const tillerConfig: ThemeConfigFactory = {
+  component: {
+    Button: {
+      base: {
+        borderRadius: "rounded",
+      },
+    },
+    Badge: {
+      base: {
+        padding: "", // remove padding by canceling out default padding classes
+        lineHeight: "leading-5",
+      },
+      small: {
+        padding: "px-2.5",
+        lineHeight: "leading-4",
+      },
+    },
+  },
+};
+```
+and add this to your `ThemeProvider`.
+
+## One-off component customizations
+
+You may find yourself in a situation where your global theme configuration is serving you well, but you really need that one button
+to be a bit different from everything else.
+
+One-off customizations can help you with that exact problem.
+
+Every Tiller component has a `tokens` prop that can be used to send custom token list different from one used in your theme configuration.
+
+A quick of example of the idea:
+
+```tsx
+import { Button, ButtonProps } from "@tiller-ds/core";
+
+const roundedButtonTokens = {
+  base: {
+    borderRadius: "rounded"
+  }
+};
+
+const RoundedButton = ({ props }: ButtonProps) => <Button {...props} tokens={roundedButtonTokens}/>
+export default RoundedButton;
+```
+
+Tokens used this way are deeply merged with your theme configuration, so you can override only the attributes you need.

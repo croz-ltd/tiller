@@ -1,0 +1,34 @@
+import { ArgsTable, Stories } from "@storybook/addon-docs";
+
+import { DateInput } from "@tiller-ds/date";
+import { DateInputField } from "@tiller-ds/formik-elements";
+import { ThemeTokens } from "../utils";
+
+# Date Input Field
+
+The `DateInputField` component allows users to enter a date either through text input, or by choosing a date from the calendar.
+
+Date pickers allow users to select past, present, or future dates.
+
+In case you have `DateInput` field on the right side of your form, use prop `popoverPosition="right"` to position calendar to the right.
+
+`function noRefCheck() {}` shown in Stories below is Storybook issue when the function is not explicitly defined `(e.g. () => {})`.
+
+This is a **field** component, which means it is differs from `DateInput` by having an integrated logic for `onChange`, `onBlur` and `onReset`
+functions which `DateInput` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+## **Prerequisites for functioning**:
+ - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+<Stories includePrimary={true} />
+
+## Date Input Field Props:
+
+<ArgsTable of={DateInputField} />
+
+## Date Input Props:
+
+<ArgsTable of={DateInput} />
+
+## Date Input Tokens:
+<ThemeTokens component="DateInput"/>

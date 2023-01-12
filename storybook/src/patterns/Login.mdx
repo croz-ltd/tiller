@@ -1,0 +1,95 @@
+import { Canvas, Story } from "@storybook/addon-docs";
+
+# Login
+
+The `Login` component has 8 possible variants - **`Simple, Basic, With Logo, With Validation, Forgotten Password,
+Email Confirmation, Reset Password and Success Password Change`**.
+
+Login is often the first interaction a user has with your product. This entry point requires user identification,
+regularly performed by entering user credentials. Login page has an important role in establishing your product’s brand
+and experience and sets the tone for their overall experience with the product.
+
+<br />
+
+## Basic Variant
+
+The `Basic` variant has two `Input Fields`, `Checkbox` and `Button` all wrapped in one `Card` component.
+
+Code sample of this variant:
+
+<Canvas>
+  <Story id="patterns-login--basic" />
+</Canvas>
+
+## Usage
+
+The `Login` is presented to users in the following scenarios:
+
+- When a user wants to gain access to an app.
+- When a user has logged out voluntarily. They will see a confirmation message after which they will be automatically
+redirected back to the login page.
+- When a user has been logged out due to inactivity. In this scenario, when the user logs back in they should be
+redirected to the last page they were on, before being logged out.
+
+## Accessibility
+
+Ensure that users can tab through the login form and navigate the page using only a keyboard.
+
+Always provide fields with data areas for reading devices. This is especially important if you are using the
+split-screen layout or have additional content on the page.
+
+Make the contour of fields as bright as possible so that people with impaired vision can delineate inputs from the
+background.
+
+Never disable a submit button, even if all the required fields aren't filled in. Instead, describe what needs to be
+done using validation and error messages.
+
+<br />
+
+## With Logo Variant
+
+<Canvas>
+  <Story id="patterns-login--with-logo" />
+</Canvas>
+
+## With Validation
+
+<Canvas>
+  <Story id="patterns-login--with-validation" />
+</Canvas>
+
+## Forgotten Password
+
+<Canvas>
+  <Story id="patterns-login--forgot-password" />
+</Canvas>
+
+## Email Confirmation
+
+<Canvas>
+  <Story id="patterns-login--email-confirmation" />
+</Canvas>
+
+## Reset Password
+
+<Canvas>
+  <Story id="patterns-login--reset-password" />
+</Canvas>
+
+## Success Password Change
+
+<Canvas>
+  <Story id="patterns-login--success-password-change" />
+</Canvas>
+
+## Best Practices
+
+- Autofocus on a field that should be filled in. Therefore, it comes without saying that the first field should have
+an autofocus by default.
+- Let users see their password if they want to.
+- Tell users if Caps Lock is on.
+- Make it easy if users forget their password.
+- Give clear feedback & provide a helping hand in case users fail.
+- Always add the “Forgot Password” link.
+- Maintain branding and style on your sign-up and login pages.
+- Test across browsers and devices.

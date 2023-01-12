@@ -1,0 +1,81 @@
+import { Meta, ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+
+import { Notification } from "@tiller-ds/alert";
+import { ThemeTokens } from "../utils";
+
+<Meta title="Docs|Notification" component={ Notification } />
+
+# Notification
+
+`Notification` component is used to display a notification on screen provided by the `NotificationProvider` component.
+
+It serves as a heads-up information component displayed after executing various tasks, such as adding or editing an entity
+when submitting a form.
+
+The `title` is the only required prop to be passed onto the component.
+
+All props are described on the [Notification Props section](/docs/component-library-alert-notification--with-actions-right#notification-props)
+of the documentation.
+
+An example of the simple notification with a title, description, icon and a close button is represented below:
+
+### Simple Notification
+
+<Canvas>
+  <Story id="component-library-alert-notification--simple" />
+</Canvas>
+
+The notification can also contain actions (such as buttons or hyperlinks) by passing an `actions`
+prop to the component. These elements are rendered below the `description` of the notification:
+
+### With Actions
+
+<Canvas>
+  <Story id="component-library-alert-notification--with-actions-below" />
+</Canvas>
+
+### With Buttons
+
+<Canvas>
+  <Story id="component-library-alert-notification--with-buttons-below" />
+</Canvas>
+
+If `onDismiss` prop is included, the close button (X) appears on the right side of the component and
+closes the notification by default.
+If `onDismiss` prop is not included, the actions passed onto the component appear on the right side
+of the component, instead of the close button:
+
+### With Actions Right (Without Close Button)
+
+<Canvas>
+  <Story id="component-library-alert-notification--with-actions-right" />
+</Canvas>
+
+## Best Practices
+
+- Include the `icon` prop when displaying a notification, that way the notification is more visually
+attractive and noticeable
+- Prefer using the `description` prop when handling complex operations to give the user more info on the
+details of the action
+- As a rule, avoid disabling the `closeButton` prop because it gives the user more control over a notification by
+enabling him to close the notification and avoid distractions rather than waiting for the notification
+to disappear by itself
+
+### __Important Notice:__
+
+**For notifications to function properly, wrap your desired routes with a `NotificationProvider` component.**
+
+Notification component is **not designed to be explicitly called** on your website.
+It is meant to be called by assigning a **`useNotificationContext()`** function to a constant and displaying a
+notification with **`.push`** method.
+
+Find out more about the `NotificationProvider`, along with examples on
+how to summon your notification [here](/docs/component-library-alert-notificationprovider--example).
+
+
+## Notification Props:
+
+<ArgsTable of={Notification} />
+
+## Notification Tokens:
+<ThemeTokens component="Notification"/>

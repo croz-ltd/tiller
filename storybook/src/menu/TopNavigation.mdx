@@ -1,0 +1,51 @@
+import {ArgsTable, Stories} from "@storybook/addon-docs";
+
+import { TopNavigation, TopNavigationNavigation } from "@tiller-ds/menu";
+
+import { ThemeTokens } from "../utils";
+
+# Top Navigation
+
+`Top Navigation` gives you a complete styled navigation bar on the top of your website, ready to store links to your pages, custom actions, dropdown and even subitems.
+
+The component comes in 3 possible variants:
+ - primary color styled (defined in your config file)
+ - dark version
+ - light version
+
+If you aren't a fan of a full styled navigation and want only the navigation itself to be styled according to your primary color, you can edit your dropdowns to be
+themed differently via the props sent to the dropdown menu.
+
+The navigation items are wrapped in a `TopNavigation.Navigation` container.
+
+The best possible documentation for this component would be the [Props documentation](#top-navigation-props)
+and the code of the stories listed below.
+
+<Stories includePrimary />
+
+## Top Navigation Props:
+
+<ArgsTable of={TopNavigation} />
+
+## TopNavigation.Dropdown Props:
+
+<ArgsTable of={TopNavigation.Dropdown} />
+
+## TopNavigation.Action Props:
+
+<ArgsTable of={TopNavigation.Action} />
+
+## TopNavigation.Navigation Props:
+
+<ArgsTable of={TopNavigation.Navigation} />
+
+## TopNavigation.Navigation.Item Props:
+
+<ArgsTable of={TopNavigationNavigation.Item} />
+
+## TopNavigation.Navigation.SubItem / TopNavigation.Dropdown.Item Props:
+
+<ArgsTable of={TopNavigationNavigation.SubItem} />
+
+## Top Navigation Tokens:
+<ThemeTokens component="TopNavigation"/>

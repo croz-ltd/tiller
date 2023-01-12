@@ -1,0 +1,58 @@
+import { ArgsTable, Stories, Canvas, Story } from "@storybook/addon-docs";
+
+import { Checkbox } from "@tiller-ds/form-elements";
+import { ThemeTokens } from "../utils";
+
+# Checkbox
+
+Checkboxes allow the user to select one or more items from a set. Checkboxes can turn an option on or off.
+
+You can provide a label to the Checkbox thanks to the `label` prop.
+
+You can control the checkbox with the `checked` and `onChange` props.
+
+## When to use:
+
+- In forms on a full page, in modals, or on side panels
+- Select one or more options from a list
+- Present a list containing sub-selections
+- Turn an item on or off in a desktop environment
+
+## When not to use:
+
+If a user can select only one option from a list, radio buttons should be used instead of checkboxes.
+
+Checkboxes allow the user to select multiple items in a set whereas radio buttons allow the user to select only one option.
+
+(for integration with Formik see docs [here](/docs/component-library-formik-elements-checkboxfield--simple))
+
+## Checkbox Factory
+
+The `Checkbox Factory` story is used to easily visualize your checkbox, giving you the
+ability to modify the look and make the Checkbox component of your choice by
+using **controls**.
+
+To create your custom Checkbox component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Checkbox Factory` story
+of the Checkbox.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Checkbox.
+- After you click the `Show code` button below your custom Checkbox, the code of the Checkbox will be generated.
+
+### Result:
+
+<Canvas>
+  <Story id="component-library-form-elements-checkbox--checkbox-factory" />
+</Canvas>
+
+
+<Stories />
+
+## Checkbox Props:
+
+<ArgsTable of={Checkbox} />
+
+## Checkbox Tokens:
+<ThemeTokens component="Checkbox"/>

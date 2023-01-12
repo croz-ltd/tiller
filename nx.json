@@ -1,0 +1,90 @@
+{
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "tiller",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ]
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "example": {
+      "tags": []
+    },
+    "alert": {
+      "tags": []
+    },
+    "core": {
+      "tags": []
+    },
+    "data-display": {
+      "tags": []
+    },
+    "date": {
+      "tags": []
+    },
+    "dev": {
+      "tags": []
+    },
+    "form-elements": {
+      "tags": []
+    },
+    "form-elements-advanced": {
+      "tags": []
+    },
+    "formik-elements": {
+      "tags": []
+    },
+    "icons": {
+      "tags": []
+    },
+    "intl": {
+      "tags": []
+    },
+    "menu": {
+      "tags": []
+    },
+    "patterns": {
+      "tags": []
+    },
+    "selectors": {
+      "tags": []
+    },
+    "storybook": {
+      "tags": []
+    },
+    "theme": {
+      "tags": []
+    },
+    "upload": {
+      "tags": []
+    },
+    "util": {
+      "tags": []
+    }
+  }
+}
