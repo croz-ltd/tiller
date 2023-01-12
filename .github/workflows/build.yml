@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - task/1
 
 jobs:
   build:
@@ -18,7 +19,7 @@ jobs:
       - name: Setup Node lts
         uses: actions/setup-node@v3
         with:
-          node-version: lts/*
+          node-version: 16.17.1
           cache: 'yarn'
 
       - name: Install dependencies
