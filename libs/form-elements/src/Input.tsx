@@ -101,6 +101,12 @@ export type InputProps = {
   onReset?: () => void;
 
   /**
+   * Optional component displayed under the field component and above the help and error.
+   * Useful for rendering arbitrary items under the component.
+   */
+  placeBelow?: React.ReactNode;
+
+  /**
    * The placeholder displayed inside the input field.
    */
   placeholder?: string;
@@ -174,6 +180,7 @@ export default function Input({
   allowClear = false,
   clearIcon,
   warningIcon,
+  placeBelow,
   ...props
 }: InputProps) {
   const tokens = useTokens("Input", props.inputTokens);
@@ -242,6 +249,7 @@ export default function Input({
       error={error}
       containerClassName={className}
       fieldClassName={inputContainerClassName}
+      placeBelow={placeBelow}
       {...props}
     >
       {addOn && <InputAddOn addOn={addOn} />}

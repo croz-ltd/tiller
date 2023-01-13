@@ -872,6 +872,7 @@ function Autocomplete<T extends {}>({
           </div>
         }
         extend={tags && tagsContained && tagsDisplay}
+        placeBelow={tags && !tagsContained && tagsDisplay}
         {...getInputProps({
           ref: !tagsContained ? toggleRef : inputRef,
           refKey: "inputRef",
@@ -882,7 +883,6 @@ function Autocomplete<T extends {}>({
         })}
         {...getComboboxProps({}, { suppressRefError: true })}
       />
-      {tags && !tagsContained && tagsDisplay}
       {allowMultiple && <input type="hidden" name={name} />}
       <Popover
         className="z-50"
