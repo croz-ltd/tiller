@@ -1,8 +1,4 @@
-<img src="img/croz_logo.png" alt="Croz Logo" width="64px"> Tiller Design System
-
----
-
-[//]: # (//TODO: fix URLs )
+[//]: # (//TODO: fix Storybook URLs )
 
 ![Tiller cover image](img/tiller_cover.png "Tiller development")
 
@@ -13,7 +9,7 @@
     <img src="https://img.shields.io/badge/license-Apache--2.0-blue.svg" alt="Tiller is released under the Apache-2.0 license" />
   </a>
   <a href="https://github.com/croz-ltd/tiller/actions/workflows/build.yml">
-    <img src="https://github.com/croz-ltd/nrich-demo-frontend/actions/workflows/build.yml/badge.svg" alt="CI workflow status" />
+    <img src="https://github.com/croz-ltd/tiller/actions/workflows/build.yml/badge.svg" alt="CI workflow status" />
   </a>
   <a href="https://github.com/croz-ltd/tiller/blob/master/CONTRIBUTING.md">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome" />
@@ -23,13 +19,12 @@
 > A design system is a set of standards to manage design at scale by reducing redundancy while creating a shared language and visual consistency across different pages and channels.
 
 **Tiller Design System** is open-source UI library which offers a set of visual, functional components and patterns that accelerate design and development. Components are endlessly customizable, accessible, and can integrate into any application with primarily focus on back-office applications. <br>
-Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Besides these, Tiller is made with the help of **Nx, Yarn 2, Storybook** and **Codemod**.
+Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Besides these, Tiller is made with the help of **[Nx](https://nx.dev/), [Yarn 2](https://yarnpkg.com/), [Storybook](https://storybook.js.org/)** and **[Codemod](https://github.com/facebookarchive/codemod)**.
 
-| Package Name                                                                       | Version                                                          |
-|------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| [@tiller-ds](https://www.npmjs.com/package/@tiller-ds/core)                        | ![](https://img.shields.io/npm/v/tiller-ds/core/latest)          |
-| [@tiller-ds/cra-template](https://www.npmjs.com/package/@tiller-ds/cra-template)   | ![](https://img.shields.io/npm/v/tiller-ds/cra-template/latest)  |
-| [@tiller-ds/vite-template](https://www.npmjs.com/package/@tiller-ds/vite-template) | ![](https://img.shields.io/npm/v/tiller-ds/vite-template/latest) |
+| Package Name                                                                     | Version                                                          |
+|----------------------------------------------------------------------------------|------------------------------------------------------------------|
+| [@tiller-ds/core](https://www.npmjs.com/package/@tiller-ds/core)                 | ![](https://img.shields.io/npm/v/@tiller-ds/core/latest)         |
+| [@tiller-ds/cra-template](https://www.npmjs.com/package/@tiller-ds/cra-template) | ![](https://img.shields.io/npm/v/@tiller-ds/cra-template/latest) |
 
 ## ✨ Features
 
@@ -40,6 +35,19 @@ Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Bes
 - 🗃️ Storybook (Docs, Controls, Playroom)
 - 📌 Rich Text Editor
 - 📌 Login Pattern
+
+## 🎨 Tiller Design System - Figma UI Kit
+
+Tiller DS **UI kit** in **Figma** is a collection of Tiller components that allow you to easily create user interfaces for your **Figma projects**. It includes common components like buttons, input fields, and menus, as well as more specialized components, like Formik components or Login Pattern.
+
+https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0
+
+## 📚 Tiller Docs & Storybook
+
+For more information about **Tiller Design System**, please refer to:
+
+- [Getting Started](http://tiller-storybook-development.tos-cloud.lan.croz.net/?path=/docs/introduction--page) – How to use Tiller Components
+- [GitHub](https://github.com/croz-ltd/tiller)
 
 ## 📚 Documentation
 
@@ -63,9 +71,14 @@ Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Bes
 2. Install yarn
 3. Create project with
    ```
-   npx degit croz-ltd/tiller-vite
+   npx degit croz-ltd/tiller-starter-vite
    ```
-4. Run `yarn run` command to start your project
+4. Then run these commands to start your project
+   ```
+   cd %PROJECT_NAME%
+   yarn install
+   yarn run dev
+   ```
 
 ### Installation with custom project setup
 

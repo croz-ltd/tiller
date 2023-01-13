@@ -1,6 +1,10 @@
 {
   "name": "tiller",
   "version": "0.0.0-dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/croz-ltd/tiller"
+  },
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
@@ -20,7 +24,6 @@
     "build:css": "postcss libs/theme/src/styles/tiller.css -o ./storybook/.storybook/index.css --env production",
     "build-storybook": "npm run build:css && nx run storybook:build-storybook && nx run storybook:playroom-build"
   },
-  "private": true,
   "dependencies": {
     "@datepicker-react/hooks": "2.3.1",
     "@lexical/react": "^0.6.0",
