@@ -225,7 +225,7 @@ export default function Input({
   });
 
   const extendClassName = cx({
-    "bg-white rounded-md": true,
+    "bg-white focus:outline-none rounded-md": true,
     "opacity-50": disabled,
   });
 
