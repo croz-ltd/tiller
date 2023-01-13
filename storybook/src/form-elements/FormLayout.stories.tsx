@@ -21,9 +21,9 @@ import * as Yup from "yup";
 
 import { withDesign } from "storybook-addon-designs";
 
-import { Button, Card, IconButton, FormLayout, useLocalPagination } from "@tiller-ds/core";
+import { Button, Card, IconButton, useLocalPagination } from "@tiller-ds/core";
 import { DataTable, useDataTable } from "@tiller-ds/data-display";
-import { FieldLabel } from "@tiller-ds/form-elements";
+import { FieldLabel, FormLayout } from "@tiller-ds/form-elements";
 import {
   AutocompleteField,
   CheckboxGroupField,
