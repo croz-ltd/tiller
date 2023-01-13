@@ -36,6 +36,19 @@ Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Bes
 - 📌 Rich Text Editor
 - 📌 Login Pattern
 
+## 🎨 Tiller Design System - Figma UI Kit
+
+Tiller DS **UI kit** in **Figma** is a collection of Tiller components that allow you to easily create user interfaces for your **Figma projects**. It includes common components like buttons, input fields, and menus, as well as more specialized components, like Formik components or Login Pattern.
+
+https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0
+
+## 📚 Tiller Docs & Storybook
+
+For more information about **Tiller Design System**, please refer to:
+
+- [Getting Started](http://tiller-storybook-development.tos-cloud.lan.croz.net/?path=/docs/introduction--page) – How to use Tiller Components
+- [GitHub](https://github.com/croz-ltd/tiller)
+
 ## 📚 Documentation
 
 - http://tiller-storybook-development.tos-cloud.lan.croz.net/
