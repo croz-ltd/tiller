@@ -44,12 +44,12 @@ https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?
 
 For more information about **Tiller Design System**, please refer to:
 
-- [Getting Started](http://tiller-storybook-development.tos-cloud.lan.croz.net/?path=/docs/introduction--page) – How to use Tiller Components
+- [Getting Started](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page) – How to use Tiller Components
 - [GitHub](https://github.com/croz-ltd/tiller)
 
 ## 📚 Documentation
 
-- https://croz-ltd.github.io/tiller/?path=/story/release-notes--page
+- https://croz-ltd.github.io/tiller/?path=/docs/introduction--page
 
 ## 🚀 Getting Started
 
@@ -137,7 +137,7 @@ Available modules / packages:
  - `@tiller-ds/upload`
  - `@tiller-ds/util`
 
-For more information about each component, check out our [Storybook](https://croz-ltd.github.io/tiller/?path=/docs/release-notes--page).
+For more information about each component, check out our [Storybook](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page).
 
 ## Frequently asked questions
 
