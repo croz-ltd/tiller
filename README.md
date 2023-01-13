@@ -1,5 +1,3 @@
-[//]: # (//TODO: fix Storybook URLs )
-
 ![Tiller cover image](img/tiller_cover.png "Tiller development")
 
 ## <h1 align="center">Tiller Design System</h1>
@@ -51,7 +49,7 @@ For more information about **Tiller Design System**, please refer to:
 
 ## 📚 Documentation
 
-- http://tiller-storybook-development.tos-cloud.lan.croz.net/
+- https://croz-ltd.github.io/tiller/?path=/story/release-notes--page
 
 ## 🚀 Getting Started
 
@@ -117,7 +115,7 @@ import { Button } from "@tiller-ds/core";
 Tiller DS is bundled with a default theme that you can customize to match the look and feel of your project.
 
 Customizations on theme level are implemented using design tokens which we call Tiller tokens.
-For guides on Tiller tokens, head on over to our Storybook - [Theming and Customization](http://tiller-storybook-development.tos-cloud.lan.croz.net/?path=/story/theming-and-customization--page).
+For guides on Tiller tokens, head on over to our Storybook - [Theming and Customization](https://croz-ltd.github.io/tiller/?path=/docs/theming-and-customization--page).
 
 Tiller Design System is divided into **modules**.
 
@@ -137,9 +135,9 @@ Available modules / packages:
  - `@tiller-ds/selectors`
  - `@tiller-ds/theme`
  - `@tiller-ds/upload`
- - `@tiller-ds/utils`
+ - `@tiller-ds/util`
 
-For more information about each component, check out our [Storybook](http://tiller-storybook-development.tos-cloud.lan.croz.net/).
+For more information about each component, check out our [Storybook](https://croz-ltd.github.io/tiller/?path=/docs/release-notes--page).
 
 ## Frequently asked questions
 
@@ -161,8 +159,8 @@ As we continue to work on the new Tiller we will move UI-related issues in the t
 
 One of the goals of the Tiller Design System is to make building applications as easy as possible, while maintaining high quality UI components. The best way to achieve this goal is through a collective effort. We would appreciate contributions from the community, regardless of their size. 😍
 
-If you're interested, definitely check our [Contributing Guide](./CONTRIBUTING.md).
+If you're interested, definitely check our [Contributing Guide](https://github.com/croz-ltd/tiller/blob/master/CONTRIBUTING.md).
 
 ## 📝 License
 
-Licensed under the [Apache 2.0 License](./LICENSE).
+Licensed under the [Apache 2.0 License](https://github.com/croz-ltd/tiller/blob/master/LICENSE).
