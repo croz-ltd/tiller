@@ -698,7 +698,7 @@ function Autocomplete<T extends {}>({
                 <SelectItem key={index} index={index} option={option} />
               ) : (
                 inputValue &&
-                !tagExists() && <SelectItem tag={true} option={onAddCustomTag(inputValue)} index={index} />
+                !tagExists() && <SelectItem key={index} tag={true} option={onAddCustomTag(inputValue)} index={index} />
               )
             )}
         </>
@@ -768,7 +768,7 @@ function Autocomplete<T extends {}>({
               contentWrapper(
                 <>
                   <Intl name="autocomplete.addTag" /> {""}
-                  <Badge color="secondary" small={true}>
+                  <Badge color="secondary" dot={true} small={true}>
                     {safeItemToString(onAddCustomTag(inputValue))}
                   </Badge>
                 </>,
