@@ -122,7 +122,7 @@ export type CustomTabProps = {
   onClick?: (selectedIndex: number) => void;
 
   /**
-   * Make text unwrappable
+   * Make text unwrappable.
    */
   dontWrapText?: boolean;
 } & TokenProps<"Tabs">;
@@ -153,11 +153,12 @@ type CustomTabsContextType = {
   nextButtonShown: boolean;
   setNextButtonShown: React.Dispatch<React.SetStateAction<boolean>>;
   tabPanel: React.RefObject<HTMLDivElement>;
+  scrollable: boolean;
 };
 
 const CustomTabsContext = React.createContext<CustomTabsContextType>({} as CustomTabsContextType);
 
-function useCustomTabsContext(): CustomTabsContextType {
+function useCustomTabsContext(scrollable: boolean): CustomTabsContextType {
   const [prevButtonShown, setPrevButtonShown] = React.useState<boolean>(false);
   const [nextButtonShown, setNextButtonShown] = React.useState<boolean>(true);
 
@@ -192,6 +193,7 @@ function useCustomTabsContext(): CustomTabsContextType {
     nextButtonShown,
     setNextButtonShown,
     tabPanel,
+    scrollable,
   };
 }
 
@@ -205,7 +207,7 @@ function Tabs({
 }: TabsProps) {
   const childrenArray = React.useMemo(() => React.Children.toArray(children) as React.ReactElement[], [children]);
 
-  const tabsContext = useCustomTabsContext();
+  const tabsContext = useCustomTabsContext(scrollButtons);
 
   const tabList = React.useMemo(
     () =>
@@ -357,6 +359,8 @@ function CustomTab({
 }: CustomTabProps) {
   const tokens = useTokens("Tabs", props.tokens);
   const { selectedIndex } = useTabsContext();
+  const { scrollable } = React.useContext(CustomTabsContext);
+
   const { setButtonsVisibility } = React.useContext(CustomTabsContext);
 
   const tab = React.useRef<HTMLDivElement>(null);
@@ -398,7 +402,9 @@ function CustomTab({
     if (onClick) {
       onClick(index);
     }
-    tab.current?.scrollIntoView({ behavior: "smooth", inline: "nearest" });
+    if (scrollable) {
+      tab.current?.scrollIntoView({ behavior: "smooth", inline: "nearest" });
+    }
     setButtonsVisibility(300);
   };
 
