@@ -872,7 +872,7 @@ function Autocomplete<T extends {}>({
           </div>
         }
         extend={tags && tagsContained && tagsDisplay}
-        placeBelow={tags && !tagsContained && tagsDisplay}
+        addonBelow={tags && !tagsContained && tagsDisplay}
         {...getInputProps({
           ref: !tagsContained ? toggleRef : inputRef,
           refKey: "inputRef",

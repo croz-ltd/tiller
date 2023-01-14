@@ -44,7 +44,7 @@ export type FieldProps = {
   fieldClassName?: string;
 
   /**
-   * The help text displayed below the field and content defined with placeBelow prop (not exclusively text).
+   * The help text displayed below the field and content defined with addonBelow prop (not exclusively text).
    */
   help?: React.ReactNode;
 
@@ -67,7 +67,7 @@ export type FieldProps = {
    * Optional component displayed under the field component and above the help and error.
    * Useful for rendering arbitrary items under the field component.
    */
-  placeBelow?: React.ReactNode;
+  addonBelow?: React.ReactNode;
 
   /**
    * Turns this field into a required field in the form. Only applies visual representation (* next to label),
@@ -118,7 +118,7 @@ export default function Field({
   containerClassName,
   fieldClassName,
   children,
-  placeBelow,
+  addonBelow,
   ...props
 }: FieldProps) {
   const tokens = useTokens("Input", props.tokens);
@@ -132,7 +132,7 @@ export default function Field({
     <div className={containerClassName}>
       <FieldLabel id={id} label={label} required={required} tooltip={tooltip} {...props} />
       <div className={fieldClassName}>{children}</div>
-      {placeBelow && placeBelow}
+      {addonBelow && addonBelow}
       {error
         ? errorMessage && <p className={tokens.ErrorText.base}>{errorMessage}</p>
         : help && <p className={tokens.Help.base}>{help}</p>}
