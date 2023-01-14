@@ -787,7 +787,7 @@ function Autocomplete<T extends {}>({
   };
 
   const content =
-    !tags && filteredOptions.length === 0 && !loading ? (
+    filteredOptions.length === 0 && !loading ? (
       <div className={selectItemClassName}>{noResultsPlaceholderContent}</div>
     ) : (
       <>
@@ -808,6 +808,7 @@ function Autocomplete<T extends {}>({
         ? (sort && !isOpen ? sort(selectedOptions) : selectedOptions).map((v, key) => (
             <Badge
               key={key}
+              dot={true}
               color={!arrayIncludes(customTags, v) ? "primary" : "secondary"}
               onRemoveButtonClick={() => {
                 const filtered = selectedOptions.filter((toFilter) => {
