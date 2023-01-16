@@ -866,7 +866,7 @@ function Autocomplete<T extends {}>({
                   {(validateValue() || error) && <div className={autocompleteTokens.Separator.inner}>&nbsp;</div>}
                 </div>
                 <div className={selectClassName} onClick={!disabled ? onClick : undefined}>
-                  {!allowMultiple ? searchIcon : isOpen ? expanderOpenIcon : expanderCloseIcon}
+                  {!allowMultiple ? searchIcon : isOpen ? expanderCloseIcon : expanderOpenIcon}
                 </div>
               </div>
             )}

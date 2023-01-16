@@ -320,7 +320,7 @@ export function SidebarNavigationItem({
     { [tokens.item.expandable.subitemsContainer.default]: color === "default" }
   );
 
-  const iconProps = { className: "ml-2 mt-px", size: 3 };
+  const iconProps = { className: "ml-1 mt-px", size: 3 };
   const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
   const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
 
@@ -329,7 +329,7 @@ export function SidebarNavigationItem({
       <div className="cursor-pointer flex flex-col md:items-start items-center">
         <div {...props} className={cn} onClick={() => setOpened(!opened)}>
           {title}
-          {opened ? expanderOpenIcon : expanderCloseIcon}
+          {opened ? expanderCloseIcon : expanderOpenIcon}
         </div>
         {opened && <div className={containerClassName}>{children}</div>}
       </div>

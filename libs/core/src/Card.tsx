@@ -180,7 +180,7 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
           <div className="mt-4 justify-between items-center flex sm:flex-nowrap">
             {actions}
             {isExpanded !== undefined &&
-              React.cloneElement(!isExpanded ? expanderCloseIcon : expanderOpenIcon, { onClick: toggleExpander })}
+              React.cloneElement(isExpanded ? expanderCloseIcon : expanderOpenIcon, { onClick: toggleExpander })}
           </div>
         </div>
       </div>

@@ -425,8 +425,6 @@ export function TopNavigationItem({
               menuType="text"
               variant="text"
               tokens={{}}
-              expanderOpenIcon={expanderOpenIcon}
-              expanderCloseIcon={expanderCloseIcon}
               className={cn}
               popupBackgroundColor={backgroundColor ? backgroundColor : color}
             >
@@ -438,7 +436,7 @@ export function TopNavigationItem({
           <div className="flex flex-col flex-wrap items-center">
             <Link {...props} to={to || "#"} className={cn + ` items-center`} onClick={() => setOpened(!opened)}>
               {title}
-              {opened ? expanderOpenIcon : expanderCloseIcon}
+              {opened ? expanderCloseIcon : expanderOpenIcon}
             </Link>
             {opened && (
               <TopNavigationContextProvider small={true}>

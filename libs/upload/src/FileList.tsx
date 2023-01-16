@@ -146,7 +146,7 @@ function FileHeader({ expandable = false, children, className, ...props }: FileH
       {children}
       {expandable ? (
         <IconButton
-          icon={isExpanded ? expanderOpenIcon : expanderCloseIcon}
+          icon={isExpanded ? expanderCloseIcon : expanderOpenIcon}
           className="ml-2"
           onClick={toggleExpander}
           showTooltip={false}

@@ -844,7 +844,7 @@ function ExpanderCell({ row, ...props }: Cell & TokenProps<"DataTable">) {
       type="button"
       className="focus:outline-none select-none h-4 w-4"
     >
-      {expandedRow.isExpanded ? expanderOpenIcon : expanderCloseIcon}
+      {expandedRow.isExpanded ? expanderCloseIcon : expanderOpenIcon}
     </button>
   );
 }

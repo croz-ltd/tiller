@@ -133,7 +133,7 @@ function DropdownMenu({
   const responsiveIcon = (
     <div>
       <DropdownContext.Consumer>
-        {({ isExpanded }) => (isExpanded ? finalExpanderOpenIcon : finalExpanderCloseIcon)}
+        {({ isExpanded }) => (isExpanded ? finalExpanderCloseIcon : finalExpanderOpenIcon)}
       </DropdownContext.Consumer>
     </div>
   );
