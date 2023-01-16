@@ -1,4 +1,4 @@
-![Tiller cover image](img/tiller_cover.png "Tiller development")
+![Tiller cover image](https://raw.githubusercontent.com/croz-ltd/tiller/master/img/tiller_cover.png)
 
 ## <h1 align="center">Tiller Design System</h1>
 
@@ -17,7 +17,7 @@
 > A design system is a set of standards to manage design at scale by reducing redundancy while creating a shared language and visual consistency across different pages and channels.
 
 **Tiller Design System** is open-source UI library which offers a set of visual, functional components and patterns that accelerate design and development. Components are endlessly customizable, accessible, and can integrate into any application with primarily focus on back-office applications. <br>
-Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Besides these, Tiller is made with the help of **[Nx](https://nx.dev/), [Yarn 2](https://yarnpkg.com/), [Storybook](https://storybook.js.org/)** and **[Codemod](https://github.com/facebookarchive/codemod)**.
+Tiller design system is based on **Tailwind UI/CSS, Formik** and **ReachUI**. Besides these, Tiller is made with the help of **[Nx](https://nx.dev/), [Yarn 2](https://yarnpkg.com/), [Storybook](https://storybook.js.org/)** and **[Codemod](https://github.com/facebookarchive/codemod)**.
 
 | Package Name                                                                     | Version                                                          |
 |----------------------------------------------------------------------------------|------------------------------------------------------------------|
@@ -38,18 +38,19 @@ Tiller design system is based on **Tailwind UI/CS, Formik** and **ReachUI**. Bes
 
 Tiller DS **UI kit** in **Figma** is a collection of Tiller components that allow you to easily create user interfaces for your **Figma projects**. It includes common components like buttons, input fields, and menus, as well as more specialized components, like Formik components or Login Pattern.
 
-https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0
+- [Figma UI Kit](https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0)
 
 ## 📚 Tiller Docs & Storybook
 
 For more information about **Tiller Design System**, please refer to:
 
-- [Getting Started](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page) – How to use Tiller Components
+- [Storybook](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page) 
+  - Usage documentation for each component
+  - Prop documentation for each component
+  - Factories for a number of components to easily visualize and create components
+  - Code preview for each story
 - [GitHub](https://github.com/croz-ltd/tiller)
-
-## 📚 Documentation
-
-- https://croz-ltd.github.io/tiller/?path=/docs/introduction--page
+- [npm](https://www.npmjs.com/package/@tiller-ds/core)
 
 ## 🚀 Getting Started
 
