@@ -139,6 +139,7 @@ export function Step({ active, children, ...props }: StepProps) {
   const stepContainerClassName = cx(
     tokens.stepContainer.master,
     tokens.stepContainer.padding,
+    tokens.stepContainer.margin,
     tokens.stepContainer.fontSize,
     tokens.stepContainer.fontWeight,
     tokens.stepContainer.lineHeight
@@ -168,7 +169,7 @@ export function Step({ active, children, ...props }: StepProps) {
 function RightArrow({ ...props }) {
   const tokens = useTokens("ProgressBar", props.tokens);
   return (
-    <div className="hidden md:block absolute top-0 right-0 h-full w-5">
+    <div className="hidden md:block absolute top-0 right-0 h-full w-1">
       <svg
         className={`h-full w-1 ${tokens.rightArrow.color}`}
         viewBox="0 0 2 72"
