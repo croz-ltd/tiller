@@ -411,7 +411,7 @@ export function TopNavigationItem({
     { [tokens.Item.expandable.subitemsContainer.default]: color === "default" }
   );
 
-  const iconProps = { className: "ml-0.5", size: 3 };
+  const iconProps = { className: "ml-1", size: 3 };
   const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
   const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
 
@@ -438,7 +438,7 @@ export function TopNavigationItem({
           <div className="flex flex-col flex-wrap items-center">
             <Link {...props} to={to || "#"} className={cn + ` items-center`} onClick={() => setOpened(!opened)}>
               {title}
-              {opened ? expanderCloseIcon : expanderOpenIcon}
+              {opened ? expanderOpenIcon : expanderCloseIcon}
             </Link>
             {opened && (
               <TopNavigationContextProvider small={true}>
