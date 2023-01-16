@@ -1,16 +1,19 @@
-import React, { StrictMode } from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-import { defaultThemeConfig, ThemeProvider } from "@tiller-ds/theme";
-import { iconConfig } from "@tiller-ds/icons";
+import { IntlProvider } from "@tiller-ds/intl";
+import { ThemeProvider } from "@tiller-ds/theme";
 
-import App from "./app/app";
+import App from "./App";
+import "./index.css";
+import { defaultIconConfig, defaultComponentConfig } from "./theme/tiller.config";
 
-ReactDOM.render(
-  <StrictMode>
-    <ThemeProvider themeConfig={defaultThemeConfig} iconConfig={iconConfig}>
-      <App />
-    </ThemeProvider>
-  </StrictMode>,
-  document.getElementById("root")
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <IntlProvider lang={"en"} loadDictionary={undefined}>
+      <ThemeProvider themeConfig={defaultComponentConfig} iconConfig={defaultIconConfig}>
+        <App />
+      </ThemeProvider>
+    </IntlProvider>
+  </React.StrictMode>
 );
