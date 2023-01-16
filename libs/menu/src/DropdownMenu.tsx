@@ -127,8 +127,8 @@ function DropdownMenu({
   );
 
   const iconProps = { className: iconClassName, size: 3 };
-  const finalExpanderOpenIcon = useIcon("expanderOpen", expanderOpenIcon, iconProps);
-  const finalExpanderCloseIcon = useIcon("expanderClose", expanderCloseIcon, iconProps);
+  const finalExpanderOpenIcon = useIcon("openExpander", expanderOpenIcon, iconProps);
+  const finalExpanderCloseIcon = useIcon("closeExpander", expanderCloseIcon, iconProps);
 
   const responsiveIcon = (
     <div>

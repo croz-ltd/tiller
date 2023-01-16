@@ -321,8 +321,8 @@ export function SidebarNavigationItem({
   );
 
   const iconProps = { className: "ml-1 mt-px", size: 3 };
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
-  const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
+  const expanderOpenIcon = useIcon("openExpander", undefined, iconProps);
+  const expanderCloseIcon = useIcon("closeExpander", undefined, iconProps);
 
   if (isExpandable) {
     return (

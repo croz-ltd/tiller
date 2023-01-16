@@ -138,8 +138,8 @@ function FileHeader({ expandable = false, children, className, ...props }: FileH
     }
   };
 
-  const expanderOpenIcon = useIcon("expanderOpen", props.expanderOpenIcon, { size: 3 });
-  const expanderCloseIcon = useIcon("expanderClose", props.expanderCloseIcon, { size: 3 });
+  const expanderOpenIcon = useIcon("openExpander", props.expanderOpenIcon, { size: 3 });
+  const expanderCloseIcon = useIcon("closeExpander", props.expanderCloseIcon, { size: 3 });
 
   return (
     <div className={containerClassName}>

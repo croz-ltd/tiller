@@ -412,8 +412,8 @@ export function TopNavigationItem({
   );
 
   const iconProps = { className: "ml-1", size: 3 };
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
-  const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
+  const expanderOpenIcon = useIcon("openExpander", undefined, iconProps);
+  const expanderCloseIcon = useIcon("closeExpander", undefined, iconProps);
 
   if (isExpandable) {
     return (

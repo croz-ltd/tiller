@@ -166,8 +166,8 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
     }
   };
 
-  const expanderOpenIcon = useIcon("expanderOpen", props.expanderOpenIcon, { className: "ml-2", size: 3 });
-  const expanderCloseIcon = useIcon("expanderClose", props.expanderCloseIcon, { className: "ml-2", size: 3 });
+  const expanderOpenIcon = useIcon("openExpander", props.expanderOpenIcon, { className: "ml-2", size: 3 });
+  const expanderCloseIcon = useIcon("closeExpander", props.expanderCloseIcon, { className: "ml-2", size: 3 });
 
   if (title || subtitle || actions) {
     return (

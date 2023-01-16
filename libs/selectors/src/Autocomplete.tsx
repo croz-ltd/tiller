@@ -231,8 +231,8 @@ function Autocomplete<T extends {}>({
   const selectedIcon = useIcon("completed", undefined, { className: "text-primary" });
   const loadingIcon = useIcon("loading", undefined, { size: 3 });
   const searchIcon = useIcon("search", undefined, { size: 4 });
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, { size: 3 });
-  const expanderCloseIcon = useIcon("expanderClose", undefined, { size: 3 });
+  const expanderOpenIcon = useIcon("openExpander", undefined, { size: 3 });
+  const expanderCloseIcon = useIcon("closeExpander", undefined, { size: 3 });
   const removeIcon = useIcon("dismiss", undefined, { size: 3 });
 
   const mounted = React.useRef(false);

@@ -829,11 +829,11 @@ function ExpanderCell({ row, ...props }: Cell & TokenProps<"DataTable">) {
   const tokens = useTokens("DataTable", props.tokens);
   const expandedRow = row as unknown as UseExpandedRowProps<{}>;
 
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, {
+  const expanderOpenIcon = useIcon("openExpander", undefined, {
     size: 3,
     className: `${tokens.expanderCellIcon.color} select-none`,
   });
-  const expanderCloseIcon = useIcon("expanderClose", undefined, {
+  const expanderCloseIcon = useIcon("closeExpander", undefined, {
     size: 3,
     className: `${tokens.expanderCellIcon.color} select-none`,
   });
