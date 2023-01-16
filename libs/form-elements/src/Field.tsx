@@ -23,27 +23,68 @@ import { ComponentTokens, useTokens } from "@tiller-ds/theme";
 import Label from "./Label";
 
 export type FieldProps = {
-  id?: string;
+  /**
+   * Field content (not exclusively text).
+   */
+  children: React.ReactNode;
 
-  name?: string;
-
-  label?: React.ReactNode;
-
-  tooltip?: React.ReactNode;
-
-  required?: boolean;
-
-  requiredLabel?: string;
-
-  help?: React.ReactNode;
-
-  error?: React.ReactNode;
-
+  /**
+   * Optional styling for the field container.
+   */
   containerClassName?: string;
 
+  /**
+   * Value passed through from validation indicating to display the error on the component.
+   */
+  error?: React.ReactNode;
+
+  /**
+   * Optional styling for the field component.
+   */
   fieldClassName?: string;
 
-  children: React.ReactNode;
+  /**
+   * The help text displayed below the field and content defined with addonBelow prop (not exclusively text).
+   */
+  help?: React.ReactNode;
+
+  /**
+   * Unique identifier passed onto the component.
+   */
+  id?: string;
+
+  /**
+   * Represents the label above the field.
+   */
+  label?: React.ReactNode;
+
+  /**
+   * The accessor value for the field component (for validation, fetching, etc.).
+   */
+  name?: string;
+
+  /**
+   * Optional component displayed under the field component and above the help and error.
+   * Useful for rendering arbitrary items under the field component.
+   */
+  addonBelow?: React.ReactNode;
+
+  /**
+   * Turns this field into a required field in the form. Only applies visual representation (* next to label),
+   * still requires validation on frontend or backend to accompany this value if set to true.
+   */
+  required?: boolean;
+
+  /**
+   * Text to display when hovering over a required symbol (*).
+   * Useful for bilingual purposes.
+   */
+  requiredLabel?: string;
+
+  /**
+   * Tooltip icon and text (on icon hover) displayed on the right of the label.
+   */
+  tooltip?: React.ReactNode;
 } & InputTokensProps;
 
 type InputTokensProps = {
@@ -77,6 +118,7 @@ export default function Field({
   containerClassName,
   fieldClassName,
   children,
+  addonBelow,
   ...props
 }: FieldProps) {
   const tokens = useTokens("Input", props.tokens);
@@ -90,6 +132,7 @@ export default function Field({
     <div className={containerClassName}>
       <FieldLabel id={id} label={label} required={required} tooltip={tooltip} {...props} />
       <div className={fieldClassName}>{children}</div>
+      {addonBelow && addonBelow}
       {error
         ? errorMessage && <p className={tokens.ErrorText.base}>{errorMessage}</p>
         : help && <p className={tokens.Help.base}>{help}</p>}

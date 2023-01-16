@@ -698,7 +698,7 @@ function Autocomplete<T extends {}>({
                 <SelectItem key={index} index={index} option={option} />
               ) : (
                 inputValue &&
-                !tagExists() && <SelectItem tag={true} option={onAddCustomTag(inputValue)} index={index} />
+                !tagExists() && <SelectItem key={index} tag={true} option={onAddCustomTag(inputValue)} index={index} />
               )
             )}
         </>
@@ -768,7 +768,7 @@ function Autocomplete<T extends {}>({
               contentWrapper(
                 <>
                   <Intl name="autocomplete.addTag" /> {""}
-                  <Badge color="secondary" small={true}>
+                  <Badge color="secondary" dot={true} small={true}>
                     {safeItemToString(onAddCustomTag(inputValue))}
                   </Badge>
                 </>,
@@ -787,7 +787,7 @@ function Autocomplete<T extends {}>({
   };
 
   const content =
-    !tags && filteredOptions.length === 0 && !loading ? (
+    filteredOptions.length === 0 && !loading ? (
       <div className={selectItemClassName}>{noResultsPlaceholderContent}</div>
     ) : (
       <>
@@ -808,6 +808,7 @@ function Autocomplete<T extends {}>({
         ? (sort && !isOpen ? sort(selectedOptions) : selectedOptions).map((v, key) => (
             <Badge
               key={key}
+              dot={true}
               color={!arrayIncludes(customTags, v) ? "primary" : "secondary"}
               onRemoveButtonClick={() => {
                 const filtered = selectedOptions.filter((toFilter) => {
@@ -872,6 +873,7 @@ function Autocomplete<T extends {}>({
           </div>
         }
         extend={tags && tagsContained && tagsDisplay}
+        addonBelow={tags && !tagsContained && tagsDisplay}
         {...getInputProps({
           ref: !tagsContained ? toggleRef : inputRef,
           refKey: "inputRef",
@@ -882,7 +884,6 @@ function Autocomplete<T extends {}>({
         })}
         {...getComboboxProps({}, { suppressRefError: true })}
       />
-      {tags && !tagsContained && tagsDisplay}
       {allowMultiple && <input type="hidden" name={name} />}
       <Popover
         className="z-50"
