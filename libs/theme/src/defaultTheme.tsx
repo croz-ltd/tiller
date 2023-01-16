@@ -1284,6 +1284,7 @@ const defaultComponentConfig = {
     stepContainer: {
       master: "flex items-center space-x-4",
       padding: "py-4 px-6",
+      margin: "mr-1",
       fontSize: "text-sm",
       fontWeight: "font-medium",
       lineHeight: "leading-5",
