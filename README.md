@@ -17,7 +17,7 @@
 > A design system is a set of standards to manage design at scale by reducing redundancy while creating a shared language and visual consistency across different pages and channels.
 
 **Tiller Design System** is open-source UI library which offers a set of visual, functional components and patterns that accelerate design and development. Components are endlessly customizable, accessible, and can integrate into any application with primarily focus on back-office applications. <br>
-Tiller design system is based on **Tailwind UI/CSS, Formik** and **ReachUI**. Besides these, Tiller is made with the help of **[Nx](https://nx.dev/), [Yarn 2](https://yarnpkg.com/), [Storybook](https://storybook.js.org/)** and **[Codemod](https://github.com/facebookarchive/codemod)**.
+Tiller design system is based on **Tailwind CSS, Formik** and **ReachUI**. Besides these, Tiller is made with the help of **[Nx](https://nx.dev/), [Yarn 2](https://yarnpkg.com/)** and **[Storybook](https://storybook.js.org/)**.
 
 | Package Name                                                                     | Version                                                          |
 |----------------------------------------------------------------------------------|------------------------------------------------------------------|
