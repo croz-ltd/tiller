@@ -47,10 +47,10 @@ export const defaultIconConfig: IconConfig = {
 
 Here you can specify your customized icons, for example:
 ```tsx
-  expanderOpen: (props: Partial<IconProps>) => (
+  openExpander: (props: Partial<IconProps>) => (
     <span className={props.className}>-</span>
   ),
-  expanderClose: (props: Partial<IconProps>) => (
+  closeExpander: (props: Partial<IconProps>) => (
     <span className={props.className}>+</span>
   ),
 ```
@@ -60,8 +60,8 @@ Every icon is customizable. The list of icons **required** by the Tiller Design 
 ```tsx
   dismiss: (props: Partial<IconProps>) => <Icon type="x" variant="bold" {...props} />,
   breadcrumbs: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
-  expanderOpen: (props: Partial<IconProps>) => <Icon type="caret-up" {...props} />,
-  expanderClose: (props: Partial<IconProps>) => <Icon type="caret-down" {...props} />,
+  openExpander: (props: Partial<IconProps>) => <Icon type="caret-up" {...props} />,
+  closeExpander: (props: Partial<IconProps>) => <Icon type="caret-down" {...props} />,
   paginatorPrevious: (props: Partial<IconProps>) => <Icon type="caret-left" {...props} />,
   paginatorNext: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
   completed: (props: Partial<IconProps>) => <Icon type="check" variant="bold" {...props} />,

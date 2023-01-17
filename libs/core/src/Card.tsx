@@ -49,9 +49,9 @@ export type CardHeaderProps = {
 
   children: React.ReactNode;
 
-  expanderOpenIcon?: React.ReactElement;
+  openExpanderIcon?: React.ReactElement;
 
-  expanderCloseIcon?: React.ReactElement;
+  closeExpanderIcon?: React.ReactElement;
 } & CardTokensProps;
 
 type CardHeaderTitleProps = {
@@ -166,8 +166,8 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
     }
   };
 
-  const expanderOpenIcon = useIcon("openExpander", props.expanderOpenIcon, { className: "ml-2", size: 3 });
-  const expanderCloseIcon = useIcon("closeExpander", props.expanderCloseIcon, { className: "ml-2", size: 3 });
+  const openExpanderIcon = useIcon("openExpander", props.openExpanderIcon, { className: "ml-2", size: 3 });
+  const closeExpanderIcon = useIcon("closeExpander", props.closeExpanderIcon, { className: "ml-2", size: 3 });
 
   if (title || subtitle || actions) {
     return (
@@ -180,7 +180,7 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
           <div className="mt-4 justify-between items-center flex sm:flex-nowrap">
             {actions}
             {isExpanded !== undefined &&
-              React.cloneElement(isExpanded ? expanderCloseIcon : expanderOpenIcon, { onClick: toggleExpander })}
+              React.cloneElement(isExpanded ? closeExpanderIcon : openExpanderIcon, { onClick: toggleExpander })}
           </div>
         </div>
       </div>

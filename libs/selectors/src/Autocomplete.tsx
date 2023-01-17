@@ -231,8 +231,8 @@ function Autocomplete<T extends {}>({
   const selectedIcon = useIcon("completed", undefined, { className: "text-primary" });
   const loadingIcon = useIcon("loading", undefined, { size: 3 });
   const searchIcon = useIcon("search", undefined, { size: 4 });
-  const expanderOpenIcon = useIcon("openExpander", undefined, { size: 3 });
-  const expanderCloseIcon = useIcon("closeExpander", undefined, { size: 3 });
+  const openExpanderIcon = useIcon("openExpander", undefined, { size: 3 });
+  const closeExpanderIcon = useIcon("closeExpander", undefined, { size: 3 });
   const removeIcon = useIcon("dismiss", undefined, { size: 3 });
 
   const mounted = React.useRef(false);
@@ -866,7 +866,7 @@ function Autocomplete<T extends {}>({
                   {(validateValue() || error) && <div className={autocompleteTokens.Separator.inner}>&nbsp;</div>}
                 </div>
                 <div className={selectClassName} onClick={!disabled ? onClick : undefined}>
-                  {!allowMultiple ? searchIcon : isOpen ? expanderCloseIcon : expanderOpenIcon}
+                  {!allowMultiple ? searchIcon : isOpen ? closeExpanderIcon : openExpanderIcon}
                 </div>
               </div>
             )}

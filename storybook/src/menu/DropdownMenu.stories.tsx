@@ -125,7 +125,7 @@ export const DropdownMenuFactory = ({
 }) => (
   <DropdownMenu
     menuType={menuType}
-    expanderOpenIcon={<Icon type={icon} variant={iconVariant} size={3} />}
+    openExpanderIcon={<Icon type={icon} variant={iconVariant} size={3} />}
     iconPlacement={iconPlacement}
     iconColor={iconColor !== "none" ? iconColor : undefined}
     tokens={useTokens && tokens}
