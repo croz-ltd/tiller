@@ -6,22 +6,12 @@ import { CheckboxGroup, Input, RadioGroup, Textarea } from "@tiller-ds/form-elem
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
+import { EXAMPLE_DICTIONARY } from "./exampleDictionary";
+
+
 function App() {
-  const candidatesHelp = "Lorem ipsum dolor sit amet. Lorem ipsum.";
-  const candidatesLabel = "Candidates";
-  const candidatesValue = "candidates";
-  const commentsHelp = "Lorem ipsum dolor sit amet. Lorem ipsum.";
-  const commentsLabel = "Comments";
-  const commentsValue = "comments";
-  const emailHelp = "Email notifications";
-  const emailLabel = "By Email";
-  const emailName = "emailNotifications";
-  const offersHelp = "Lorem ipsum dolor sit amet. Lorem ipsum.";
-  const offersLabel = "Offers";
-  const offersValue = "offers";
-  const help = "Email notification";
-  const label = "By Email";
-  const name = "emailNotifications";
+  const translations = EXAMPLE_DICTIONARY.translations;
+  const language = "en";
 
   const valuesNone = {
     comments: false,
@@ -44,14 +34,14 @@ function App() {
       <div className="flex mt-8">
         <div className="w-1/2">
           <Card className="p-8 mr-8">
-            <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={() => {}}>
-              <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-              <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
-              <CheckboxGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
+            <CheckboxGroup name={translations[language]["emailName"]} label={translations[language]["emailLabel"]} help={translations[language]["emailHelp"]} value={valuesNone} onChange={() => {}}>
+              <CheckboxGroup.Item label={translations[language]["commentsLabel"]} value={translations[language]["commentsValue"]} help={translations[language]["commentsHelp"]} />
+              <CheckboxGroup.Item label={translations[language]["candidatesLabel"]} value={translations[language]["candidatesValue"]} help={translations[language]["candidatesHelp"]} />
+              <CheckboxGroup.Item label={translations[language]["offersLabel"]} value={translations[language]["offersValue"]} help={translations[language]["offersHelp"]} />
             </CheckboxGroup>
             <Input
               name={name}
-              value=""
+              value={translations[language]["value"]}
               label={<Intl name="Label" />}
               placeholder={"placeholder"}
               onChange={onChange}
@@ -60,21 +50,21 @@ function App() {
             />
             <Input
               name={name}
-              value=""
+              value={translations[language]["value"]}
               label={<Intl name="Label" />}
               inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={onClick} />}
               onChange={onChange}
               onBlur={onBlur}
               className="mb-4"
             />
-            <RadioGroup name={name} label={label} help={help} onChange={onChange} value={""}>
-              <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-              <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} disabled={true} />
-              <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} disabled={true} />
+            <RadioGroup name={translations[language]["name"]} label={translations[language]["label"]} help={translations[language]["help"]} onChange={onChange} value={""}>
+              <RadioGroup.Item label={translations[language]["commentsLabel"]} value={translations[language]["commentsValue"]} help={translations[language]["commentsHelp"]} />
+              <RadioGroup.Item label={translations[language]["candidatesLabel"]} value={translations[language]["candidatesValue"]} help={translations[language]["candidatesHelp"]} disabled={true} />
+              <RadioGroup.Item label={translations[language]["offersLabel"]} value={translations[language]["offersValue"]} help={translations[language]["offersHelp"]} disabled={true} />
             </RadioGroup>
             <Textarea
               name={name}
-              value=""
+              value={translations[language]["value"]}
               label={<Intl name="Label" />}
               onChange={onChange}
               onBlur={onBlur}
