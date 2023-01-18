@@ -411,9 +411,9 @@ export function TopNavigationItem({
     { [tokens.Item.expandable.subitemsContainer.default]: color === "default" }
   );
 
-  const iconProps = { className: "ml-0.5", size: 3 };
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
-  const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
+  const iconProps = { className: "ml-1", size: 3 };
+  const openExpanderIcon = useIcon("openExpander", undefined, iconProps);
+  const closeExpanderIcon = useIcon("closeExpander", undefined, iconProps);
 
   if (isExpandable) {
     return (
@@ -425,8 +425,6 @@ export function TopNavigationItem({
               menuType="text"
               variant="text"
               tokens={{}}
-              expanderOpenIcon={expanderOpenIcon}
-              expanderCloseIcon={expanderCloseIcon}
               className={cn}
               popupBackgroundColor={backgroundColor ? backgroundColor : color}
             >
@@ -438,7 +436,7 @@ export function TopNavigationItem({
           <div className="flex flex-col flex-wrap items-center">
             <Link {...props} to={to || "#"} className={cn + ` items-center`} onClick={() => setOpened(!opened)}>
               {title}
-              {opened ? expanderCloseIcon : expanderOpenIcon}
+              {opened ? closeExpanderIcon : openExpanderIcon}
             </Link>
             {opened && (
               <TopNavigationContextProvider small={true}>
@@ -508,8 +506,8 @@ export function TopNavigationDropdown({
           variant={buttonVariant}
           color={buttonColor}
           menuType={menuType}
-          expanderOpenIcon={icon}
-          expanderCloseIcon={icon}
+          openExpanderIcon={icon}
+          closeExpanderIcon={icon}
           iconColor={iconColor}
           popupBackgroundColor={popupBackgroundColor || "default"}
         >

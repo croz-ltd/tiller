@@ -104,8 +104,8 @@ export type FileHeaderProps = {
 
   children: React.ReactNode;
 
-  expanderOpenIcon?: React.ReactElement;
-  expanderCloseIcon?: React.ReactElement;
+  openExpanderIcon?: React.ReactElement;
+  closeExpanderIcon?: React.ReactElement;
 
   /**
    * Custom additional styling applied to the component.
@@ -138,15 +138,15 @@ function FileHeader({ expandable = false, children, className, ...props }: FileH
     }
   };
 
-  const expanderOpenIcon = useIcon("expanderOpen", props.expanderOpenIcon, { size: 3 });
-  const expanderCloseIcon = useIcon("expanderClose", props.expanderCloseIcon, { size: 3 });
+  const openExpanderIcon = useIcon("openExpander", props.openExpanderIcon, { size: 3 });
+  const closeExpanderIcon = useIcon("closeExpander", props.closeExpanderIcon, { size: 3 });
 
   return (
     <div className={containerClassName}>
       {children}
       {expandable ? (
         <IconButton
-          icon={isExpanded ? expanderOpenIcon : expanderCloseIcon}
+          icon={isExpanded ? closeExpanderIcon : openExpanderIcon}
           className="ml-2"
           onClick={toggleExpander}
           showTooltip={false}

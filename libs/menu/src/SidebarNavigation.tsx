@@ -320,16 +320,16 @@ export function SidebarNavigationItem({
     { [tokens.item.expandable.subitemsContainer.default]: color === "default" }
   );
 
-  const iconProps = { className: "ml-2 mt-px", size: 3 };
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
-  const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
+  const iconProps = { className: "ml-1 mt-px", size: 3 };
+  const openExpanderIcon = useIcon("openExpander", undefined, iconProps);
+  const closeExpanderIcon = useIcon("closeExpander", undefined, iconProps);
 
   if (isExpandable) {
     return (
       <div className="cursor-pointer flex flex-col md:items-start items-center">
         <div {...props} className={cn} onClick={() => setOpened(!opened)}>
           {title}
-          {opened ? expanderOpenIcon : expanderCloseIcon}
+          {opened ? closeExpanderIcon : openExpanderIcon}
         </div>
         {opened && <div className={containerClassName}>{children}</div>}
       </div>
@@ -389,8 +389,8 @@ export function SidebarNavigationDropdown({
           variant={buttonVariant}
           color={buttonColor}
           menuType={menuType}
-          expanderOpenIcon={icon}
-          expanderCloseIcon={icon}
+          openExpanderIcon={icon}
+          closeExpanderIcon={icon}
           iconColor={iconColor}
           popupBackgroundColor={popupBackgroundColor || "default"}
         >

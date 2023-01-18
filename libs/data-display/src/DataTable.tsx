@@ -829,11 +829,11 @@ function ExpanderCell({ row, ...props }: Cell & TokenProps<"DataTable">) {
   const tokens = useTokens("DataTable", props.tokens);
   const expandedRow = row as unknown as UseExpandedRowProps<{}>;
 
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, {
+  const openExpanderIcon = useIcon("openExpander", undefined, {
     size: 3,
     className: `${tokens.expanderCellIcon.color} select-none`,
   });
-  const expanderCloseIcon = useIcon("expanderClose", undefined, {
+  const closeExpanderIcon = useIcon("closeExpander", undefined, {
     size: 3,
     className: `${tokens.expanderCellIcon.color} select-none`,
   });
@@ -844,7 +844,7 @@ function ExpanderCell({ row, ...props }: Cell & TokenProps<"DataTable">) {
       type="button"
       className="focus:outline-none select-none h-4 w-4"
     >
-      {expandedRow.isExpanded ? expanderOpenIcon : expanderCloseIcon}
+      {expandedRow.isExpanded ? closeExpanderIcon : openExpanderIcon}
     </button>
   );
 }

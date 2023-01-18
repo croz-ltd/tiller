@@ -262,10 +262,10 @@ function TreeSelectOption<T>({
   };
 
   const iconProps = { className: "pr-2", size: 3 };
-  const expanderOpenIcon = useIcon("expanderOpen", undefined, iconProps);
-  const expanderCloseIcon = useIcon("expanderClose", undefined, iconProps);
+  const openExpanderIcon = useIcon("openExpander", undefined, iconProps);
+  const closeExpanderIcon = useIcon("closeExpander", undefined, iconProps);
 
-  const icon = expanded ? expanderOpenIcon : expanderCloseIcon;
+  const icon = expanded ? closeExpanderIcon : openExpanderIcon;
 
   const itemClassName = cx(
     tokens.Item.base.master,

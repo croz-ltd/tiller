@@ -1866,8 +1866,8 @@ export type IconProps = {
 export type IconConfig = {
   dismiss: (props: Partial<IconProps>) => React.ReactElement;
   breadcrumbs: (props: Partial<IconProps>) => React.ReactElement;
-  expanderOpen: (props: Partial<IconProps>) => React.ReactElement;
-  expanderClose: (props: Partial<IconProps>) => React.ReactElement;
+  openExpander: (props: Partial<IconProps>) => React.ReactElement;
+  closeExpander: (props: Partial<IconProps>) => React.ReactElement;
   paginatorPrevious: (props: Partial<IconProps>) => React.ReactElement;
   paginatorNext: (props: Partial<IconProps>) => React.ReactElement;
   completed: (props: Partial<IconProps>) => React.ReactElement;
@@ -1906,8 +1906,8 @@ export type IconConfig = {
 export const defaultIconConfig = {
   dismiss: (props: Partial<IconProps>) => <span className={props.className}>&times;</span>,
   breadcrumbs: (props: Partial<IconProps>) => <span className={props.className}>&gt;</span>,
-  expanderOpen: (props: Partial<IconProps>) => <span className={props.className}>-</span>,
-  expanderClose: (props: Partial<IconProps>) => <span className={props.className}>+</span>,
+  openExpander: (props: Partial<IconProps>) => <span className={props.className}>-</span>,
+  closeExpander: (props: Partial<IconProps>) => <span className={props.className}>+</span>,
   paginatorPrevious: (props: Partial<IconProps>) => <span className={props.className}>&lt;</span>,
   paginatorNext: (props: Partial<IconProps>) => <span className={props.className}>&gt'</span>,
   completed: (props: Partial<IconProps>) => <span className={props.className}>✓</span>,

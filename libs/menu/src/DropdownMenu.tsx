@@ -43,13 +43,13 @@ export type DropdownMenuMenuProps = {
    * Custom icon serving as a dropdown menu open button.
    * If you wish to show this icon as a leading icon (before the title), set the 'leadingIcon' prop to 'true'.
    */
-  expanderOpenIcon?: React.ReactElement;
+  openExpanderIcon?: React.ReactElement;
 
   /**
    * Custom icon serving as a dropdown menu close button.
    * If you wish to show this icon as a leading icon (before the title), set the 'leadingIcon' prop to 'true'.
    */
-  expanderCloseIcon?: React.ReactElement;
+  closeExpanderIcon?: React.ReactElement;
 
   /**
    * Determines if the defined/default icon is leading (before the title) or trailing (after the title).
@@ -110,8 +110,8 @@ function DropdownMenu({
   title,
   type = "button",
   menuType = "text",
-  expanderOpenIcon,
-  expanderCloseIcon,
+  openExpanderIcon,
+  closeExpanderIcon,
   visibleItemCount,
   className,
   iconPlacement = "trailing",
@@ -127,13 +127,13 @@ function DropdownMenu({
   );
 
   const iconProps = { className: iconClassName, size: 3 };
-  const finalExpanderOpenIcon = useIcon("expanderOpen", expanderOpenIcon, iconProps);
-  const finalExpanderCloseIcon = useIcon("expanderClose", expanderCloseIcon, iconProps);
+  const finalOpenExpanderIcon = useIcon("openExpander", openExpanderIcon, iconProps);
+  const finalCloseExpanderIcon = useIcon("closeExpander", closeExpanderIcon, iconProps);
 
   const responsiveIcon = (
     <div>
       <DropdownContext.Consumer>
-        {({ isExpanded }) => (isExpanded ? finalExpanderOpenIcon : finalExpanderCloseIcon)}
+        {({ isExpanded }) => (isExpanded ? finalCloseExpanderIcon : finalOpenExpanderIcon)}
       </DropdownContext.Consumer>
     </div>
   );

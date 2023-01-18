@@ -123,7 +123,7 @@ function usePickerIcons(props: TokenProps<"DateInput">) {
   const iconProps = { size: tokens.DatePicker.Month.icon.size, className: tokens.DatePicker.Month.icon.color };
   const previousIcon = useIcon("paginatorPrevious", undefined, iconProps);
   const nextIcon = useIcon("paginatorNext", undefined, iconProps);
-  const expanderIcon = useIcon("expanderClose", undefined, iconProps);
+  const expanderIcon = useIcon("openExpander", undefined, iconProps);
 
   return { previousIcon, nextIcon, expanderIcon };
 }

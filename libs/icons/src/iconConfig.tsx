@@ -24,8 +24,8 @@ import LoadingIcon from "./LoadingIcon";
 const iconConfig: IconConfig = {
   dismiss: (props: Partial<IconProps>) => <Icon type="x" variant="bold" {...props} />,
   breadcrumbs: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
-  expanderOpen: (props: Partial<IconProps>) => <Icon type="caret-up" {...props} />,
-  expanderClose: (props: Partial<IconProps>) => <Icon type="caret-down" {...props} />,
+  openExpander: (props: Partial<IconProps>) => <Icon type="caret-down" {...props} />,
+  closeExpander: (props: Partial<IconProps>) => <Icon type="caret-up" {...props} />,
   paginatorPrevious: (props: Partial<IconProps>) => <Icon type="caret-left" {...props} />,
   paginatorNext: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
   completed: (props: Partial<IconProps>) => <Icon type="check" variant="bold" {...props} />,
