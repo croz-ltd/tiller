@@ -78,7 +78,7 @@ export default {
     leadingIcon: { control: false },
     trailingIcon: { control: false },
     menu: { control: false },
-    useTokens: { name: "Use Tokens?", control: "boolean" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
     tokens: { control: "object" },
     buttonRef: { control: false },
   },
@@ -147,7 +147,7 @@ ButtonFactory.decorators = [
       <hr />
       <div className="text-gray-800 text-sm">
         <span className="font-semibold">Note:</span> To create a one-off button use tokens, but first toggle 'Use
-        Tokens?'.
+        Tokens'. <br />
         <span className="font-semibold mt-2">Tips:</span>
         <li>remove the lines of tokens you didn't change to have a cleaner and shorter code output</li>
         <li>remove all tokens (leave an empty object) if you want to have full control with just the class name</li>

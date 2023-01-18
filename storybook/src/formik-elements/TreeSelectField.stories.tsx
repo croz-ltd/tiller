@@ -74,33 +74,31 @@ const complexProps = {
   getOptionValue: (option: TreeItem) => ({ id: option.code, name: option.name }),
 };
 
-export const TreeSelectFieldWithLabel = () => <TreeSelectField {...commonProps} label={<Intl name="label" />} />;
+export const WithLabel = () => <TreeSelectField {...commonProps} label={<Intl name="label" />} />;
 
-export const TreeSelectFieldWithoutLabel = () => <TreeSelectField {...commonProps} />;
+export const WithoutLabel = () => <TreeSelectField {...commonProps} />;
 
-export const TreeSelectFieldWithValue = () => (
+export const WithValue = () => (
   <TreeSelectField label={<Intl name="label" />} {...commonProps} name={nameWithTreeItem} />
 );
 
-export const TreeSelectFieldDisabled = () => (
+export const Disabled = () => (
   <TreeSelectField label={<Intl name="label" />} disabled={true} {...commonProps} name={nameWithTreeItem} />
 );
 
-export const TreeSelectFieldWithPlaceholder = () => (
+export const WithPlaceholder = () => (
   <TreeSelectField label={<Intl name="label" />} placeholder={<Intl name="placeholder" />} {...commonProps} />
 );
 
-export const TreeSelectFieldWithHelp = () => (
+export const WithHelp = () => (
   <TreeSelectField label={<Intl name="label" />} help={<Intl name="help" />} {...commonProps} />
 );
 
-export const TreeSelectFieldWithError = () => (
-  <TreeSelectField label={<Intl name="label" />} {...commonProps} name={nameWithError} />
-);
+export const WithError = () => <TreeSelectField label={<Intl name="label" />} {...commonProps} name={nameWithError} />;
 
-export const TreeSelectFieldWithOptionValue = () => <TreeSelectField {...complexProps} />;
+export const WithOptionValue = () => <TreeSelectField {...complexProps} />;
 
-export const TreeSelectFieldWithValueLabel = () => (
+export const WithValueLabel = () => (
   <TreeSelectField
     {...commonProps}
     name={nameWithTreeItem}

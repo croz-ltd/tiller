@@ -25,6 +25,7 @@ module.exports = {
   ],
   addons: [
     "@storybook/addon-controls",
+    "@storybook/addon-docs",
     "storybook-addon-designs",
     "@storybook/addon-actions",
     "storybook-addon-playroom",
@@ -39,10 +40,7 @@ module.exports = {
         postcssLoaderOptions: {
           implementation: require("postcss"),
           postcssOptions: {
-            plugins: [
-              require("tailwindcss")({ config: "./storybook/tailwind.config.js" }),
-              require("autoprefixer"),
-            ],
+            plugins: [require("tailwindcss")({ config: "./storybook/tailwind.config.js" }), require("autoprefixer")],
           },
         },
       },

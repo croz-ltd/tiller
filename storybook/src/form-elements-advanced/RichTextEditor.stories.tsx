@@ -27,18 +27,13 @@ export default {
   title: "Component Library/Form-elements-advanced/RichTextEditor",
   component: RichTextEditor,
   parameters: {
-    customConditionalToolbar: {
-      setToUse: "RichTexteditor",
-      defaultOption: "default",
-    },
     docs: {
       page: mdx,
     },
-    knobs: { disabled: true },
     decorators: [withDesign],
   },
 };
 
 export const Default = () => {
-  return <RichTextEditor></RichTextEditor>;
+  return <RichTextEditor />;
 };

@@ -179,14 +179,4 @@ export const treeItems: TreeItem[] = [
   },
 ];
 
-export const extendedColors = [
-  "primary",
-  "secondary",
-  "tertiary",
-  "success",
-  "danger",
-  "warning",
-  "info",
-  "white",
-  "black",
-];
+export const extendedColors = ["primary", "secondary", "tertiary", "success", "danger", "warning", "info", "white"];
