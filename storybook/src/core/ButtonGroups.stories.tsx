@@ -38,7 +38,6 @@ export default {
     decorators: [withDesign],
   },
   argTypes: {
-    buttonQuantity: { name: "Number of Buttons", control: "number" },
     children: { name: "Buttons Content (separated by comma)", control: "text" },
     color: {
       name: "Color",
@@ -51,12 +50,12 @@ export default {
   },
 };
 
-export const ButtonGroupsFactory = ({ buttonQuantity, children, color }) => {
+export const ButtonGroupsFactory = ({ children, color }) => {
   const textArray = children.split(", ");
 
   return (
     <ButtonGroups>
-      {range(0, buttonQuantity).map((value) => (
+      {range(0, textArray.length).map((value) => (
         <ButtonGroups.Button onClick={action("ButtonGroups-click-years")} color={color} variant="filled">
           {textArray[value]}
         </ButtonGroups.Button>
@@ -113,7 +112,6 @@ export const Custom = () => (
 );
 
 ButtonGroupsFactory.args = {
-  buttonQuantity: 3,
   children: "Years, Month, Days",
   color: "primary",
 };
@@ -128,7 +126,6 @@ const HideControls = {
   children: { control: { disable: true } },
   tokens: { control: { disable: true } },
   color: { control: { disable: true } },
-  buttonQuantity: { control: { disable: true } },
 };
 
 Basic.argTypes = HideControls;

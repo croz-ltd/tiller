@@ -100,7 +100,7 @@ export default {
     visibleItemCount: { name: "Number of Visible Items", control: { type: "number", min: 0 } },
     className: { name: "Class Name", control: "text" },
     children: { control: false },
-    useTokens: { name: "Use Tokens?", control: "boolean" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
     tokens: { control: "object" },
     height: { control: false },
   },
@@ -156,7 +156,7 @@ DropdownMenuFactory.decorators = [
       <hr />
       <div className="text-gray-800 text-sm">
         <span className="font-semibold">Note:</span> To create a one-off button use tokens, but first toggle 'Use
-        Tokens?'.
+        Tokens'.
         <br />
         <span className="font-semibold mt-2">Tips:</span>
         <li>remove the lines of tokens you didn't change to have a cleaner and shorter code output</li>

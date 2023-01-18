@@ -18,7 +18,10 @@
 import * as React from "react";
 
 import { FieldError } from "@tiller-ds/formik-elements";
+
 import { FormikDecorator } from "../utils";
+
+import mdx from "./FieldError.mdx";
 
 const nameWithValue = "testWithValue";
 const nameWithError = "testWithError";
@@ -37,6 +40,11 @@ const initialTouched = {
 export default {
   title: "Component Library/Formik-elements/FieldError",
   component: FieldError,
+  parameters: {
+    docs: {
+      page: mdx,
+    },
+  },
   decorators: [
     // eslint-disable-next-line react/display-name
     (storyFn: () => React.ReactNode) => (
