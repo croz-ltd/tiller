@@ -140,6 +140,13 @@ Available modules / packages:
 
 For more information about each component, check out our [Storybook](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page).
 
+## Versions
+Every monday, a new version of the tiller packages will be published.
+Whether is minor or major will depend on the tasks completed the week before. If there is no new version on monday, it means there hasn't been enough changes to update the version.
+
+### Version ranges
+We stick to the [semantic versioning](https://semver.org/), meaning that every breaking change is published as a new major version of the Tiller packages.
+
 ## Frequently asked questions
 
 **What are the major benefits of the Tiller DS?**
