@@ -145,30 +145,7 @@ Every monday, a new version of the tiller packages will be published.
 Whether is minor or major will depend on the tasks completed the week before. If there is no new version on monday, it means there hasn't been enough changes to update the version.
 
 ### Version ranges
-When you want to specify a dependency you specify its name and a version range in your package.json like one of these:
-```json
-{
-"dependencies": {
-"package-1": ">2.0.0",
-"package-2": "^0.4.2",
-"package-3": "~2.7.1"
-}
-}
-```
-You’ll notice that we have a bunch of characters separate from the version. These characters, >=, <, ^, and ~, are operators and they are used to specify version ranges.
-The purpose of a version range is to specify which versions of a dependency will work for your code.
-
-
-| Description         | Version |
-|---------------------|---------|
-| Exact version       | 2.0.0   |
-| Grater than         | >2.0.1  |
-| Compatible changes  | ^2.3.1  |
-| Minor-level changes | ~2.4.1  |
-
-If you need the exact version of the package you will install the exact version without any characters in front of the version number. In case you need a specific volume then you'll use greater than sign.
-If you only accept compatible changes from the specific major version then you will need to use carrot before the version number. In this case the minor (2.**3**.1) and the patch version (2.3.**1**) will change but the major version (**2**.3.1) will be fixed.
-If you accept only minor level changes then you should use tilda and the version number. In this case only the patch version will change (2.4.**1**).
+We stick to the [semantic versioning](https://semver.org/), meaning that every breaking change is published as a new major version of the Tiller packages.
 
 ## Frequently asked questions
 

@@ -56,7 +56,7 @@ If there are modifications to the component, it is necessary to adjust the story
 
 ## Commit Messages
 
-Start with the issue number and write in present tense. <br>
+Start with the issue number and write in imperative. <br>
 Example: #9 Fix Autocomplete error message
 
 ### Creating pull request
