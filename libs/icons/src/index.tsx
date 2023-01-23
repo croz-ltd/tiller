@@ -15,7 +15,7 @@
  *
  */
 
-import '../../../node_modules/phosphor-icons/src/css/icons.css';
+import "phosphor-icons/src/css/icons.css";
 
 import {
   IconProps as InternalIconProps,
