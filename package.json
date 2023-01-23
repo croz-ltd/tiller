@@ -21,7 +21,7 @@
     "watch:css": "npx tailwindcss -c ./storybook/tailwind.config.js -i libs/theme/src/styles/tiller.css -o ./storybook/.storybook/index.css --watch",
     "storybook": "concurrently --kill-others \"nx run storybook:storybook\" \"yarn run watch:css\"",
     "playroom:start": "nx run storybook:playroom-start",
-    "build:css": "postcss libs/theme/src/styles/tiller.css -o ./storybook/.storybook/index.css --env production",
+    "build:css": "npx tailwindcss -c ./storybook/tailwind.config.js -i libs/theme/src/styles/tiller.css -o ./storybook/.storybook/index.css --env production",
     "build-storybook": "npm run build:css && nx run storybook:build-storybook && nx run storybook:playroom-build"
   },
   "dependencies": {

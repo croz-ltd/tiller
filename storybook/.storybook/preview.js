@@ -25,7 +25,7 @@ export const globalTypes = {
 
 export const parameters = {
   playroom: {
-    url: "/playroom",
+    url: "/tiller/playroom",
   },
   controls: {
     hideNoControlsWarning: true,
