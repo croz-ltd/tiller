@@ -9,5 +9,6 @@ export default create({
   appBg: "#f8f9ffff",
   appContentBg: "#f8f9ffff",
   barBg: "#f8f9ffff",
-  brandUrl: "https://www.figma.com/file/nhiVbURxzFkse4bGiDFuya/Tiller?node-id=8627%3A11169",
+  brandUrl:
+    "https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---Figma-UI-Kit?node-id=8627%3A11169&t=lOJpmBQQWROQeyyu-0",
 });
