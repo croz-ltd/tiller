@@ -14,7 +14,7 @@
     "update": "nx migrate latest",
     "dep-graph": "nx dep-graph",
     "clean": "nx clear-cache",
-    "build": "nx run-many --target=build --projects=alert,core,data-display,date,dev,form-elements,form-elements-advanced,formik-elements,icons,intl,menu,patterns,selectors,theme,upload,util --paralel --prod",
+    "build": "nx run-many --target=build --projects=alert,core,data-display,date,dev,form-elements,form-elements-advanced,formik-elements,icons,intl,menu,patterns,selectors,theme,upload,util --paralel --prod && node scripts/refactor-dependecies",
     "fix-deps": "node scripts/refactor-dependecies",
     "version": "node scripts/change-version --version",
     "generate-icons": "node scripts/generate-icons",
