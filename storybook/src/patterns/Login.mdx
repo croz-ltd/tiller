@@ -9,6 +9,15 @@ Login is often the first interaction a user has with your product. This entry po
 regularly performed by entering user credentials. Login page has an important role in establishing your product’s brand
 and experience and sets the tone for their overall experience with the product.
 
+In order for the `Login` pattern to work you must wrap your `<App />` component within [IntlProvider](https://croz-ltd.github.io/tiller/?path=/docs/component-library-intl-intl--basic#intl-provider) and pass `patternsDictionary` as a `dictionary` prop.
+```
+<IntlProvider lang={"en"} loadDictionary={undefined} dictionary={patternsDictionary}>
+    <ThemeProvider themeConfig={defaultComponentConfig} iconConfig={defaultIconConfig}>
+        <App/>
+    </ThemeProvider>
+</IntlProvider>
+```
+
 <br />
 
 ## Basic Variant
@@ -50,12 +59,6 @@ done using validation and error messages.
 
 <Canvas>
   <Story id="patterns-login--with-logo" />
-</Canvas>
-
-## With Validation
-
-<Canvas>
-  <Story id="patterns-login--with-validation" />
 </Canvas>
 
 ## Forgotten Password
