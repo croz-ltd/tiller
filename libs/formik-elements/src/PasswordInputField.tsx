@@ -79,6 +79,7 @@ export default function PasswordInputField({
               passwordInputRef.current?.focus();
             }
           }}
+          showTooltip={false}
         />
       }
       label={label}
