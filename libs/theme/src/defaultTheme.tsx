@@ -926,6 +926,18 @@ const defaultComponentConfig = {
   },
   FormLayout: {
     backgroundColor: "bg-white",
+    title: {
+      fontSize: "text-lg",
+      color: "text-gray-900",
+      fontWeight: "font-medium",
+      lineHeight: "leading-6",
+    },
+    subtitle: {
+      fontSize: "text-sm",
+      color: "text-gray-500",
+      margin: "mt-1",
+      lineHeight: "leading-5",
+    },
   },
   Input: {
     master: "block w-full text-ellipsis overflow-hidden",

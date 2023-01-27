@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { Card, CardBodyProps } from "@tiller-ds/core";
+import { cx, TokenProps, useTokens } from "@tiller-ds/theme";
 import { createNamedContext } from "@tiller-ds/util";
 
 import { FieldLabel } from "./Field";
@@ -50,7 +51,7 @@ type FormLayoutSectionProps = {
    * Content displayed inside the section.
    */
   children: React.ReactNode;
-};
+} & TokenProps<"FormLayout">;
 
 type FormLayoutSectionContentProps = {
   children: React.ReactNode;
@@ -136,18 +137,33 @@ function FormLayout({ children, type = "simple" }: FormLayoutProps) {
   return <FormLayoutContext.Provider value={formLayoutContext}>{result}</FormLayoutContext.Provider>;
 }
 
-export function FormLayoutSection({ title, subtitle, children }: FormLayoutSectionProps) {
+export function FormLayoutSection({ title, subtitle, children, ...props }: FormLayoutSectionProps) {
   const context = React.useContext(FormLayoutContext);
+  const tokens = useTokens("FormLayout", props.tokens);
 
   const sectionContext = React.useMemo(() => ({ title, subtitle }), [title, subtitle]);
+
+  const titleClassName = cx(
+    tokens.title.fontSize,
+    tokens.title.color,
+    tokens.title.fontWeight,
+    tokens.title.lineHeight
+  );
+
+  const subtitleClassName = cx(
+    tokens.subtitle.fontSize,
+    tokens.subtitle.color,
+    tokens.subtitle.margin,
+    tokens.subtitle.lineHeight
+  );
 
   switch (context?.type ?? "") {
     case "simple":
       return (
         <div>
           <div>
-            <h2 className="text-lg text-gray-900 font-medium leading-6">{title}</h2>
-            <h6 className="text-sm text-gray-500 mt-1 leading-5">{subtitle}</h6>
+            <h2 className={titleClassName}>{title}</h2>
+            <h6 className={subtitleClassName}>{subtitle}</h6>
           </div>
           {children}
         </div>
