@@ -27,6 +27,11 @@ export type PageHeadingProps = {
    * PageHeadingBreadcrumbs, PageHeadingMeta, PageHeadingActions, etc.
    */
   children: React.ReactNode;
+
+  /**
+   * Custom additional class name for the main container component.
+   */
+  className?: string;
 } & PageHeadingTokensProps;
 
 type PageHeadingTokensProps = {
@@ -65,7 +70,7 @@ type PageHeadingActionsProps = {
   children: React.ReactNode;
 } & TokenProps<"PageHeading">;
 
-function PageHeading({ children, ...props }: PageHeadingProps) {
+function PageHeading({ children, className, ...props }: PageHeadingProps) {
   const childrenArray = React.Children.toArray(children);
   const tokens = useTokens("PageHeading", props.tokens);
 
@@ -82,7 +87,7 @@ function PageHeading({ children, ...props }: PageHeadingProps) {
   return (
     <header>
       {breadcrumbs && <div className={tokens.breadcrumbs}>{breadcrumbs}</div>}
-      <div className="md:flex md:items-center md:justify-between">
+      <div className={`md:flex md:items-center md:justify-between ${className}`}>
         {title && (
           <div className={tokens.master}>
             {title}

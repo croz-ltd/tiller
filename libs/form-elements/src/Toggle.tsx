@@ -77,7 +77,7 @@ export default function Toggle({
 }: ToggleProps) {
   const tokens = useTokens("Toggle", props.tokens);
 
-  const divClassName = cx(tokens.container, className);
+  const divClassName = cx(className, tokens.container);
 
   const checkboxClassName = cx(
     tokens.base,
