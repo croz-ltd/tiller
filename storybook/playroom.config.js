@@ -7,7 +7,7 @@ module.exports = {
   title: "Tiller Playroom",
   snippets: "./.playroom/snippets.js",
   frameComponent: "./.playroom/frameComponent.js",
-  widths: [414, 1024],
+  widths: [360, 414, 1366, 1920],
   port: 9000,
   openBrowser: true,
   paramType: "search", // default is 'hash'
