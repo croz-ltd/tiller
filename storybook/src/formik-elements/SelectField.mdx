@@ -54,6 +54,47 @@ of the Select Field.
 navigated to your created Select Field.
 - After you click the `Show code` button below your custom Select Field, the code of the Select Field will be generated.
 
+## Important Note
+
+Due to the nature of Storybook and its code display, the codes below contain props in the format of `{...props}`.
+In order to eliminate too long code displays and undefined functions, we've included these props in the display below.
+Copy the props according to the usage of the code you're viewing.
+
+## Used Types
+
+```ts
+export type Item = {
+  username: string;
+  name: string;
+  surname: string;
+};
+```
+
+## Used Props
+
+```ts
+const commonProps = {
+  ...complexProps,
+  getOptionValue: (item: Item) => item.username,
+};
+```
+
+```ts
+const complexProps = {
+  name,
+  options: items,
+  getOptionLabel: (item: Item) => (
+    <div className="flex items-center justify-between flex-wrap">
+      <div>
+        {item.name} {item.surname}
+      </div>
+      <div className="flex-shrink-0 text-sm leading-5 text-gray-500">@{item.username}</div>
+    </div>
+  ),
+  sort: (items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name)),
+};
+```
+
 ### Result:
 
 <Canvas>
