@@ -19,6 +19,14 @@ themed differently via the props sent to the dropdown menu.
 The best possible documentation for this component would be the [Props documentation](#sidebar-navigation-props)
 and the code of the stories listed below.
 
+**Limitations:**
+ - Due to Storybook's limitations, the shown code will not be functional unless you replace the following:
+  - `SidebarNavigationItem` -> `SidebarNavigation.Item`
+  - `SidebarNavigationDropdown` -> `SidebarNavigation.Dropdown`
+  - `SidebarNavigationDropdownItem` -> `SidebarNavigation.Dropdown.Item`
+  - `SidebarNavigationBottomAction` -> `SidebarNavigation.BottomAction`
+  - `SidebarNavigationSubItem` -> `SidebarNavigation.SubItem`
+
 <Stories includePrimary={true} />
 
 ## Sidebar Navigation Props:
