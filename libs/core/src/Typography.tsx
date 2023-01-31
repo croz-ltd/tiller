@@ -22,7 +22,6 @@ import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 export type HeadingElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 type Element = HeadingElement | "p" | "span" | "div";
 type Variant = "text" | "subtext" | "title" | "subtitle" | HeadingElement;
-type Color = "primary" | "secondary" | "text";
 type IconPlacement = "leading" | "trailing";
 
 export type TypographyProps = {
@@ -35,11 +34,6 @@ export type TypographyProps = {
    * Style of the text.
    */
   variant?: Variant;
-
-  /**
-   * Color style of the component.
-   */
-  color?: Color;
 
   /**
    * Custom icon.
@@ -78,7 +72,7 @@ export default function Typography({
   const tokens = useTokens("Typography", props.tokens);
 
   const containerClassName = cx(tokens.container.base);
-  const elementClassName = cx(tokens.variant[variant].fontSize, tokens.variant[variant].color, className);
+  const elementClassName = cx(className, tokens.variant[variant].fontSize, tokens.variant[variant].color);
   const iconClassName = cx(
     tokens.icon[variant],
     tokens.icon.base,
