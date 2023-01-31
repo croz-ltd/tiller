@@ -55,11 +55,12 @@ type FormLayoutSectionProps = {
 
 type FormLayoutSectionContentProps = {
   children: React.ReactNode;
-} & CardBodyProps;
+} & CardBodyProps &
+  TokenProps<"FormLayout">;
 
 type FormLayoutSectionActionsProps = {
   children: React.ReactNode;
-};
+} & TokenProps<"FormLayout">;
 
 type FormLayoutFieldProps = {
   /**
@@ -204,6 +205,21 @@ export function FormLayoutSection({ title, subtitle, children, ...props }: FormL
 export function FormLayoutSectionContent({ children, ...props }: FormLayoutSectionContentProps) {
   const context = React.useContext(FormLayoutContext);
   const sectionContext = React.useContext(FormLayoutSectionContext);
+  const tokens = useTokens("FormLayout", props.tokens);
+
+  const titleClassName = cx(
+    tokens.content.title.fontSize,
+    tokens.content.title.color,
+    tokens.content.title.fontWeight,
+    tokens.content.title.lineHeight
+  );
+
+  const subtitleClassName = cx(
+    tokens.content.subtitle.fontSize,
+    tokens.content.subtitle.color,
+    tokens.content.subtitle.margin,
+    tokens.content.subtitle.lineHeight
+  );
 
   if (context?.type === "card") {
     return (
@@ -218,8 +234,8 @@ export function FormLayoutSectionContent({ children, ...props }: FormLayoutSecti
       <Card.Body {...props}>
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
-            <h2 className="text-lg text-gray-900 font-medium leading-6">{sectionContext.title}</h2>
-            <h6 className="text-sm text-gray-500 mt-1 leading-5">{sectionContext.subtitle}</h6>
+            <h2 className={titleClassName}>{sectionContext.title}</h2>
+            <h6 className={subtitleClassName}>{sectionContext.subtitle}</h6>
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2 space-y-10">{children}</div>
         </div>
@@ -238,16 +254,19 @@ export function FormLayoutSectionContent({ children, ...props }: FormLayoutSecti
   );
 }
 
-export function FormLayoutSectionActions({ children }: FormLayoutSectionActionsProps) {
+export function FormLayoutSectionActions({ children, ...props }: FormLayoutSectionActionsProps) {
   const context = React.useContext(FormLayoutContext);
+  const tokens = useTokens("FormLayout", props.tokens);
 
   const result = <div className="flex justify-end">{children}</div>;
+
+  const actionsClassName = cx(tokens.actions.margin, tokens.actions.border, tokens.actions.padding);
 
   if (context?.type === "card" || context?.type === "full-width") {
     return <Card.Footer>{result}</Card.Footer>;
   }
 
-  return <div className="mt-8 border-t border-gray-200 pt-5">{result}</div>;
+  return <div className={actionsClassName}>{result}</div>;
 }
 
 function FormLayoutField({ name, label, children, required, ...props }: FormLayoutFieldProps) {

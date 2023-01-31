@@ -938,6 +938,25 @@ const defaultComponentConfig = {
       margin: "mt-1",
       lineHeight: "leading-5",
     },
+    content: {
+      title: {
+        fontSize: "text-sm",
+        color: "text-gray-500",
+        fontWeight: "font-medium",
+        lineHeight: "leading-6",
+      },
+      subtitle: {
+        fontSize: "text-lg",
+        color: "text-gray-900",
+        margin: "mt-1",
+        lineHeight: "leading-5",
+      },
+    },
+    actions: {
+      margin: "mt-8",
+      border: "border-t border-gray-200",
+      padding: "pt-5",
+    },
   },
   Input: {
     master: "block w-full text-ellipsis overflow-hidden",
