@@ -1669,6 +1669,14 @@ const defaultComponentConfig = {
       light: "text-slate-700 bg-white border-b border-slate-200",
       default: "text-white bg-primary-700",
     },
+    logo: {
+      master: "ml-2 flex-shrink-0",
+      withTopRightAction: {
+        master: "md:justify-start md:col-span-2",
+        margin: "md:ml-2",
+      },
+      withoutTopRightAction: "md:justify-center md:col-span-3",
+    },
     navButtons: {
       hover: "primary",
       master: "hover:text-black",
@@ -1713,7 +1721,7 @@ const defaultComponentConfig = {
         subitemsContainer: {
           master: "rounded-md",
           padding: "p-2 px-2",
-          width: "w-80",
+          width: "w-full",
           default: "bg-primary-600 ",
           dark: "bg-slate-900 ",
           light: "bg-slate-100 ",
@@ -1730,7 +1738,6 @@ const defaultComponentConfig = {
     fullWidth: "w-full px-4 grid grid-cols-3 justify-center justify-between",
     container: " max-w-7xl mx-auto",
     innerContainer: "flex justify-center items-center md:ml-2 md:justify-start md:col-span-2",
-    logoContainer: " ml-2 flex-shrink-0",
     menuContainer: "hidden md:block",
     innerMenuContainer: "flex items-baseline space-x-4",
     actionsAndDropdownContainer: "hidden md:block ml-2 md:col-start-3",
