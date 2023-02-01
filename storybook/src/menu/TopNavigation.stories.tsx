@@ -72,7 +72,6 @@ const onSelectEvents = action("onSelect-events");
 export const Default = (args, context) => (
   <Router>
     <TopNavigation
-      variant="contained"
       logo={<img src={logo} alt="logo" />}
       topRightAction={
         <TopNavigation.Dropdown
