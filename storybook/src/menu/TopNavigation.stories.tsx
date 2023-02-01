@@ -71,7 +71,25 @@ const onSelectEvents = action("onSelect-events");
 
 export const Default = (args, context) => (
   <Router>
-    <TopNavigation logo={<img src={logo} alt="logo" />}>
+    <TopNavigation
+      variant="contained"
+      logo={<img src={logo} alt="logo" />}
+      topRightAction={
+        <TopNavigation.Dropdown
+          title="User"
+          menuType="icon"
+          icon={<Icon type="user" className="text-white" />}
+          popupBackgroundColor="default"
+          iconColor="default"
+          buttonColor="primary"
+          buttonVariant="text"
+        >
+          <TopNavigation.Dropdown.Item to="/account">{account}</TopNavigation.Dropdown.Item>
+          <TopNavigation.Dropdown.Item to="/support">{support}</TopNavigation.Dropdown.Item>
+          <TopNavigation.Dropdown.Item to="/logout">{signOut}</TopNavigation.Dropdown.Item>
+        </TopNavigation.Dropdown>
+      }
+    >
       <TopNavigation.Navigation>
         <TopNavigation.Navigation.Item to={dashboardLink}>{dashboard}</TopNavigation.Navigation.Item>
         <TopNavigation.Navigation.Item to={teamLink}>{team}</TopNavigation.Navigation.Item>
@@ -89,26 +107,37 @@ export const Default = (args, context) => (
           </TopNavigation.Navigation.SubItem>
         </TopNavigation.Navigation.Item>
       </TopNavigation.Navigation>
-      <TopNavigation.Dropdown
-        title="User"
-        menuType="icon"
-        icon={<Icon type="user" className="text-white" />}
-        popupBackgroundColor="default"
-        iconColor="default"
-        buttonColor="primary"
-        buttonVariant="text"
-      >
-        <TopNavigation.Dropdown.Item to="/account">{account}</TopNavigation.Dropdown.Item>
-        <TopNavigation.Dropdown.Item to="/support">{support}</TopNavigation.Dropdown.Item>
-        <TopNavigation.Dropdown.Item to="/logout">{signOut}</TopNavigation.Dropdown.Item>
-      </TopNavigation.Dropdown>
     </TopNavigation>
   </Router>
 );
 
 export const Dark = (args, context) => (
   <Router>
-    <TopNavigation logo={<img src={logo} alt="logo" />} color="dark">
+    <TopNavigation
+      logo={<img src={logo} alt="logo" />}
+      color="dark"
+      topRightAction={
+        <TopNavigation.Dropdown
+          title="User"
+          menuType="icon"
+          icon={<Icon type="user" className="text-white" />}
+          iconColor="light"
+          buttonColor="primary"
+          popupBackgroundColor="dark"
+          buttonVariant="text"
+        >
+          <TopNavigation.Dropdown.Item to="/account" color="dark">
+            {account}
+          </TopNavigation.Dropdown.Item>
+          <TopNavigation.Dropdown.Item to="/support" color="dark">
+            {support}
+          </TopNavigation.Dropdown.Item>
+          <TopNavigation.Dropdown.Item to="/logout" color="dark">
+            {signOut}
+          </TopNavigation.Dropdown.Item>
+        </TopNavigation.Dropdown>
+      }
+    >
       <TopNavigation.Navigation>
         <TopNavigation.Navigation.Item to={dashboardLink} color="dark">
           {dashboard}
@@ -143,32 +172,38 @@ export const Dark = (args, context) => (
           </TopNavigation.Navigation.SubItem>
         </TopNavigation.Navigation.Item>
       </TopNavigation.Navigation>
-      <TopNavigation.Dropdown
-        title="User"
-        menuType="icon"
-        icon={<Icon type="user" className="text-white" />}
-        iconColor="light"
-        buttonColor="primary"
-        popupBackgroundColor="dark"
-        buttonVariant="text"
-      >
-        <TopNavigation.Dropdown.Item to="/account" color="dark">
-          {account}
-        </TopNavigation.Dropdown.Item>
-        <TopNavigation.Dropdown.Item to="/support" color="dark">
-          {support}
-        </TopNavigation.Dropdown.Item>
-        <TopNavigation.Dropdown.Item to="/logout" color="dark">
-          {signOut}
-        </TopNavigation.Dropdown.Item>
-      </TopNavigation.Dropdown>
     </TopNavigation>
   </Router>
 );
 
 export const Light = (args, context) => (
   <Router>
-    <TopNavigation logo={<img src={logo} alt="logo" />} color="light">
+    <TopNavigation
+      logo={<img src={logo} alt="logo" />}
+      color="light"
+      topRightAction={
+        <TopNavigation.Dropdown
+          title="User"
+          menuType="icon"
+          icon={<Icon type="user" className="text-black" />}
+          iconColor="dark"
+          variant="text"
+          popupBackgroundColor="light"
+          buttonColor="primary"
+          buttonVariant="text"
+        >
+          <TopNavigation.Dropdown.Item to="/account" color="light">
+            {account}
+          </TopNavigation.Dropdown.Item>
+          <TopNavigation.Dropdown.Item to="/support" color="light">
+            {support}
+          </TopNavigation.Dropdown.Item>
+          <TopNavigation.Dropdown.Item to="/logout" color="light">
+            {signOut}
+          </TopNavigation.Dropdown.Item>
+        </TopNavigation.Dropdown>
+      }
+    >
       <TopNavigation.Navigation>
         <TopNavigation.Navigation.Item to={dashboardLink} color="light">
           {dashboard}
@@ -203,26 +238,6 @@ export const Light = (args, context) => (
           </TopNavigation.Navigation.SubItem>
         </TopNavigation.Navigation.Item>
       </TopNavigation.Navigation>
-      <TopNavigation.Dropdown
-        title="User"
-        menuType="icon"
-        icon={<Icon type="user" className="text-black" />}
-        iconColor="dark"
-        variant="text"
-        popupBackgroundColor="light"
-        buttonColor="primary"
-        buttonVariant="text"
-      >
-        <TopNavigation.Dropdown.Item to="/account" color="light">
-          {account}
-        </TopNavigation.Dropdown.Item>
-        <TopNavigation.Dropdown.Item to="/support" color="light">
-          {support}
-        </TopNavigation.Dropdown.Item>
-        <TopNavigation.Dropdown.Item to="/logout" color="light">
-          {signOut}
-        </TopNavigation.Dropdown.Item>
-      </TopNavigation.Dropdown>
     </TopNavigation>
   </Router>
 );
