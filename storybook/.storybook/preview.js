@@ -2,7 +2,7 @@ import IntlProvider from "../../libs/intl/src/IntlProvider";
 import defaultThemeConfig from "../../libs/theme/src/defaultTheme";
 import intlDictionary from "../../libs/intl/src/intlDictionary";
 import { ThemeProvider } from "../../libs/theme/src/ThemeProvider";
-import iconConfig from "../../libs/icons/src/iconConfig";
+import { iconConfig } from "../../libs/icons/src/index.tsx";
 
 import "./index.css";
 
