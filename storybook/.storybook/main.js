@@ -1,7 +1,6 @@
 // project-level .storybook/main.js file
 const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   framework: "@storybook/react",
   features: {
