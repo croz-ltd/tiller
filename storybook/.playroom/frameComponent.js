@@ -12,7 +12,7 @@ import "../.storybook/index.css";
 export default function FrameComponent({ children }) {
   return (
     <IntlProvider lang="en">
-      <FormikDecorator>
+      <FormikDecorator showFieldValues={false}>
         <ThemeProvider iconConfig={iconConfig}>
           <Router>{children}</Router>
         </ThemeProvider>

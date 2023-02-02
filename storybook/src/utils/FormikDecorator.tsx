@@ -24,6 +24,7 @@ import { FormContainer } from "@tiller-ds/formik-elements";
 import { action } from "@storybook/addon-actions";
 
 export type FormikDecoratorProps<T extends {}> = {
+  showFieldValues?: boolean;
   initialValues?: FormikValues;
   initialErrors?: FormikErrors<T>;
   initialTouched?: FormikTouched<T>;
@@ -37,6 +38,7 @@ export default function FormikDecorator<T extends {}>({
   initialTouched = {},
   validationSchema,
   children,
+  showFieldValues = true,
 }: FormikDecoratorProps<T>) {
   return (
     <FormContainer
@@ -50,7 +52,11 @@ export default function FormikDecorator<T extends {}>({
         return (
           <Form>
             {children}
-            <pre className="text-xs text-center p-4">{JSON.stringify(values)}</pre>
+            {showFieldValues && (
+              <div className="flex justify-center">
+                <pre className="text-xs text-center p-4 whitespace-normal">{JSON.stringify(values)}</pre>
+              </div>
+            )}
           </Form>
         );
       }}
