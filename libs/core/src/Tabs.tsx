@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { Tabs as ReachTabs, TabList, TabPanels, TabPanel, Tab as ReachTab, useTabsContext } from "@reach/tabs";
 
-import { cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 type TabsProps = {
   /**
@@ -52,6 +52,10 @@ type TabsProps = {
    * Custom additional class name for the main container.
    */
   className?: string;
+} & TabsTokenProps;
+
+type TabsTokenProps = {
+  tokens?: ComponentTokens<"Tabs">;
 };
 
 type TabsTabProp = {
@@ -204,8 +208,11 @@ function Tabs({
   className,
   iconPlacement = "leading",
   scrollButtons = false,
+  ...props
 }: TabsProps) {
   const childrenArray = React.useMemo(() => React.Children.toArray(children) as React.ReactElement[], [children]);
+
+  const tokens = useTokens("Tabs", props.tokens);
 
   const tabsContext = useCustomTabsContext(scrollButtons);
 
@@ -222,6 +229,7 @@ function Tabs({
             onClick={child.props.onClick}
             dontWrapText={scrollButtons}
             className={child.props.className}
+            tokens={tokens}
           >
             {child.props.label}
           </CustomTab>
@@ -245,7 +253,9 @@ function Tabs({
       <ReachTabs defaultIndex={defaultIndex}>
         <WithScrollButtons shouldWrap={scrollButtons}>
           <TabList className={className}>
-            <CustomTabs hasScrollButtons={scrollButtons}>{tabList}</CustomTabs>
+            <CustomTabs hasScrollButtons={scrollButtons} tokens={tokens}>
+              {tabList}
+            </CustomTabs>
           </TabList>
         </WithScrollButtons>
         <TabPanels>{tabPanels}</TabPanels>

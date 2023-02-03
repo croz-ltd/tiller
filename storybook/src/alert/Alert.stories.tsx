@@ -20,6 +20,9 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { Alert } from "@tiller-ds/alert";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Alert.mdx";
 
@@ -29,6 +32,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return getTokensFromSource(source, "Alert");
+      },
     },
     design: {
       type: "figma",
@@ -41,24 +48,35 @@ export default {
     children: { name: "Children (content)", control: "text" },
     className: { name: "Class Name", control: "text" },
     accentBorder: { name: "Accent Border", control: "boolean" },
-    variant: { name: "Variant", control: "radio" },
-    tokens: { control: false },
+    variant: { name: "Variant", control: "radio", options: ["info", "success", "warning", "danger"] },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
-export const AlertFactory = ({ accentBorder, children, className, title, variant }) => (
-  <Alert accentBorder={accentBorder} title={title} className={className} variant={variant}>
+export const AlertFactory = ({ accentBorder, children, className, title, variant, useTokens, tokens }) => (
+  <Alert accentBorder={accentBorder} title={title} className={className} variant={variant} tokens={useTokens && tokens}>
     {children}
   </Alert>
 );
 
 AlertFactory.args = {
-  accentBorder: false,
-  children: "You have a new message. Check your profile page for more info.",
-  className: "",
   title: "Attention needed",
+  children: "You have a new message. Check your profile page for more info.",
   variant: "info",
+  accentBorder: false,
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Alert"],
 };
+
+AlertFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+AlertFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => <Alert>You have a new message. Check your profile page for more info.</Alert>;
 
@@ -76,39 +94,76 @@ export const WithList = () => (
 );
 
 export const WithAccent = () => (
-  <>
-    <Alert variant="info" accentBorder={true} className="mb-3">
-      You have a new message. Check your profile page for more info.
-    </Alert>
-    <Alert variant="success" accentBorder={true} className="mb-3">
-      You have a new message. Check your profile page for more info.
-    </Alert>
-    <Alert variant="warning" accentBorder={true} className="mb-3">
-      You have a new message. Check your profile page for more info.
-    </Alert>
-    <Alert variant="danger" accentBorder={true} className="mb-3">
-      You have a new message. Check your profile page for more info.
-    </Alert>
-  </>
+  <Alert variant="info" accentBorder={true} className="mb-3">
+    You have a new message. Check your profile page for more info.
+  </Alert>
 );
 
 export const Warning = () => (
-  <Alert variant="warning">You have a new message. Check your profile page for more info.</Alert>
+  <div className="flex flex-col space-y-2">
+    <span className="text-gray-700 text-sm"> Simple: </span>
+    <Alert variant="warning">You have a new message. Check your profile page for more info.</Alert>
+    <span className="text-gray-700 text-sm"> With Title: </span>
+    <Alert variant="warning" title="Attention needed">
+      You have a new message. Check your profile page for more info.
+    </Alert>
+    <span className="text-gray-700 text-sm"> With List: </span>
+    <Alert variant="warning" title="There were 2 errors with your submission">
+      <ul className="list-disc pl-5">
+        <li>Your username is already taken.</li>
+        <li className="mt-1">The file is too big to upload. Maximum file size is 2MB.</li>
+      </ul>
+    </Alert>
+    <span className="text-gray-700 text-sm"> With Accent: </span>
+    <Alert variant="warning" accentBorder={true} className="mb-3">
+      You have a new message. Check your profile page for more info.
+    </Alert>
+  </div>
 );
 
 export const Danger = () => (
-  <Alert variant="danger">You have a new message. Check your profile page for more info.</Alert>
+  <div className="flex flex-col space-y-2">
+    <span className="text-gray-700 text-sm"> Simple: </span>
+    <Alert variant="danger">You have a new message. Check your profile page for more info.</Alert>
+    <span className="text-gray-700 text-sm"> With Title: </span>
+    <Alert variant="danger" title="Attention needed">
+      You have a new message. Check your profile page for more info.
+    </Alert>
+    <span className="text-gray-700 text-sm"> With List: </span>
+    <Alert variant="danger" title="There were 2 errors with your submission">
+      <ul className="list-disc pl-5">
+        <li>Your username is already taken.</li>
+        <li className="mt-1">The file is too big to upload. Maximum file size is 2MB.</li>
+      </ul>
+    </Alert>
+    <span className="text-gray-700 text-sm"> With Accent: </span>
+    <Alert variant="danger" accentBorder={true} className="mb-3">
+      You have a new message. Check your profile page for more info.
+    </Alert>
+  </div>
 );
 
 export const Success = () => (
-  <Alert variant="success">You have a new message. Check your profile page for more info.</Alert>
+  <div className="flex flex-col space-y-2">
+    <span className="text-gray-700 text-sm"> Simple: </span>
+    <Alert variant="success">You have a new message. Check your profile page for more info.</Alert>
+    <span className="text-gray-700 text-sm"> With Title: </span>
+    <Alert variant="success" title="Attention needed">
+      You have a new message. Check your profile page for more info.
+    </Alert>
+    <span className="text-gray-700 text-sm"> With List: </span>
+    <Alert variant="success" title="There were 2 errors with your submission">
+      <ul className="list-disc pl-5">
+        <li>Your username is already taken.</li>
+        <li className="mt-1">The file is too big to upload. Maximum file size is 2MB.</li>
+      </ul>
+    </Alert>
+    <span className="text-gray-700 text-sm"> With Accent: </span>
+    <Alert variant="success" accentBorder={true} className="mb-3">
+      You have a new message. Check your profile page for more info.
+    </Alert>
+  </div>
 );
-
-AlertFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
 
 const HideControls = {
   accentBorder: { control: { disable: true } },
@@ -116,9 +171,12 @@ const HideControls = {
   title: { control: { disable: true } },
   variant: { control: { disable: true } },
   children: { control: { disable: true } },
+  tokens: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
 };
 
 Simple.argTypes = HideControls;
+WithTitle.argTypes = HideControls;
 WithList.argTypes = HideControls;
 WithAccent.argTypes = HideControls;
 Warning.argTypes = HideControls;

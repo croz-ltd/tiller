@@ -18,12 +18,12 @@
 import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
-import { action } from "@storybook/addon-actions";
 
-import { Button } from "@tiller-ds/core";
+import { Button, Tooltip } from "@tiller-ds/core";
 import { Icon, iconTypes, LoadingIcon } from "@tiller-ds/icons";
-import { extendedColors } from "../utils";
 import { ComponentTokens, defaultThemeConfig } from "@tiller-ds/theme";
+
+import { extendedColors, getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Button.mdx";
 
@@ -33,9 +33,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-    },
-    playroom: {
-      code: "<Button>Hello Button</Button>",
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return getTokensFromSource(source, "Button");
+      },
     },
     design: {
       type: "figma",
@@ -79,12 +80,10 @@ export default {
     trailingIcon: { control: false },
     menu: { control: false },
     useTokens: { name: "Use Tokens", control: "boolean" },
-    tokens: { control: "object" },
+    tokens: { name: "Tokens", control: "object" },
     buttonRef: { control: false },
   },
 };
-
-const onClick = action("button-click");
 
 export const ButtonFactory = ({
   icon,
@@ -114,7 +113,7 @@ export const ButtonFactory = ({
       iconType === "leading" ? <Icon type={icon} variant={iconVariant} /> : waiting ? <LoadingIcon /> : undefined
     }
     trailingIcon={iconType === "trailing" ? <Icon type={icon} variant={iconVariant} /> : undefined}
-    onClick={onClick}
+    onClick={() => {}}
   />
 );
 
@@ -129,9 +128,9 @@ ButtonFactory.args = {
   waiting: false,
   hidden: false,
   rounded: true,
+  className: "",
   useTokens: false,
   tokens: defaultThemeConfig.component["Button"],
-  className: "",
 };
 
 ButtonFactory.parameters = {
@@ -140,77 +139,24 @@ ButtonFactory.parameters = {
   },
 };
 
-ButtonFactory.decorators = [
-  (storyFn: () => React.ReactNode) => (
-    <div className="flex flex-col space-y-10">
-      <div className="flex">{storyFn()}</div>
-      <hr />
-      <div className="text-gray-800 text-sm">
-        <span className="font-semibold">Note:</span> To create a one-off button use tokens, but first toggle 'Use
-        Tokens'. <br />
-        <span className="font-semibold mt-2">Tips:</span>
-        <li>remove the lines of tokens you didn't change to have a cleaner and shorter code output</li>
-        <li>remove all tokens (leave an empty object) if you want to have full control with just the class name</li>
-      </div>
-    </div>
-  ),
-];
+ButtonFactory.decorators = showFactoryDecorator(true);
 
-export const Filled = () => <Button color="tertiary">Button</Button>;
+export const Filled = () => <Button>Button</Button>;
 
-export const Outlined = () => (
-  <Button variant="outlined" color="tertiary">
-    Button
+export const Outlined = () => <Button variant="outlined">Button</Button>;
+
+export const Text = () => <Button variant="text">Button</Button>;
+
+export const LeadingIcon = (args) => (
+  <Button variant="filled" leadingIcon={<Icon type="envelope-simple" variant="fill" />}>
+    Label
   </Button>
 );
 
-export const Text = () => (
-  <Button variant="text" color="tertiary">
-    Button
+export const TrailingIcon = (args) => (
+  <Button variant="filled" trailingIcon={<Icon type="envelope-simple" variant="fill" />}>
+    Label
   </Button>
-);
-
-export const Sizes = () => (
-  <>
-    <Button variant="filled" color="primary" size="xs">
-      Button xs
-    </Button>
-    <Button variant="filled" color="primary" size="sm">
-      Button sm
-    </Button>
-    <Button variant="filled" color="primary" size="md">
-      Button md
-    </Button>
-    <Button variant="filled" color="primary" size="lg">
-      Button lg
-    </Button>
-    <Button variant="filled" color="primary" size="xl">
-      Button xl
-    </Button>
-  </>
-);
-
-export const Disabled = () => (
-  <Button variant="filled" color="tertiary" disabled={true}>
-    Button
-  </Button>
-);
-
-export const Status = () => (
-  <>
-    <Button variant="filled" color="success">
-      Button
-    </Button>
-    <Button variant="filled" color="warning">
-      Button
-    </Button>
-    <Button variant="filled" color="danger">
-      Button
-    </Button>
-    <Button variant="filled" color="info">
-      Button
-    </Button>
-  </>
 );
 
 export const CustomViaTokens = () => {
@@ -234,130 +180,238 @@ export const CustomViaTokens = () => {
   );
 };
 
-export const WaitingFilled = () => (
-  <Button variant="filled" leadingIcon={<LoadingIcon />}>
+export const Disabled = () => (
+  <Button variant="filled" disabled={true}>
     Button
   </Button>
 );
 
-export const WaitingOutlined = () => (
-  <Button variant="outlined" leadingIcon={<LoadingIcon />}>
-    Button
-  </Button>
+export const Sizes = () => (
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+    <div className="flex flex-col items-center space-y-2">
+      <Button variant="filled" color="primary" size="xs">
+        Button xs
+      </Button>
+      <Tooltip
+        label={
+          "'py-1.5 px-2.5 text-button-xs' \n\n" +
+          ".text-button-xs {\n" +
+          "  font-size: 0.75rem;\n" +
+          "  line-height: 1.25rem;\n" +
+          "  font-weight: 500;\n" +
+          "}"
+        }
+      >
+        <Icon type="info" />
+      </Tooltip>
+    </div>
+    <div className="flex flex-col items-center space-y-2">
+      <Button variant="filled" color="primary" size="sm">
+        Button sm
+      </Button>
+      <Tooltip
+        label={
+          "'py-2 px-3 text-button-sm' \n\n" +
+          ".text-button-sm {\n" +
+          "  font-size: 0.875rem;\n" +
+          "  line-height: 1.25rem;\n" +
+          "  font-weight: 500;\n" +
+          "}\n"
+        }
+      >
+        <Icon type="info" />
+      </Tooltip>
+    </div>
+
+    <div className="flex flex-col items-center space-y-2">
+      <Button variant="filled" color="primary" size="md">
+        Button md
+      </Button>
+      <Tooltip
+        label={
+          "'py-2 px-4 text-button-md' \n\n" +
+          ".text-button-md {\n" +
+          "  font-size: 0.875rem;\n" +
+          "  line-height: 1.25rem;\n" +
+          "  font-weight: 500;\n" +
+          "}\n"
+        }
+      >
+        <Icon type="info" />
+      </Tooltip>
+    </div>
+    <div className="flex flex-col items-center space-y-2">
+      <Button variant="filled" color="primary" size="lg">
+        Button lg
+      </Button>
+      <Tooltip
+        label={
+          "'py-2 px-4 text-button-lg' \n\n" +
+          ".text-button-lg {\n" +
+          "  font-size: 1rem;\n" +
+          "  line-height: 1.25rem;\n" +
+          "  font-weight: 500;\n" +
+          "}"
+        }
+      >
+        <Icon type="info" />
+      </Tooltip>
+    </div>
+    <div className="flex flex-col items-center space-y-2">
+      <Button variant="filled" color="primary" size="xl">
+        Button xl
+      </Button>
+      <Tooltip
+        label={
+          "'py-3 px-6 text-button-xl' \n\n" +
+          ".text-button-xl {\n" +
+          "  font-size: 1rem;\n" +
+          "  line-height: 1.25rem;\n" +
+          "  font-weight: 500;\n" +
+          "}\n"
+        }
+      >
+        <Icon type="info" />
+      </Tooltip>
+    </div>
+  </div>
 );
 
-export const SuccessFilled = () => (
-  <Button variant="filled" color="success" leadingIcon={<Icon type="check" variant="bold" />}>
-    Button
-  </Button>
+export const Status = () => (
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+    <Button variant="filled" color="success">
+      Success
+    </Button>
+    <Button variant="filled" color="warning">
+      Warning
+    </Button>
+    <Button variant="filled" color="danger">
+      Danger
+    </Button>
+    <Button variant="filled" color="info">
+      Info
+    </Button>
+  </div>
 );
 
-export const SuccessOutlined = () => (
-  <Button variant="outlined" color="success" leadingIcon={<Icon type="check" variant="bold" />}>
-    Button
-  </Button>
+export const Waiting = () => (
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+    <Button variant="filled" leadingIcon={<LoadingIcon />}>
+      Button
+    </Button>
+    <Button variant="outlined" leadingIcon={<LoadingIcon />}>
+      Button
+    </Button>
+    <Button variant="text" leadingIcon={<LoadingIcon />}>
+      Button
+    </Button>
+  </div>
 );
 
-export const ErrorFilled = () => (
-  <Button variant="filled" color="danger" leadingIcon={<Icon type="warning" variant="fill" />}>
-    Button
-  </Button>
+export const Success = () => (
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+    <Button variant="filled" color="success" leadingIcon={<Icon type="check" variant="bold" />}>
+      Button
+    </Button>
+    <Button variant="outlined" color="success" leadingIcon={<Icon type="check" variant="bold" />}>
+      Button
+    </Button>
+    <Button variant="text" color="success" leadingIcon={<Icon type="check" variant="bold" />}>
+      Button
+    </Button>
+  </div>
 );
 
-export const ErrorOutlined = () => (
-  <Button variant="outlined" color="danger" leadingIcon={<Icon type="warning" variant="fill" />}>
-    Button
-  </Button>
+export const Error = () => (
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
+    <Button variant="filled" color="danger" leadingIcon={<Icon type="warning" variant="fill" />}>
+      Button
+    </Button>
+    <Button variant="outlined" color="danger" leadingIcon={<Icon type="warning" variant="fill" />}>
+      Button
+    </Button>
+    <Button variant="text" color="danger" leadingIcon={<Icon type="warning" variant="fill" />}>
+      Button
+    </Button>
+  </div>
 );
 
 export const ColorsFilled = () => (
-  <>
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
     <Button variant="filled" color="primary">
-      Button
+      Primary
     </Button>
     <Button variant="filled" color="secondary">
-      Button
+      Secondary
     </Button>
     <Button variant="filled" color="tertiary">
-      Button
+      Tertiary
     </Button>
     <Button variant="filled" color="info">
-      Button
+      Info
     </Button>
     <Button variant="filled" color="success">
-      Button
+      Success
     </Button>
     <Button variant="filled" color="danger">
-      Button
+      Danger
     </Button>
     <Button variant="filled" color="warning">
-      Button
+      Warning
     </Button>
-  </>
+  </div>
 );
 
 export const ColorsOutlined = () => (
-  <>
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
     <Button variant="outlined" color="primary">
-      Button
+      Primary
     </Button>
     <Button variant="outlined" color="secondary">
-      Button
+      Secondary
     </Button>
     <Button variant="outlined" color="tertiary">
-      Button
+      Tertiary
     </Button>
     <Button variant="outlined" color="info">
-      Button
+      Info
     </Button>
     <Button variant="outlined" color="success">
-      Button
+      Success
     </Button>
     <Button variant="outlined" color="danger">
-      Button
+      Danger
     </Button>
     <Button variant="outlined" color="warning">
-      Button
+      Warning
     </Button>
-  </>
+  </div>
 );
 
 export const ColorsText = () => (
-  <>
+  <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-2">
     <Button variant="text" color="primary">
-      Button
+      Primary
     </Button>
     <Button variant="text" color="secondary">
-      Button
+      Secondary
     </Button>
     <Button variant="text" color="tertiary">
-      Button
+      Tertiary
     </Button>
     <Button variant="text" color="info">
-      Button
+      Info
     </Button>
     <Button variant="text" color="success">
-      Button
+      Success
     </Button>
     <Button variant="text" color="danger">
-      Button
+      Danger
     </Button>
     <Button variant="text" color="warning">
-      Button
+      Warning
     </Button>
-  </>
-);
-
-export const LeadingIcon = (args) => (
-  <Button variant="filled" leadingIcon={<Icon type="envelope-simple" variant="fill" />}>
-    Label
-  </Button>
-);
-
-export const TrailingIcon = (args) => (
-  <Button variant="filled" trailingIcon={<Icon type="envelope-simple" variant="fill" />}>
-    Label
-  </Button>
+  </div>
 );
 
 const HideControls = {
@@ -386,12 +440,9 @@ ColorsFilled.argTypes = HideControls;
 ColorsOutlined.argTypes = HideControls;
 ColorsText.argTypes = HideControls;
 Status.argTypes = HideControls;
-WaitingFilled.argTypes = HideControls;
-WaitingOutlined.argTypes = HideControls;
-SuccessFilled.argTypes = HideControls;
-SuccessOutlined.argTypes = HideControls;
-ErrorFilled.argTypes = HideControls;
-ErrorOutlined.argTypes = HideControls;
+Waiting.argTypes = HideControls;
+Success.argTypes = HideControls;
+Error.argTypes = HideControls;
 LeadingIcon.argTypes = HideControls;
 TrailingIcon.argTypes = HideControls;
 CustomViaTokens.argTypes = HideControls;

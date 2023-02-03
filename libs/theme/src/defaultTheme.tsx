@@ -1117,7 +1117,7 @@ const defaultComponentConfig = {
       Content: {
         container: {
           master:
-            "relative overflow-hidden overflow-y-visible transform transition-all sm:max-w-lg sm:w-full max-h-screen focus:outline-none",
+            "relative overflow-hidden overflow-y-visible scrollbar transform transition-all sm:max-w-lg sm:w-full max-h-screen focus:outline-none",
           backgroundColor: "bg-white",
           borderRadius: "rounded-lg",
           padding: "p-4 sm:p-6",

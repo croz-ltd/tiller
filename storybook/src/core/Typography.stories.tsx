@@ -22,6 +22,9 @@ import { withDesign } from "storybook-addon-designs";
 import { Typography } from "@tiller-ds/core";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Typography.mdx";
 
@@ -31,6 +34,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return getTokensFromSource(source, "Typography");
+      },
     },
     design: {
       type: "figma",
@@ -43,11 +50,6 @@ export default {
     variant: {
       name: "Variant",
       options: ["text", "title", "subtitle", "subtext"],
-      control: { type: "radio" },
-    },
-    color: {
-      name: "Color",
-      options: ["text", "primary", "secondary"],
       control: { type: "radio" },
     },
     iconToggle: {
@@ -70,15 +72,14 @@ export default {
       options: ["thin", "light", "regular", "bold", "fill"],
       control: { type: "radio" },
     },
-    className: {
-      control: false,
-    },
     children: {
       name: "Label (children)",
       control: "text",
       defaultValue: "Typography text",
     },
-    tokens: { control: false },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
@@ -88,16 +89,19 @@ export const TypographyFactory = ({
   iconPlacement,
   iconVariant,
   variant,
-  color,
   element,
   children,
+  className,
+  useTokens,
+  tokens,
 }) => (
   <Typography
     variant={variant}
     icon={iconToggle && <Icon type={icon} variant={iconVariant} />}
     iconPlacement={iconToggle && iconPlacement}
-    color={color}
     element={element}
+    className={className}
+    tokens={useTokens && tokens}
   >
     {children}
   </Typography>
@@ -107,12 +111,22 @@ TypographyFactory.args = {
   children: "Custom Text",
   element: "h2",
   variant: "text",
-  color: "text",
   iconToggle: "true",
   icon: "note-pencil",
   iconPlacement: "leading",
   iconVariant: "fill",
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Typography"],
 };
+
+TypographyFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+TypographyFactory.decorators = showFactoryDecorator();
 
 export const Example = (args) => (
   <>
@@ -152,21 +166,16 @@ export const WithIcon = (args, context) => (
   </Typography>
 );
 
-TypographyFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   element: { control: { disable: true } },
   variant: { control: { disable: true } },
-  color: { control: { disable: true } },
   iconToggle: { control: { disable: true } },
   icon: { control: { disable: true } },
   iconPlacement: { control: { disable: true } },
   iconVariant: { control: { disable: true } },
   children: { control: { disable: true } },
+  className: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
   tokens: { control: { disable: true } },
 };
 

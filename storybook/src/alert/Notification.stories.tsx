@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Notification } from "@tiller-ds/alert";
@@ -42,14 +41,12 @@ export default {
   },
 };
 
-const onDismiss = action("onDismiss");
-
 export const Simple = () => (
   <Notification
     icon={<Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />}
     title={<Intl name="notificationTitle" />}
     content={<Intl name="notificationContent" />}
-    onDismiss={onDismiss}
+    onDismiss={() => {}}
   />
 );
 
@@ -66,7 +63,7 @@ export const WithActionsBelow = () => (
         <Intl name="undo" />
       </Link>,
     ]}
-    onDismiss={onDismiss}
+    onDismiss={() => {}}
   />
 );
 
@@ -83,7 +80,7 @@ export const WithButtonsBelow = () => (
         <Intl name="undo" />
       </Button>,
     ]}
-    onDismiss={onDismiss}
+    onDismiss={() => {}}
   />
 );
 
@@ -97,7 +94,7 @@ export const WithError = () => (
         <Intl name="errorLog" />
       </Link>,
     ]}
-    onDismiss={onDismiss}
+    onDismiss={() => {}}
   />
 );
 
