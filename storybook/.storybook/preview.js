@@ -23,6 +23,37 @@ export const globalTypes = {
   },
 };
 
+const customViewports = {
+  small: {
+    name: "Small mobile",
+    styles: {
+      width: "320px",
+      height: "568px",
+    },
+  },
+  galaxyS23: {
+    name: "Samsung Galaxy S23",
+    styles: {
+      width: "360px",
+      height: "780px",
+    },
+  },
+  iPhone14: {
+    name: "Apple iPhone 14",
+    styles: {
+      width: "390px",
+      height: "844px",
+    },
+  },
+  tablet: {
+    name: "Tablet",
+    styles: {
+      width: "834px",
+      height: "1112px",
+    },
+  },
+};
+
 export const parameters = {
   playroom: {
     url: "/tiller/playroom",
@@ -30,6 +61,9 @@ export const parameters = {
   controls: {
     hideNoControlsWarning: true,
     expanded: true,
+  },
+  viewport: {
+    viewports: customViewports,
   },
 };
 

@@ -81,20 +81,20 @@ export const items: Item[] = [
 
 export const lessItems: Item[] = [
   {
-    username: "pperic",
-    name: "Pero",
-    surname: "Peric",
+    username: "lmiller",
+    name: "Laura",
+    surname: "Miller",
   },
   {
-    username: "iivic",
-    name: "Ivo",
-    surname: "Ivic",
+    username: "dgarcia",
+    name: "David",
+    surname: "Garcia",
   },
 ];
 
-export const simpleItems: string[] = ["#Important", "#Design", "#Secret", "#New"];
+export const simpleItems: string[] = ["Important", "Design", "Secret", "New"];
 
-export const lessSimpleItems: string[] = ["#Important", "#Secret"];
+export const lessSimpleItems: string[] = ["Important", "Secret"];
 
 export const loadOptions = (query: string) => {
   return new Promise<Item[]>((resolve) => {
