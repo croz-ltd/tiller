@@ -16,13 +16,21 @@
  */
 
 import * as React from "react";
+import { BrowserRouter } from "react-router-dom";
 
 import { withDesign } from "storybook-addon-designs";
-import { action } from "@storybook/addon-actions";
 
 import { Pagination, Button, Card } from "@tiller-ds/core";
+import { FormContainer } from "@tiller-ds/formik-elements";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 import { Intl } from "@tiller-ds/intl";
 import { PageResizer } from "@tiller-ds/selectors";
+
+import { Simple } from "../data-display/DataTable.stories";
+import { SimpleType } from "../form-elements/FormLayout.stories";
+import { Default } from "../data-display/DescriptionList.stories";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Card.mdx";
 
@@ -32,9 +40,24 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-    },
-    playroom: {
-      code: "<Card>Test Card</Card>",
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/<CardBody/g, "<Card.Body")
+          .replace(/<\/CardBody>/g, "</Card.Body>")
+          .replace(/<CardFooter/g, "<Card.Footer")
+          .replace(/<\/CardFooter>/g, "</Card.Footer>")
+          .replace(/<CardHeaderTitle/g, "<Card.Header.Title")
+          .replace(/<\/CardHeaderTitle>/g, "</Card.Header.Title>")
+          .replace(/<CardHeaderSubtitle/g, "<Card.Header.Subtitle")
+          .replace(/<\/CardHeaderSubtitle>/g, "</Card.Header.Subtitle>")
+          .replace(/<CardHeaderActions/g, "<Card.Header.Actions")
+          .replace(/<\/CardHeaderActions>/g, "</Card.Header.Actions>")
+          .replace(/<CardHeader/g, "<Card.Header")
+          .replace(/<\/CardHeader>/g, "</Card.Header>")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "Card");
+      },
     },
     design: {
       type: "figma",
@@ -60,26 +83,35 @@ export default {
       name: "Expander",
       control: { type: "boolean" },
     },
-    spacing: {
+    headerSpacing: {
+      name: "Header Spacing",
+      control: { type: "boolean" },
+    },
+    bodySpacing: {
       name: "Body Spacing",
       control: { type: "boolean" },
+    },
+    bodyContent: {
+      name: "Body Content",
+      control: { type: "select", options: ["Data Table", "Description List", "Form Layout", "Placeholder"] },
     },
     footer: {
       name: "Footer Type",
       options: ["Actions", "Pagination", "None"],
       control: { type: "radio" },
     },
-    status: {
-      options: ["Idle", "Waiting"],
-    },
-    tokens: { control: false },
+    status: { name: "Status", options: ["Idle", "Waiting"] },
+    cardClassName: { name: "Card Class Name", control: "text" },
+    cardHeaderClassName: { name: "Card Header Class Name", control: "text" },
+    cardBodyClassName: { name: "Card Body Class Name", control: "text" },
+    cardFooterClassName: { name: "Card Footer Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
+    children: { control: false },
   },
 };
 
-const onPageChange = action("pagination-onPageChange");
-const onPageSizeChange = action("pagination-onPageSizeChange");
-
-const Placeholder = ({ className }: { className: string }, args) => (
+const Placeholder = ({ className }: { className: string }) => (
   <svg
     className={`border-2 border-dashed border-gray-300 rounded bg-white w-full ${className} text-gray-200`}
     preserveAspectRatio="none"
@@ -91,16 +123,82 @@ const Placeholder = ({ className }: { className: string }, args) => (
   </svg>
 );
 
-export const CardFactory = ({ header, footer, title, subtitle, status, spacing, isExpanded }) => (
-  <Card isExpanded={isExpanded === true ? true : undefined} status={status === "Waiting" ? "waiting" : "idle"}>
+const getCardBodyContent = (bodyContent: string) => {
+  if (bodyContent === "Data Table") {
+    return (
+      <BrowserRouter>
+        <Simple />
+        <a
+          className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+          href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-datatable--simple#simple"
+        >
+          See Data Table Story Code
+        </a>
+      </BrowserRouter>
+    );
+  }
+  if (bodyContent === "Description List") {
+    return (
+      <BrowserRouter>
+        <Default />
+        <a
+          className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+          href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-descriptionlist--default#default"
+        >
+          See Description List Story Code
+        </a>
+      </BrowserRouter>
+    );
+  }
+  if (bodyContent === "Form Layout") {
+    return (
+      <FormContainer initialValues={{}} onSubmit={() => {}}>
+        <BrowserRouter>
+          <SimpleType />
+          <a
+            className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+            href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-core-formlayout--simple-type#simple-type"
+          >
+            See Form Layout Story Code
+          </a>
+        </BrowserRouter>
+      </FormContainer>
+    );
+  }
+  return <Placeholder className="h-48" />;
+};
+
+export const CardFactory = ({
+  header,
+  footer,
+  title,
+  subtitle,
+  status,
+  headerSpacing,
+  bodySpacing,
+  isExpanded,
+  cardClassName,
+  cardHeaderClassName,
+  cardBodyClassName,
+  cardFooterClassName,
+  useTokens,
+  tokens,
+  bodyContent,
+}) => (
+  <Card
+    isExpanded={isExpanded === true ? true : undefined}
+    status={status === "Waiting" ? "waiting" : "idle"}
+    className={cardClassName}
+    tokens={useTokens && tokens}
+  >
     {header === "Default" && (
-      <Card.Header>
+      <Card.Header removeSpacing={!headerSpacing} className={cardHeaderClassName}>
         <Card.Header.Title>{title}</Card.Header.Title>
         <Card.Header.Subtitle>{subtitle}</Card.Header.Subtitle>
       </Card.Header>
     )}
     {header === "Actions" && (
-      <Card.Header>
+      <Card.Header removeSpacing={!headerSpacing} className={cardHeaderClassName}>
         <Card.Header.Title>{title}</Card.Header.Title>
         <Card.Header.Subtitle>{subtitle}</Card.Header.Subtitle>
         <Card.Header.Actions>
@@ -109,11 +207,11 @@ export const CardFactory = ({ header, footer, title, subtitle, status, spacing, 
         </Card.Header.Actions>
       </Card.Header>
     )}
-    <Card.Body removeSpacing={!spacing}>
-      <Placeholder className="h-48" />
+    <Card.Body removeSpacing={!bodySpacing} className={cardBodyClassName}>
+      {getCardBodyContent(bodyContent)}
     </Card.Body>
     {footer === "Actions" && (
-      <Card.Footer>
+      <Card.Footer className={cardFooterClassName}>
         <div className="flex justify-end">
           <Button variant="outlined" type="reset">
             Cancel
@@ -125,10 +223,10 @@ export const CardFactory = ({ header, footer, title, subtitle, status, spacing, 
       </Card.Footer>
     )}
     {footer === "Pagination" && (
-      <Card.Footer>
+      <Card.Footer className={cardFooterClassName} tokens={useTokens && tokens}>
         <div className="flex flex-col space-y-2 md:space-y-0 md:flex-row items-center justify-between">
-          <PageResizer pageSize={10} pageSizes={[5, 10, 15]} totalElements={20} onPageSizeChange={onPageSizeChange} />
-          <Pagination pageNumber={0} pageSize={10} totalElements={20} onPageChange={onPageChange} />
+          <PageResizer pageSize={10} pageSizes={[5, 10, 15]} totalElements={20} onPageSizeChange={() => {}} />
+          <Pagination pageNumber={0} pageSize={10} totalElements={20} onPageChange={() => {}} />
         </div>
       </Card.Footer>
     )}
@@ -139,18 +237,36 @@ CardFactory.args = {
   title: "Title",
   subtitle: "Subtitle",
   header: "Default",
+  isExpanded: true,
+  bodyContent: "Data Table",
   footer: "Actions",
   status: "Idle",
-  spacing: true,
-  isExpanded: false,
+  headerSpacing: true,
+  bodySpacing: true,
+  cardClassName: "",
+  cardHeaderClassName: "",
+  cardBodyClassName: "",
+  cardFooterClassName: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Card"],
 };
 
+CardFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+CardFactory.decorators = showFactoryDecorator();
+
 export const Basic = () => (
-  <Card>
-    <Card.Body>
-      <Placeholder className="h-48" />
-    </Card.Body>
-  </Card>
+  <>
+    <Card>
+      <Card.Body>
+        <Placeholder className="h-48" />
+      </Card.Body>
+    </Card>
+  </>
 );
 
 export const WithHeader = () => (
@@ -249,20 +365,22 @@ Loading.story = {
   },
 };
 
-CardFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   title: { control: { disable: true } },
   subtitle: { control: { disable: true } },
   header: { control: { disable: true } },
   footer: { control: { disable: true } },
   status: { control: { disable: true } },
-  spacing: { control: { disable: true } },
   isExpanded: { control: { disable: true } },
+  bodySpacing: { control: { disable: true } },
+  headerSpacing: { control: { disable: true } },
+  bodyContent: { control: { disable: true } },
+  cardClassName: { control: { disable: true } },
+  cardHeaderClassName: { control: { disable: true } },
+  cardBodyClassName: { control: { disable: true } },
+  cardFooterClassName: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
 };
 
 Basic.argTypes = HideControls;

@@ -20,7 +20,10 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { Breadcrumbs } from "@tiller-ds/core";
-import { Icon } from "@tiller-ds/icons";
+import { Icon, iconTypes } from "@tiller-ds/icons";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Breadcrumbs.mdx";
 
@@ -30,6 +33,14 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/<Breadcrumb>/g, "<Breadcrumbs.Breadcrumb>")
+          .replace(/<\/Breadcrumb>/g, "</Breadcrumbs.Breadcrumb>")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "Breadcrumbs");
+      },
     },
     design: {
       type: "figma",
@@ -39,7 +50,10 @@ export default {
   },
   argTypes: {
     children: { name: "Items (separated by comma)", control: "text" },
-    tokens: { control: false },
+    icon: { name: "Icon Type", control: "select", options: iconTypes },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
@@ -47,8 +61,8 @@ const projects = "Projects";
 const offices = "Offices";
 const members = "Members";
 
-export const BreadcrumbsFactory = ({ type, children }) => (
-  <Breadcrumbs icon={<Icon type={type} className="text-gray-500" />}>
+export const BreadcrumbsFactory = ({ icon, children, className, useTokens, tokens }) => (
+  <Breadcrumbs icon={<Icon type={icon} />} className={className} tokens={useTokens && tokens}>
     {children.split(", ").map((item) => (
       <Breadcrumbs.Breadcrumb>{item}</Breadcrumbs.Breadcrumb>
     ))}
@@ -56,9 +70,14 @@ export const BreadcrumbsFactory = ({ type, children }) => (
 );
 
 BreadcrumbsFactory.args = {
-  type: "caret-right",
   children: projects + ", " + offices + ", " + members,
+  icon: "caret-right",
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Breadcrumbs"],
 };
+
+BreadcrumbsFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => (
   <Breadcrumbs>
@@ -103,6 +122,10 @@ export const WithNone = () => (
 const HideControls = {
   children: { control: { disable: true } },
   variant: { control: { disable: true } },
+  icon: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
+  className: { control: { disable: true } },
 };
 
 BreadcrumbsFactory.parameters = {

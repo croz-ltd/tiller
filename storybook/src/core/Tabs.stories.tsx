@@ -21,6 +21,9 @@ import { withDesign } from "storybook-addon-designs";
 
 import { Tabs } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Tabs.mdx";
 
@@ -43,6 +46,14 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/<TabsTab/g, "<Tabs.Tab")
+          .replace(/<\/TabsTab>/g, "</Tabs.Tab>")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "Tabs");
+      },
     },
     design: {
       type: "figma",
@@ -55,14 +66,22 @@ export default {
     fullWidth: { name: "Full Width", control: "boolean" },
     iconPlacement: { name: "Icon Placement", control: "radio", options: ["none", "leading", "trailing"] },
     children: { name: "Tabs Content (separated by comma)", control: "text" },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
     defaultIndex: { control: false },
-    tokens: { control: false },
   },
 };
 
-export const TabsFactory = ({ iconPlacement, fullWidth, children, scrollButtons }) => {
+export const TabsFactory = ({ iconPlacement, fullWidth, children, scrollButtons, className, useTokens, tokens }) => {
   return (
-    <Tabs iconPlacement={iconPlacement} fullWidth={fullWidth} scrollButtons={scrollButtons}>
+    <Tabs
+      iconPlacement={iconPlacement}
+      fullWidth={fullWidth}
+      scrollButtons={scrollButtons}
+      className={className}
+      tokens={useTokens && tokens}
+    >
       {children.split(", ").map((item) => (
         <Tabs.Tab label={item} icon={iconPlacement !== "none" ? <Icon type="user" /> : undefined}>
           {item + " Tab"}
@@ -77,7 +96,18 @@ TabsFactory.args = {
   iconPlacement: "none",
   scrollButtons: false,
   fullWidth: false,
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Tabs"],
 };
+
+TabsFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+TabsFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => (
   <Tabs>
@@ -174,17 +204,13 @@ export const ScrollButtons = () => (
   </div>
 );
 
-TabsFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   children: { control: { disable: true } },
   iconPlacement: { control: { disable: true } },
   scrollButtons: { control: { disable: true } },
   fullWidth: { control: { disable: true } },
+  tokens: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
 };
 
 Simple.argTypes = HideControls;

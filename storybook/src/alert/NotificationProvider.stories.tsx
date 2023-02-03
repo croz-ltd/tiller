@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { NotificationProvider, useNotificationContext, NotificationProps } from "@tiller-ds/alert";
@@ -39,11 +38,15 @@ export default {
     },
     decorators: [withDesign],
   },
+  argTypes: {
+    timeout: { control: false },
+    position: { control: false },
+    children: { control: false },
+  },
 };
 
 function Content() {
   const notifications = useNotificationContext();
-  const onDismiss = action("onDismiss");
 
   const simple: NotificationProps = {
     title: "Simple",
@@ -65,7 +68,7 @@ function Content() {
     content: "Anyone with a link can now view this file.",
     icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
     actions: [<Link key={0}>Undo</Link>, <Link key={1}>Dismiss</Link>],
-    onDismiss: onDismiss,
+    onDismiss: () => {},
   };
 
   const withButtonsBelow: NotificationProps = {
@@ -80,7 +83,7 @@ function Content() {
         Dismiss
       </Button>,
     ],
-    onDismiss: onDismiss,
+    onDismiss: () => {},
   };
 
   const withActionsRight: NotificationProps = {
@@ -89,7 +92,7 @@ function Content() {
     icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
     closeButton: false,
     actions: [<Link key={0}>Reply</Link>],
-    onDismiss: onDismiss,
+    onDismiss: () => {},
   };
 
   return (

@@ -73,6 +73,11 @@ export type CardBodyProps = {
   children: React.ReactNode;
 
   /**
+   * Custom additional styling for the card body.
+   */
+  className?: string;
+
+  /**
    * Removes the spacing (padding) from the body of the card.
    */
   removeSpacing?: boolean;
@@ -231,17 +236,17 @@ CardHeaderActions.defaultProps = {
   type: "CardHeaderActions",
 };
 
-function CardBody({ removeSpacing = false, children, ...props }: CardBodyProps) {
+function CardBody({ removeSpacing = false, children, className = "", ...props }: CardBodyProps) {
   const { isExpanded } = React.useContext(CardContext);
   const tokens = useTokens("Card", props.tokens);
 
-  const className = cx({ [tokens.body.padding]: !removeSpacing });
+  const cardBodyClassName = cx(className, { [tokens.body.padding]: !removeSpacing });
 
   if (isExpanded === false) {
     return null;
   }
 
-  return <div className={className}>{children}</div>;
+  return <div className={cardBodyClassName}>{children}</div>;
 }
 
 function CardFooter({ children, className = "", ...props }: CardFooterProps) {

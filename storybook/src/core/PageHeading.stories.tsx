@@ -21,6 +21,9 @@ import { withDesign } from "storybook-addon-designs";
 
 import { Button, PageHeading, Typography } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./PageHeading.mdx";
 
@@ -30,6 +33,24 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/<PageHeadingTitle/g, "<PageHeading.Title")
+          .replace(/<\/PageHeadingTitle>/g, "</PageHeading.Title>")
+          .replace(/<PageHeadingSubtitle/g, "<PageHeading.Subtitle")
+          .replace(/<\/PageHeadingSubtitle>/g, "</PageHeading.Subtitle>")
+          .replace(/<PageHeadingMeta/g, "<PageHeading.Meta")
+          .replace(/<\/PageHeadingMeta>/g, "</PageHeading.Meta>")
+          .replace(/<PageHeadingBreadcrumbs/g, "<PageHeading.Breadcrumbs")
+          .replace(/<\/PageHeadingBreadcrumbs>/g, "</PageHeading.Breadcrumbs>")
+          .replace(/<PageHeadingBreadcrumb/g, "<PageHeading.Breadcrumb")
+          .replace(/<\/PageHeadingBreadcrumb>/g, "</PageHeading.Breadcrumb>")
+          .replace(/<PageHeadingActions/g, "<PageHeading.Actions")
+          .replace(/<\/PageHeadingActions>/g, "</PageHeading.Actions>")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "PageHeading");
+      },
     },
     design: {
       type: "figma",
@@ -44,12 +65,13 @@ export default {
     breadcrumbs: { name: "Breadcrumbs", control: "boolean" },
     meta: { name: "Meta", control: "boolean" },
     children: { control: false },
-    tokens: { control: false },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
-export const PageHeadingFactory = ({ title, subtitle, actions, breadcrumbs, meta }) => (
-  <PageHeading>
+export const PageHeadingFactory = ({ title, subtitle, actions, breadcrumbs, meta, className, useTokens, tokens }) => (
+  <PageHeading tokens={useTokens && tokens} className={className}>
     {breadcrumbs && (
       <PageHeading.Breadcrumbs>
         <PageHeading.Breadcrumb>Applications</PageHeading.Breadcrumb>
@@ -80,7 +102,18 @@ PageHeadingFactory.args = {
   actions: true,
   breadcrumbs: false,
   meta: false,
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["PageHeading"],
 };
+
+PageHeadingFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+PageHeadingFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => (
   <PageHeading>
@@ -174,18 +207,14 @@ export const WithMetaAndActions = () => (
   </PageHeading>
 );
 
-PageHeadingFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   title: { control: { disable: true } },
   subtitle: { control: { disable: true } },
   actions: { control: { disable: true } },
   breadcrumbs: { control: { disable: true } },
   meta: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
 };
 
 Simple.argTypes = HideControls;
