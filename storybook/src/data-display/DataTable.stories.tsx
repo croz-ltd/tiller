@@ -59,8 +59,8 @@ type Item = {
   };
 };
 
-const names = ["Pero", "Ivo", "Ana", "Ivica"];
-const surname = ["Peric", "Ivic", "Anic", "Ivicici"];
+const names = ["Emily", "Michael", "Sarah", "Matthew"];
+const surname = ["Moore", "Williams", "Brown", "Davis"];
 const jobs = ["Nurse", "Teacher", "Software developer", "Lawyer"];
 const jobDescription = [
   "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
@@ -81,7 +81,7 @@ const allData: Item[] = range(0, 152).map((value) => ({
   },
 }));
 
-const smallData = slice(allData, 0, 5);
+const smallData = slice(allData, 0, 4);
 
 const ExpandedItem = (item: Item) => {
   return (
