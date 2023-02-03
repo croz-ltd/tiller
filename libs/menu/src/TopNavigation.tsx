@@ -53,7 +53,7 @@ export type TopNavigationProps = {
 
   /**
    * Actions defined on the right top side of the Top Navigation.
-   * Needs a 'Router' component as a wrapper, and it's preferred to use 'SidebarNavigation.Dropdown'
+   * Needs a 'Router' component as a wrapper, and it's preferred to use 'TopNavigation.Dropdown'
    * as elements inside the router, since this area is often used for account settings and similar
    * options.
    */
