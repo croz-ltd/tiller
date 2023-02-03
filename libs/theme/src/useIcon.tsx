@@ -30,7 +30,7 @@ export default function useIcon(
 ): React.ReactElement {
   const { icons } = useThemeContext();
   if (override !== undefined) {
-    return override;
+    return React.cloneElement(override, { className: iconProps?.className, size: iconProps?.size });
   }
 
   const { size = 5, className = "" } = iconProps ?? {};
