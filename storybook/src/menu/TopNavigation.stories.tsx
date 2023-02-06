@@ -77,7 +77,7 @@ export const Default = (args, context) => (
         <TopNavigation.Dropdown
           title="User"
           menuType="icon"
-          icon={<Icon type="user" className="text-white" />}
+          icon={<Icon type="user" className="text-primary-200 hover:text-primary-800" />}
           popupBackgroundColor="default"
           iconColor="default"
           buttonColor="primary"
@@ -119,7 +119,7 @@ export const Dark = (args, context) => (
         <TopNavigation.Dropdown
           title="User"
           menuType="icon"
-          icon={<Icon type="user" className="text-white" />}
+          icon={<Icon type="user" className="text-white hover:text-slate-800" />}
           iconColor="light"
           buttonColor="primary"
           popupBackgroundColor="dark"
@@ -184,7 +184,7 @@ export const Light = (args, context) => (
         <TopNavigation.Dropdown
           title="User"
           menuType="icon"
-          icon={<Icon type="user" className="text-black" />}
+          icon={<Icon type="user" className="text-slate-900 hover:text-slate-600" />}
           iconColor="dark"
           variant="text"
           popupBackgroundColor="light"
