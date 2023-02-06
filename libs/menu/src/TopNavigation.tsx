@@ -52,6 +52,14 @@ export type TopNavigationProps = {
   logo?: React.ReactNode;
 
   /**
+   * Actions defined on the right top side of the Top Navigation.
+   * Needs a 'Router' component as a wrapper, and it's preferred to use 'TopNavigation.Dropdown'
+   * as elements inside the router, since this area is often used for account settings and similar
+   * options.
+   */
+  topRightAction?: React.ReactNode;
+
+  /**
    * Experimental.
    */
   variant?: "basic" | "centered" | "contained";
@@ -260,24 +268,26 @@ function TopNavigation({
   children,
   variant = "basic",
   className,
+  topRightAction,
   ...props
 }: TopNavigationProps) {
   const topNavigationTokens = useTokens("TopNavigation", props.topNavigationTokens);
   const sidebarNavigationTokens = useTokens("SidebarNavigation", props.sidebarNavigationTokens);
-  const [opened, setOpened] = React.useState(false);
+
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [dropdownOpened, setDropdownOpened] = React.useState(false);
 
   const handleClick = () => {
-    setOpened(!opened);
+    setIsOpen(!isOpen);
   };
 
-  const menuClasses = cx({ hidden: !opened, block: opened }, "md:hidden w-full mt-4");
+  const menuClasses = cx({ hidden: !isOpen, block: isOpen }, "md:hidden w-full mt-4");
   const searchBarClasses = cx(topNavigationTokens.searchBarContainer, {
     "justify-end": variant === "basic",
     "justify-center": variant === "centered",
   });
 
   const headerClasses = cx({ "ml-10": !!logo });
-  const dropdown = findChild("TopNavigationDropdown", children);
   const navigation = findChild("TopNavigationNavigation", children);
   const searchBar = findChild("TopNavigationSearchBar", children);
   const actions = findChild("TopNavigationActions", children);
@@ -289,6 +299,14 @@ function TopNavigation({
     { [topNavigationTokens.base.dark]: color === "dark" },
     { [topNavigationTokens.base.light]: color === "light" },
     { [topNavigationTokens.base.default]: color === "default" }
+  );
+
+  const logoClassName = cx(
+    topNavigationTokens.logo.master,
+    { "hidden md:inline-flex": dropdownOpened },
+    { [topNavigationTokens.logo.withTopRightAction.master]: topRightAction },
+    { [topNavigationTokens.logo.withTopRightAction.margin]: topRightAction },
+    { [topNavigationTokens.logo.withoutTopRightAction]: !topRightAction }
   );
 
   const navButtonClassName = cx(sidebarNavigationTokens.navButtons.master, sidebarNavigationTokens.navButtons[color]);
@@ -306,23 +324,36 @@ function TopNavigation({
   return (
     <nav className={baseClassName}>
       <div className={containerClassName}>
-        <div className={topNavigationTokens.menuButtonContainer}>
-          <Button className="ml-4 md:ml-8 h-10" color={menuButtonClassName} variant="text" onClick={handleClick}>
-            {opened ? closeIcon : menuIcon}
-          </Button>
-        </div>
-        {logo && variant === "centered" && <div className={topNavigationTokens.logoContainer}>{logo}</div>}
+        {!dropdownOpened && (
+          <div className={topNavigationTokens.menuButtonContainer}>
+            <Button className="ml-4 md:ml-8 h-10" color={menuButtonClassName} variant="text" onClick={handleClick}>
+              {isOpen ? closeIcon : menuIcon}
+            </Button>
+          </div>
+        )}
+        {logo && variant === "centered" && <div className={logoClassName}>{logo}</div>}
         <div className={topNavigationTokens.innerContainer}>
-          {logo && (variant === "basic" || variant === "contained") && (
-            <div className={topNavigationTokens.logoContainer}>{logo}</div>
-          )}
+          {logo && (variant === "basic" || variant === "contained") && <div className={logoClassName}>{logo}</div>}
           {(variant === "basic" || variant === "contained") && (
             <TopNavigationMenuContainer variant={variant} className={headerClasses}>
               {navigation}
             </TopNavigationMenuContainer>
           )}
         </div>
-        <div className={`flex items-center justify-end mr-4 md:mr-2 md:col-span-1`}>{dropdown}</div>
+        {topRightAction && (
+          <div
+            className={`flex items-center justify-end md:mr-2 md:col-span-1 ${
+              !dropdownOpened ? (logo ? "col-span-1 mr-4" : "col-span-2 mr-4") : "col-span-3"
+            }`}
+          >
+            <div
+              className={`${dropdownOpened ? "w-full md:w-fit" : ""}`}
+              onClick={() => setDropdownOpened(!dropdownOpened)}
+            >
+              {topRightAction}
+            </div>
+          </div>
+        )}
         <div className={searchBarClasses}>
           <div className={topNavigationTokens.searchBar}>{searchBar}</div>
         </div>
@@ -499,7 +530,7 @@ export function TopNavigationDropdown({
   );
 
   return (
-    <div className="w-screen md:w-auto pl-14">
+    <>
       <div className="hidden md:block">
         <DropdownMenu
           title={title}
@@ -514,13 +545,18 @@ export function TopNavigationDropdown({
           <div className="px-2">{children}</div>
         </DropdownMenu>
       </div>
-      <div className={`md:hidden flex flex-col ${opened && "w-80"}`}>
-        <Button variant={buttonVariant} color={buttonColor} onClick={() => setOpened(!opened)}>
+      <div className={`md:hidden flex flex-col ${opened ? "w-full" : "w-fit"}`}>
+        <Button
+          variant={buttonVariant}
+          color={buttonColor}
+          onClick={() => setOpened(!opened)}
+          className="flex items-center justify-center space-x-2"
+        >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
         {opened && <div className={containerClassName}>{children}</div>}
       </div>
-    </div>
+    </>
   );
 }
 

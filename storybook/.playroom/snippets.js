@@ -4,7 +4,27 @@ export default [
     name: "Customizable",
     code: `
           <StackedLayout navigation={
-            <TopNavigation>
+            <TopNavigation topRightAction={
+                <TopNavigation.Dropdown
+                buttonColor="primary"
+                buttonVariant="text"
+                icon={<Icon className="text-white" type="user"/>}
+                iconColor="default"
+                menuType="icon"
+                popupBackgroundColor="default"
+                title="User"
+              >
+                <TopNavigation.Navigation.SubItem to="/account">
+                  <Intl name="account" />
+                </TopNavigation.Navigation.SubItem>
+                <TopNavigation.Navigation.SubItem to="/support">
+                  <Intl name="support" />
+                </TopNavigation.Navigation.SubItem>
+                <TopNavigation.Navigation.SubItem to="/logout">
+                  <Intl name="signOut" />
+                </TopNavigation.Navigation.SubItem>
+              </TopNavigation.Dropdown>
+            }>
               <TopNavigation.Navigation>
                 <TopNavigation.Navigation.Item to="/dashboard">
                   Dashboard
@@ -43,25 +63,6 @@ export default [
                   </TopNavigation.Navigation.SubItem>
                 </TopNavigation.Navigation.Item>
               </TopNavigation.Navigation>
-              <TopNavigation.Dropdown
-                buttonColor="primary"
-                buttonVariant="text"
-                icon={<Icon className="text-white" type="user"/>}
-                iconColor="default"
-                menuType="icon"
-                popupBackgroundColor="default"
-                title="User"
-              >
-                <TopNavigation.Navigation.SubItem to="/account">
-                  <Intl name="account" />
-                </TopNavigation.Navigation.SubItem>
-                <TopNavigation.Navigation.SubItem to="/support">
-                  <Intl name="support" />
-                </TopNavigation.Navigation.SubItem>
-                <TopNavigation.Navigation.SubItem to="/logout">
-                  <Intl name="signOut" />
-                </TopNavigation.Navigation.SubItem>
-              </TopNavigation.Dropdown>
             </TopNavigation>
           }>
             <StackedLayout.Heading>
@@ -468,15 +469,8 @@ export default [
   <path d="M22.0213 23.518C22.6803 23.076 23.4553 22.84 24.2473 22.84V22.838C24.7737 22.8386 25.2949 22.9432 25.7809 23.1457C26.2669 23.3482 26.7081 23.6446 27.0793 24.018C27.7352 24.6779 28.1432 25.544 28.2343 26.47C28.3254 27.3959 28.094 28.3249 27.5793 29.1C27.1399 29.762 26.5137 30.2785 25.7803 30.584C25.0482 30.8888 24.2418 30.9686 23.4642 30.8131C22.6865 30.6576 21.9729 30.2739 21.4143 29.711C20.8538 29.1464 20.4723 28.429 20.3178 27.6486C20.1632 26.8683 20.2423 26.0596 20.5453 25.324C20.848 24.5894 21.3616 23.9609 22.0213 23.518Z" fill="#6366F1"/>
   <path d="M33.8243 13.758C34.2641 14.4198 34.4991 15.1974 34.4993 15.9931C34.4986 17.0597 34.0762 18.0827 33.3243 18.839C32.953 19.2122 32.5118 19.5086 32.0258 19.7111C31.5398 19.9136 31.0187 20.0182 30.4923 20.019C29.6994 20.019 28.9245 19.783 28.2663 19.341C27.6066 18.8981 27.093 18.2696 26.7903 17.535C26.4873 16.7994 26.4082 15.9907 26.5628 15.2104C26.7173 14.43 27.0988 13.7126 27.6593 13.148C28.2179 12.5849 28.9318 12.2011 29.7096 12.0456C30.4875 11.8901 31.294 11.9699 32.0263 12.275C32.7592 12.5804 33.385 13.0966 33.8243 13.758Z" fill="#6366F1"/>
   <path d="M3.28026 12.647C3.93926 12.205 4.71326 11.969 5.50626 11.969C6.03261 11.9701 6.55357 12.075 7.03934 12.2776C7.52511 12.4803 7.96617 12.7767 8.33726 13.15C8.99287 13.8097 9.40068 14.6754 9.49178 15.601C9.58288 16.5265 9.35169 17.4552 8.83726 18.23C8.39793 18.8914 7.77217 19.4075 7.03926 19.713C6.3069 20.0164 5.50093 20.0953 4.72361 19.9399C3.94629 19.7845 3.23266 19.4017 2.67326 18.84C2.11296 18.2755 1.73165 17.5583 1.57708 16.7781C1.4225 15.9979 1.50153 15.1895 1.80426 14.454C2.10685 13.719 2.62048 13.0902 3.28026 12.647Z" fill="#6366F1"/>
-  </svg>}
-          >
-            <TopNavigation.Navigation>
-              <TopNavigation.Navigation.Item to="/dashboard">Dashboard</TopNavigation.Navigation.Item>
-              <TopNavigation.Navigation.Item to="/team">Team</TopNavigation.Navigation.Item>
-              <TopNavigation.Navigation.Item to="/projects">Projects</TopNavigation.Navigation.Item>
-              <TopNavigation.Navigation.Item to="/calendar">Calendar</TopNavigation.Navigation.Item>
-            </TopNavigation.Navigation>
-            <TopNavigation.Dropdown
+  </svg>} topRightAction={
+              <TopNavigation.Dropdown
               title="User"
               menuType="icon"
               icon={<Icon type="user" className="text-white" />}
@@ -489,6 +483,13 @@ export default [
               <TopNavigation.Dropdown.Item to="/support">Support</TopNavigation.Dropdown.Item>
               <TopNavigation.Dropdown.Item to="/logout">SignOut</TopNavigation.Dropdown.Item>
             </TopNavigation.Dropdown>
+          }>
+            <TopNavigation.Navigation>
+              <TopNavigation.Navigation.Item to="/dashboard">Dashboard</TopNavigation.Navigation.Item>
+              <TopNavigation.Navigation.Item to="/team">Team</TopNavigation.Navigation.Item>
+              <TopNavigation.Navigation.Item to="/projects">Projects</TopNavigation.Navigation.Item>
+              <TopNavigation.Navigation.Item to="/calendar">Calendar</TopNavigation.Navigation.Item>
+            </TopNavigation.Navigation>
           </TopNavigation>
    `,
   },
