@@ -288,7 +288,6 @@ function TopNavigation({
   });
 
   const headerClasses = cx({ "ml-10": !!logo });
-  const dropdown = findChild("TopNavigationDropdown", children);
   const navigation = findChild("TopNavigationNavigation", children);
   const searchBar = findChild("TopNavigationSearchBar", children);
   const actions = findChild("TopNavigationActions", children);
@@ -346,12 +345,15 @@ function TopNavigation({
             className={`flex items-center justify-end md:mr-2 md:col-span-1 ${
               !dropdownOpened ? (logo ? "col-span-1 mr-4" : "col-span-2 mr-4") : "col-span-3"
             }`}
-            onClick={() => setDropdownOpened(!dropdownOpened)}
           >
-            {topRightAction}
+            <div
+              className={`${dropdownOpened ? "w-full md:w-fit" : ""}`}
+              onClick={() => setDropdownOpened(!dropdownOpened)}
+            >
+              {topRightAction}
+            </div>
           </div>
         )}
-        <div className={`flex items-center justify-end mr-4 md:mr-2 md:col-span-1`}>{dropdown}</div>
         <div className={searchBarClasses}>
           <div className={topNavigationTokens.searchBar}>{searchBar}</div>
         </div>
@@ -528,7 +530,7 @@ export function TopNavigationDropdown({
   );
 
   return (
-    <div className="w-screen md:w-auto">
+    <>
       <div className="hidden md:block">
         <DropdownMenu
           title={title}
@@ -543,13 +545,18 @@ export function TopNavigationDropdown({
           <div className="px-2">{children}</div>
         </DropdownMenu>
       </div>
-      <div className={`md:hidden flex flex-col ${opened ? "w-full" : "pl-14"}`}>
-        <Button variant={buttonVariant} color={buttonColor} onClick={() => setOpened(!opened)}>
+      <div className={`md:hidden flex flex-col ${opened ? "w-full" : "w-fit"}`}>
+        <Button
+          variant={buttonVariant}
+          color={buttonColor}
+          onClick={() => setOpened(!opened)}
+          className="flex items-center justify-center space-x-2"
+        >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
         {opened && <div className={containerClassName}>{children}</div>}
       </div>
-    </div>
+    </>
   );
 }
 

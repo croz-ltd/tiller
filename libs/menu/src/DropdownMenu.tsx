@@ -133,7 +133,11 @@ function DropdownMenu({
   const responsiveIcon = (
     <div>
       <DropdownContext.Consumer>
-        {({ isExpanded }) => (isExpanded ? finalCloseExpanderIcon : finalOpenExpanderIcon)}
+        {({ isExpanded }) =>
+          isExpanded
+            ? React.cloneElement(finalCloseExpanderIcon, { className: iconClassName })
+            : React.cloneElement(finalOpenExpanderIcon, { className: iconClassName })
+        }
       </DropdownContext.Consumer>
     </div>
   );
