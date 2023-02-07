@@ -1,4 +1,4 @@
-import { ArgsTable, Stories } from "@storybook/addon-docs";
+import { ArgsTable, Canvas, Stories, Story } from "@storybook/addon-docs";
 
 import { SidebarLayout, SidebarNavigation } from "@tiller-ds/menu";
 import { ThemeTokens } from "../utils";
@@ -10,7 +10,28 @@ import { ThemeTokens } from "../utils";
 The best possible documentation for this component would be the [Props documentation](#sidebar-layout-props)
 and the code of the stories listed below.
 
-<Stories includePrimary={true} />
+## Sidebar Layout Factory
+
+The `Sidebar Layout Factory` story is used to easily visualize your Sidebar Layout, giving you the
+ability to modify the look and make the Sidebar Layout component of your choice by
+using **controls**.
+
+To create your custom Sidebar Layout component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Sidebar Layout Factory` story
+of the Sidebar Layout.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Sidebar Layout.
+- After you click the `Show code` button below your custom Sidebar Layout, the code of the Sidebar Layout will be generated.
+
+### Result:
+
+<Canvas>
+    <Story id="component-library-menu-sidebarlayout--sidebar-layout-factory" />
+</Canvas>
+
+<Stories />
 
 ## Sidebar Layout Props:
 

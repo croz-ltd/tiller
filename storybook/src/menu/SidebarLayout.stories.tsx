@@ -25,10 +25,19 @@ import { PageHeading } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { SidebarNavigation, SidebarLayout } from "@tiller-ds/menu";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
 
+import { Simple } from "../data-display/DataTable.stories";
+import { Default } from "../data-display/DescriptionList.stories";
+import { FormContainer } from "@tiller-ds/formik-elements";
+import { SimpleType } from "../form-elements/FormLayout.stories";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
+
 import logo from "./images/sample-logo.svg";
+
 import mdx from "./SidebarLayout.mdx";
 
 export default {
@@ -37,6 +46,21 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/SidebarLayoutHeading/g, "SidebarLayout.Heading")
+          .replace(/SidebarLayoutContent/g, "SidebarLayout.Content")
+          .replace(/SidebarNavigationItem/g, "SidebarNavigation.Item")
+          .replace(/SidebarNavigationDropdown/g, "SidebarNavigation.Dropdown")
+          .replace(/SidebarNavigation.DropdownItem/g, "SidebarNavigation.Dropdown.Item")
+          .replace(/SidebarNavigationBottomAction/g, "SidebarNavigation.BottomAction")
+          .replace(/SidebarNavigationSubItem/g, "SidebarNavigation.SubItem")
+          .replace(/PageHeadingTitle/g, "PageHeading.Title")
+          .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "SidebarLayout");
+      },
     },
     design: {
       type: "figma",
@@ -44,9 +68,73 @@ export default {
     },
     decorators: [withDesign],
   },
+  argTypes: {
+    pageTitle: { name: "Page Title", control: "text" },
+    pageSubtitle: { name: "Page Subtitle", control: "text" },
+    pageContent: {
+      name: "Page Content",
+      control: { type: "select", options: ["Data Table", "Description List", "Form Layout", "Placeholder"] },
+    },
+    pageContent2: {
+      name: "Page Content 2",
+      control: { type: "select", options: ["Data Table", "Description List", "Form Layout", "Placeholder"] },
+    },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
+    children: { control: false },
+    navigation: { control: false },
+  },
 };
 
 const translations = storybookDictionary.translations;
+function getPageContent(pageContent: string) {
+  if (pageContent === "Data Table") {
+    return (
+      <>
+        <Simple />
+        <a
+          className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+          href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-datatable--simple#simple"
+          target="_blank"
+        >
+          See Data Table Story Code
+        </a>
+      </>
+    );
+  }
+  if (pageContent === "Description List") {
+    return (
+      <>
+        <Default />
+        <a
+          className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+          href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-descriptionlist--default#default"
+          target="_blank"
+        >
+          See Description List Story Code
+        </a>
+      </>
+    );
+  }
+  if (pageContent === "Form Layout") {
+    return (
+      <FormContainer initialValues={{}} onSubmit={() => {}}>
+        <div>
+          <SimpleType />
+          <a
+            className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+            href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-core-formlayout--simple-type#simple-type"
+            target="_blank"
+          >
+            See Form Layout Story Code
+          </a>
+        </div>
+      </FormContainer>
+    );
+  }
+  return <Placeholder className="h-48" />;
+}
 
 const Placeholder = ({ className }: { className: string }) => (
   <svg
@@ -59,6 +147,116 @@ const Placeholder = ({ className }: { className: string }) => (
     <path vectorEffect="non-scaling-stroke" strokeWidth="2" d="M0 0l200 200M0 200L200 0" />
   </svg>
 );
+
+const defaultNavigation = (
+  <SidebarNavigation
+    logo={<img src={logo} alt="logo" />}
+    bottomActions={
+      <>
+        <SidebarNavigation.BottomAction to="/messages">
+          <Intl name="messages" />
+        </SidebarNavigation.BottomAction>
+        <SidebarNavigation.BottomAction to="/reports">
+          <Intl name="reports" />
+        </SidebarNavigation.BottomAction>
+      </>
+    }
+    topRightAction={
+      <SidebarNavigation.Dropdown
+        title="User"
+        menuType="icon"
+        icon={<Icon type="user" className="text-white" />}
+        popupBackgroundColor="light"
+        iconColor="default"
+        buttonColor="primary"
+        buttonVariant="text"
+      >
+        <SidebarNavigation.Dropdown.Item to="/account" color="light">
+          <Intl name="account" />
+        </SidebarNavigation.Dropdown.Item>
+        <SidebarNavigation.Dropdown.Item to="/support" color="light">
+          <Intl name="support" />
+        </SidebarNavigation.Dropdown.Item>
+        <SidebarNavigation.Dropdown.Item to="/logout" color="light">
+          <Intl name="signOut" />
+        </SidebarNavigation.Dropdown.Item>
+      </SidebarNavigation.Dropdown>
+    }
+  >
+    <SidebarNavigation.Item to="/dashboard">
+      <Intl name="dashboard" />
+    </SidebarNavigation.Item>
+    <SidebarNavigation.Item isExpandable={true} title="Planning">
+      <SidebarNavigation.SubItem to="/tasks" icon={<Icon type="clipboard" />}>
+        <Intl name="tasks" />
+      </SidebarNavigation.SubItem>
+      <SidebarNavigation.SubItem to="/reminders" icon={<Icon type="bell" />}>
+        <Intl name="reminders" />
+      </SidebarNavigation.SubItem>
+      <SidebarNavigation.SubItem to="/events" icon={<Icon type="money" />}>
+        <Intl name="events" />
+      </SidebarNavigation.SubItem>
+    </SidebarNavigation.Item>
+    <SidebarNavigation.Item to="/projects">
+      <Intl name="projects" />
+    </SidebarNavigation.Item>
+    <SidebarNavigation.Item to="/calendar">
+      <Intl name="calendar" />
+    </SidebarNavigation.Item>
+    <SidebarNavigation.Item to="/reports">
+      <Intl name="reports" />
+    </SidebarNavigation.Item>
+  </SidebarNavigation>
+);
+
+export const SidebarLayoutFactory = ({
+  pageTitle,
+  pageSubtitle,
+  pageContent,
+  pageContent2,
+  className,
+  useTokens,
+  tokens,
+}) => {
+  const pageHeading = (
+    <PageHeading>
+      <PageHeading.Title>{pageTitle}</PageHeading.Title>
+      <PageHeading.Subtitle>{pageSubtitle}</PageHeading.Subtitle>
+    </PageHeading>
+  );
+
+  return (
+    <Router>
+      <SidebarLayout navigation={defaultNavigation} tokens={useTokens && tokens} className={className}>
+        <SidebarLayout.Heading>{pageHeading}</SidebarLayout.Heading>
+        <SidebarLayout.Content>
+          <div className="flex flex-col space-y-4">
+            {getPageContent(pageContent)}
+            {getPageContent(pageContent2)}
+          </div>
+        </SidebarLayout.Content>
+      </SidebarLayout>
+    </Router>
+  );
+};
+
+SidebarLayoutFactory.args = {
+  pageTitle: "Title",
+  pageSubtitle: "Subtitle",
+  pageContent: "Placeholder",
+  pageContent2: "Placeholder",
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["SidebarLayout"],
+};
+
+SidebarLayoutFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+SidebarLayoutFactory.decorators = showFactoryDecorator();
 
 export const Example = (args, context) => {
   const navigation = (
@@ -141,3 +339,17 @@ export const Example = (args, context) => {
     </Router>
   );
 };
+
+const HideControls = {
+  children: { control: { disable: true } },
+  navigation: { control: { disable: true } },
+  className: { control: { disable: true } },
+  pageTitle: { control: { disable: true } },
+  pageSubtitle: { control: { disable: true } },
+  pageContent: { control: { disable: true } },
+  pageContent2: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
+};
+
+Example.argTypes = HideControls;
