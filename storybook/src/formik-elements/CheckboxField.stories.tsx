@@ -20,7 +20,9 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { CheckboxField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { FormikDecorator, getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./CheckboxField.mdx";
 
@@ -38,6 +40,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const tokensConfig = { CheckboxField: "checkboxFieldTokens", Checkbox: "checkboxTokens" };
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, tokensConfig);
+      },
     },
     design: {
       type: "figma",
@@ -62,12 +70,35 @@ export default {
       },
     },
     disabled: { name: "Disabled" },
-    tokens: { control: false },
+    containerClassName: { name: "Container Class Name", control: "text" },
+    className: { name: "Checkbox Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    checkboxFieldTokens: { name: "Checkbox Field Tokens", control: "object" },
+    checkboxTokens: { name: "Checkbox Tokens", control: "object" },
   },
 };
 
-export const CheckboxFieldFactory = ({ name, label, color, disabled }) => (
-  <CheckboxField name={name} color={color} label={label} disabled={disabled} />
+export const CheckboxFieldFactory = ({
+  name,
+  label,
+  color,
+  disabled,
+  containerClassName,
+  className,
+  useTokens,
+  checkboxFieldTokens,
+  checkboxTokens,
+}) => (
+  <CheckboxField
+    name={name}
+    color={color}
+    label={label}
+    disabled={disabled}
+    containerClassName={containerClassName}
+    className={className}
+    checkboxFieldTokens={useTokens && checkboxFieldTokens}
+    checkboxTokens={useTokens && checkboxTokens}
+  />
 );
 
 CheckboxFieldFactory.args = {
@@ -75,7 +106,20 @@ CheckboxFieldFactory.args = {
   label: "Test label",
   color: "primary",
   disabled: false,
+  useTokens: false,
+  containerClassName: "",
+  className: "",
+  checkboxFieldTokens: defaultThemeConfig.component["CheckboxField"],
+  checkboxTokens: defaultThemeConfig.component["Checkbox"],
 };
+
+CheckboxFieldFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+CheckboxFieldFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => <CheckboxField name={name} />;
 
@@ -85,17 +129,16 @@ export const WithLabel = () => <CheckboxField name={name} label={label} />;
 
 export const WithNonPrimaryColor = () => <CheckboxField name={name} color="info" />;
 
-CheckboxFieldFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   name: { control: { disable: true } },
   label: { control: { disable: true } },
   color: { control: { disable: true } },
   disabled: { control: { disable: true } },
+  className: { control: { disable: true } },
+  containerClassName: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  checkboxTokens: { control: { disable: true } },
+  checkboxFieldTokens: { control: { disable: true } },
 };
 
 Simple.argTypes = HideControls;

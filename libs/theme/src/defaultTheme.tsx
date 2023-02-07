@@ -623,7 +623,7 @@ const defaultComponentConfig = {
   },
   DataTable: {
     container: {
-      master: "min-w-full inline-block align-middle overflow-hidden overflow-x-auto",
+      master: "min-w-full inline-block align-middle overflow-hidden overflow-x-auto scrollbar",
       borderRadius: "sm:rounded-lg",
     },
     tableHeader: {

@@ -49,7 +49,7 @@ type InputTokensProps = {
   tokens?: ComponentTokens<"Input">;
 };
 
-export default function InputField({ name, allowClear, autoTrim = true, ...props }: InputFieldProps) {
+export default function InputField({ name, autoTrim = true, ...props }: InputFieldProps) {
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);

@@ -157,7 +157,7 @@ export type InputInlineAddOnProps = {
 } & TokenProps<"Input">;
 
 export type InputTokens = {
-  inputTokens?: ComponentTokens<"Input">;
+  tokens?: ComponentTokens<"Input">;
 };
 
 export default function Input({
@@ -183,7 +183,7 @@ export default function Input({
   addonBelow,
   ...props
 }: InputProps) {
-  const tokens = useTokens("Input", props.inputTokens);
+  const tokens = useTokens("Input", props.tokens);
 
   const inputClassName = cx(
     tokens.master,
@@ -273,9 +273,9 @@ export default function Input({
           </div>
         )}
       </div>
-      <div className={`absolute inset-y-0 flex ${extend ? "items-start top-2" : "items-center"} right-0`}>
+      <div className={`absolute inset-y-0 flex ${extend ? "items-start top-3" : "items-center"} right-0`}>
         {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
-        {props.value && allowClear && finalClearIcon && React.cloneElement(finalClearIcon, { onClick: onReset })}
+        {props.value && allowClear && finalClearIcon && <button onClick={onReset}>{finalClearIcon}</button>}
         {inlineTrailingIcon && (
           <InputIcon icon={<div className={inlineTrailingIconClass}>{inlineTrailingIcon}</div>} trailing={true} />
         )}

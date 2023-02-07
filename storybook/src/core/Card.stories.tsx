@@ -131,6 +131,7 @@ const getCardBodyContent = (bodyContent: string) => {
         <a
           className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
           href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-datatable--simple#simple"
+          target="_blank"
         >
           See Data Table Story Code
         </a>
@@ -144,6 +145,7 @@ const getCardBodyContent = (bodyContent: string) => {
         <a
           className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
           href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-descriptionlist--default#default"
+          target="_blank"
         >
           See Description List Story Code
         </a>
@@ -158,6 +160,7 @@ const getCardBodyContent = (bodyContent: string) => {
           <a
             className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
             href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-core-formlayout--simple-type#simple-type"
+            target="_blank"
           >
             See Form Layout Story Code
           </a>

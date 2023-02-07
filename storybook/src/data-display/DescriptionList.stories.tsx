@@ -18,12 +18,13 @@
 import * as React from "react";
 
 import { range } from "lodash";
-import { DeepPartial } from "tsdef";
 
 import { withDesign } from "storybook-addon-designs";
 
 import { DescriptionList } from "@tiller-ds/data-display";
-import { defaultThemeConfig, Theme } from "@tiller-ds/theme";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DescriptionList.mdx";
 
@@ -33,6 +34,14 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/<DescriptionListItem/g, "<DescriptionList.Item")
+          .replace(/<\/DescriptionListItem>/g, "</DescriptionList.Item>")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "DescriptionList");
+      },
     },
     design: {
       type: "figma",
@@ -44,17 +53,16 @@ export default {
     type: { name: "Type", control: "radio" },
     sameColumn: { name: "Same Column", control: "boolean" },
     rowQuantity: { name: "Number of Rows", control: { type: "number", min: 2 } },
-    tokens: { control: "object" },
-    showTokens: { name: "Show Tokens?", control: "boolean" },
     children: { control: false },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
-export const DescriptionListFactory = ({ type, sameColumn, rowQuantity, tokens, showTokens }) => {
-  const customDescriptionListTokens: DeepPartial<Theme["component"]["DescriptionList"]> = tokens;
-
+export const DescriptionListFactory = ({ type, sameColumn, rowQuantity, className, useTokens, tokens }) => {
   return (
-    <DescriptionList type={type} tokens={showTokens && customDescriptionListTokens}>
+    <DescriptionList type={type} tokens={useTokens && tokens} className={className}>
       {range(0, rowQuantity).map((value, index) => {
         switch (index) {
           case 0:
@@ -110,9 +118,18 @@ DescriptionListFactory.args = {
   type: "default",
   sameColumn: false,
   rowQuantity: 5,
-  showTokens: false,
+  className: "",
+  useTokens: false,
   tokens: defaultThemeConfig.component["DescriptionList"],
 };
+
+DescriptionListFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+DescriptionListFactory.decorators = showFactoryDecorator();
 
 export const Default = () => (
   <DescriptionList>
@@ -193,18 +210,12 @@ export const Clean = () => (
   </DescriptionList>
 );
 
-DescriptionListFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   type: { control: { disable: true } },
   sameColumn: { control: { disable: true } },
   rowQuantity: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
   tokens: { control: { disable: true } },
-  showTokens: { control: { disable: true } },
 };
 
 Default.argTypes = HideControls;

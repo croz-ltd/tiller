@@ -17,20 +17,36 @@ export function getObjectDiff(obj1, obj2) {
   }, Object.keys(obj2));
 }
 
-export function getTokensFromSource(source: string, componentName: keyof Theme["component"]) {
-  const tokens = Array.of(defaultThemeConfig.component[componentName]);
-  const [, output] = source.match(/tokens=\{\{([\s\S]*?)\}\}/) ?? [];
-  if (output) {
-    // eslint-disable-next-line no-eval
-    const usedTokens = eval("({" + output + "})");
-    const reduced = getObjectDiff(tokens[0], usedTokens);
-    return _.replace(
-      source,
-      /tokens=\{\{([\s\S]*?)\}\}/,
-      `tokens={${JSON.stringify(_.pick(usedTokens, reduced)).replace(/"([^"]+)":/g, "$1:")}}`
-    );
+type TokensConfig = {
+  [K in keyof Theme["component"]]?: string;
+};
+export function getTokensFromSource(source: string, tokensConfig: TokensConfig | keyof Theme["component"]) {
+  const componentDefaultTokens: Record<string, unknown>[] = [];
+
+  let finalTokensConfig = tokensConfig;
+  if (typeof tokensConfig === "string") {
+    finalTokensConfig = { [tokensConfig]: "tokens" };
   }
-  return source;
+  Object.keys(finalTokensConfig).forEach((key) => {
+    componentDefaultTokens.push(defaultThemeConfig.component[key]);
+  });
+
+  let correctSource = source;
+  Object.values(finalTokensConfig).forEach((tokenVariable, index) => {
+    const findTokens = new RegExp(`${tokenVariable}=\{\{([\\s\\S]*?)\}\}`);
+    const [, output] = source.match(findTokens) ?? [];
+    if (output) {
+      // eslint-disable-next-line no-eval
+      const tokens = eval("({" + output + "})");
+      const reduced = getObjectDiff(componentDefaultTokens[index], tokens);
+      correctSource = _.replace(
+        correctSource,
+        findTokens,
+        `${tokenVariable}={${JSON.stringify(_.pick(tokens, reduced)).replace(/"([^"]+)":/g, "$1:")}}`
+      );
+    }
+  });
+  return correctSource || source;
 }
 
 export function showFactoryDecorator(flex = false) {

@@ -70,7 +70,7 @@ type DescriptionListItemProps = {
   className?: string;
 } & TokenProps<"DescriptionList">;
 
-function DescriptionList({ children, type = "default", ...props }: DescriptionListProps) {
+function DescriptionList({ children, type = "default", className, ...props }: DescriptionListProps) {
   const tokens = useTokens("DescriptionList", props.tokens);
 
   const childrenArray = React.Children.toArray(children).flatMap((child) => {
@@ -122,7 +122,9 @@ function DescriptionList({ children, type = "default", ...props }: DescriptionLi
     );
   });
 
-  return <dl className={tokens.padding}>{transformed}</dl>;
+  const descriptionListContainerClassName = cx(className, tokens.padding);
+
+  return <dl className={descriptionListContainerClassName}>{transformed}</dl>;
 }
 
 function DescriptionListItem({ label, children, type = "default", ...props }: DescriptionListItemProps) {

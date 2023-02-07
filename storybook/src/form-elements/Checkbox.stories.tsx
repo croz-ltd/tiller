@@ -21,6 +21,9 @@ import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Checkbox } from "@tiller-ds/form-elements";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Checkbox.mdx";
 
@@ -30,6 +33,11 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "Checkbox");
+      },
     },
     design: {
       type: "figma",
@@ -48,7 +56,9 @@ export default {
       },
     },
     disabled: { name: "Disabled" },
-    tokens: { control: false },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
@@ -56,22 +66,26 @@ const testLabel = "Test";
 
 const onChange = action("checkboxGroup-onChange");
 
-export const CheckboxFactory = ({ name, label, color, disabled }) => (
-  <Checkbox name={name} color={color} label={label} disabled={disabled} />
+export const CheckboxFactory = ({ name, label, color, disabled, className, useTokens, tokens }) => (
+  <Checkbox
+    name={name}
+    color={color}
+    label={label}
+    disabled={disabled}
+    className={className}
+    checkboxTokens={useTokens && tokens}
+  />
 );
 
 CheckboxFactory.args = {
   name: "name",
   label: "Test label",
-  color: "danger",
+  color: "primary",
   disabled: false,
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Checkbox"],
 };
-
-export const Checked = () => <Checkbox label={testLabel} onChange={onChange} checked />;
-
-export const Unchecked = () => <Checkbox label={testLabel} onChange={onChange} />;
-
-export const DifferentColor = () => <Checkbox label={testLabel} color="danger" onChange={onChange} checked />;
 
 CheckboxFactory.parameters = {
   controls: {
@@ -79,11 +93,22 @@ CheckboxFactory.parameters = {
   },
 };
 
+CheckboxFactory.decorators = showFactoryDecorator();
+
+export const Checked = () => <Checkbox label={testLabel} onChange={onChange} checked />;
+
+export const Unchecked = () => <Checkbox label={testLabel} onChange={onChange} />;
+
+export const DifferentColor = () => <Checkbox label={testLabel} color="danger" onChange={onChange} checked />;
+
 const HideControls = {
   name: { control: { disable: true } },
   label: { control: { disable: true } },
   color: { control: { disable: true } },
   disabled: { control: { disable: true } },
+  className: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
 };
 
 Checked.argTypes = HideControls;
