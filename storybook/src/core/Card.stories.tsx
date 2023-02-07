@@ -123,7 +123,7 @@ const Placeholder = ({ className }: { className: string }) => (
   </svg>
 );
 
-const getCardBodyContent = (bodyContent: string) => {
+function getCardBodyContent(bodyContent: string) {
   if (bodyContent === "Data Table") {
     return (
       <BrowserRouter>
@@ -169,7 +169,7 @@ const getCardBodyContent = (bodyContent: string) => {
     );
   }
   return <Placeholder className="h-48" />;
-};
+}
 
 export const CardFactory = ({
   header,

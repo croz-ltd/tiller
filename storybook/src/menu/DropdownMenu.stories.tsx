@@ -24,7 +24,8 @@ import { Icon, iconTypes } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors } from "../utils";
+import { extendedColors, getTokensFromSource } from "../utils";
+
 import mdx from "./DropdownMenu.mdx";
 
 const onSelectAccount = action("onSelect-account-settings");
@@ -37,6 +38,13 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/DropdownMenuItem/g, "DropdownMenu.Item")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "DropdownMenu");
+      },
     },
     design: {
       type: "figma",
@@ -45,7 +53,6 @@ export default {
     decorators: [withDesign],
   },
   argTypes: {
-    animated: { name: "Animated", control: "boolean" },
     popupBackgroundColor: {
       name: "Background Popup Color",
       control: {
@@ -76,7 +83,7 @@ export default {
       },
     },
     color: {
-      name: "Color",
+      name: "Button Color",
       control: {
         type: "select",
         options: extendedColors,
@@ -97,7 +104,12 @@ export default {
       control: { type: "radio" },
     },
     iconPlacement: { name: "Icon Placement", control: { type: "radio", options: ["leading", "trailing"] } },
-    visibleItemCount: { name: "Number of Visible Items", control: { type: "number", min: 0 } },
+    scrollbar: { name: "Show Scrollbar", control: "boolean" },
+    visibleItemCount: {
+      name: "Number of Visible Items",
+      control: { type: "number", min: 1, max: 9 },
+      if: { arg: "scrollbar" },
+    },
     className: { name: "Class Name", control: "text" },
     children: { control: false },
     useTokens: { name: "Use Tokens", control: "boolean" },
@@ -113,7 +125,6 @@ export const DropdownMenuFactory = ({
   variant,
   color,
   className,
-  animated,
   menuType,
   title,
   popupBackgroundColor,
@@ -129,7 +140,7 @@ export const DropdownMenuFactory = ({
     iconPlacement={iconPlacement}
     iconColor={iconColor !== "none" ? iconColor : undefined}
     tokens={useTokens && tokens}
-    visibleItemCount={visibleItemCount !== 0 && visibleItemCount}
+    visibleItemCount={visibleItemCount}
     className={className}
     variant={variant}
     color={color}
@@ -171,28 +182,20 @@ DropdownMenuFactory.args = {
   menuType: "text",
   variant: "outlined",
   size: "md",
+  popupBackgroundColor: "light",
   color: "white",
   icon: "caret-down",
   iconColor: "none",
   iconVariant: "regular",
   iconPlacement: "trailing",
+  scrollbar: false,
   visibleItemCount: 5,
-  animated: false,
-  popupBackgroundColor: "light",
+  className: "",
   useTokens: false,
   tokens: defaultThemeConfig.component["DropdownMenu"],
-  className: "",
 };
 
 export const Simple = () => (
-  <DropdownMenu title="User">
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account settings</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut}>Sign Out</DropdownMenu.Item>
-  </DropdownMenu>
-);
-
-export const Animated = () => (
   <DropdownMenu title="User">
     <DropdownMenu.Item onSelect={onSelectAccount}>Account settings</DropdownMenu.Item>
     <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
@@ -284,14 +287,12 @@ const HideControls = {
   size: { control: { disable: true } },
   title: { control: { disable: true } },
   popupBackgroundColor: { control: { disable: true } },
-  animated: { control: { disable: true } },
   iconPlacement: { control: { disable: true } },
   tokens: { control: { disable: true } },
   useTokens: { control: { disable: true } },
 };
 
 Simple.argTypes = HideControls;
-Animated.argTypes = HideControls;
 WithScrollbar.argTypes = HideControls;
 WithLeadingIcon.argTypes = HideControls;
 AsIcon.argTypes = HideControls;

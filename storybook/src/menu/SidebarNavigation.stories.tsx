@@ -289,3 +289,18 @@ export const WithoutTopRightAction = (args, context) => {
     </Router>
   );
 };
+
+const HideControls = {
+  logo: { control: { disable: true } },
+  bottomActions: { control: { disable: true } },
+  topRightAction: { control: { disable: true } },
+  children: { control: { disable: true } },
+  color: { control: { disable: true } },
+  className: { control: { disable: true } },
+  tokens: { control: { disable: true } },
+};
+
+Default.argTypes = HideControls;
+Dark.argTypes = HideControls;
+Light.argTypes = HideControls;
+WithoutTopRightAction.argTypes = HideControls;

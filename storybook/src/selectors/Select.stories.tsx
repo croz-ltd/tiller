@@ -18,16 +18,17 @@
 import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
+import { action } from "@storybook/addon-actions";
 
 import { Tooltip } from "@tiller-ds/core";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { Select } from "@tiller-ds/selectors";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { Item, items } from "../utils";
+import { getTokensFromSource, Item, items, showFactoryDecorator } from "../utils";
 
 import mdx from "./Select.mdx";
-import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Component Library/Selectors/Select",
@@ -39,6 +40,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const tokensConfig = { Input: "inputTokens", Select: "selectTokens" };
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, tokensConfig);
+      },
     },
     design: {
       type: "figma",
@@ -52,9 +59,9 @@ export default {
     disabled: { name: "Disabled" },
     help: { name: "Help", control: "text" },
     iconVariant: {
-      control: { type: "radio" },
       name: "Tooltip Icon Variant",
-      options: ["solid", "outline"],
+      options: ["thin", "light", "regular", "bold", "fill"],
+      control: { type: "radio" },
     },
     label: { name: "Label", control: "text" },
     name: { name: "Name (accessor)", control: "text" },
@@ -70,6 +77,18 @@ export default {
       defaultValue: "true",
       name: "Toggle Tooltip (on/off)",
     },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    selectTokens: { name: "Select Tokens", control: "object" },
+    inputTokens: { name: "Input Tokens (only 'error' applies)", control: "object" },
+    error: { control: false },
+    hideClearButton: { control: false },
+    loading: { control: false },
+    noResultsPlaceholder: { control: false },
+    options: { control: false },
+    required: { control: false },
+    tooltip: { control: false },
+    value: { control: false },
   },
 };
 
@@ -121,6 +140,10 @@ export const SelectFactory = ({
   allowMultiple,
   multipleSelectionLabel,
   disabled,
+  className,
+  useTokens,
+  selectTokens,
+  inputTokens,
 }) => (
   <Select
     name={name}
@@ -143,6 +166,9 @@ export const SelectFactory = ({
         : undefined
     }
     disabled={disabled}
+    className={className}
+    selectTokens={useTokens && selectTokens}
+    inputTokens={useTokens && inputTokens}
     {...commonProps}
   />
 );
@@ -150,7 +176,7 @@ export const SelectFactory = ({
 SelectFactory.args = {
   name: "name",
   label: "Test Label",
-  help: "Test help content",
+  help: "",
   placeholder: "Test placeholder content",
   tooltipToggle: false,
   tooltipText: "Test tooltip content",
@@ -159,7 +185,19 @@ SelectFactory.args = {
   allowMultiple: false,
   multipleSelectionLabel: false,
   disabled: false,
+  className: "",
+  useTokens: false,
+  selectTokens: defaultThemeConfig.component["Select"],
+  inputTokens: defaultThemeConfig.component["Input"],
 };
+
+SelectFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+SelectFactory.decorators = showFactoryDecorator();
 
 export const WithLabel = () => <Select {...commonProps} label={<Intl name="label" />} />;
 
@@ -239,12 +277,6 @@ export const WithNoOptions = () => (
   <Select label={<Intl name="label" />} name={name} onChange={onChange} onBlur={onBlur} options={[]} />
 );
 
-SelectFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   name: { control: { disable: true } },
   label: { control: { disable: true } },
@@ -257,6 +289,10 @@ const HideControls = {
   multipleSelectionLabel: { control: { disable: true } },
   iconVariant: { control: { disable: true } },
   disabled: { control: { disable: true } },
+  className: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  selectTokens: { control: { disable: true } },
+  inputTokens: { control: { disable: true } },
 };
 
 WithLabel.argTypes = HideControls;

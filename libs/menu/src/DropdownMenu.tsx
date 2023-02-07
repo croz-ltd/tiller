@@ -139,7 +139,7 @@ function DropdownMenu({
   );
 
   return (
-    <Dropdown>
+    <Dropdown className={className}>
       <Dropdown.Button>
         {menuType === "text" && (
           <Button

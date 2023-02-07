@@ -20,7 +20,8 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { Icon } from "@tiller-ds/icons";
-import { extendedColors } from "../utils";
+
+import { extendedColors, showFactoryDecorator } from "../utils";
 
 import mdx from "./Icon.mdx";
 
@@ -30,6 +31,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
     },
     design: {
       type: "figma",
@@ -40,14 +42,14 @@ export default {
   argTypes: {
     variant: { name: "Variant", control: "radio" },
     color: { name: "Color", control: "select", options: extendedColors },
-    size: { name: "Size", control: { type: "range", min: 1, max: 13, step: 1} },
+    size: { name: "Size", control: { type: "range", min: 1, max: 13, step: 1 } },
     type: { name: "Type", control: "select" },
-    tokens: { control: false },
+    className: { name: "Class Name", control: "text" },
   },
 };
 
-export const IconFactory = ({ color, size, type, variant }) => {
-  return <Icon type={type} className={'text-' + color} variant={variant} size={size} />;
+export const IconFactory = ({ color, size, type, variant, className }) => {
+  return <Icon type={type} className={"text-" + color + " " + className} variant={variant} size={size} />;
 };
 
 IconFactory.args = {
@@ -55,7 +57,16 @@ IconFactory.args = {
   color: "primary",
   size: 4,
   type: "star",
+  className: "",
 };
+
+IconFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+IconFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => <Icon type="dog" variant="fill" />;
 
@@ -69,18 +80,12 @@ export const WithCustomSize = () => <Icon type="star" variant="regular" size={8}
 
 export const WithArbitrarySize = () => <Icon type="star" variant="regular" style={{ fontSize: "200px" }} />;
 
-IconFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   variant: { control: { disable: true } },
   color: { control: { disable: true } },
-  colorShade: { control: { disable: true } },
   size: { control: { disable: true } },
   type: { control: { disable: true } },
+  className: { control: { disable: true } },
 };
 
 Simple.argTypes = HideControls;
