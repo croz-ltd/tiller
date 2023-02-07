@@ -1403,6 +1403,7 @@ const defaultComponentConfig = {
     placeholder: "text-slate-500 select-none",
   },
   SidebarLayout: {
+    master: "",
     backgroundColor: "bg-slate-100",
     padding: "py-6",
   },

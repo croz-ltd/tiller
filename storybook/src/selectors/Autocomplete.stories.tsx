@@ -24,9 +24,10 @@ import { Tooltip } from "@tiller-ds/core";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { Autocomplete } from "@tiller-ds/selectors";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
-import { Item, items, promiseTimeout, simpleItems } from "../utils";
+import { getTokensFromSource, Item, items, promiseTimeout, showFactoryDecorator, simpleItems } from "../utils";
 
 import mdx from "./Autocomplete.mdx";
 
@@ -40,6 +41,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const tokensConfig = { Select: "selectTokens", Autocomplete: "autocompleteTokens" };
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, tokensConfig);
+      },
     },
     design: {
       type: "figma",
@@ -63,20 +70,30 @@ export default {
     },
     iconVariant: {
       name: "Tooltip Icon Variant",
-      options: ["solid", "outline"],
+      options: ["thin", "light", "regular", "bold", "fill"],
       control: { type: "radio" },
     },
-    maxItems: { name: "Max Shown Items", control: "number" },
+    maxItems: { name: "Max Shown Items", control: "number", if: { arg: "allowMultiple", truthy: false } },
     allowMultiple: { name: "Allow Multiple Selection", control: { type: "boolean" } },
     multipleSelectionLabel: { name: "Show Selected Labels", control: { type: "boolean" } },
     fetchFrontend: { name: "Fetch on Frontend", control: { type: "boolean" } },
     required: { name: "Required", control: { type: "boolean" } },
     disabled: { name: "Disabled" },
-    tags: { name: "Tags", control: "boolean" },
-    tagsContained: { name: "Contained tags (requires tags)", control: "boolean" },
+    tags: { name: "Tags", control: "boolean", if: { arg: "allowMultiple" } },
+    tagsContained: {
+      name: "Contained tags",
+      control: "boolean",
+      if: { arg: "tags" },
+    },
     sendOptionValue: { name: "Send option value (on submit)", control: "boolean" },
-    onAddCustomTag: { name: "Enable adding custom tag", control: "boolean" },
-    tokens: { control: false },
+    onAddCustomTag: { name: "Enable adding custom tag", control: "boolean", if: { arg: "tags" } },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    autocompleteTokens: { name: "Autocomplete Tokens", control: "object" },
+    selectTokens: { name: "Select Tokens", control: "object" },
+    error: { control: false },
+    tooltip: { control: false },
+    value: { control: false },
   },
 };
 
@@ -194,6 +211,10 @@ export const AutocompleteFactory = ({
   tagsContained,
   sendOptionValue,
   onAddCustomTag,
+  className,
+  useTokens,
+  autocompleteTokens,
+  selectTokens,
 }) => (
   <Autocomplete
     name={name}
@@ -233,6 +254,9 @@ export const AutocompleteFactory = ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     onAddCustomTag={tags && onAddCustomTag ? (tagName) => "#" + tagName : undefined}
+    className={className}
+    autocompleteTokens={useTokens && autocompleteTokens}
+    selectTokens={useTokens && selectTokens}
     {...(fetchFrontend ? (tags ? frontendSimpleProps : frontendProps) : tags ? backendSimpleProps : backendProps)}
   />
 );
@@ -256,7 +280,19 @@ AutocompleteFactory.args = {
   fetchFrontend: false,
   required: false,
   disabled: false,
+  className: "",
+  useTokens: false,
+  autocompleteTokens: defaultThemeConfig.component["Autocomplete"],
+  selectTokens: defaultThemeConfig.component["Select"],
 };
+
+AutocompleteFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+AutocompleteFactory.decorators = showFactoryDecorator();
 
 export const WithLabel = () => <Autocomplete label={<Intl name="label" />} {...backendProps} />;
 
@@ -368,12 +404,6 @@ export const WithFilteringOnFrontend = () => (
 
 export const WithMisusedProps = () => <Autocomplete {...backendProps} label={<Intl name="label" />} name={name} />;
 
-AutocompleteFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   name: { control: { disable: true } },
   label: { control: { disable: true } },
@@ -393,6 +423,10 @@ const HideControls = {
   tagsContained: { control: { disable: true } },
   sendOptionValue: { control: { disable: true } },
   onAddCustomTag: { control: { disable: true } },
+  className: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  autocompleteTokens: { control: { disable: true } },
+  selectTokens: { control: { disable: true } },
 };
 
 WithLabel.argTypes = HideControls;

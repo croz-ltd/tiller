@@ -1,4 +1,4 @@
-import { ArgsTable, Stories } from "@storybook/addon-docs";
+import { ArgsTable, Canvas, Stories, Story } from "@storybook/addon-docs";
 
 import { Icon } from "@tiller-ds/icons";
 import { ThemeTokens } from "../utils";
@@ -97,8 +97,28 @@ Every icon is customizable. The list of icons **required** by the Tiller Design 
   linkBreak: (props: Partial<IconProps>) => <Icon type="link" {...props} />,
 ```
 
+## Icon Factory
 
-<Stories includePrimary={true} />
+The `Icon Factory` story is used to easily create an Icon, giving you the
+ability to modify most of the props and make the Icon of your choice by
+using **controls**.
+
+To create your custom Icon: <br />
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Icon Factory` story
+of the Icon.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Icon.
+- After you click the `Show code` button below your custom Icon, the code of the Icon will be generated.
+
+### Result:
+
+<Canvas>
+    <Story id="component-library-icons-icon--icon-factory" />
+</Canvas>
+
+<Stories />
 
 ## Icon Props:
 

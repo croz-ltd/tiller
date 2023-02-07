@@ -198,6 +198,12 @@ SelectFieldFactory.args = {
   inputTokens: defaultThemeConfig.component["Input"],
 };
 
+SelectFieldFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
 export const WithLabel = () => <SelectField {...commonProps} label={<Intl name="label" />} />;
 
 export const WithoutLabel = () => <SelectField {...commonProps} />;
@@ -265,12 +271,6 @@ export const WithMissingOption = () => (
 );
 
 export const WithNoOptions = () => <SelectField label={<Intl name="label" />} name={name} options={[]} />;
-
-SelectFieldFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
 
 const HideControls = {
   name: { control: { disable: true } },
