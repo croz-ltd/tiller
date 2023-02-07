@@ -61,6 +61,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
     },
     design: {
       type: "figma",
@@ -78,25 +79,21 @@ export default {
   ],
 };
 
-export const WithLabel = (args, context) => <TimeInputField name={name} label={<Intl name="label" />} />;
+export const WithLabel = () => <TimeInputField name={name} label={<Intl name="label" />} />;
 
-export const WithoutLabel = (args, context) => <TimeInputField name={name} />;
+export const WithoutLabel = () => <TimeInputField name={name} />;
 
-export const WithValue = (args, context) => <TimeInputField name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => <TimeInputField name={nameWithValue} label={<Intl name="label" />} />;
 
-export const WithoutClearButton = (args, context) => (
+export const WithoutClearButton = () => (
   <TimeInputField name={nameWithValue} label={<Intl name="label" />} allowClear={false} />
 );
 
-export const Disabled = (args, context) => (
-  <TimeInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />
-);
+export const Disabled = () => <TimeInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
-export const WithHelp = (args, context) => (
-  <TimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />
-);
+export const WithHelp = () => <TimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
 
-export const WithTooltip = (args, context) => (
+export const WithTooltip = () => (
   <TimeInputField
     name={name}
     label={<Intl name="label" />}
@@ -108,18 +105,18 @@ export const WithTooltip = (args, context) => (
   />
 );
 
-export const WithError = (args, context) => <TimeInputField name={nameWithError} label={<Intl name="label" />} />;
+export const WithError = () => <TimeInputField name={nameWithError} label={<Intl name="label" />} />;
 
-export const WithLocalDateTime = (args, context) => <TimeInputField name={localDateTime} />;
+export const WithLocalDateTime = () => <TimeInputField name={localDateTime} />;
 
-export const WithLocalTime = (args, context) => <TimeInputField name={localTime} />;
+export const WithLocalTime = () => <TimeInputField name={localTime} />;
 
-export const WithOffsetTime = (args, context) => <TimeInputField name={offsetTime} withTimeZone={true} />;
+export const WithOffsetTime = () => <TimeInputField name={offsetTime} withTimeZone={true} />;
 
-export const WithOffsetDateTime = (args, context) => <TimeInputField name={offsetDateTime} withTimeZone={true} />;
+export const WithOffsetDateTime = () => <TimeInputField name={offsetDateTime} withTimeZone={true} />;
 
-export const WithZonedDateTime = (args, context) => <TimeInputField name={zonedDateTime} withTimeZone={true} />;
+export const WithZonedDateTime = () => <TimeInputField name={zonedDateTime} withTimeZone={true} />;
 
-export const WithTwelveHour = (args, context) => <TimeInputField name={name} type="use12Hours" />;
+export const WithTwelveHour = () => <TimeInputField name={name} type="use12Hours" />;
 
-export const WithTwelveHourAndValue = (args, context) => <TimeInputField name={nameWithValue} type="use12Hours" />;
+export const WithTwelveHourAndValue = () => <TimeInputField name={nameWithValue} type="use12Hours" />;

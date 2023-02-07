@@ -42,11 +42,11 @@ export type CheckboxProps = {
   CheckboxTokensProps;
 
 type CheckboxTokensProps = {
-  tokens?: ComponentTokens<"Checkbox">;
+  checkboxTokens?: ComponentTokens<"Checkbox">;
 };
 
 export default function Checkbox({ id, label, color = "primary", className, ...props }: CheckboxProps) {
-  const tokens = useTokens("Checkbox", props.tokens);
+  const tokens = useTokens("Checkbox", props.checkboxTokens);
   const [defaultId] = React.useState(uniqueId("checkbox-"));
   const [isChecked, setIsChecked] = React.useState(props.checked);
 

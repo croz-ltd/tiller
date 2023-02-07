@@ -20,24 +20,37 @@ import * as React from "react";
 import { useField } from "formik";
 
 import { Checkbox, CheckboxProps } from "@tiller-ds/form-elements";
-import { TokenProps, useTokens } from "@tiller-ds/theme";
+import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 export type CheckboxFieldProps = {
+  /**
+   * Custom additional class name for the checkbox field container.
+   */
+  containerClassName?: string;
+
   /**
    * The accessor value for the input field component (for validation, fetching, etc.).
    */
   name: string;
 } & CheckboxProps &
-  TokenProps<"CheckboxField">;
+  CheckboxFieldTokensProps;
 
-export default function CheckboxField({ name, label, ...props }: CheckboxFieldProps) {
+type CheckboxFieldTokensProps = {
+  checkboxFieldTokens?: ComponentTokens<"CheckboxField">;
+  checkboxTokens?: ComponentTokens<"Checkbox">;
+};
+
+export default function CheckboxField({ name, label, containerClassName, ...props }: CheckboxFieldProps) {
   const [field] = useField({ name, type: "checkbox" });
-  const tokens = useTokens("CheckboxField", props.tokens);
+  const checkboxFieldTokens = useTokens("CheckboxField", props.checkboxFieldTokens);
+  const checkboxTokens = useTokens("Checkbox", props.checkboxTokens);
   const id = `${name}-${field.value}`;
 
+  const checkboxFieldContainerClassName = cx(containerClassName, checkboxFieldTokens.base);
+
   return (
-    <div className={tokens.base}>
-      <Checkbox id={id} label={label} {...field} {...props} />
+    <div className={checkboxFieldContainerClassName}>
+      <Checkbox id={id} label={label} {...field} checkboxTokens={checkboxTokens} {...props} />
     </div>
   );
 }

@@ -802,6 +802,7 @@ function Autocomplete<T extends {}>({
   const tagsDisplay = (
     <div
       className={`flex flex-wrap ${tagsContained ? "p-1" : selectedOptions.length > 0 && "pt-1"} rounded-md`}
+      style={{ height: "44px" }}
       ref={tagsContained ? toggleRef : undefined}
     >
       {allowMultiple && selectedOptions.length > 0
@@ -841,6 +842,7 @@ function Autocomplete<T extends {}>({
     <>
       <Input
         className={className}
+        style={tagsContained ? { height: "40px" } : undefined}
         id={id}
         label={label}
         tooltip={tooltip}
@@ -861,7 +863,7 @@ function Autocomplete<T extends {}>({
               </div>
             )}
             {validateUsage() && (
-              <div className="flex space-x-1 items-center ">
+              <div className="flex space-x-1 items-center">
                 <div className={value || error ? autocompleteTokens.Separator.container : undefined}>
                   {(validateValue() || error) && <div className={autocompleteTokens.Separator.inner}>&nbsp;</div>}
                 </div>

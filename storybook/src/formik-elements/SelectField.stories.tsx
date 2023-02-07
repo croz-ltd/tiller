@@ -23,8 +23,9 @@ import { Tooltip } from "@tiller-ds/core";
 import { SelectField } from "@tiller-ds/formik-elements";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { FormikDecorator, Item, items } from "../utils";
+import { FormikDecorator, getTokensFromSource, Item, items } from "../utils";
 
 import mdx from "./SelectField.mdx";
 
@@ -59,6 +60,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const tokensConfig = { Input: "inputTokens", Select: "selectTokens" };
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, tokensConfig);
+      },
     },
     design: {
       type: "figma",
@@ -83,9 +90,9 @@ export default {
     disabled: { name: "Disabled" },
     help: { name: "Help", control: "text" },
     iconVariant: {
-      control: { type: "radio" },
       name: "Tooltip Icon Variant",
-      options: ["solid", "outline"],
+      options: ["thin", "light", "regular", "bold", "fill"],
+      control: { type: "radio" },
     },
     label: { name: "Label", control: "text" },
     name: { name: "Name (accessor)", control: "text" },
@@ -101,7 +108,10 @@ export default {
       defaultValue: "true",
       name: "Toggle Tooltip (on/off)",
     },
-    tokens: { control: false },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    selectTokens: { name: "Select Tokens", control: "object" },
+    inputTokens: { name: "Input Tokens (only 'error' applies)", control: "object" },
   },
 };
 
@@ -137,6 +147,10 @@ export const SelectFieldFactory = ({
   allowMultiple,
   multipleSelectionLabel,
   disabled,
+  className,
+  useTokens,
+  selectTokens,
+  inputTokens,
 }) => (
   <SelectField
     name={name}
@@ -159,6 +173,9 @@ export const SelectFieldFactory = ({
         : undefined
     }
     disabled={disabled}
+    className={className}
+    selectTokens={useTokens && selectTokens}
+    inputTokens={useTokens && inputTokens}
     {...commonProps}
   />
 );
@@ -175,6 +192,10 @@ SelectFieldFactory.args = {
   allowMultiple: false,
   multipleSelectionLabel: false,
   disabled: false,
+  className: "",
+  useTokens: false,
+  selectTokens: defaultThemeConfig.component["Select"],
+  inputTokens: defaultThemeConfig.component["Input"],
 };
 
 export const WithLabel = () => <SelectField {...commonProps} label={<Intl name="label" />} />;
@@ -263,6 +284,10 @@ const HideControls = {
   multipleSelectionLabel: { control: { disable: true } },
   iconVariant: { control: { disable: true } },
   disabled: { control: { disable: true } },
+  className: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  selectTokens: { control: { disable: true } },
+  inputTokens: { control: { disable: true } },
 };
 
 WithLabel.argTypes = HideControls;

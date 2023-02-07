@@ -24,9 +24,10 @@ import { Tooltip } from "@tiller-ds/core";
 import { InputField } from "@tiller-ds/formik-elements";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
-import { FormikDecorator } from "../utils";
+import { FormikDecorator, getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./InputField.mdx";
 
@@ -58,6 +59,11 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "Input");
+      },
     },
     design: {
       type: "figma",
@@ -74,43 +80,26 @@ export default {
     ),
   ],
   argTypes: {
-    name: { name: "Name (accessor)", control: "text", defaultValue: "InputField Text" },
-    label: { name: "Label", control: "text", defaultValue: "InputField Label" },
-    help: { name: "Help", control: "text", defaultValue: "InputField Help" },
-    placeholder: { name: "Placeholder", control: "text", defaultValue: "Placeholder" },
-    tooltipText: { name: "Tooltip Text (on hover)", control: "text", defaultValue: "AutocompleteField Text" },
-    tooltipToggle: {
-      name: "Toggle Tooltip (on/off)",
-      control: { type: "boolean" },
-      defaultValue: "true",
-    },
-    tooltipIcon: {
-      name: "Tooltip Icon",
-      control: { type: "select", options: iconTypes },
-      defaultValue: "info",
-    },
+    name: { name: "Name (accessor)", control: "text" },
+    label: { name: "Label", control: "text" },
+    help: { name: "Help", control: "text" },
+    placeholder: { name: "Placeholder", control: "text" },
+    tooltipText: { name: "Tooltip Text (on hover)", control: "text" },
+    tooltipToggle: { name: "Toggle Tooltip (on/off)", control: { type: "boolean" } },
+    tooltipIcon: { name: "Tooltip Icon", control: { type: "select", options: iconTypes } },
     iconVariant: {
       name: "Tooltip Icon Variant",
-      options: ["solid", "outline"],
+      options: ["thin", "light", "regular", "bold", "fill"],
       control: { type: "radio" },
     },
     disabled: { name: "Disabled" },
-    inlineIcon: {
-      name: "Inline Icon",
-      control: { type: "select", options: iconTypes },
-      defaultValue: "pencil-alt",
-    },
-    iconType: {
-      name: "Inline Icon Type",
-      options: ["trailing", "leading", "none"],
-      control: { type: "radio" },
-    },
-    autoTrim: {
-      name: "Auto trim",
-      control: { type: "boolean" },
-      defaultValue: "true",
-    },
-    tokens: { control: false },
+    inlineIcon: { name: "Inline Icon", control: { type: "select", options: iconTypes } },
+    iconType: { name: "Inline Icon Type", options: ["trailing", "leading", "none"], control: { type: "radio" } },
+    autoTrim: { name: "Auto trim", control: { type: "boolean" } },
+    allowClear: { name: "Allow Clear", control: { type: "boolean" } },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
   },
 };
 
@@ -123,10 +112,14 @@ export const InputFieldFactory = ({
   tooltipToggle,
   tooltipIcon,
   iconVariant,
+  allowClear,
   disabled,
   autoTrim,
   inlineIcon,
   iconType,
+  className,
+  useTokens,
+  tokens,
 }) => (
   <InputField
     name={name}
@@ -144,6 +137,9 @@ export const InputFieldFactory = ({
     inlineLeadingIcon={iconType === "leading" && <Icon type={inlineIcon} />}
     disabled={disabled}
     autoTrim={autoTrim}
+    allowClear={allowClear}
+    className={className}
+    tokens={useTokens && tokens}
   />
 );
 
@@ -155,12 +151,24 @@ InputFieldFactory.args = {
   tooltipToggle: false,
   tooltipText: "Test tooltip content",
   tooltipIcon: "info",
-  iconVariant: "solid",
+  iconVariant: "regular",
   iconType: "none",
   inlineIcon: "pencil-alt",
+  allowClear: false,
   autoTrim: true,
   disabled: false,
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["Input"],
 };
+
+InputFieldFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+InputFieldFactory.decorators = showFactoryDecorator();
 
 export const WithLabel = () => (
   <InputField name={name} label={<Intl name="label" />} allowClear={true} required={true} />
@@ -242,12 +250,6 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
 
 export const WithNumber = () => <InputField name={name} label={<Intl name="label" />} type="number" />;
 
-InputFieldFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
-};
-
 const HideControls = {
   name: { control: { disable: true } },
   label: { control: { disable: true } },
@@ -261,6 +263,11 @@ const HideControls = {
   tooltipIcon: { control: { disable: true } },
   tooltipToggle: { control: { disable: true } },
   iconVariant: { control: { disable: true } },
+  allowClear: { control: { disable: true } },
+  className: { control: { disable: true } },
+  containerClassName: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
 };
 
 WithLabel.argTypes = HideControls;

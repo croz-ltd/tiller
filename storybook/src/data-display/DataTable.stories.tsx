@@ -26,6 +26,9 @@ import { Button, Card, IconButton, Link, Pagination, useLocalPagination } from "
 import { DataTable, useDataTable, useLocalSummary } from "@tiller-ds/data-display";
 import { Icon } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DataTable.mdx";
 
@@ -37,12 +40,56 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/<DataTableCardHeader/g, "<DataTable.CardHeader")
+          .replace(/<\/DataTableCardHeader>/g, "</DataTable.CardHeader>")
+          .replace(/<DataTableCardHeaderTitle/g, "<DataTable.CardHeader.Title")
+          .replace(/<\/DataTableCardHeaderTitle>/g, "</DataTable.CardHeader.Title>")
+          .replace(/<DataTableCardHeaderActions/g, "<DataTable.CardHeader.Actions")
+          .replace(/<\/DataTableCardHeaderActions>/g, "</DataTable.CardHeader.Actions>")
+          .replace(/<CardBody/g, "<Card.Body")
+          .replace(/<\/CardBody>/g, "</Card.Body>")
+          .replace(/<CardFooter/g, "<Card.Footer")
+          .replace(/<\/CardFooter>/g, "</Card.Footer>")
+          .replace(/<CardHeaderTitle/g, "<Card.Header.Title")
+          .replace(/<\/CardHeaderTitle>/g, "</Card.Header.Title>")
+          .replace(/<CardHeaderActions/g, "<Card.Header.Actions")
+          .replace(/<\/CardHeaderActions>/g, "</Card.Header.Actions>")
+          .replace(/<DataTableColumn/g, "<DataTable.Column")
+          .replace(/<\/DataTableColumn>/g, "</DataTable.Column>")
+          .replace(/<DataTableExpander/g, "<DataTable.Expander")
+          .replace(/<\/DataTableExpander>/g, "</DataTable.Expander>")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "DataTable");
+      },
     },
     design: {
       type: "figma",
       url: "https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=9679%3A13444",
     },
     decorators: [withDesign],
+  },
+  argTypes: {
+    alignHeader: { name: "Align Header", control: "radio" },
+    showHeader: { name: "Show Header", control: "boolean" },
+    withExpander: { name: "Show Expander", control: "boolean" },
+    withSelector: { name: "Show Selector", control: "boolean" },
+    withActions: { name: "Show Actions", control: "boolean" },
+    withIconButtons: { name: "Show Icon Buttons", control: "boolean" },
+    withHorizontalScroll: { name: "Toggle Horizontal Scroll", control: "boolean" },
+    firstColumnFixed: { name: "Fix First Column", control: "boolean" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
+    children: { control: false },
+    data: { control: false },
+    defaultSortBy: { control: false },
+    hook: { control: false },
+    rowEditingIndex: { control: false },
+    saveEnabled: { control: false },
+    lastColumnFixed: { control: false },
+    className: { control: false },
   },
 };
 
@@ -103,13 +150,15 @@ export const DataTableFactory = ({
   withActions,
   withHorizontalScroll,
   withIconButtons,
+  useTokens,
+  tokens,
 }) => {
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(allData);
 
   return (
     <>
-      <div className="p-8 bg-gray-100 h-screen">
+      <div className="p-8 bg-gray-100">
         <Card className={firstColumnFixed || withHorizontalScroll ? "hidden" : ""}>
           <DataTable.CardHeader {...dataTableState} {...paginationState}>
             <DataTable.CardHeader.Title>Items</DataTable.CardHeader.Title>
@@ -129,6 +178,7 @@ export const DataTableFactory = ({
               showFooter={showFooter}
               onDoubleClick={onDoubleClick}
               alignHeader={alignHeader}
+              tokens={useTokens && tokens}
             >
               {withSelector && <DataTable.Selector />}
               <DataTable.Column header="ID" accessor="id" />
@@ -235,7 +285,17 @@ DataTableFactory.args = {
   withIconButtons: false,
   withHorizontalScroll: false,
   firstColumnFixed: false,
+  useTokens: false,
+  tokens: defaultThemeConfig.component["DataTable"],
 };
+
+DataTableFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+DataTableFactory.decorators = showFactoryDecorator();
 
 export const KitchenSink = () => {
   const [dataTableState, dataTableHook] = useDataTable();
@@ -866,8 +926,53 @@ export const WithRowClassName = () => {
   );
 };
 
-DataTableFactory.parameters = {
-  controls: {
-    expanded: false,
-  },
+const HideControls = {
+  children: { control: { disable: true } },
+  data: { control: { disable: true } },
+  defaultSortBy: { control: { disable: true } },
+  hook: { control: { disable: true } },
+  rowEditingIndex: { control: { disable: true } },
+  saveEnabled: { control: { disable: true } },
+  lastColumnFixed: { control: { disable: true } },
+  className: { control: { disable: true } },
+  alignHeader: { control: { disable: true } },
+  showHeader: { control: { disable: true } },
+  withExpander: { control: { disable: true } },
+  withSelector: { control: { disable: true } },
+  withActions: { control: { disable: true } },
+  withIconButtons: { control: { disable: true } },
+  withHorizontalScroll: { control: { disable: true } },
+  firstColumnFixed: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
 };
+
+KitchenSink.argTypes = HideControls;
+EmptyKitchenSink.argTypes = HideControls;
+Simple.argTypes = HideControls;
+WithFooter.argTypes = HideControls;
+WithFooterUsingLocalSummary.argTypes = HideControls;
+WithClickableRows.argTypes = HideControls;
+WithoutHeader.argTypes = HideControls;
+WithExpanderAtBeginning.argTypes = HideControls;
+WithExpanderAtEnd.argTypes = HideControls;
+WithCustomExpander.argTypes = HideControls;
+WithSelectorAtBeginning.argTypes = HideControls;
+WithSelectorAtEnd.argTypes = HideControls;
+WithConditionalSelectorAtEnd.argTypes = HideControls;
+WithSelectorAndActions.argTypes = HideControls;
+WithSelectorAndDropdownActions.argTypes = HideControls;
+WithSelectorAndActionsHidden.argTypes = HideControls;
+WithCustomExpander.argTypes = HideControls;
+WithTextWrapping.argTypes = HideControls;
+WithHorizontalScroll.argTypes = HideControls;
+WithHorizontalScrollAndFirstColumnFixed.argTypes = HideControls;
+WithHorizontalScrollAndLastColumnFixed.argTypes = HideControls;
+WithDefaultAscendingSortByName.argTypes = HideControls;
+WithIconButtons.argTypes = HideControls;
+WithPrimaryAndSecondaryRows.argTypes = HideControls;
+WithPrimaryAndSecondaryRowsAndComplexValues.argTypes = HideControls;
+WithPrimaryAndSecondaryRowsAndColSpan.argTypes = HideControls;
+WithContentAlignedRight.argTypes = HideControls;
+WithContentCentered.argTypes = HideControls;
+WithRowClassName.argTypes = HideControls;
