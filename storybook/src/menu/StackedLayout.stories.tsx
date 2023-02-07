@@ -28,6 +28,13 @@ import { Intl } from "@tiller-ds/intl";
 import { StackedLayout, TopNavigation } from "@tiller-ds/menu";
 
 import mdx from "./StackedLayout.mdx";
+import { defaultThemeConfig } from "@tiller-ds/theme";
+import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { SidebarLayoutFactory } from "./SidebarLayout.stories";
+import { Simple } from "../data-display/DataTable.stories";
+import { Default } from "../data-display/DescriptionList.stories";
+import { FormContainer } from "@tiller-ds/formik-elements";
+import { SimpleType } from "../form-elements/FormLayout.stories";
 
 export default {
   title: "Component Library/Menu/StackedLayout",
@@ -35,6 +42,24 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source
+          .replace(/StackedLayoutHeading/g, "StackedLayout.Heading")
+          .replace(/StackedLayoutContent/g, "StackedLayout.Content")
+          .replace(/TopNavigationNavigation/g, "TopNavigation.Navigation")
+          .replace(/TopNavigation.NavigationItem/g, "TopNavigation.Navigation.Item")
+          .replace(/TopNavigationDropdown/g, "TopNavigation.Dropdown")
+          .replace(/TopNavigationDropdownItem/g, "TopNavigation.Dropdown.Item")
+          .replace(/SidebarNavigation.DropdownItem/g, "SidebarNavigation.Dropdown.Item")
+          .replace(/SidebarNavigationBottomAction/g, "SidebarNavigation.BottomAction")
+          .replace(/SidebarNavigationSubItem/g, "SidebarNavigation.SubItem")
+          .replace(/PageHeadingTitle/g, "PageHeading.Title")
+          .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
+          .replace(/PageHeadingActions/g, "PageHeading.Actions")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "StackedLayout");
+      },
     },
     design: {
       type: "figma",
@@ -42,9 +67,83 @@ export default {
     },
     decorators: [withDesign],
   },
+  argTypes: {
+    isFixed: { name: "Fixed Heading", control: "boolean" },
+    containerVariant: { name: "Container Variant", control: "select" },
+    background: { name: "Background Color" },
+    pageTitle: { name: "Page Title", control: "text" },
+    pageSubtitle: { name: "Page Subtitle", control: "text" },
+    pageContent: {
+      name: "Page Content",
+      control: { type: "select", options: ["Data Table", "Description List", "Form Layout", "Placeholder"] },
+    },
+    pageContent2: {
+      name: "Page Content 2",
+      control: { type: "select", options: ["Data Table", "Description List", "Form Layout", "Placeholder"] },
+    },
+    className: { name: "Class Name", control: "text" },
+    useTokens: { name: "Use Tokens", control: "boolean" },
+    tokens: { name: "Tokens", control: "object" },
+    children: { control: false },
+    navigation: { control: false },
+  },
 };
 
-const TopNavigationContainer = () => (
+function getPageContent(pageContent: string) {
+  if (pageContent === "Data Table") {
+    return (
+      <>
+        <Simple />
+        <a
+          className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+          href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-datatable--simple#simple"
+          target="_blank"
+        >
+          See Data Table Story Code
+        </a>
+      </>
+    );
+  }
+  if (pageContent === "Description List") {
+    return (
+      <>
+        <Default />
+        <a
+          className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+          href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-descriptionlist--default#default"
+          target="_blank"
+        >
+          See Description List Story Code
+        </a>
+      </>
+    );
+  }
+  if (pageContent === "Form Layout") {
+    return (
+      <FormContainer initialValues={{}} onSubmit={() => {}}>
+        <div>
+          <SimpleType />
+          <a
+            className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
+            href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-core-formlayout--simple-type#simple-type"
+            target="_blank"
+          >
+            See Form Layout Story Code
+          </a>
+        </div>
+      </FormContainer>
+    );
+  }
+  return <Placeholder className="h-48" />;
+}
+
+const dashboardLink = "/dashboard";
+const teamLink = "/team";
+const projectsLink = "/projects";
+const project = "Project Nero";
+const calendarLink = "/calendar";
+
+const topNavigationContainer = (
   <TopNavigation variant="contained">
     <TopNavigation.Navigation>
       <TopNavigation.Navigation.Item to={dashboardLink}>
@@ -82,18 +181,13 @@ const TopNavigationContainer = () => (
   </TopNavigation>
 );
 
-const dashboardLink = "/dashboard";
-const teamLink = "/team";
-const projectsLink = "/projects";
-const project = "Project Nero";
-const calendarLink = "/calendar";
-
-const PageHeadingContainer = () => {
+const PageHeadingContainer = ({ title, subtitle }: { title?: string; subtitle?: string }) => {
   const modal = useModal();
 
   return (
     <PageHeading>
-      <PageHeading.Title>{project}</PageHeading.Title>
+      <PageHeading.Title>{title || project}</PageHeading.Title>
+      {subtitle && <PageHeading.Subtitle>{subtitle}</PageHeading.Subtitle>}
       <PageHeading.Actions>
         <Button variant="outlined">
           <Intl name="edit" />
@@ -101,17 +195,17 @@ const PageHeadingContainer = () => {
         <Button id="open-button" variant="filled" onClick={modal.onOpen}>
           <Intl name="publish" />
         </Button>
-        <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" className="text-green-500" />} />}>
+        <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" className="text-white" />} />}>
           <Modal.Content title={<Intl name="publish" />}>
             <Intl name="publishConfirmation" />
           </Modal.Content>
 
           <Modal.Footer>
-            <Button variant="outlined" onClick={modal.onClose}>
-              <Intl name="cancel" />
-            </Button>
             <Button variant="filled" onClick={modal.onClose}>
               <Intl name="publish" />
+            </Button>
+            <Button variant="outlined" onClick={modal.onClose}>
+              <Intl name="cancel" />
             </Button>
           </Modal.Footer>
         </Modal>
@@ -120,9 +214,77 @@ const PageHeadingContainer = () => {
   );
 };
 
+export const StackedLayoutFactory = ({
+  pageTitle,
+  pageSubtitle,
+  pageContent,
+  pageContent2,
+  className,
+  useTokens,
+  tokens,
+  background,
+  containerVariant,
+  isFixed,
+}) => {
+  return (
+    <Router>
+      <StackedLayout
+        navigation={topNavigationContainer}
+        background={background}
+        containerVariant={containerVariant}
+        tokens={useTokens && tokens}
+        className={className}
+        isFixed={isFixed}
+      >
+        <StackedLayout.Heading>
+          <PageHeading>
+            <PageHeading.Title>{pageTitle}</PageHeading.Title>
+            <PageHeading.Subtitle>{pageSubtitle}</PageHeading.Subtitle>
+            <PageHeading.Actions>
+              <Button variant="outlined">
+                <Intl name="edit" />
+              </Button>
+              <Button id="open-button" variant="filled" onClick={() => {}}>
+                <Intl name="publish" />
+              </Button>
+            </PageHeading.Actions>
+          </PageHeading>
+        </StackedLayout.Heading>
+        <StackedLayout.Content>
+          <div className="flex flex-col space-y-4">
+            {getPageContent(pageContent)}
+            {getPageContent(pageContent2)}
+          </div>
+        </StackedLayout.Content>
+      </StackedLayout>
+    </Router>
+  );
+};
+
+StackedLayoutFactory.args = {
+  pageTitle: "Title",
+  pageSubtitle: "Subtitle",
+  pageContent: "Placeholder",
+  pageContent2: "Placeholder",
+  background: "gray",
+  containerVariant: "fullWidth",
+  isFixed: false,
+  className: "",
+  useTokens: false,
+  tokens: defaultThemeConfig.component["StackedLayout"],
+};
+
+StackedLayoutFactory.parameters = {
+  controls: {
+    expanded: false,
+  },
+};
+
+StackedLayoutFactory.decorators = showFactoryDecorator();
+
 export const SimpleWithModal = () => (
   <Router>
-    <StackedLayout navigation={<TopNavigationContainer />}>
+    <StackedLayout navigation={topNavigationContainer}>
       <StackedLayout.Heading>
         <PageHeadingContainer />
       </StackedLayout.Heading>
@@ -135,7 +297,7 @@ export const SimpleWithModal = () => (
 
 export const WithContainerConfigWithModal = () => (
   <Router>
-    <StackedLayout navigation={<TopNavigationContainer />} containerVariant="max">
+    <StackedLayout navigation={topNavigationContainer} containerVariant="max">
       <StackedLayout.Heading>
         <PageHeadingContainer />
       </StackedLayout.Heading>
@@ -148,7 +310,7 @@ export const WithContainerConfigWithModal = () => (
 
 export const WithFixedHeadingWithModal = () => (
   <Router>
-    <StackedLayout navigation={<TopNavigationContainer />} isFixed={true}>
+    <StackedLayout navigation={topNavigationContainer} isFixed={true}>
       <StackedLayout.Heading>
         <PageHeadingContainer />
       </StackedLayout.Heading>
@@ -158,3 +320,18 @@ export const WithFixedHeadingWithModal = () => (
     </StackedLayout>
   </Router>
 );
+
+const HideControls = {
+  className: { control: { disable: true } },
+  pageTitle: { control: { disable: true } },
+  pageSubtitle: { control: { disable: true } },
+  pageContent: { control: { disable: true } },
+  pageContent2: { control: { disable: true } },
+  isFixed: { control: { disable: true } },
+  useTokens: { control: { disable: true } },
+  tokens: { control: { disable: true } },
+};
+
+SimpleWithModal.argTypes = HideControls;
+WithContainerConfigWithModal.argTypes = HideControls;
+WithFixedHeadingWithModal.argTypes = HideControls;

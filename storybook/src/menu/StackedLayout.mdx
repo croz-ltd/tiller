@@ -1,4 +1,4 @@
-import { ArgsTable } from "@storybook/addon-docs";
+import { ArgsTable, Canvas, Stories, Story } from "@storybook/addon-docs";
 
 import { StackedLayout } from "@tiller-ds/menu";
 import { ThemeTokens } from "../utils";
@@ -9,6 +9,29 @@ import { ThemeTokens } from "../utils";
 
 The best possible documentation for this component would be the [Props documentation](#stacked-layout-props)
 and the code of the stories listed below.
+
+## Stacked Layout Factory
+
+The `Stacked Layout Factory` story is used to easily visualize your Stacked Layout, giving you the
+ability to modify the look and make the Stacked Layout component of your choice by
+using **controls**.
+
+To create your custom Stacked Layout component:
+
+- Switch to the `Canvas` section of the Storybook and navigate to `Stacked Layout Factory` story
+of the Stacked Layout.
+- Modify props using controls.
+- When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
+navigated to your created Stacked Layout.
+- After you click the `Show code` button below your custom Stacked Layout, the code of the Stacked Layout will be generated.
+
+### Result:
+
+<Canvas>
+    <Story id="component-library-menu-stackedlayout--stacked-layout-factory" />
+</Canvas>
+
+<Stories />
 
 ## Stacked Layout Props:
 

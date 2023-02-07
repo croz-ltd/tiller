@@ -54,12 +54,13 @@ function SidebarLayout({ navigation, children, className, ...props }: SidebarLay
   const tokens = useTokens("SidebarLayout", props.tokens);
 
   const containerClassName = cx(
+    tokens.master,
     "h-screen flex overflow-hidden flex-col md:flex-row",
     tokens.backgroundColor,
     className
   );
 
-  const contentClassName = cx("flex-1 relative z-0 overflow-y-auto", tokens.padding, "focus:outline-none");
+  const contentClassName = cx("flex-1 relative z-0 overflow-y-auto scrollbar", tokens.padding, "focus:outline-none");
 
   return (
     <div className={containerClassName}>
