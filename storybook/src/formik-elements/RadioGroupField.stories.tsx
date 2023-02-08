@@ -57,6 +57,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/RadioGroupFieldItem/g, "RadioGroupField.Item")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -83,16 +89,12 @@ export const Simple = () => (
 );
 
 export const WithValue = () => {
-  /**
-   * This is how you should pass the initial value to Formik wrapper.
-   */
-  const initialValue = "comments";
-
   return (
     <RadioGroupField name={nameWithValue} label={label} help={help}>
       <RadioGroupField.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
       <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
       <RadioGroupField.Item label={offersLabel} value={offersValue} help={offersHelp} />
+      <p>initialValue inside formik is set to "comments"</p>
     </RadioGroupField>
   );
 };

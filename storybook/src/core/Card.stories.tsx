@@ -43,18 +43,12 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
-          .replace(/<CardBody/g, "<Card.Body")
-          .replace(/<\/CardBody>/g, "</Card.Body>")
-          .replace(/<CardFooter/g, "<Card.Footer")
-          .replace(/<\/CardFooter>/g, "</Card.Footer>")
-          .replace(/<CardHeaderTitle/g, "<Card.Header.Title")
-          .replace(/<\/CardHeaderTitle>/g, "</Card.Header.Title>")
-          .replace(/<CardHeaderSubtitle/g, "<Card.Header.Subtitle")
-          .replace(/<\/CardHeaderSubtitle>/g, "</Card.Header.Subtitle>")
-          .replace(/<CardHeaderActions/g, "<Card.Header.Actions")
-          .replace(/<\/CardHeaderActions>/g, "</Card.Header.Actions>")
-          .replace(/<CardHeader/g, "<Card.Header")
-          .replace(/<\/CardHeader>/g, "</Card.Header>")
+          .replace(/CardBody/g, "Card.Body")
+          .replace(/CardFooter/g, "Card.Footer")
+          .replace(/CardHeaderTitle/g, "Card.Header.Title")
+          .replace(/CardHeaderSubtitle/g, "Card.Header.Subtitle")
+          .replace(/CardHeaderActions/g, "Card.Header.Actions")
+          .replace(/CardHeader/g, "Card.Header")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
         return getTokensFromSource(correctedSource, "Card");
       },
@@ -263,13 +257,11 @@ CardFactory.parameters = {
 CardFactory.decorators = showFactoryDecorator();
 
 export const Basic = () => (
-  <>
-    <Card>
-      <Card.Body>
-        <Placeholder className="h-48" />
-      </Card.Body>
-    </Card>
-  </>
+  <Card>
+    <Card.Body>
+      <Placeholder className="h-48" />
+    </Card.Body>
+  </Card>
 );
 
 export const WithHeader = () => (

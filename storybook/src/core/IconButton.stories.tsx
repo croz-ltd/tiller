@@ -19,7 +19,6 @@ import * as React from "react";
 
 import { BrowserRouter } from "react-router-dom";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { IconButton } from "@tiller-ds/core";
@@ -27,7 +26,6 @@ import { Icon } from "@tiller-ds/icons";
 
 import mdx from "./IconButton.mdx";
 
-const onClick = action("icon-click");
 const type = "pencil-simple";
 const variant = "fill";
 const name = "iconbutton";
@@ -43,8 +41,8 @@ export default {
       source: { type: "dynamic" },
     },
     design: {
-        type: "figma",
-        url: "https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=9657%3A13249",
+      type: "figma",
+      url: "https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=9657%3A13249",
     },
     decorators: [withDesign],
   },
@@ -55,7 +53,7 @@ export const Simple = () => (
     name={name}
     icon={<Icon type={type} variant="fill" className="text-gray-500" />}
     label={label}
-    onClick={onClick}
+    onClick={() => {}}
   />
 );
 
@@ -64,7 +62,7 @@ export const WithoutTooltip = () => (
     name={name}
     icon={<Icon type={type} variant={variant} className="text-gray-500" />}
     showTooltip={false}
-    onClick={onClick}
+    onClick={() => {}}
   />
 );
 
@@ -73,7 +71,7 @@ export const Disabled = () => (
     name={name}
     icon={<Icon type={type} variant={variant} className="text-gray-500" />}
     label={label}
-    onClick={onClick}
+    onClick={() => {}}
     disabled={true}
   />
 );
@@ -110,7 +108,7 @@ export const WithLinkAndOnClick = () => (
       name={name}
       icon={<Icon type={type} variant={variant} className="text-gray-500" />}
       label={label}
-      onClick={onClick}
+      onClick={() => {}}
       className="hover:no-underline"
     />
   </BrowserRouter>

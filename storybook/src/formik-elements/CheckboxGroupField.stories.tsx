@@ -22,6 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { CheckboxGroupField } from "@tiller-ds/formik-elements";
 
 import { FormikDecorator } from "../utils";
+
 import mdx from "./CheckboxGroupField.mdx";
 
 const candidatesHelp = "Get notified when someones posts a comment on a posting.";
@@ -57,6 +58,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/CheckboxGroupFieldItem/g, "CheckboxGroupField.Item")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",

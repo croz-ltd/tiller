@@ -26,9 +26,7 @@ module.exports = {
     "@storybook/addon-controls",
     "@storybook/addon-docs",
     "storybook-addon-designs",
-    "@storybook/addon-actions",
     "storybook-addon-playroom",
-    "@storybook/addon-essentials",
     "@storybook/addon-google-analytics",
     {
       name: "@storybook/addon-postcss",

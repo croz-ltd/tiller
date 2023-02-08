@@ -21,8 +21,6 @@ import { Form, FormikValues, FormikErrors, FormikTouched } from "formik";
 
 import { FormContainer } from "@tiller-ds/formik-elements";
 
-import { action } from "@storybook/addon-actions";
-
 export type FormikDecoratorProps<T extends {}> = {
   showFieldValues?: boolean;
   initialValues?: FormikValues;
@@ -44,7 +42,7 @@ export default function FormikDecorator<T extends {}>({
     <FormContainer
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={action("onSubmit")}
+      onSubmit={() => {}}
       initialErrors={initialErrors}
       initialTouched={initialTouched}
     >

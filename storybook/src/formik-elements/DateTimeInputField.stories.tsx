@@ -55,7 +55,7 @@ export default {
   component: DateTimeInputField,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
+      source: { type: "dynamic", excludeDecorators: true },
       page: mdx,
     },
     design: {

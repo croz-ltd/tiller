@@ -63,7 +63,7 @@ export default {
   component: DateRangeInputField,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
+      source: { type: "dynamic", excludeDecorators: true },
       page: mdx,
     },
     design: {

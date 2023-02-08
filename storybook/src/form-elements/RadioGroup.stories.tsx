@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { RadioGroup } from "@tiller-ds/form-elements";
@@ -37,7 +36,6 @@ const name = "emailNotifications";
 const offersHelp = "Get notified when a candidate accepts or rejects an offer.";
 const offersLabel = "Offers";
 const offersValue = "offers";
-const onChange = action("RadioGroup-onChange");
 const value = "comments";
 
 export default {
@@ -46,6 +44,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/RadioGroupItem/g, "RadioGroup.Item")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -56,7 +60,7 @@ export default {
 };
 
 export const Simple = () => (
-  <RadioGroup name={name} label={label} onChange={onChange} value={""}>
+  <RadioGroup name={name} label={label} onChange={() => {}} value={""}>
     <RadioGroup.Item label={commentsLabel} value={commentsValue} />
     <RadioGroup.Item label={candidatesLabel} value={candidatesValue} />
     <RadioGroup.Item label={offersLabel} value={offersValue} />
@@ -64,7 +68,7 @@ export const Simple = () => (
 );
 
 export const WithValue = () => (
-  <RadioGroup name={name} label={label} onChange={onChange} value={value}>
+  <RadioGroup name={name} label={label} onChange={() => {}} value={value}>
     <RadioGroup.Item label={commentsLabel} value={commentsValue} />
     <RadioGroup.Item label={candidatesLabel} value={candidatesValue} />
     <RadioGroup.Item label={offersLabel} value={offersValue} />
@@ -72,7 +76,7 @@ export const WithValue = () => (
 );
 
 export const WithHelp = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={onChange} value={""}>
+  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""}>
     <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
     <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
@@ -80,7 +84,7 @@ export const WithHelp = () => (
 );
 
 export const WithError = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={onChange} value={""} error={error}>
+  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""} error={error}>
     <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
     <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
@@ -88,7 +92,7 @@ export const WithError = () => (
 );
 
 export const WithDisabledItems = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={onChange} value={""}>
+  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""}>
     <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} disabled={true} />
     <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} disabled={true} />
@@ -96,7 +100,7 @@ export const WithDisabledItems = () => (
 );
 
 export const WithVerticalAlignment = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={onChange} value={""} vertical={true}>
+  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""} vertical={true}>
     <RadioGroup.Item label={commentsLabel} value={commentsValue} />
     <RadioGroup.Item label={candidatesLabel} value={candidatesValue} />
     <RadioGroup.Item label={offersLabel} value={offersValue} />

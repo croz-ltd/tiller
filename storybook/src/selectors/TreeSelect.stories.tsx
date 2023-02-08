@@ -17,8 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
-
 import { TreeSelect } from "@tiller-ds/selectors";
 import { Intl } from "@tiller-ds/intl";
 
@@ -39,13 +37,10 @@ export default {
 const name = "test";
 const value = treeItems[1]?.items?.[0]?.items?.[0]?.items?.[1];
 
-const onChange = action("TreeSelect-change");
-const onBlur = action("TreeSelect-blur");
-
 const commonProps = {
   name,
-  onChange,
-  onBlur,
+  onChange: () => {},
+  onBlur: () => {},
   options: treeItems,
   // eslint-disable-next-line react/display-name
   getOptionLabel: (option: TreeItem) => <>{option.name}</>,

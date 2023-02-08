@@ -45,7 +45,7 @@ export default {
   component: DragZoneField,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
+      source: { type: "code", excludeDecorators: true },
       page: mdx,
     },
     design: {

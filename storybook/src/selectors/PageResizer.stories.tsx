@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { PageResizer } from "@tiller-ds/selectors";
@@ -49,10 +48,8 @@ export default {
   ],
 };
 
-const onPageSizeChange = action("Page-size-change");
-
 export const Simple = () => (
-  <PageResizer pageSize={10} pageSizes={[3, 5, 10]} totalElements={20} onPageSizeChange={onPageSizeChange} />
+  <PageResizer pageSize={10} pageSizes={[3, 5, 10]} totalElements={20} onPageSizeChange={() => {}} />
 );
 
 export const WithItems = () => {

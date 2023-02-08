@@ -19,7 +19,6 @@ import * as React from "react";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Icon } from "@tiller-ds/icons";
@@ -37,6 +36,13 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/TopNavigationNavigation/g, "TopNavigation.Navigation")
+          .replace(/TopNavigationDropdown/g, "TopNavigation.Dropdown")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -65,10 +71,6 @@ const tasksLink = "/tasks";
 const remindersLink = "/reminders";
 const eventsLink = "/events";
 
-const onSelectTasks = action("onSelect-tasks");
-const onSelectReminders = action("onSelect-reminders");
-const onSelectEvents = action("onSelect-events");
-
 export const Default = (args, context) => (
   <Router>
     <TopNavigation
@@ -95,13 +97,13 @@ export const Default = (args, context) => (
         <TopNavigation.Navigation.Item to={projectsLink}>{projects}</TopNavigation.Navigation.Item>
         <TopNavigation.Navigation.Item to={calendarLink}>{calendar}</TopNavigation.Navigation.Item>
         <TopNavigation.Navigation.Item isExpandable={true} title={translations[context.globals.language]["planning"]}>
-          <TopNavigation.Navigation.SubItem to={tasksLink} icon={<Icon type="clipboard" />} onSelect={onSelectTasks}>
+          <TopNavigation.Navigation.SubItem to={tasksLink} icon={<Icon type="clipboard" />} onSelect={() => {}}>
             {tasks}
           </TopNavigation.Navigation.SubItem>
-          <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={onSelectReminders}>
+          <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={() => {}}>
             {reminders}
           </TopNavigation.Navigation.SubItem>
-          <TopNavigation.Navigation.SubItem to={eventsLink} onSelect={onSelectEvents}>
+          <TopNavigation.Navigation.SubItem to={eventsLink} onSelect={() => {}}>
             {events}
           </TopNavigation.Navigation.SubItem>
         </TopNavigation.Navigation.Item>
@@ -158,15 +160,15 @@ export const Dark = (args, context) => (
           <TopNavigation.Navigation.SubItem
             to={tasksLink}
             icon={<Icon type="clipboard" />}
-            onSelect={onSelectTasks}
+            onSelect={() => {}}
             color="dark"
           >
             {tasks}
           </TopNavigation.Navigation.SubItem>
-          <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={onSelectReminders} color="dark">
+          <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={() => {}} color="dark">
             {reminders}
           </TopNavigation.Navigation.SubItem>
-          <TopNavigation.Navigation.SubItem to={eventsLink} onSelect={onSelectEvents} color="dark">
+          <TopNavigation.Navigation.SubItem to={eventsLink} onSelect={() => {}} color="dark">
             {events}
           </TopNavigation.Navigation.SubItem>
         </TopNavigation.Navigation.Item>
@@ -224,15 +226,15 @@ export const Light = (args, context) => (
           <TopNavigation.Navigation.SubItem
             to={tasksLink}
             icon={<Icon type="clipboard" />}
-            onSelect={onSelectTasks}
+            onSelect={() => {}}
             color="light"
           >
             {tasks}
           </TopNavigation.Navigation.SubItem>
-          <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={onSelectReminders} color="light">
+          <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={() => {}} color="light">
             {reminders}
           </TopNavigation.Navigation.SubItem>
-          <TopNavigation.Navigation.SubItem to={eventsLink} onSelect={onSelectEvents} color="light">
+          <TopNavigation.Navigation.SubItem to={eventsLink} onSelect={() => {}} color="light">
             {events}
           </TopNavigation.Navigation.SubItem>
         </TopNavigation.Navigation.Item>

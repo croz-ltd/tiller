@@ -19,7 +19,6 @@ import * as React from "react";
 
 import { BrowserRouter } from "react-router-dom";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Link } from "@tiller-ds/core";
@@ -32,6 +31,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
     },
     decorators: [withDesign],
   },
@@ -39,7 +39,7 @@ export default {
 
 export const DefaultColor = () => (
   <BrowserRouter>
-    <Link to="/dashboard" onClick={action("onClick")}>
+    <Link to="/dashboard" onClick={() => {}}>
       Default
     </Link>
   </BrowserRouter>
@@ -47,7 +47,7 @@ export const DefaultColor = () => (
 
 export const PrimaryColor = () => (
   <BrowserRouter>
-    <Link to="/dashboard" variant="primary" onClick={action("onClick")}>
+    <Link to="/dashboard" variant="primary" onClick={() => {}}>
       Primary
     </Link>
   </BrowserRouter>
@@ -55,7 +55,7 @@ export const PrimaryColor = () => (
 
 export const SecondaryColor = () => (
   <BrowserRouter>
-    <Link to="/dashboard" variant="secondary" onClick={action("onClick")}>
+    <Link to="/dashboard" variant="secondary" onClick={() => {}}>
       Secondary
     </Link>
   </BrowserRouter>
@@ -63,7 +63,7 @@ export const SecondaryColor = () => (
 
 export const TertiaryColor = () => (
   <BrowserRouter>
-    <Link to="/dashboard" variant="tertiary" onClick={action("onClick")}>
+    <Link to="/dashboard" variant="tertiary" onClick={() => {}}>
       Tertiary
     </Link>
   </BrowserRouter>

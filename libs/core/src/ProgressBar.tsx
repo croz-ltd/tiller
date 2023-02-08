@@ -53,7 +53,7 @@ type StepProps = {
    * Sets the current step as active (checks all previous steps and highlights the current step as active).
    * If the 'completed' prop is set to true, this value has no effect on the look of the component.
    */
-  active: boolean;
+  active?: boolean;
 
   /**
    * Progress Bar Step content (not exclusively text).

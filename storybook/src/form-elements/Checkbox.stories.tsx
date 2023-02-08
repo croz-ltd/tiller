@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Checkbox } from "@tiller-ds/form-elements";
@@ -64,8 +63,6 @@ export default {
 
 const testLabel = "Test";
 
-const onChange = action("checkboxGroup-onChange");
-
 export const CheckboxFactory = ({ name, label, color, disabled, className, useTokens, tokens }) => (
   <Checkbox
     name={name}
@@ -95,11 +92,11 @@ CheckboxFactory.parameters = {
 
 CheckboxFactory.decorators = showFactoryDecorator();
 
-export const Checked = () => <Checkbox label={testLabel} onChange={onChange} checked />;
+export const Checked = () => <Checkbox label={testLabel} onChange={() => {}} checked />;
 
-export const Unchecked = () => <Checkbox label={testLabel} onChange={onChange} />;
+export const Unchecked = () => <Checkbox label={testLabel} onChange={() => {}} />;
 
-export const DifferentColor = () => <Checkbox label={testLabel} color="danger" onChange={onChange} checked />;
+export const DifferentColor = () => <Checkbox label={testLabel} color="danger" onChange={() => {}} checked />;
 
 const HideControls = {
   name: { control: { disable: true } },

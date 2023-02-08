@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { ButtonSize, StatusButton } from "@tiller-ds/core";
@@ -30,6 +29,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -38,22 +41,30 @@ export default {
     decorators: [withDesign],
   },
 };
+export const IdleFilled = () => (
+  <StatusButton variant="filled" onClick={() => {}}>
+    Test
+  </StatusButton>
+);
 
-const commonProps = () => ({
-  onClick: action("button-click"),
-  children: "test",
-});
+export const IdleOutlined = () => (
+  <StatusButton variant="outlined" onClick={() => {}}>
+    Test
+  </StatusButton>
+);
 
-export const IdleFilled = () => <StatusButton {...commonProps()} variant="filled" />;
-
-export const IdleOutlined = () => <StatusButton {...commonProps()} variant="outlined" />;
-
-export const IdleText = () => <StatusButton {...commonProps()} variant="text" />;
+export const IdleText = () => (
+  <StatusButton variant="text" onClick={() => {}}>
+    Test
+  </StatusButton>
+);
 
 export const WaitingFilled = () => (
   <div className="flex flex-row items-center space-x-4">
     {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
-      <StatusButton key={key} status="waiting" size={size as ButtonSize} {...commonProps()} variant="filled" />
+      <StatusButton key={key} status="waiting" size={size as ButtonSize} variant="filled" onClick={() => {}}>
+        Test
+      </StatusButton>
     ))}
   </div>
 );
@@ -67,7 +78,9 @@ WaitingFilled.story = {
 export const WaitingOutlined = () => (
   <div className="flex flex-row items-center space-x-4">
     {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
-      <StatusButton key={key} status="waiting" size={size as ButtonSize} {...commonProps()} variant="outlined" />
+      <StatusButton key={key} status="waiting" size={size as ButtonSize} variant="outlined" onClick={() => {}}>
+        Test
+      </StatusButton>
     ))}
   </div>
 );
@@ -78,7 +91,15 @@ WaitingOutlined.story = {
   },
 };
 
-export const WaitingText = () => <StatusButton status="waiting" {...commonProps()} variant="text" />;
+export const WaitingText = () => (
+  <div className="flex flex-row items-center space-x-4">
+    {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
+      <StatusButton key={key} status="waiting" size={size as ButtonSize} variant="text" onClick={() => {}}>
+        Test
+      </StatusButton>
+    ))}
+  </div>
+);
 
 WaitingText.story = {
   parameters: {
@@ -89,7 +110,9 @@ WaitingText.story = {
 export const SuccessFilled = () => (
   <div className="flex flex-row items-center space-x-4">
     {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
-      <StatusButton key={key} status="success" size={size as ButtonSize} {...commonProps()} variant="filled" />
+      <StatusButton key={key} status="success" size={size as ButtonSize} variant="filled" onClick={() => {}}>
+        Test
+      </StatusButton>
     ))}
   </div>
 );
@@ -97,17 +120,29 @@ export const SuccessFilled = () => (
 export const SuccessOutlined = () => (
   <div className="flex flex-row items-center space-x-4">
     {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
-      <StatusButton key={key} status="success" size={size as ButtonSize} {...commonProps()} variant="outlined" />
+      <StatusButton key={key} status="success" size={size as ButtonSize} variant="outlined" onClick={() => {}}>
+        Test
+      </StatusButton>
     ))}
   </div>
 );
 
-export const SuccessText = () => <StatusButton status="success" {...commonProps()} variant="text" />;
+export const SuccessText = () => (
+  <div className="flex flex-row items-center space-x-4">
+    {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
+      <StatusButton status="success" size={size as ButtonSize} variant="text" onClick={() => {}}>
+        Test
+      </StatusButton>
+    ))}
+  </div>
+);
 
 export const ErrorFilled = () => (
   <div className="flex flex-row items-center space-x-4">
     {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
-      <StatusButton key={key} status="error" size={size as ButtonSize} {...commonProps()} variant="filled" />
+      <StatusButton key={key} status="error" size={size as ButtonSize} variant="filled" onClick={() => {}}>
+        Test
+      </StatusButton>
     ))}
   </div>
 );
@@ -115,9 +150,19 @@ export const ErrorFilled = () => (
 export const ErrorOutlined = () => (
   <div className="flex flex-row items-center space-x-4">
     {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
-      <StatusButton key={key} status="error" size={size as ButtonSize} {...commonProps()} variant="outlined" />
+      <StatusButton key={key} status="error" size={size as ButtonSize} variant="outlined" onClick={() => {}}>
+        Test
+      </StatusButton>
     ))}
   </div>
 );
 
-export const ErrorText = () => <StatusButton status="error" {...commonProps()} variant="text" />;
+export const ErrorText = () => (
+  <div className="flex flex-row items-center space-x-4">
+    {["xs", "sm", "md", "lg", "xl"].map((size, key) => (
+      <StatusButton key={key} status="error" size={size as ButtonSize} variant="text" onClick={() => {}}>
+        Test
+      </StatusButton>
+    ))}
+  </div>
+);

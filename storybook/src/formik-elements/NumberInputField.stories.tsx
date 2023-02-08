@@ -17,8 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
-
 import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
@@ -50,6 +48,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
     },
   },
   decorators: [
@@ -67,8 +66,6 @@ const name = "test";
 const addOn = "https://";
 const inlineLeadingAddOn = "$";
 const inlineTrailingAddOn = "USD";
-
-const onClick = action("icon-click");
 
 export const WithLabel = () => <NumberInputField name={name} label={<Intl name="label" />} />;
 
@@ -116,7 +113,7 @@ export const WithLeadingIcon = () => (
   <NumberInputField
     name={name}
     label={<Intl name="label" />}
-    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={onClick} />}
+    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
   />
 );
 
@@ -124,7 +121,7 @@ export const WithTrailingIcon = () => (
   <NumberInputField
     name={name}
     label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={onClick} />}
+    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
   />
 );
 

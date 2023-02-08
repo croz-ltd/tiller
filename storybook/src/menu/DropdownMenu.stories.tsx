@@ -17,20 +17,15 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors, getTokensFromSource } from "../utils";
+import { extendedColors, getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DropdownMenu.mdx";
-
-const onSelectAccount = action("onSelect-account-settings");
-const onSelectSupport = action("onSelect-support");
-const onSelectSignOut = action("onSelect-sign-out");
 
 export default {
   title: "Component Library/Menu/DropdownMenu",
@@ -148,34 +143,19 @@ export const DropdownMenuFactory = ({
     popupBackgroundColor={popupBackgroundColor}
     size={size}
   >
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Info</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Messages</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Alerts</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Notifications</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Settings</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Pictures</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut}>Sign Out</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Info</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Messages</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Alerts</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Notifications</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Settings</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Pictures</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Sign Out</DropdownMenu.Item>
   </DropdownMenu>
 );
 
-DropdownMenuFactory.decorators = [
-  (storyFn: () => React.ReactNode) => (
-    <div className="flex flex-col space-y-10">
-      <div className="flex">{storyFn()}</div>
-      <hr />
-      <div className="text-gray-800 text-sm">
-        <span className="font-semibold">Note:</span> To create a one-off button use tokens, but first toggle 'Use
-        Tokens'.
-        <br />
-        <span className="font-semibold mt-2">Tips:</span>
-        <li>remove the lines of tokens you didn't change to have a cleaner and shorter code output</li>
-        <li>remove all tokens (leave an empty object) if you want to have full control with just the class name</li>
-      </div>
-    </div>
-  ),
-];
+DropdownMenuFactory.decorators = showFactoryDecorator();
 
 DropdownMenuFactory.args = {
   title: "Dropdown",
@@ -197,61 +177,57 @@ DropdownMenuFactory.args = {
 
 export const Simple = () => (
   <DropdownMenu title="User">
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account settings</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut}>Sign Out</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account settings</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Sign Out</DropdownMenu.Item>
   </DropdownMenu>
 );
 
 export const WithScrollbar = () => (
   <DropdownMenu title="User" visibleItemCount={5}>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Info</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Messages</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Alerts</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Notifications</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Settings</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account Pictures</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut}>Sign Out</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Info</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Messages</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Alerts</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Notifications</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Settings</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account Pictures</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Sign Out</DropdownMenu.Item>
   </DropdownMenu>
 );
 
 export const WithLeadingIcon = () => (
   <DropdownMenu title="User" iconPlacement="leading">
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account settings</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut}>Sign Out</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account settings</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Sign Out</DropdownMenu.Item>
   </DropdownMenu>
 );
 
 export const AsIcon = () => (
   <DropdownMenu menuType="icon" color="white" variant="text">
-    <DropdownMenu.Item onSelect={action("onSelect-jeep")}>Jeep: Fiat Chrysler Automobiles</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={action("onSelect-alfaromeo")}>Alfa Romeo: Fiat Chrysler Automobiles</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={action("onSelect-infiniti")}>
-      Infiniti: Renault-Nissan-Mitsubishi Alliance
-    </DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Jeep: Fiat Chrysler Automobiles</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Alfa Romeo: Fiat Chrysler Automobiles</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Infiniti: Renault-Nissan-Mitsubishi Alliance</DropdownMenu.Item>
   </DropdownMenu>
 );
 
 export const WithLongItems = () => (
   <DropdownMenu title="Cars">
-    <DropdownMenu.Item onSelect={action("onSelect-jeep")}>Jeep: Fiat Chrysler Automobiles</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={action("onSelect-alfaromeo")}>Alfa Romeo: Fiat Chrysler Automobiles</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={action("onSelect-infiniti")}>
-      Infiniti: Renault-Nissan-Mitsubishi Alliance
-    </DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Jeep: Fiat Chrysler Automobiles</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Alfa Romeo: Fiat Chrysler Automobiles</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Infiniti: Renault-Nissan-Mitsubishi Alliance</DropdownMenu.Item>
   </DropdownMenu>
 );
 
 export const WithDisabledItems = () => (
   <DropdownMenu title="User">
-    <DropdownMenu.Item onSelect={onSelectAccount} disabled={true}>
+    <DropdownMenu.Item onSelect={() => {}} disabled={true}>
       Account settings
     </DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut} disabled={true}>
+    <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}} disabled={true}>
       Sign Out
     </DropdownMenu.Item>
   </DropdownMenu>
@@ -259,9 +235,9 @@ export const WithDisabledItems = () => (
 
 export const Disabled = () => (
   <DropdownMenu title="User" disabled={true}>
-    <DropdownMenu.Item onSelect={onSelectAccount}>Account settings</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSupport}>Support</DropdownMenu.Item>
-    <DropdownMenu.Item onSelect={onSelectSignOut}>Sign Out</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Account settings</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+    <DropdownMenu.Item onSelect={() => {}}>Sign Out</DropdownMenu.Item>
   </DropdownMenu>
 );
 

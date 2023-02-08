@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Tooltip } from "@tiller-ds/core";
@@ -34,8 +33,11 @@ export default {
   component: DateInput,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -49,9 +51,6 @@ const translations = storybookDictionary.translations;
 const name = "test";
 const value = new Date("2020-01-01");
 const error = "Test error text";
-const onChange = action("date-input-change");
-const onReset = action("date-input-reset");
-const onBlur = action("date-input-blur");
 const minDate = new Date("2019-01-20");
 const maxDate = new Date("2020-02-25");
 
@@ -60,15 +59,15 @@ export const WithLabel = () => (
     name={name}
     value={null}
     label={<Intl name="label" />}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     popoverPosition="right"
   />
 );
 
 export const WithoutLabel = () => (
-  <DateInput name={name} value={null} onChange={onChange} onReset={onReset} onBlur={onBlur} />
+  <DateInput name={name} value={null} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
 );
 
 export const WithValue = () => (
@@ -76,9 +75,9 @@ export const WithValue = () => (
     name={name}
     value={value}
     label={<Intl name="label" />}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -88,9 +87,9 @@ export const Disabled = () => (
     value={value}
     label={<Intl name="label" />}
     disabled={true}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -100,9 +99,9 @@ export const ReadOnly = () => (
     value={value}
     label={<Intl name="label" />}
     readOnly={true}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -112,9 +111,9 @@ export const WithPlaceholder = (args, context) => (
     value={null}
     label={<Intl name="label" />}
     placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -124,9 +123,9 @@ export const WithHelp = () => (
     value={null}
     label={<Intl name="label" />}
     help={<Intl name="help" />}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -140,9 +139,9 @@ export const WithTooltip = () => (
         <Icon type="info" />
       </Tooltip>
     }
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -152,9 +151,9 @@ export const WithError = () => (
     value={null}
     label={<Intl name="label" />}
     error={error}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -165,9 +164,9 @@ export const WithMinAndMaxDate = () => (
     label={<Intl name="label" />}
     minDate={minDate}
     maxDate={maxDate}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 export const WithMinAndMaxDateAndValue = () => (
@@ -177,8 +176,8 @@ export const WithMinAndMaxDateAndValue = () => (
     label={<Intl name="label" />}
     minDate={minDate}
     maxDate={maxDate}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );

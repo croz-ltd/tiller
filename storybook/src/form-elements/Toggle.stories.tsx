@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Toggle } from "@tiller-ds/form-elements";
@@ -30,6 +29,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -39,7 +42,6 @@ export default {
   },
 };
 
-const onClick = action("toggle-click");
 const checked = true;
 
 const error = "Test error";
@@ -47,7 +49,7 @@ const error = "Test error";
 export const WithLabel = () => (
   <Toggle
     checked={checked}
-    onClick={onClick}
+    onClick={() => {}}
     label={<span className="text-sm leading-5 font-medium text-gray-900">Annual billing</span>}
   />
 );
@@ -55,19 +57,19 @@ export const WithLabel = () => (
 export const WithLabelReversed = () => (
   <Toggle
     checked={checked}
-    onClick={onClick}
+    onClick={() => {}}
     label={<span className="text-sm leading-5 font-medium text-gray-900">Annual billing</span>}
     reverse={true}
   />
 );
 
-export const WithoutLabel = () => <Toggle checked={checked} onClick={onClick} />;
+export const WithoutLabel = () => <Toggle checked={checked} onClick={() => {}} />;
 
-export const WithError = () => <Toggle checked={checked} onClick={onClick} error={error} />;
+export const WithError = () => <Toggle checked={checked} onClick={() => {}} error={error} />;
 
-export const WithCheckedIcon = () => <Toggle checked={checked} onClick={onClick} />;
+export const WithCheckedIcon = () => <Toggle checked={checked} onClick={() => {}} />;
 
-export const WithUncheckedIcon = () => <Toggle checked={!checked} onClick={onClick} />;
+export const WithUncheckedIcon = () => <Toggle checked={!checked} onClick={() => {}} />;
 
 export const WithCheckedAndUncheckedIcons = () => {
   const [checked, setChecked] = React.useState(false);

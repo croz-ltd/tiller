@@ -17,8 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
-
 import { TestUsersPickerContent } from "@tiller-ds/dev";
 
 import mdx from "./TestUsersPicker.mdx";
@@ -44,7 +42,7 @@ export default {
 
 const defaultState = {
   users: [{ username: "test1" }, { username: "test2" }, { username: "test3" }],
-  onChoose: action("onChoose"),
+  onChoose: () => {},
 };
 
 export const DefaultState = () => <TestUsersPickerContent {...defaultState} />;
