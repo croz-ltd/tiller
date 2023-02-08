@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Alert } from "@tiller-ds/alert";
@@ -172,10 +171,10 @@ export const InputFieldWithIntlError = () => <InputField name={nameWithError} la
 export const WithDropdownMenu = () => {
   return (
     <DropdownMenu title={<Intl name="user" />}>
-      <DropdownMenu.Item onSelect={action("onSelect-account-settings")}>
+      <DropdownMenu.Item onSelect={() => {}}>
         <Intl name="account" />
       </DropdownMenu.Item>
-      <DropdownMenu.Item onSelect={action("onSelect-support")}>
+      <DropdownMenu.Item onSelect={() => {}}>
         <Intl name="logout" />
       </DropdownMenu.Item>
     </DropdownMenu>

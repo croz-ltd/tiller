@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Tooltip } from "@tiller-ds/core";
@@ -38,8 +37,6 @@ const nameWithValue = "nameWithValue";
 const addOn = "https://";
 const inlineLeadingAddOn = "$";
 const inlineTrailingAddOn = "USD";
-
-const onClick = action("icon-click");
 
 const initialValues = {
   [nameWithValue]: "test",
@@ -209,7 +206,7 @@ export const WithLeadingIcon = () => (
   <InputField
     name={name}
     label={<Intl name="label" />}
-    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={onClick} />}
+    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
   />
 );
 
@@ -217,7 +214,7 @@ export const WithTrailingIcon = () => (
   <InputField
     name={name}
     label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={onClick} />}
+    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
   />
 );
 

@@ -19,7 +19,6 @@ import * as React from "react";
 
 import { range, slice } from "lodash";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Button, Card, IconButton, Link, Pagination, useLocalPagination } from "@tiller-ds/core";
@@ -32,8 +31,6 @@ import { getTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DataTable.mdx";
 
-const onDoubleClick = action("double-click");
-
 export default {
   title: "Component Library/Data-display/DataTable",
   component: DataTable,
@@ -43,24 +40,16 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
-          .replace(/<DataTableCardHeader/g, "<DataTable.CardHeader")
-          .replace(/<\/DataTableCardHeader>/g, "</DataTable.CardHeader>")
-          .replace(/<DataTableCardHeaderTitle/g, "<DataTable.CardHeader.Title")
-          .replace(/<\/DataTableCardHeaderTitle>/g, "</DataTable.CardHeader.Title>")
-          .replace(/<DataTableCardHeaderActions/g, "<DataTable.CardHeader.Actions")
-          .replace(/<\/DataTableCardHeaderActions>/g, "</DataTable.CardHeader.Actions>")
-          .replace(/<CardBody/g, "<Card.Body")
-          .replace(/<\/CardBody>/g, "</Card.Body>")
-          .replace(/<CardFooter/g, "<Card.Footer")
-          .replace(/<\/CardFooter>/g, "</Card.Footer>")
-          .replace(/<CardHeaderTitle/g, "<Card.Header.Title")
-          .replace(/<\/CardHeaderTitle>/g, "</Card.Header.Title>")
-          .replace(/<CardHeaderActions/g, "<Card.Header.Actions")
-          .replace(/<\/CardHeaderActions>/g, "</Card.Header.Actions>")
-          .replace(/<DataTableColumn/g, "<DataTable.Column")
-          .replace(/<\/DataTableColumn>/g, "</DataTable.Column>")
-          .replace(/<DataTableExpander/g, "<DataTable.Expander")
-          .replace(/<\/DataTableExpander>/g, "</DataTable.Expander>")
+          .replace(/DataTableCardHeaderTitle/g, "DataTable.CardHeader.Title")
+          .replace(/DataTableCardHeaderActions/g, "DataTable.CardHeader.Actions")
+          .replace(/DataTableCardHeader/g, "DataTable.CardHeader")
+          .replace(/CardBody/g, "Card.Body")
+          .replace(/CardFooter/g, "Card.Footer")
+          .replace(/CardHeaderTitle/g, "Card.Header.Title")
+          .replace(/CardHeaderActions/g, "Card.Header.Actions")
+          .replace(/DataTableColumn/g, "DataTable.Column")
+          .replace(/DataTableExpander/g, "DataTable.Expander")
+          .replace(/DataTableSelector/g, "DataTable.Selector")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
         return getTokensFromSource(correctedSource, "DataTable");
       },
@@ -384,7 +373,7 @@ export function WithFooterUsingLocalSummary() {
 
 export const WithClickableRows = () => {
   return (
-    <DataTable data={smallData} onDoubleClick={onDoubleClick}>
+    <DataTable data={smallData} onDoubleClick={() => {}}>
       <DataTable.Column header="ID" accessor="id" />
       <DataTable.Column header="Name" accessor="name" />
     </DataTable>
@@ -516,9 +505,9 @@ export const WithSelectorAndDropdownActions = () => {
           <DataTable.CardHeader.Title>Items</DataTable.CardHeader.Title>
           <DataTable.CardHeader.Actions>
             <DropdownMenu title="test">
-              <DropdownMenu.Item onSelect={action("onSelect-execute")}>Execute</DropdownMenu.Item>
-              <DropdownMenu.Item onSelect={action("onSelect-delete")}>Delete</DropdownMenu.Item>
-              <DropdownMenu.Item onSelect={action("onSelect-report")}>Report</DropdownMenu.Item>
+              <DropdownMenu.Item onSelect={() => {}}>Execute</DropdownMenu.Item>
+              <DropdownMenu.Item onSelect={() => {}}>Delete</DropdownMenu.Item>
+              <DropdownMenu.Item onSelect={() => {}}>Report</DropdownMenu.Item>
             </DropdownMenu>
           </DataTable.CardHeader.Actions>
         </DataTable.CardHeader>

@@ -30,6 +30,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
     },
     decorators: [withDesign],
   },

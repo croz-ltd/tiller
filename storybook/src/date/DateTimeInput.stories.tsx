@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Tooltip } from "@tiller-ds/core";
@@ -35,17 +34,16 @@ const maxDate = new Date("2021-01-10");
 const minDate = new Date("2019-01-20");
 const value = new Date("2020-11-20T11:21:28.635778");
 
-const onBlur = action("time-input-blur");
-const onChange = action("time-input-change");
-const onReset = action("time-input-reset");
-
 export default {
   title: "Component Library/Date/DateTimeInput",
   component: DateTimeInput,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -60,18 +58,18 @@ export const WithLabel = () => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
   />
 );
 
 export const WithoutLabel = () => (
-  <DateTimeInput name={name} value={null} onChange={onChange} onReset={onReset} onBlur={onBlur} />
+  <DateTimeInput name={name} value={null} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
 );
 
 export const WithValue = () => (
-  <DateTimeInput name={name} value={value} onChange={onChange} onReset={onReset} onBlur={onBlur} />
+  <DateTimeInput name={name} value={value} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
 );
 
 export const Disabled = () => (
@@ -79,9 +77,9 @@ export const Disabled = () => (
     name={name}
     label={<Intl name="label" />}
     value={value}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     disabled
   />
 );
@@ -91,9 +89,9 @@ export const WithHelp = () => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     help={<Intl name="help" />}
   />
 );
@@ -103,9 +101,9 @@ export const WithTooltip = () => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     tooltip={
       <Tooltip label={<Intl name="tooltip" />}>
         <Icon type="info" />
@@ -119,9 +117,9 @@ export const WithError = () => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     error={error}
   />
 );
@@ -131,9 +129,9 @@ export const ReadOnly = () => (
     name={name}
     label={<Intl name="label" />}
     value={value}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     readOnly={true}
   />
 );
@@ -143,9 +141,9 @@ export const WithPlaceholder = (args, context) => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     placeholder={translations[context.globals.language]["placeholder"]}
   />
 );
@@ -155,9 +153,9 @@ export const WithMinAndMaxDate = () => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     minDate={minDate}
     maxDate={maxDate}
   />
@@ -168,9 +166,9 @@ export const WithMinAndMaxDateAndValue = () => (
     name={name}
     label={<Intl name="label" />}
     value={value}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     minDate={minDate}
     maxDate={maxDate}
   />
@@ -181,9 +179,9 @@ export const WithTwelveHours = () => (
     name={name}
     label={<Intl name="label" />}
     value={null}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     type="use12Hours"
   />
 );
@@ -193,9 +191,9 @@ export const WithTwelveHoursAndValue = () => (
     name={name}
     label={<Intl name="label" />}
     value={value}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     type="use12Hours"
   />
 );

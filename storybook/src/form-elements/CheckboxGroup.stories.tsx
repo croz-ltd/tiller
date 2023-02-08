@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { CheckboxGroup } from "@tiller-ds/form-elements";
@@ -30,6 +29,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/CheckboxGroupItem/g, "CheckboxGroup.Item")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -53,8 +58,6 @@ const offersLabel = "Offers";
 const offersValue = "offers";
 const error = "Test error text";
 
-const onChange = action("checkboxGroup-onChange");
-
 const valuesNone = {
   comments: false,
   candidates: false,
@@ -68,7 +71,7 @@ const values = {
 };
 
 export const Simple = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} value={valuesNone} onChange={onChange} className="flex space-x-4">
+  <CheckboxGroup name={emailName} label={emailLabel} value={valuesNone} onChange={() => {}} className="flex space-x-4">
     <CheckboxGroup.Item label={commentsLabel} value={commentsValue} />
     <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} />
     <CheckboxGroup.Item label={offersLabel} value={offersValue} />
@@ -76,7 +79,7 @@ export const Simple = () => (
 );
 
 export const WithValue = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} value={values} onChange={onChange}>
+  <CheckboxGroup name={emailName} label={emailLabel} value={values} onChange={() => {}}>
     <CheckboxGroup.Item label={commentsLabel} value={commentsValue} />
     <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} />
     <CheckboxGroup.Item label={offersLabel} value={offersValue} />
@@ -84,7 +87,7 @@ export const WithValue = () => (
 );
 
 export const WithHelp = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={onChange}>
+  <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={() => {}}>
     <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
     <CheckboxGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
@@ -98,7 +101,7 @@ export const WithError = () => (
     help={emailHelp}
     value={valuesNone}
     error={error}
-    onChange={onChange}
+    onChange={() => {}}
   >
     <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
@@ -107,7 +110,7 @@ export const WithError = () => (
 );
 
 export const WithDisabledItems = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={onChange}>
+  <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={() => {}}>
     <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} disabled={true} />
     <CheckboxGroup.Item label={offersLabel} value={offersValue} help={offersHelp} disabled={true} />
@@ -115,7 +118,7 @@ export const WithDisabledItems = () => (
 );
 
 export const WithVerticalAlignment = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} value={valuesNone} onChange={onChange} vertical={true}>
+  <CheckboxGroup name={emailName} label={emailLabel} value={valuesNone} onChange={() => {}} vertical={true}>
     <CheckboxGroup.Item label={commentsLabel} value={commentsValue} />
     <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} />
     <CheckboxGroup.Item label={offersLabel} value={offersValue} />

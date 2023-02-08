@@ -31,6 +31,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
     },
     design: {
       type: "figma",
@@ -107,12 +108,13 @@ function Content() {
   );
 }
 
-export const Example = (args) => (
-  <NotificationProvider>
-    <Content />
-  </NotificationProvider>
-);
-
+export const Example = (args) => {
+  return (
+    <NotificationProvider>
+      <Content />
+    </NotificationProvider>
+  );
+};
 function Notification({ label }) {
   const notifications = useNotificationContext();
 

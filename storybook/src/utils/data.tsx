@@ -117,27 +117,27 @@ export type TreeItem = {
 
 export const treeItems: TreeItem[] = [
   {
-    name: "hardver",
+    name: "hardware",
     items: [
       {
         name: "IBM",
         items: [
           {
-            name: "ostalo",
-            items: [{ name: "ostalo", code: "H010501" }],
+            name: "other",
+            items: [{ name: "other", code: "H010501" }],
           },
         ],
       },
     ],
   },
   {
-    name: "usluge IT",
+    name: "IT services",
     items: [
       {
-        name: "aplikativni razvoj",
+        name: "application development",
         items: [
           {
-            name: "razvoj/implementacija",
+            name: "development/implementation",
             items: [
               { name: "TM 1", code: "U010101" },
               { name: "TM 2", code: "U010105" },
@@ -145,7 +145,7 @@ export const treeItems: TreeItem[] = [
             ],
           },
           {
-            name: "održavanje",
+            name: "maintenance",
             items: [
               { name: "TM 1", code: "U010201" },
               { name: "TM 2", code: "U010205" },
@@ -158,7 +158,7 @@ export const treeItems: TreeItem[] = [
         name: "DevOps&Cloud&Agile",
         items: [
           {
-            name: "razvoj/implementacija",
+            name: "development/implementation",
             items: [
               { name: "TM 1", code: "U020101" },
               { name: "TM 2", code: "U020105" },
@@ -166,7 +166,7 @@ export const treeItems: TreeItem[] = [
             ],
           },
           {
-            name: "održavanje",
+            name: "maintenance",
             items: [
               { name: "TM 1", code: "U020201" },
               { name: "TM 2", code: "U020205" },

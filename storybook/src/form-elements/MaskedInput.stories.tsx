@@ -17,8 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
-
 import { MaskedInput } from "@tiller-ds/form-elements";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
@@ -31,6 +29,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
   },
 };
@@ -43,10 +45,7 @@ const addOn = "https://";
 const inlineLeadingAddOn = "$";
 const inlineTrailingAddOn = "USD";
 
-const onChange = action("input-change");
-const onBlur = action("input-blur");
-
-export const WithMask = () => <MaskedInput name={name} mask={mask} onChange={onChange} />;
+export const WithMask = () => <MaskedInput name={name} mask={mask} onChange={() => {}} />;
 
 export const WithKeptCharsPositions = () => <MaskedInput name={name} mask={mask} keepCharPositions={true} />;
 
@@ -61,7 +60,7 @@ export const WithCustomPlaceholder = () => (
 );
 
 export const WithLabel = () => (
-  <MaskedInput name={name} label={<Intl name="label" />} mask={mask} onChange={onChange} onBlur={onBlur} />
+  <MaskedInput name={name} label={<Intl name="label" />} mask={mask} onChange={() => {}} onBlur={() => {}} />
 );
 
 export const WithValue = () => (
@@ -70,8 +69,8 @@ export const WithValue = () => (
     label={<Intl name="label" />}
     value={value}
     mask={mask}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -81,8 +80,8 @@ export const Disabled = () => (
     label={<Intl name="label" />}
     disabled={true}
     mask={mask}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -92,8 +91,8 @@ export const WithHelp = () => (
     label={<Intl name="label" />}
     help={<Intl name="help" />}
     mask={mask}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -103,8 +102,8 @@ export const WithError = () => (
     mask={mask}
     label={<Intl name="label" />}
     error={error}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -114,8 +113,8 @@ export const WithLeadingIcon = () => (
     mask={mask}
     label={<Intl name="label" />}
     inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -125,8 +124,8 @@ export const WithTrailingIcon = () => (
     mask={mask}
     label={<Intl name="label" />}
     inlineTrailingIcon={<Icon type="question" variant="fill" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -136,8 +135,8 @@ export const WithTrailingIconAndError = () => (
     mask={mask}
     label={<Intl name="label" />}
     inlineTrailingIcon={<Icon type="question" variant="fill" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
     error={error}
   />
 );
@@ -148,8 +147,8 @@ export const WithAddOn = () => (
     mask={mask}
     label={<Intl name="label" />}
     addOn={addOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -159,8 +158,8 @@ export const WithInlineLeadingAddOn = () => (
     mask={mask}
     label={<Intl name="label" />}
     inlineLeadingAddOn={inlineLeadingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -170,8 +169,8 @@ export const WithInlineTrailingAddOn = () => (
     mask={mask}
     label={<Intl name="label" />}
     inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -182,7 +181,7 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
     label={<Intl name="label" />}
     inlineLeadingAddOn={inlineLeadingAddOn}
     inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );

@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Tooltip } from "@tiller-ds/core";
@@ -104,21 +103,18 @@ const value = items[1];
 const values = items.slice(0, 2);
 const error = "Test error text";
 
-const onChange = action("Autocomplete-change");
-const onBlur = action("Autocomplete-blur");
-
 const commonProps = {
   name,
-  onChange,
-  onBlur,
+  onChange: () => {},
+  onBlur: () => {},
   itemToString: (item: Item) => `${item.name} ${item.surname}`,
   sort: (items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name)),
 };
 
 const commonSimpleProps = {
   name,
-  onChange,
-  onBlur,
+  onChange: () => {},
+  onBlur: () => {},
   itemToString: (item: string) => `${item}`,
   sort: (items: string[]) => items.sort((a, b) => a.slice(1).localeCompare(b.slice(1))),
 };

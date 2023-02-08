@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Dropdown } from "@tiller-ds/menu";
@@ -30,6 +29,13 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/DropdownButton/g, "Dropdown.Button")
+          .replace(/DropdownItem/g, "Dropdown.Item")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -43,9 +49,9 @@ export const Simple = () => (
   <Dropdown>
     <Dropdown.Button>Menu</Dropdown.Button>
     <Dropdown.Menu>
-      <Dropdown.Item onSelect={action("onSelect-account-settings")}>Account settings</Dropdown.Item>
-      <Dropdown.Item onSelect={action("onSelect-support")}>Support</Dropdown.Item>
-      <Dropdown.Item onSelect={action("onSelect-sign-out")}>Sign Out</Dropdown.Item>
+      <Dropdown.Item onSelect={() => {}}>Account settings</Dropdown.Item>
+      <Dropdown.Item onSelect={() => {}}>Support</Dropdown.Item>
+      <Dropdown.Item onSelect={() => {}}>Sign Out</Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
 );

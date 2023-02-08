@@ -49,8 +49,7 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
-          .replace(/<TabsTab/g, "<Tabs.Tab")
-          .replace(/<\/TabsTab>/g, "</Tabs.Tab>")
+          .replace(/TabsTab/g, "Tabs.Tab")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
         return getTokensFromSource(correctedSource, "Tabs");
       },

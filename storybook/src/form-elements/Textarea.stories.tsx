@@ -17,8 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
-
 import { Tooltip } from "@tiller-ds/core";
 import { Textarea } from "@tiller-ds/form-elements";
 import { Icon } from "@tiller-ds/icons";
@@ -34,6 +32,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
   },
 };
@@ -41,22 +43,19 @@ export default {
 const translations = storybookDictionary.translations;
 const name = "test";
 
-const onChange = action("Textarea-change");
-const onBlur = action("Textarea-blur");
-
 export const WithLabel = () => (
-  <Textarea name={name} value="" label={<Intl name="label" />} onChange={onChange} onBlur={onBlur} />
+  <Textarea name={name} value="" label={<Intl name="label" />} onChange={() => {}} onBlur={() => {}} />
 );
 
-export const WithoutLabel = () => <Textarea name={name} value="" onChange={onChange} onBlur={onBlur} />;
+export const WithoutLabel = () => <Textarea name={name} value="" onChange={() => {}} onBlur={() => {}} />;
 
 export const WithValue = (args, context) => (
   <Textarea
     name={name}
     value={translations[context.globals.language]["value"]}
     label={<Intl name="label" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -66,8 +65,8 @@ export const Disabled = (args, context) => (
     value={translations[context.globals.language]["value"]}
     label={<Intl name="label" />}
     disabled={true}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -77,8 +76,8 @@ export const WithPlaceholder = (args, context) => (
     value=""
     label={<Intl name="label" />}
     placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -88,8 +87,8 @@ export const WithHelp = () => (
     value=""
     label={<Intl name="label" />}
     help={<Intl name="help" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -103,8 +102,8 @@ export const WithTooltip = () => (
         <Icon type="info" variant="regular" />
       </Tooltip>
     }
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -114,8 +113,8 @@ export const WithError = () => (
     value=""
     label={<Intl name="label" />}
     error={<Intl name="error" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -125,7 +124,7 @@ export const WithCustomHeight = () => (
     value=""
     label={<Intl name="label" />}
     textareaClassName="h-40"
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );

@@ -114,7 +114,7 @@ export default function Button({
     { [tokens.variant[variant].color[color].textColor]: !isEqual(props.tokens, {}) },
     { [tokens.variant[variant].color[color].backgroundColor]: !isEqual(props.tokens, {}) },
     { [tokens.variant[variant].color[color].borderColor]: !isEqual(props.tokens, {}) },
-    { [tokens.variant[variant].color[color].hover]: !isEqual(props.tokens, {}) },
+    { [tokens.variant[variant].color[color].hover]: !isEqual(props.tokens, {}) && !disabled },
     { [tokens.variant[variant].color[color].shadow]: !isEqual(props.tokens, {}) },
     className
   );

@@ -23,7 +23,6 @@ import { Pagination, useLocalPagination } from "@tiller-ds/core";
 import { items } from "../utils";
 
 import mdx from "./Pagination.mdx";
-import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Component Library/Core/Pagination",
@@ -49,9 +48,7 @@ export default {
   ],
 };
 
-const onPageChange = action("Page-size-change");
-
-export const Simple = () => <Pagination pageSize={5} pageNumber={0} totalElements={20} onPageChange={onPageChange} />;
+export const Simple = () => <Pagination pageSize={5} pageNumber={0} totalElements={20} onPageChange={() => {}} />;
 
 export const WithItems = () => {
   const [paginationState, paginationHook] = useLocalPagination(items, 5);

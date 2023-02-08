@@ -37,8 +37,7 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
-          .replace(/<DescriptionListItem/g, "<DescriptionList.Item")
-          .replace(/<\/DescriptionListItem>/g, "</DescriptionList.Item>")
+          .replace(/DescriptionListItem/g, "DescriptionList.Item")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
         return getTokensFromSource(correctedSource, "DescriptionList");
       },

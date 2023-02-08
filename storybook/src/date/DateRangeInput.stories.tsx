@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Tooltip } from "@tiller-ds/core";
@@ -37,8 +36,6 @@ const error = "date-error";
 const minDate = new Date("2020-10-05");
 const maxDate = new Date("2020-11-20");
 
-const onChange = action("daterange-change");
-
 export default {
   title: "Component Library/Date/DateRangeInput",
   component: DateRangeInput,
@@ -55,9 +52,9 @@ export default {
   },
 };
 
-export const WithLabel = () => <DateRangeInput name={name} label={<Intl name="label" />} onChange={onChange} />;
+export const WithLabel = () => <DateRangeInput name={name} label={<Intl name="label" />} onChange={() => {}} />;
 
-export const WithoutLabel = () => <DateRangeInput name={name} onChange={onChange} />;
+export const WithoutLabel = () => <DateRangeInput name={name} onChange={() => {}} />;
 
 export const WithValue = () => (
   <DateRangeInput
@@ -65,23 +62,23 @@ export const WithValue = () => (
     start={startWithValue}
     end={endWithValue}
     label={<Intl name="label" />}
-    onChange={onChange}
+    onChange={() => {}}
   />
 );
 
 export const Disabled = () => (
-  <DateRangeInput name={name} label={<Intl name="label" />} disabled={true} onChange={onChange} />
+  <DateRangeInput name={name} label={<Intl name="label" />} disabled={true} onChange={() => {}} />
 );
 
 export const ReadOnly = () => (
-  <DateRangeInput name={name} label={<Intl name="label" />} readOnly={true} onChange={onChange} />
+  <DateRangeInput name={name} label={<Intl name="label" />} readOnly={true} onChange={() => {}} />
 );
 
 export const WithPlaceholder = (args, context) => (
-  <DateRangeInput name={name} placeholder={translations[context.globals.language]["placeholder"]} onChange={onChange} />
+  <DateRangeInput name={name} placeholder={translations[context.globals.language]["placeholder"]} onChange={() => {}} />
 );
 
-export const WithHelp = () => <DateRangeInput name={name} help={<Intl name="help" />} onChange={onChange} />;
+export const WithHelp = () => <DateRangeInput name={name} help={<Intl name="help" />} onChange={() => {}} />;
 
 export const WithTooltip = () => (
   <DateRangeInput
@@ -91,12 +88,12 @@ export const WithTooltip = () => (
         <Icon type="info" />
       </Tooltip>
     }
-    onChange={onChange}
+    onChange={() => {}}
   />
 );
 
-export const WithError = () => <DateRangeInput name={name} onChange={onChange} error={error} />;
+export const WithError = () => <DateRangeInput name={name} onChange={() => {}} error={error} />;
 
 export const WithMinAndMaxDate = () => (
-  <DateRangeInput name={name} minDate={minDate} maxDate={maxDate} onChange={onChange} />
+  <DateRangeInput name={name} minDate={minDate} maxDate={maxDate} onChange={() => {}} />
 );

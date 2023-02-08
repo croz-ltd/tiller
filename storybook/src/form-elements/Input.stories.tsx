@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Input } from "@tiller-ds/form-elements";
@@ -55,24 +54,19 @@ const addOn = "https://";
 const inlineLeadingAddOn = "$";
 const inlineTrailingAddOn = "USD";
 
-const onChange = action("input-change");
-const onClick = action("icon-click");
-const onReset = action("icon-reset");
-const onBlur = action("input-blur");
-
 export const WithLabel = () => (
-  <Input name={name} value="" label={<Intl name="label" />} onChange={onChange} onBlur={onBlur} />
+  <Input name={name} value="" label={<Intl name="label" />} onChange={() => {}} onBlur={() => {}} />
 );
 
-export const WithoutLabel = () => <Input name={name} value="" onChange={onChange} onBlur={onBlur} />;
+export const WithoutLabel = () => <Input name={name} value="" onChange={() => {}} onBlur={() => {}} />;
 
 export const WithValue = (args, context) => (
   <Input
     name={name}
     value={translations[context.globals.language]["value"]}
     label={<Intl name="label" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -82,8 +76,8 @@ export const Disabled = (args, context) => (
     value={translations[context.globals.language]["value"]}
     label={<Intl name="label" />}
     disabled={true}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -93,8 +87,8 @@ export const WithPlaceholder = (args, context) => (
     value=""
     label={<Intl name="label" />}
     placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -104,8 +98,8 @@ export const WithHelp = () => (
     value=""
     label={<Intl name="label" />}
     help={<Intl name="help" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -119,8 +113,8 @@ export const WithTooltip = () => (
         <Icon type="info" variant="regular" />
       </Tooltip>
     }
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -130,8 +124,8 @@ export const WithError = () => (
     value=""
     label={<Intl name="label" />}
     error={<Intl name="error" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -140,9 +134,9 @@ export const WithLeadingIcon = () => (
     name={name}
     value=""
     label={<Intl name="label" />}
-    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={onClick} />}
-    onChange={onChange}
-    onBlur={onBlur}
+    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -151,9 +145,9 @@ export const WithTrailingIcon = () => (
     name={name}
     value=""
     label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={onClick} />}
-    onChange={onChange}
-    onBlur={onBlur}
+    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -163,14 +157,14 @@ export const WithTrailingIconAndError = () => (
     value=""
     label={<Intl name="label" />}
     inlineTrailingIcon={<Icon type="question" variant="fill" />}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
     error={<Intl name="error" />}
   />
 );
 
 export const WithAddOn = () => (
-  <Input name={name} value="" label={<Intl name="label" />} addOn={addOn} onChange={onChange} onBlur={onBlur} />
+  <Input name={name} value="" label={<Intl name="label" />} addOn={addOn} onChange={() => {}} onBlur={() => {}} />
 );
 
 export const WithInlineLeadingAddOn = () => (
@@ -179,8 +173,8 @@ export const WithInlineLeadingAddOn = () => (
     value=""
     label={<Intl name="label" />}
     inlineLeadingAddOn={inlineLeadingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -190,8 +184,8 @@ export const WithInlineTrailingAddOn = () => (
     value=""
     label={<Intl name="label" />}
     inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -202,8 +196,8 @@ export const WithInlineTrailingAddOnAndError = () => (
     label={<Intl name="label" />}
     error={<Intl name="error" />}
     inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -214,8 +208,8 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
     label={<Intl name="label" />}
     inlineLeadingAddOn={inlineLeadingAddOn}
     inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
   />
 );
 
@@ -225,7 +219,7 @@ export const WithClearButton = (args, context) => (
     value={translations[context.globals.language]["value"]}
     label={<Intl name="label" />}
     allowClear
-    onReset={onReset}
+    onReset={() => {}}
   />
 );
 

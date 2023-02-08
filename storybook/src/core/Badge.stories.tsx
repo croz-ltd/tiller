@@ -35,7 +35,8 @@ export default {
       page: mdx,
       source: { type: "dynamic" },
       transformSource: (source) => {
-        return getTokensFromSource(source, "Badge");
+        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return getTokensFromSource(correctedSource, "Badge");
       },
     },
     design: {

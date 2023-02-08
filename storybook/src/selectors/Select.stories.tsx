@@ -18,7 +18,6 @@
 import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
-import { action } from "@storybook/addon-actions";
 
 import { Tooltip } from "@tiller-ds/core";
 import { Icon, iconTypes } from "@tiller-ds/icons";
@@ -104,13 +103,10 @@ const missingValue = {
   surname: "Lem",
 };
 
-const onBlur = action("select-onBlur");
-const onChange = action("select-onChange");
-
 const complexProps = {
   name,
-  onBlur,
-  onChange,
+  onBlur: () => {},
+  onChange: () => {},
   options: items,
   getOptionLabel: (item: Item) => (
     <div className="flex items-center justify-between flex-wrap">
@@ -274,7 +270,7 @@ export const WithMissingOption = () => (
 );
 
 export const WithNoOptions = () => (
-  <Select label={<Intl name="label" />} name={name} onChange={onChange} onBlur={onBlur} options={[]} />
+  <Select label={<Intl name="label" />} name={name} onChange={() => {}} onBlur={() => {}} options={[]} />
 );
 
 const HideControls = {

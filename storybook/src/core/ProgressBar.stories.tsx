@@ -29,6 +29,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/Step/g, "ProgressBar.Step");
+      },
     },
     design: {
       type: "figma",
@@ -45,16 +49,16 @@ export const Simple = () => {
         <ProgressBar.Step active={true}>
           <span>Preparing</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Proposed</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Created</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Reviewed</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Approved</span>
         </ProgressBar.Step>
       </ProgressBar>
@@ -69,16 +73,16 @@ export const Checked = () => {
         <ProgressBar.Step active={false}>
           <span>Preparing</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Proposed</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Created</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={true}>
+        <ProgressBar.Step>
           <span>Reviewed</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Approved</span>
         </ProgressBar.Step>
       </ProgressBar>
@@ -90,19 +94,19 @@ export const Completed = () => {
   return (
     <Card>
       <ProgressBar completed={true}>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Preparing</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Proposed</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Created</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Reviewed</span>
         </ProgressBar.Step>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Approved</span>
         </ProgressBar.Step>
       </ProgressBar>
@@ -114,11 +118,11 @@ export const Inactive = () => {
   return (
     <Card>
       <ProgressBar>
-        <ProgressBar.Step active={false}>Preparing</ProgressBar.Step>
-        <ProgressBar.Step active={false}>Proposed</ProgressBar.Step>
-        <ProgressBar.Step active={false}>Created</ProgressBar.Step>
-        <ProgressBar.Step active={false}>Reviewed</ProgressBar.Step>
-        <ProgressBar.Step active={false}>Approved</ProgressBar.Step>
+        <ProgressBar.Step>Preparing</ProgressBar.Step>
+        <ProgressBar.Step>Proposed</ProgressBar.Step>
+        <ProgressBar.Step>Created</ProgressBar.Step>
+        <ProgressBar.Step>Reviewed</ProgressBar.Step>
+        <ProgressBar.Step>Approved</ProgressBar.Step>
       </ProgressBar>
     </Card>
   );

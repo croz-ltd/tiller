@@ -17,7 +17,6 @@
 
 import * as React from "react";
 
-import { action } from "@storybook/addon-actions";
 import { withDesign } from "storybook-addon-designs";
 
 import { Tooltip } from "@tiller-ds/core";
@@ -32,8 +31,11 @@ export default {
   component: TimeInput,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -51,30 +53,26 @@ const offsetDateTime = "2020-11-20T11:21:28.63602+05:00";
 const offsetTime = "11:21:28.635970+05:00";
 const zonedDateTime = "2020-11-20T11:21:28.636042+01:00";
 
-const onBlur = action("time-input-blur");
-const onChange = action("time-input-change");
-const onReset = action("time-input-reset");
-
 export const WithLabel = () => (
-  <TimeInput name={name} label={<Intl name="label" />} value="" onChange={onChange} onBlur={onBlur} />
+  <TimeInput name={name} label={<Intl name="label" />} value="" onChange={() => {}} onBlur={() => {}} />
 );
 
-export const WithoutLabel = () => <TimeInput name={name} value="" onChange={onChange} onBlur={onBlur} />;
+export const WithoutLabel = () => <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} />;
 
-export const WithValue = () => <TimeInput name={name} value={value} onChange={onChange} onBlur={onBlur} />;
+export const WithValue = () => <TimeInput name={name} value={value} onChange={() => {}} onBlur={() => {}} />;
 
-export const Disabled = () => <TimeInput name={name} value="" onChange={onChange} onBlur={onBlur} disabled={true} />;
+export const Disabled = () => <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} disabled={true} />;
 
 export const WithHelp = () => (
-  <TimeInput name={name} value="" onChange={onChange} onBlur={onBlur} help={<Intl name="help" />} />
+  <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} help={<Intl name="help" />} />
 );
 
 export const WithTooltip = () => (
   <TimeInput
     name={name}
     value=""
-    onChange={onChange}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onBlur={() => {}}
     tooltip={
       <Tooltip label={<Intl name="tooltip" />}>
         <Icon type="info" />
@@ -84,28 +82,42 @@ export const WithTooltip = () => (
 );
 
 export const WithError = () => (
-  <TimeInput name={name} value="" onChange={onChange} onReset={onReset} onBlur={onBlur} error={<Intl name="error" />} />
+  <TimeInput
+    name={name}
+    value=""
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
+    error={<Intl name="error" />}
+  />
 );
 
 export const WithLocalDateTime = () => (
-  <TimeInput name={name} value={localDateTime} onChange={onChange} onReset={onReset} onBlur={onBlur} />
+  <TimeInput name={name} value={localDateTime} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
 );
 
 export const WithLocalTime = () => (
-  <TimeInput name={name} value={localTime} onChange={onChange} onReset={onReset} onBlur={onBlur} />
+  <TimeInput name={name} value={localTime} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
 );
 
 export const WithOffsetTime = () => (
-  <TimeInput name={name} value={offsetTime} onChange={onChange} onReset={onReset} onBlur={onBlur} withTimeZone={true} />
+  <TimeInput
+    name={name}
+    value={offsetTime}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
+    withTimeZone={true}
+  />
 );
 
 export const WithOffsetDateTime = () => (
   <TimeInput
     name={name}
     value={offsetDateTime}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     withTimeZone={true}
   />
 );
@@ -114,9 +126,9 @@ export const WithZonedDateTime = () => (
   <TimeInput
     name={name}
     value={zonedDateTime}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     withTimeZone={true}
   />
 );
@@ -125,9 +137,9 @@ export const WithTwelveHour = () => (
   <TimeInput
     name={name}
     value={""}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     withTimeZone={true}
     type="use12Hours"
   />
@@ -137,9 +149,9 @@ export const WithTwelveHourAndValue = () => (
   <TimeInput
     name={name}
     value={offsetTime}
-    onChange={onChange}
-    onReset={onReset}
-    onBlur={onBlur}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
     withTimeZone={true}
     type="use12Hours"
   />

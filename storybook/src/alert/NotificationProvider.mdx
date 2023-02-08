@@ -20,16 +20,18 @@ a `useNotificationContext()` function imported from our library and assign it to
   **3.** By using a **`.push`** method, define the notification you would like to display by using props
   from the `Notification` component (**props are defined [here](/docs/component-library-alert-notification--with-actions-right#notification-props)**) <br /> <br />
 
-### Example:
+#### For Example:
 
-    const notifications = useNotificationContext()
+```tsx
+const notifications = useNotificationContext()
 
-    notifications.push({
-      **title: "Example Notification",
-      description: "Example notification description."
-      icon: { type: "check-circle", variant: "outline", color: "green" },
-      onDismiss:
-    });
+notifications.push({
+  **title: "Example Notification",
+  description: "Example notification description."
+  icon: { type: "check-circle", variant: "outline", color: "green" },
+  onDismiss:
+});
+```
 
 All props are described on the [Notification Provider Props section](/docs/component-library-alert-notificationprovider--example#notification-provider-props)
 of the documentation.
@@ -40,6 +42,80 @@ The story below demonstrates the functionality of the `NotificationProvider`:
 
 <Canvas>
   <Story id="component-library-alert-notificationprovider--example" />
+</Canvas>
+
+The `<Content/>` part of the code is the following function:
+
+```tsx
+function Content() {
+    const notifications = useNotificationContext();
+
+    const simple: NotificationProps = {
+    title: "Simple",
+    };
+
+    const withSubtitle: NotificationProps = {
+    title: "Simple",
+    content: "Subtitle",
+    };
+
+    const withIcon: NotificationProps = {
+    title: "Simple",
+    content: "Subtitle",
+    icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
+    };
+
+    const withActionsBelow: NotificationProps = {
+    title: "With Actions Below",
+    content: "Anyone with a link can now view this file.",
+    icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
+    actions: [<Link key={0}>Undo</Link>, <Link key={1}>Dismiss</Link>],
+    onDismiss: () => {},
+    };
+
+    const withButtonsBelow: NotificationProps = {
+    title: "With Buttons Below",
+    content: "Anyone with a link can now view this file.",
+    icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
+    actions: [
+    <Button key={1} variant="filled">
+    Accept
+    </Button>,
+    <Button key={0} variant="text">
+    Dismiss
+    </Button>,
+    ],
+    onDismiss: () => {},
+    };
+
+    const withActionsRight: NotificationProps = {
+    title: "With Actions Right",
+    content: "Anyone with a link can now view this file.",
+    icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
+    closeButton: false,
+    actions: [<Link key={0}>Reply</Link>],
+    onDismiss: () => {},
+    };
+
+    return (
+        <div className="flex flex-col w-1/4 space-y-2">
+            <Button onClick={() => notifications.push(simple)}>Simple</Button>
+            <Button onClick={() => notifications.push(withSubtitle)}>With Subtitle</Button>
+            <Button onClick={() => notifications.push(withIcon)}>With Icon</Button>
+            <Button onClick={() => notifications.push(withActionsBelow)}>With Actions Below</Button>
+            <Button onClick={() => notifications.push(withButtonsBelow)}>With Buttons Below</Button>
+            <Button onClick={() => notifications.push(withActionsRight)}>With Actions Right</Button>
+        </div>
+    );
+}
+```
+
+The story below demonstrates the functionality of the `NotificationProvider` with notifications in different positions:
+
+### Different Positions
+
+<Canvas>
+  <Story id="component-library-alert-notificationprovider--different-positions" />
 </Canvas>
 
 ## Notification Provider Props:

@@ -6584,7 +6584,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/addon-actions@npm:6.5.16, @storybook/addon-actions@npm:^6.5.16":
+"@storybook/addon-actions@npm:6.5.16":
   version: 6.5.16
   resolution: "@storybook/addon-actions@npm:6.5.16"
   dependencies:
@@ -29382,7 +29382,6 @@ resolve@^2.0.0-next.3:
     "@rpldy/shared": 0.8.0
     "@rpldy/upload-drop-zone": 0.8.2
     "@rpldy/uploady": 0.8.2
-    "@storybook/addon-actions": ^6.5.16
     "@storybook/addon-controls": 6.5.16
     "@storybook/addon-docs": ^6.5.16
     "@storybook/addon-essentials": 6.5.16

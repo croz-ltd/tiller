@@ -36,18 +36,12 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
-          .replace(/<PageHeadingTitle/g, "<PageHeading.Title")
-          .replace(/<\/PageHeadingTitle>/g, "</PageHeading.Title>")
-          .replace(/<PageHeadingSubtitle/g, "<PageHeading.Subtitle")
-          .replace(/<\/PageHeadingSubtitle>/g, "</PageHeading.Subtitle>")
-          .replace(/<PageHeadingMeta/g, "<PageHeading.Meta")
-          .replace(/<\/PageHeadingMeta>/g, "</PageHeading.Meta>")
-          .replace(/<PageHeadingBreadcrumbs/g, "<PageHeading.Breadcrumbs")
-          .replace(/<\/PageHeadingBreadcrumbs>/g, "</PageHeading.Breadcrumbs>")
-          .replace(/<PageHeadingBreadcrumb/g, "<PageHeading.Breadcrumb")
-          .replace(/<\/PageHeadingBreadcrumb>/g, "</PageHeading.Breadcrumb>")
-          .replace(/<PageHeadingActions/g, "<PageHeading.Actions")
-          .replace(/<\/PageHeadingActions>/g, "</PageHeading.Actions>")
+          .replace(/PageHeadingTitle/g, "PageHeading.Title")
+          .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
+          .replace(/PageHeadingMeta/g, "PageHeading.Meta")
+          .replace(/PageHeadingBreadcrumbs/g, "PageHeading.Breadcrumbs")
+          .replace(/PageHeadingBreadcrumb/g, "PageHeading.Breadcrumb")
+          .replace(/PageHeadingActions/g, "PageHeading.Actions")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
         return getTokensFromSource(correctedSource, "PageHeading");
       },
@@ -65,6 +59,7 @@ export default {
     breadcrumbs: { name: "Breadcrumbs", control: "boolean" },
     meta: { name: "Meta", control: "boolean" },
     children: { control: false },
+    className: { name: "Class Name", control: "text" },
     useTokens: { name: "Use Tokens", control: "boolean" },
     tokens: { name: "Tokens", control: "object" },
   },
