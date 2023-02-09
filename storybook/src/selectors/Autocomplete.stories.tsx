@@ -26,7 +26,7 @@ import { Autocomplete } from "@tiller-ds/selectors";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
-import { getTokensFromSource, Item, items, promiseTimeout, showFactoryDecorator, simpleItems } from "../utils";
+import { getChangedTokensFromSource, Item, items, promiseTimeout, showFactoryDecorator, simpleItems } from "../utils";
 
 import mdx from "./Autocomplete.mdx";
 
@@ -44,7 +44,7 @@ export default {
       transformSource: (source) => {
         const tokensConfig = { Select: "selectTokens", Autocomplete: "autocompleteTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(correctedSource, tokensConfig);
       },
     },
     design: {

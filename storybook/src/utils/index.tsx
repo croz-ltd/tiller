@@ -25,4 +25,4 @@ export { default as FormikDecorator } from "./FormikDecorator";
 export { default as promiseTimeout } from "./promiseTimeout";
 export { default as useMockSender } from "./useMockSender";
 export { default as ThemeTokens } from "./ThemeTokens";
-export { getTokensFromSource, getObjectDiff, showFactoryDecorator } from "./utils";
+export { getChangedTokensFromSource, getObjectDiff, showFactoryDecorator } from "./utils";

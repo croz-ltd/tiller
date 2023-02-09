@@ -23,7 +23,7 @@ import { Badge } from "@tiller-ds/core";
 import { Intl } from "@tiller-ds/intl";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors, getTokensFromSource, showFactoryDecorator } from "../utils";
+import { extendedColors, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Badge.mdx";
 
@@ -36,7 +36,7 @@ export default {
       source: { type: "dynamic" },
       transformSource: (source) => {
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "Badge");
+        return getChangedTokensFromSource(correctedSource, "Badge");
       },
     },
     design: {

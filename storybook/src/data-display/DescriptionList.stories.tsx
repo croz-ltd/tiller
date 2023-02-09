@@ -24,7 +24,7 @@ import { withDesign } from "storybook-addon-designs";
 import { DescriptionList } from "@tiller-ds/data-display";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DescriptionList.mdx";
 
@@ -39,7 +39,7 @@ export default {
         const correctedSource = source
           .replace(/DescriptionListItem/g, "DescriptionList.Item")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "DescriptionList");
+        return getChangedTokensFromSource(correctedSource, "DescriptionList");
       },
     },
     design: {

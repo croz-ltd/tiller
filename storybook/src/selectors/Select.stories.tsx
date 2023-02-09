@@ -25,7 +25,7 @@ import { Intl } from "@tiller-ds/intl";
 import { Select } from "@tiller-ds/selectors";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, Item, items, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, Item, items, showFactoryDecorator } from "../utils";
 
 import mdx from "./Select.mdx";
 
@@ -43,7 +43,7 @@ export default {
       transformSource: (source) => {
         const tokensConfig = { Input: "inputTokens", Select: "selectTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(correctedSource, tokensConfig);
       },
     },
     design: {

@@ -27,7 +27,7 @@ import { Icon } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DataTable.mdx";
 
@@ -51,7 +51,7 @@ export default {
           .replace(/DataTableExpander/g, "DataTable.Expander")
           .replace(/DataTableSelector/g, "DataTable.Selector")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "DataTable");
+        return getChangedTokensFromSource(correctedSource, "DataTable");
       },
     },
     design: {

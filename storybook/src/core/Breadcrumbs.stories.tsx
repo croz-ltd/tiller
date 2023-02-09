@@ -23,7 +23,7 @@ import { Breadcrumbs } from "@tiller-ds/core";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Breadcrumbs.mdx";
 
@@ -39,7 +39,7 @@ export default {
           .replace(/<Breadcrumb>/g, "<Breadcrumbs.Breadcrumb>")
           .replace(/<\/Breadcrumb>/g, "</Breadcrumbs.Breadcrumb>")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "Breadcrumbs");
+        return getChangedTokensFromSource(correctedSource, "Breadcrumbs");
       },
     },
     design: {

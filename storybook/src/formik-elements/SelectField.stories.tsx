@@ -25,7 +25,7 @@ import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { FormikDecorator, getTokensFromSource, Item, items } from "../utils";
+import { FormikDecorator, getChangedTokensFromSource, Item, items } from "../utils";
 
 import mdx from "./SelectField.mdx";
 
@@ -64,7 +64,7 @@ export default {
       transformSource: (source) => {
         const tokensConfig = { Input: "inputTokens", Select: "selectTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(correctedSource, tokensConfig);
       },
     },
     design: {

@@ -25,7 +25,7 @@ import { ButtonGroups } from "@tiller-ds/core";
 import { InlineArrowIcon } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors, getTokensFromSource, showFactoryDecorator } from "../utils";
+import { extendedColors, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./ButtonGroups.mdx";
 
@@ -43,7 +43,7 @@ export default {
           .replace(/<ButtonGroupsIconButton/g, "<ButtonGroups.IconButton")
           .replace(/<\/ButtonGroupsIconButton>/g, "</ButtonGroups.IconButton>")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "ButtonGroups");
+        return getChangedTokensFromSource(correctedSource, "ButtonGroups");
       },
     },
     decorators: [withDesign],

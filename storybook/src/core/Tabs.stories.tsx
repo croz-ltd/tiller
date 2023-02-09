@@ -23,7 +23,7 @@ import { Tabs } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Tabs.mdx";
 
@@ -51,7 +51,7 @@ export default {
         const correctedSource = source
           .replace(/TabsTab/g, "Tabs.Tab")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "Tabs");
+        return getChangedTokensFromSource(correctedSource, "Tabs");
       },
     },
     design: {

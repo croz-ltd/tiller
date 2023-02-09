@@ -24,7 +24,7 @@ import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Typography.mdx";
 
@@ -36,7 +36,7 @@ export default {
       page: mdx,
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
-        return getTokensFromSource(source, "Typography");
+        return getChangedTokensFromSource(source, "Typography");
       },
     },
     design: {

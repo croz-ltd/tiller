@@ -22,7 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { Checkbox } from "@tiller-ds/form-elements";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Checkbox.mdx";
 
@@ -35,7 +35,7 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, { Checkbox: "checkboxTokens" });
+        return getChangedTokensFromSource(correctedSource, { Checkbox: "checkboxTokens" });
       },
     },
     design: {
