@@ -35,7 +35,7 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "Checkbox");
+        return getTokensFromSource(correctedSource, { Checkbox: "checkboxTokens" });
       },
     },
     design: {
@@ -57,20 +57,20 @@ export default {
     disabled: { name: "Disabled" },
     className: { name: "Class Name", control: "text" },
     useTokens: { name: "Use Tokens", control: "boolean" },
-    tokens: { name: "Tokens", control: "object" },
+    checkboxTokens: { name: "Tokens", control: "object" },
   },
 };
 
 const testLabel = "Test";
 
-export const CheckboxFactory = ({ name, label, color, disabled, className, useTokens, tokens }) => (
+export const CheckboxFactory = ({ name, label, color, disabled, className, useTokens, checkboxTokens }) => (
   <Checkbox
     name={name}
     color={color}
     label={label}
     disabled={disabled}
     className={className}
-    checkboxTokens={useTokens && tokens}
+    checkboxTokens={useTokens && checkboxTokens}
   />
 );
 
@@ -81,7 +81,7 @@ CheckboxFactory.args = {
   disabled: false,
   className: "",
   useTokens: false,
-  tokens: defaultThemeConfig.component["Checkbox"],
+  checkboxTokens: defaultThemeConfig.component["Checkbox"],
 };
 
 CheckboxFactory.parameters = {
@@ -105,7 +105,7 @@ const HideControls = {
   disabled: { control: { disable: true } },
   className: { control: { disable: true } },
   useTokens: { control: { disable: true } },
-  tokens: { control: { disable: true } },
+  checkboxTokens: { control: { disable: true } },
 };
 
 Checked.argTypes = HideControls;

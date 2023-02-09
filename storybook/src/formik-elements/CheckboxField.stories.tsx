@@ -106,9 +106,9 @@ CheckboxFieldFactory.args = {
   label: "Test label",
   color: "primary",
   disabled: false,
-  useTokens: false,
   containerClassName: "",
   className: "",
+  useTokens: false,
   checkboxFieldTokens: defaultThemeConfig.component["CheckboxField"],
   checkboxTokens: defaultThemeConfig.component["Checkbox"],
 };

@@ -1,5 +1,10 @@
 import { Meta } from "@storybook/addon-docs";
-import designError from './designError.png';
+
+import cover from 'img/tiller_cover_2.jpg';
+
+import tutorial_interface from './tutorial-interface.mp4';
+import tutorial_factories from './tutorial-factories.mp4';
+import tutorial_playroom from './tutorial-playroom.mp4';
 
 <Meta
   title="Introduction"
@@ -19,37 +24,141 @@ import designError from './designError.png';
 
 # Introduction
 
-Welcome to Tiller design system.
+<br />
 
-## Support
+<div className="flex flex-col space-y-4 w-full justify-center items-center">
+    <img className="w-full shadow-md" src={cover} alt="Tiller Cover Image" />
+    <span className="text-xl text-center">Welcome to Tiller Design System - an open-source UI library which offers a set of visual, functional components and patterns
+    that accelerate design and development.</span>
+</div>
+
+<hr  className="my-2"/>
+
+### Inspiration
+
+Tiller is based on **Tailwind CSS, Formik and ReachUI** and is a collection of **React** components that can
+be used to build a website or an application.
+
+### Source Code
+
+The system is **heavily typified**, which means that you can use it in a TypeScript project without any problems.
+The source code is available on [GitHub](https://github.com/croz-ltd/tiller).
+
+## Why Tiller?
+
+What sets this system apart from other design systems is that it focuses on the best possible developer experience by providing
+fast prototyping via Storybook and heavily documented props, so you can get by even if you don't wish to use Storybook as a tool.
+
+The tools we use to speed up development and increase productivity are:
+ - **React** - a JavaScript library for building user interfaces.
+ - **Typescript** - a typed superset of JavaScript that compiles to plain JavaScript and provides autocompletion.
+ - **Tailwind CSS** - a utility-first CSS framework for rapidly building custom user interfaces.
+ - **Formik** - a library for building forms in React, without the tears
+    (see our [Formik-elements](/story/component-library-formik-elements-autocompletefield--autocomplete-field-factory) components).
+ - **Figma** - a prototyping tool which is mainly used for designing and documenting our components (see our **Figma UI kit [here](https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0)**).
+ - **Storybook** - a tool for developing UI components in isolation. It makes building stunning UIs organized and efficient.
+ - **Storybook Docs** - a tool for documenting components in Storybook.
+ - **Storybook Addon Controls** - a tool for controlling props dynamically in Storybook, in our case used for [Factory](/docs/introduction--page#factories) stories.
+ - **Storybook Addon Playroom** - a tool for prototyping and experimenting with components in isolation.
+ - **Storybook Addon Designs** - a tool for viewing Figma designs in Storybook.
+
+Since we are using Tailwind CSS natively, using it is **recommended** for styling your components and for the best possible experience,
+but you can also pass your own CSS classes if you don't prefer Tailwind CSS. The only downside of this approach is limited
+customization of the components in Storybook, since factories - explained [here](/docs/introduction--page#factories) -
+can only parse Tailwind CSS classes.
+
+### Installing
+
+For detailed instructions on how to install the system and import the components,
+please refer to the [Installation](/docs/installation-and-importing--page) section.
+
+### Theming
+
+One of the main features of Tiller is the ability to **customize the system to your needs** by modifying your defined
+colors configuration through the `tailwind.config.js` file and components configuration through our `tillerConfig.ts` file.
+
+For detailed instructions on how to customize the system, please refer
+to the [Theming and customization](/docs/theming-and-customization--page) section.
+
+
+# 🚀 From Storybook to Code
+
+In the following chapters you will get acquainted with the fast process of transforming your components from
+viewing them inside Storybook to their code equivalent.
+
+We'll cover the following topics in the next chapters:
+ - [Interface](/docs/introduction--page#interface)
+ - [Factories](/docs/introduction--page#factories)
+ - [Playroom](/docs/introduction--page#playroom)
+
+## Interface
+
+Storybook provides a very simple and intuitive interface, which is divided into three main parts:
+ - **Components overview** - where you can see all the components in the design system.
+ - **Canvas** and **Docs** - where you can see the component, its documentation.
+ - **Controls** and **Design** - where you can see the props' documentation and the design of the component.
+
+The video below demonstrates how to easily view the story, its design and code - which you can easily copy and
+transfer into he Playroom or the project you're working on.
+
+<video src={tutorial_interface}
+       controls={false}
+       autoPlay={true}
+       muted={true}
+       loop={true}
+       title="Interface Showcase" />
+
+## Factories
+
+Some components have **Factory** stories, which are stories that are generated dynamically based on the props you
+change via the **Controls** tab. This is a very useful feature, since it allows you to quickly see how the component
+looks with different props.
+
+The best way to see all the available factories is to search for the `Factory` keyword in the Storybook's search bar.
+
+All factories also have support for **tokens**, which are explained in the [Theming and customization](/story/theming-and-customization--page) section.
+Tokens are filtered to only include changed ones in the code output when you change them via factories.
+
+The demo video below demonstrates how to use the [Description List Factory](/story/component-library-data-display-descriptionlist--description-list-factory)
+to create your `Description List` template, which can be simply copied and pasted into the Playroom or the project
+you're working on by going to the **Docs** section once you're finished and clicking on **Show Code** button underneath the story.
+
+<video src={tutorial_factories}
+       controls={false}
+       autoPlay={true}
+       muted={true}
+       loop={true}
+       title="Factories Showcase" />
+
+## Playroom
+
+**Playroom** is a tool for prototyping and experimenting with components in isolation
+and makes building UIs organized and efficient. It's available next to the Canvas and Docs sections, and you can use it to quickly transition from your
+view of the component to the code playground.
+
+If you want to access Playroom **separate from Storybook**,
+head on over to the isolated [Playroom](https://croz-ltd.github.io/tiller/playroom) page.
+
+Similar to Figma, you can prototype your components but **can't pass any logic to them**, so it's a great tool
+for visualizing your components before you put your custom logic on top in your project.
+
+There are different approaches you can take with this tool:
+ - **Copy and paste** - you can copy the code from the **Docs** section of the component you want to prototype.
+ - **Use factories** - you can use the factories to create your component and then copy the code from the **Docs** section.
+ - **Use preset snippets** - by clicking on the plus button on the bottom toolbar you can add an arbitrary snippet from the
+                            list of defined snippets.
+
+The demo video below demonstrates how you can quickly generate your website template using our predefined snippets.
+
+<video src={tutorial_playroom}
+       controls={false}
+       autoPlay={true}
+       muted={true}
+       loop={true}
+       title="Playroom Showcase" />
+
+# Support
 
 For all questions and doubts, do not hesitate to email **tiller@croz.net**.
 
-## How to import component
-
-Component Library is divided into `modules`. Each folder represents one module.
-
-To import a component, the corresponding module needs to be installed first. One way to install the module is to enter the name of the module in the `package.json` file in format `"@tiller-ds/core": "1.0.1"` and run `yarn install`.
-
-In case you are using `tiller-starter template`, `@tiller-ds/core` module will be installed by default.
-
-## Storybook Design Tab
-
-If you are new to Storybook, you may have a problem with `WebGL` when viewing the **Design** tab in Storybook.
-
-<img className="w-96" src={designError} alt="Design Error" />
-
-Fortunately, there is a very simple solution.
-
-#### **Chrome**
-
-WebGL should be enabled in recent versions of Chrome. If you aren’t able to run WebGL in Chrome, make sure that you update to the most recent version of Chrome.
-
-If you are using the most recent version of Chrome and can’t access WebGL content, make sure that hardware acceleration is enabled in your Chrome settings.
-
-1. Go to **chrome://settings** in your address bar, or click the **Chrome menu** in the upper-right corner of your browser window and select **Settings**.
-2. Use the search bar to locate the hardware acceleration setting, or scroll to the bottom of the Settings page, click **Advanced** and look in the **System** section.
-3. Toggle **Use hardware acceleration when available** to **on** (the toggle is blue when hardware acceleration is on, and white when hardware acceleration is off).
-
-In case option is already set to **on**, **reset** it, and relaunch Chrome.
-
+If you run into any bugs, please open an issue on **[GitHub](https://github.com/croz-ltd/tiller/issues)**. All feedback is welcome!
