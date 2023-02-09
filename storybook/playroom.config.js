@@ -12,11 +12,6 @@ module.exports = {
   openBrowser: true,
   paramType: "search", // default is 'hash'
   typeScriptFiles: ["../**/src/*.tsx", "!**/node_modules"],
-  exampleCode: `
-    <Button>
-      Hello World!
-    </Button>
-  `,
   baseUrl: "/tiller/playroom/",
   webpackConfig: () => {
     return {

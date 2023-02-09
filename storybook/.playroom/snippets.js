@@ -4,79 +4,54 @@ export default [
     name: "Customizable",
     code: `
           <StackedLayout navigation={
-            <TopNavigation topRightAction={
-                <TopNavigation.Dropdown
-                buttonColor="primary"
-                buttonVariant="text"
-                icon={<Icon className="text-white" type="user"/>}
-                iconColor="default"
-                menuType="icon"
-                popupBackgroundColor="default"
-                title="User"
-              >
-                <TopNavigation.Navigation.SubItem to="/account">
-                  <Intl name="account" />
-                </TopNavigation.Navigation.SubItem>
-                <TopNavigation.Navigation.SubItem to="/support">
-                  <Intl name="support" />
-                </TopNavigation.Navigation.SubItem>
-                <TopNavigation.Navigation.SubItem to="/logout">
-                  <Intl name="signOut" />
-                </TopNavigation.Navigation.SubItem>
-              </TopNavigation.Dropdown>
-            }>
-              <TopNavigation.Navigation>
-                <TopNavigation.Navigation.Item to="/dashboard">
-                  Dashboard
-                </TopNavigation.Navigation.Item>
-                <TopNavigation.Navigation.Item to="/team">
-                  Team
-                </TopNavigation.Navigation.Item>
-                <TopNavigation.Navigation.Item to="/projects">
-                  Projects
-                </TopNavigation.Navigation.Item>
-                <TopNavigation.Navigation.Item to="/calendar">
-                  Calendar
-                </TopNavigation.Navigation.Item>
-                <TopNavigation.Navigation.Item
-                  isExpandable
-                  title="Planning"
-                >
-                  <TopNavigation.Navigation.SubItem
-                    icon={<Icon type="clipboard" />}
-                    onSelect={function noRefCheck(){}}
-                    to="/tasks"
+                <TopNavigation variant="contained">
+                  <TopNavigation.Navigation>
+                    <TopNavigation.Navigation.Item to="/dashboard">
+                      Dashboard
+                    </TopNavigation.Navigation.Item>
+                    <TopNavigation.Navigation.Item to="/team">
+                      Team
+                    </TopNavigation.Navigation.Item>
+                    <TopNavigation.Navigation.Item to="/projects">
+                      Projects
+                    </TopNavigation.Navigation.Item>
+                    <TopNavigation.Navigation.Item to="calendar">
+                      Calendar
+                    </TopNavigation.Navigation.Item>
+                  </TopNavigation.Navigation>
+                  <TopNavigation.Dropdown
+                    title="User"
+                    menuType="icon"
+                    icon={<Icon type="user" className="text-white" />}
+                    iconColor="default"
+                    buttonColor="primary"
+                    popupBackgroundColor="light"
+                    buttonVariant="text"
                   >
-                    Tasks
-                  </TopNavigation.Navigation.SubItem>
-                  <TopNavigation.Navigation.SubItem
-                    onSelect={function noRefCheck(){}}
-                    to="/reminders"
-                  >
-                    Reminders
-                  </TopNavigation.Navigation.SubItem>
-                  <TopNavigation.Navigation.SubItem
-                    onSelect={function noRefCheck(){}}
-                    to="/events"
-                  >
-                    Events
-                  </TopNavigation.Navigation.SubItem>
-                </TopNavigation.Navigation.Item>
-              </TopNavigation.Navigation>
-            </TopNavigation>
-          }>
+                    <TopNavigation.Dropdown.Item to="/account" color="light">
+                      Account
+                    </TopNavigation.Dropdown.Item>
+                    <TopNavigation.Dropdown.Item to="/support" color="light">
+                      Support
+                    </TopNavigation.Dropdown.Item>
+                    <TopNavigation.Dropdown.Item to="/logout" color="light">
+                      Sign Out
+                    </TopNavigation.Dropdown.Item>
+                  </TopNavigation.Dropdown>
+                </TopNavigation>
+          } containerVariant="constrainedPadded">
             <StackedLayout.Heading>
-                <PageHeading>
-                  <PageHeading.Title>Project Nero</PageHeading.Title>
-                  <PageHeading.Actions>
-                    <Button variant="outlined">
-                      Edit
-                    </Button>
-                     <Button variant="filled">
-                      Publish
-                    </Button>
-                  </PageHeading.Actions>
-                </PageHeading>
+              <PageHeading>
+                <PageHeading.Title>My Website</PageHeading.Title>
+                <PageHeading.Actions>
+                  <Button variant="outlined">
+                    Edit
+                  </Button>
+                  <Button id="open-button" variant="filled">
+                    Publish
+                  </Button>
+                </PageHeading.Actions>
+              </PageHeading>
             </StackedLayout.Heading>
             <StackedLayout.Content>
               <Placeholder className="h-48" />
@@ -132,7 +107,7 @@ export default [
                 <SidebarNavigation.Item to="/calendar">Calendar</SidebarNavigation.Item>
                 <SidebarNavigation.Item to="/reports">Reports</SidebarNavigation.Item>
             </SidebarNavigation>
-          }>
+          } containerVariant="constrainedPadded">
             <SidebarLayout.Heading>
               <PageHeading>
                 <PageHeading.Title>
@@ -281,19 +256,19 @@ export default [
     name: "Default",
     code: `
     <DescriptionList>
-    <DescriptionList.Item label="Full name" type="striped">
+    <DescriptionList.Item label="Full name" type="same-column">
       Margot Foster
     </DescriptionList.Item>
-    <DescriptionList.Item label="Application for">Backend Developer</DescriptionList.Item>
-    <DescriptionList.Item label="Email address">margotfoster@example</DescriptionList.Item>
-    <DescriptionList.Item label="Salary expectation">$120,000</DescriptionList.Item>
-    <DescriptionList.Item label="About">
+    <DescriptionList.Item label="Application for" type="same-column">Backend Developer</DescriptionList.Item>
+    <DescriptionList.Item label="Email address" type="same-column">margotfoster@example</DescriptionList.Item>
+    <DescriptionList.Item label="Salary expectation" type="same-column">$120,000</DescriptionList.Item>
+    <DescriptionList.Item label="About" type="same-column">
       Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
       aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit
       ad adipisicing reprehenderit deserunt qui eu.
     </DescriptionList.Item>
-    <DescriptionList.Item label="Crimes">Triple homicide in Reno, Nevada.</DescriptionList.Item>
-    <DescriptionList.Item label="Guns used">.357 Magnum, Tactical knife, flashbang</DescriptionList.Item>
+    <DescriptionList.Item label="Crimes" type="same-column">Triple homicide in Reno, Nevada.</DescriptionList.Item>
+    <DescriptionList.Item label="Guns used" type="same-column">.357 Magnum, Tactical knife, flashbang</DescriptionList.Item>
   </DescriptionList>
     `,
   },
@@ -303,35 +278,35 @@ export default [
     code: `
   <DataTable data={[
     {
-        "name": "Pero",
-        "appliedFor": "Stalni zaposlenik",
+        "name": "James",
+        "appliedFor": "Permanent Employee",
         "datesBegin": "28. 08. 2021.",
         "datesEnd": "29. 09. 2021."
     },
     {
-        "name": "Ivo",
-        "appliedFor": "Vanjski suradnik 1",
+        "name": "Jessica",
+        "appliedFor": "External Associate 1",
         "datesBegin": "16. 08. 2021.",
         "datesEnd": "16. 09. 2021."
     },
     {
-        "name": "Ana",
-        "appliedFor": "Srednjoškolac",
+        "name": "Elizabeth",
+        "appliedFor": "High School Intern",
         "datesBegin": "14. 08. 2021.",
         "datesEnd": "28. 09. 2021."
     },
     {
-        "name": "Ivica",
-        "appliedFor": "Vanjski suradnik 2",
+        "name": "Daniel",
+        "appliedFor": "External Associate 2",
         "datesBegin": "29. 08. 2021.",
         "datesEnd": "14. 09. 2021."
     }
 ]}>
-    <DataTable.Column header="ZAPOSLENIK" accessor="name" />
-    <DataTable.Column header="TIP ZAPOSLENIKA" accessor="appliedFor" />
-    <DataTable.Column header="SLUŽBENI DATUM POČETKA" accessor="datesBegin" />
-    <DataTable.Column header="SLUŽBENI DATUM ZAVRŠETKA" accessor="datesEnd" />
-    <DataTable.Column header="AKCIJE" id="view" canSort={false}>
+    <DataTable.Column header="EMPLOYEE" accessor="name" />
+    <DataTable.Column header="EMPLOYEE TYPE" accessor="appliedFor" />
+    <DataTable.Column header="OFFICIAL START DATE" accessor="datesBegin" />
+    <DataTable.Column header="OFFICIAL END DATE" accessor="datesEnd" />
+    <DataTable.Column header="ACTIONS" id="view" canSort={false}>
       {() => (
         <div className="flex justify-start items-center space-x-1">
           <IconButton icon={<Icon type="pencil-simple" variant="light" className="text-gray-500" />} label="Edit" />
@@ -358,21 +333,6 @@ export default [
     `,
   },
   {
-    group: "Checkbox Group",
-    name: "With Info",
-    code: `
-          <CheckboxGroupField icon={<Icon type="info" />} 
-          name="filter"
-          label="Sort by:"
-          direction="horizontal"
-          >
-            <CheckboxGroupField.Item label="Name" value="name" />
-            <CheckboxGroupField.Item label="Date" value="date" />
-            <CheckboxGroupField.Item label="Type" value="type" />
-          </CheckboxGroupField>
-    `,
-  },
-  {
     group: "Radio Group",
     name: "Customizable",
     code: `
@@ -386,22 +346,6 @@ export default [
             <RadioGroupField.Item label="Date" value="date" />
             <RadioGroupField.Item label="Type" value="type" />
           </RadioGroupField>
-    `,
-  },
-  {
-    group: "Radio Group",
-    name: "With Info",
-    code: `
-          <RadioGroupField icon={<Icon type="info" />} 
-          name="filter"
-          label="Sort by:"
-          className="sm:col-span-2"
-          direction="horizontal"
-        >
-          <RadioGroupField.Item label="Name" value="name" />
-          <RadioGroupField.Item label="Date" value="date" />
-          <RadioGroupField.Item label="Type" value="type" />
-        </RadioGroupField>
     `,
   },
   {
@@ -502,16 +446,16 @@ export default [
               <FormLayout.Section.Content>
                 <div className="grid grid-cols-1 row-gap-6 gap-4 sm:grid-cols-3">
                   <InputField name="name" label="Ime" />
-                  <DateInputField name="date" label="Datum početka/kraja" />
-                  <SelectField name="type" options={["zaposlenik1", "zaposlenik2"]} label="Tip zaposlenika" />
+                  <DateInputField name="date" label="Date of beginning/end" />
+                  <SelectField name="type" options={["employee1", "employee2"]} label="Type of employee" />
                 </div>
                 <div className="inline-flex items-center space-x-1">
-                  <CheckboxField name="hide" label="Sakrij" />
+                  <CheckboxField name="hide" label="Hide" />
                 </div>
               </FormLayout.Section.Content>
               <FormLayout.Section.Actions>
-                <Button variant="outlined">Resetiraj filter</Button>
-                <Button variant="filled">Potvrdi</Button>
+                <Button variant="outlined">Reset Filter</Button>
+                <Button variant="filled">Confirm</Button>
               </FormLayout.Section.Actions>
             </FormLayout.Section>
           </FormLayout>
@@ -528,20 +472,20 @@ export default [
                   <InputField
                     name="status"
                     label="Status"
-                    help="Pretraži naziv ponude"
+                    help="Search for offer title"
                     className="sm:col-span-4"
                   />
                   <CheckboxGroupField
                     name="filter"
-                    label="Pretraži prema:"
+                    label="Search by:"
                     direction="horizontal"
                   >
                     <CheckboxGroupField.Item
-                      label="Naziv ponude"
+                      label="Offer title"
                       value="title"
                     />
                     <CheckboxGroupField.Item
-                      label="Opis prodajne prilike"
+                      label="Description of the sales opportunity"
                       value="description"
                     />
                   </CheckboxGroupField>
@@ -551,30 +495,30 @@ export default [
                     label="ID"
                     className="sm:col-span-2"
                   />
-                  <Input name="keywords" label="Oznake" className="sm:col-span-2" />
+                  <Input name="keywords" label="Labels" className="sm:col-span-2" />
                   <RadioGroupField
                     name="filter"
-                    label="Pretraži prema"
+                    label="Search by:"
                     className="sm:col-span-2"
                     direction="horizontal"
                   >
-                    <RadioGroupField.Item label="Broju računa" value="number" />
-                    <RadioGroupField.Item label="Nazivu dobavljača" value="name" />
+                    <RadioGroupField.Item label="Account number" value="number" />
+                    <RadioGroupField.Item label="The name of the supplier" value="name" />
                   </RadioGroupField>
                   <AutocompleteField
                     name="user"
-                    label="Korisnik"
+                    label="User"
                     className="sm:col-span-3"
                   />
                   <AutocompleteField
                     name="person"
-                    label="Odgovorne osobe"
+                    label="Responsible persons"
                     className="sm:col-span-3"
                   />
                   <SelectField
                     name="text"
                     options={["1", "2"]}
-                    label="Odluka korisnika"
+                    label="User decision"
                     className="sm:col-span-6"
                   />
                 </div>
@@ -583,13 +527,13 @@ export default [
                 leftActions={
                   <div className="flex-shrink-0 mr-4 space-x-2">
                     <Button variant="filled" color="gray">
-                      Dodatni filteri
+                      Additional Filters
                     </Button>
                   </div>
                 }
               >
-                <Button variant="outlined">Resetiraj filter</Button>
-                <Button variant="filled">Pretraži</Button>
+                <Button variant="outlined">Reset Filter</Button>
+                <Button variant="filled">Search</Button>
               </FormLayout.Section.Actions>
             </FormLayout.Section>
           </FormLayout>
@@ -600,29 +544,29 @@ export default [
     name: "Contained",
     code: `
           <FormLayout type="card">
-            <FormLayout.Section title="Osnovne informacije" subtitle="">
+            <FormLayout.Section title="Basic Info" subtitle="">
               <FormLayout.Section.Content>
                 <div className="grid grid-cols-1 row-gap-6 gap-4 sm:grid-cols-6">
                   <DateInputField
                     name="date"
-                    label="Datum isporuke"
-                    help="Datum treba odgovarati rasponu datuma na ugovoru"
+                    label="Delivery Date"
+                    help="The date should match the date range on the contract"
                     className="sm:col-span-3"
                   />
                   <AutocompleteField
                     name="name"
-                    label="Naziv korisnika"
+                    label="User Name"
                     className="sm:col-span-6"
                   />
                   <SelectField
                     name="currency"
-                    label="Valuta"
+                    label="Currency"
                     disabled={true}
                     className="sm:col-span-3"
                     options={["USD", "HRK", "EUR"]}
                   />
                   <br />
-                  <TextareaField name="about" label="Napomena" className="sm:col-span-6" />
+                  <TextareaField name="about" label="Remark" className="sm:col-span-6" />
                 </div>
               </FormLayout.Section.Content>
             </FormLayout.Section>
@@ -634,18 +578,18 @@ export default [
     name: "Contained And Filled",
     code: `
           <FormLayout type="full-width">
-            <FormLayout.Section title="Osnovne informacije" subtitle="">
+            <FormLayout.Section title="Basic Info" subtitle="">
               <FormLayout.Section.Content>
                 <div>
                   <div className="pb-5 border-b border-gray-200">
-                    <RadioGroupField name="type" label="Tip putovanja" direction="vertical">
+                    <RadioGroupField name="type" label="Trip Type" direction="vertical">
                       <RadioGroupField.Item
-                        label="Terenski rad - Idem na rad kod korisnika u sklopu projekta"
-                        value="rad"
+                        label="Field work - I am going to work with the user as part of the project"
+                        value="work"
                       />
                       <RadioGroupField.Item
-                        label="Putni nalog - Idem na radionicu, konferenciju,edukaciju ili sales/presales sastanak, JobFair"
-                        value="nalog"
+                        label="Travel order - I am going to a workshop, conference, education or sales/presales meeting, JobFair"
+                        value="order"
                       />
                     </RadioGroupField>
                   </div>
@@ -653,54 +597,54 @@ export default [
                     <AutocompleteField
                       name="project"
                       icon={<Icon type="info" />}
-                      label="U sklopu kojeg projekta ideš na put?"
+                      label="As part of which project are you going on the trip?"
                       className="sm:col-span-1"
                     />
                   </div>
                   <div className= "border-b border-gray-200 pb-5 pt-5 grid grid-cols-2 gap-4">
-                    <DateInputField name="date" label="Datum polaska na put" className="sm:col-span-1" />
+                    <DateInputField name="date" label="Date of departure" className="sm:col-span-1" />
                   </div>
                   <div className= "border-b border-gray-200 pb-5 pt-5 grid grid-cols-2 gap-4">
-                    <DateInputField name="date" label="Datum povratka s puta" className="sm:col-span-1" />
+                    <DateInputField name="date" label="Date of return from the trip" className="sm:col-span-1" />
                   </div>
                   <div className= "border-b border-gray-200 pb-5 pt-5 grid grid-cols-2 gap-4">
                     <AutocompleteField
                       name="project"
-                      placeholder="Pronađi projekt"
+                      placeholder="Find a project"
                       icon={<Icon type="info" />}
-                      label="U sklopu kojeg projekta ideš na put?"
+                      label="As part of which project are you going on a trip?"
                       className="sm:col-span-1"
                     />
                   </div>
                   <div className= "border-b border-gray-200 pb-5 pt-5 grid grid-cols-2 gap-4">
                     <AutocompleteField
                       name="city"
-                      placeholder="Pronađi grad"
-                      label="Iz kojeg grada krećeš na put?"
+                      placeholder="Find a city"
+                      label="What city are you leaving from?"
                       className="sm:col-span-1"
                     />
                   </div>
                   <div className= "border-b border-gray-200 pb-5 pt-5 grid grid-cols-2 gap-4">
                     <AutocompleteField
                       name="city"
-                      label="U koji grad putuješ?"
-                      placeholder="Pronađi grad"
+                      label="What city are you traveling to?"
+                      placeholder="Find a city"
                       className="sm:col-span-1"
                     />
                   </div>
                   <div className= "border-b border-gray-200 pb-5 pt-5 grid grid-cols-2 gap-4">
                     <InputField
                       name="reason"
-                      label="Razlog (zadatak) putovanja"
+                      label="The reason (task) of the trip"
                       icon={<Icon type="info" />}
                       className="sm:col-span-1"
                     />
                   </div>
                   <div className="pb-5 pt-5">
-                    <RadioGroupField name="query" label="Je li potrebna organizacija puta?" direction="vertical">
-                      <RadioGroupField.Item label="Da - želim da mi se organizira prijevoz i/ili smještaj" value="yes" />
+                    <RadioGroupField name="query" label="Is it necessary to organize the trip?" direction="vertical">
+                      <RadioGroupField.Item label="Yes - I want transportation and/or accommodation to be organized for me" value="yes" />
                       <RadioGroupField.Item
-                        label="Ne - sam ću se pobrinuti za organizaciju / organizacija nije potrebna"
+                        label="No - I will take care of the organization myself / no organization is needed"
                         value="no"
                       />
                     </RadioGroupField>
@@ -719,12 +663,12 @@ export default [
             <FormLayout.Section title="" subtitle="" borderless={false}>
               <FormLayout.Section.Content>
                 <div className="grid grid-cols-1 row-gap-6 gap-4 sm:grid-cols-3">
-                  <InputField name="name" label="Ime" />
-                  <DateInputField name="date" label="Datum početka/kraja" />
-                  <SelectField name="type" options={["zaposlenik1", "zaposlenik2"]} label="Tip zaposlenika" />
+                  <InputField name="name" label="Name" />
+                  <DateInputField name="date" label="Start/end date" />
+                  <SelectField name="type" options={["zaposlenik1", "zaposlenik2"]} label="Employee type" />
                 </div>
                 <div className="inline-flex items-center space-x-1">
-                  <CheckboxField name="hide" label="Sakrij" />
+                  <CheckboxField name="hide" label="Hide" />
                 </div>
               </FormLayout.Section.Content>
             </FormLayout.Section>
@@ -734,35 +678,34 @@ export default [
               <Card.Body removeSpacing={true}>
                 <DataTable data={[
                   {
-                      "name": "Pero",
-                      "appliedFor": "Stalni zaposlenik",
+                      "name": "James",
+                      "appliedFor": "Permanent Employee",
                       "datesBegin": "28. 08. 2021.",
                       "datesEnd": "29. 09. 2021."
                   },
                   {
-                      "name": "Ivo",
-                      "appliedFor": "Vanjski suradnik 1",
+                      "name": "Jessica",
+                      "appliedFor": "External Associate 1",
                       "datesBegin": "16. 08. 2021.",
                       "datesEnd": "16. 09. 2021."
                   },
                   {
-                      "name": "Ana",
-                      "appliedFor": "Srednjoškolac",
+                      "name": "Elizabeth",
+                      "appliedFor": "High School Intern",
                       "datesBegin": "14. 08. 2021.",
                       "datesEnd": "28. 09. 2021."
                   },
                   {
-                      "name": "Ivica",
-                      "appliedFor": "Vanjski suradnik 2",
+                      "name": "Daniel",
+                      "appliedFor": "External Associate 2",
                       "datesBegin": "29. 08. 2021.",
                       "datesEnd": "14. 09. 2021."
                   }
-                  ]}
-                >
-                  <DataTable.Column header="ZAPOSLENIK" accessor="name" />
-                  <DataTable.Column header="TIP ZAPOSLENIKA" accessor="appliedFor" />
-                  <DataTable.Column header="SLUŽBENI DATUM POČETKA" accessor="datesBegin" />
-                  <DataTable.Column header="SLUŽBENI DATUM ZAVRŠETKA" accessor="datesEnd" />
+              ]}>
+                  <DataTable.Column header="EMPLOYEE" accessor="name" />
+                  <DataTable.Column header="EMPLOYEE TYPE" accessor="appliedFor" />
+                  <DataTable.Column header="OFFICIAL START DATE" accessor="datesBegin" />
+                  <DataTable.Column header="OFFICIAL END DATE" accessor="datesEnd" />
                 </DataTable>
               </Card.Body>
             </Card>
@@ -791,29 +734,29 @@ export default [
           </Card>
           <div className="mt-4">
             <FormLayout type="card">
-                <FormLayout.Section title="Osnovne informacije" subtitle="">
+                <FormLayout.Section title="Basic Information" subtitle="">
                   <FormLayout.Section.Content>
                     <div className="grid grid-cols-1 row-gap-6 gap-4 sm:grid-cols-6">
                       <DateInputField
                         name="date"
-                        label="Datum isporuke"
-                        help="Datum treba odgovarati rasponu datuma na ugovoru"
+                        label="Delivery date"
+                        help="The date should match the date range on the contract"
                         className="sm:col-span-3"
                       />
                       <AutocompleteField
                         name="name"
-                        label="Naziv korisnika"
+                        label="User name"
                         className="sm:col-span-6"
                       />
                       <SelectField
                         name="currency"
-                        label="Valuta"
+                        label="Currency"
                         disabled={true}
                         className="sm:col-span-3"
                         options={["USD", "HRK", "EUR"]}
                       />
                       <br />
-                      <TextareaField name="about" label="Napomena" className="sm:col-span-6" />
+                      <TextareaField name="about" label="Remark" className="sm:col-span-6" />
                     </div>
                   </FormLayout.Section.Content>
                 </FormLayout.Section>
@@ -821,12 +764,12 @@ export default [
           </div>
           <div className="border-t border-gray-200 px-4 py-3 sm:px-6 mt-4" />
           <FormLayout type="card">
-              <FormLayout.Section title="Prilozi" subtitle="">
+              <FormLayout.Section title="Attachments" subtitle="">
                 <FormLayout.Section.Content>
                   <div className="flex justify-between w-full">
-                    <CheckboxField name="yesno" label="Dokumentacija je potpuna" />
+                    <CheckboxField name="yesno" label="Documentation is complete" />
                     <Button>
-                      Učitaj datoteke
+                      Upload files
                     </Button>
                   </div>
                   <div className="px-4 py-5 sm:p-6" />
