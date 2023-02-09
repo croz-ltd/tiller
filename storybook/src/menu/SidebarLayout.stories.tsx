@@ -22,6 +22,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { withDesign } from "storybook-addon-designs";
 
 import { PageHeading } from "@tiller-ds/core";
+import { FormContainer } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { SidebarNavigation, SidebarLayout } from "@tiller-ds/menu";
@@ -31,10 +32,9 @@ import storybookDictionary from "../intl/storybookDictionary";
 
 import { Simple } from "../data-display/DataTable.stories";
 import { Default } from "../data-display/DescriptionList.stories";
-import { FormContainer } from "@tiller-ds/formik-elements";
 import { SimpleType } from "../form-elements/FormLayout.stories";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import logo from "./images/sample-logo.svg";
 
@@ -59,7 +59,7 @@ export default {
           .replace(/PageHeadingTitle/g, "PageHeading.Title")
           .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "SidebarLayout");
+        return getChangedTokensFromSource(correctedSource, "SidebarLayout");
       },
     },
     design: {

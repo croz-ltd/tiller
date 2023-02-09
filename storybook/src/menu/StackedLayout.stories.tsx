@@ -23,18 +23,19 @@ import { withDesign } from "storybook-addon-designs";
 
 import { useModal, Modal } from "@tiller-ds/alert";
 import { Button, PageHeading, Placeholder } from "@tiller-ds/core";
+import { FormContainer } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { StackedLayout, TopNavigation } from "@tiller-ds/menu";
-
-import mdx from "./StackedLayout.mdx";
 import { defaultThemeConfig } from "@tiller-ds/theme";
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
-import { SidebarLayoutFactory } from "./SidebarLayout.stories";
+
 import { Simple } from "../data-display/DataTable.stories";
 import { Default } from "../data-display/DescriptionList.stories";
-import { FormContainer } from "@tiller-ds/formik-elements";
 import { SimpleType } from "../form-elements/FormLayout.stories";
+
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+
+import mdx from "./StackedLayout.mdx";
 
 export default {
   title: "Component Library/Menu/StackedLayout",
@@ -58,7 +59,7 @@ export default {
           .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
           .replace(/PageHeadingActions/g, "PageHeading.Actions")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "StackedLayout");
+        return getChangedTokensFromSource(correctedSource, "StackedLayout");
       },
     },
     design: {

@@ -22,7 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { Alert } from "@tiller-ds/alert";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Alert.mdx";
 
@@ -34,7 +34,7 @@ export default {
       page: mdx,
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
-        return getTokensFromSource(source, "Alert");
+        return getChangedTokensFromSource(source, "Alert");
       },
     },
     design: {

@@ -23,7 +23,7 @@ import { Button, Tooltip } from "@tiller-ds/core";
 import { Icon, iconTypes, LoadingIcon } from "@tiller-ds/icons";
 import { ComponentTokens, defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors, getTokensFromSource, showFactoryDecorator } from "../utils";
+import { extendedColors, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Button.mdx";
 
@@ -35,7 +35,7 @@ export default {
       page: mdx,
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
-        return getTokensFromSource(source, "Button");
+        return getChangedTokensFromSource(source, "Button");
       },
     },
     design: {

@@ -22,15 +22,15 @@ import { withDesign } from "storybook-addon-designs";
 
 import { Pagination, Button, Card } from "@tiller-ds/core";
 import { FormContainer } from "@tiller-ds/formik-elements";
-import { defaultThemeConfig } from "@tiller-ds/theme";
 import { Intl } from "@tiller-ds/intl";
 import { PageResizer } from "@tiller-ds/selectors";
+import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import { Simple } from "../data-display/DataTable.stories";
 import { SimpleType } from "../form-elements/FormLayout.stories";
 import { Default } from "../data-display/DescriptionList.stories";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Card.mdx";
 
@@ -50,7 +50,7 @@ export default {
           .replace(/CardHeaderActions/g, "Card.Header.Actions")
           .replace(/CardHeader/g, "Card.Header")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "Card");
+        return getChangedTokensFromSource(correctedSource, "Card");
       },
     },
     design: {

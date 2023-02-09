@@ -23,7 +23,7 @@ import { Button, PageHeading, Typography } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getTokensFromSource, showFactoryDecorator } from "../utils";
+import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./PageHeading.mdx";
 
@@ -43,7 +43,7 @@ export default {
           .replace(/PageHeadingBreadcrumb/g, "PageHeading.Breadcrumb")
           .replace(/PageHeadingActions/g, "PageHeading.Actions")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "PageHeading");
+        return getChangedTokensFromSource(correctedSource, "PageHeading");
       },
     },
     design: {

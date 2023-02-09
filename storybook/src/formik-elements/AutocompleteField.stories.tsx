@@ -28,7 +28,7 @@ import { defaultThemeConfig } from "@tiller-ds/theme";
 import storybookDictionary from "../intl/storybookDictionary";
 import {
   FormikDecorator,
-  getTokensFromSource,
+  getChangedTokensFromSource,
   Item,
   items,
   lessItems,
@@ -73,7 +73,7 @@ export default {
       transformSource: (source) => {
         const tokensConfig = { Select: "selectTokens", Autocomplete: "autocompleteTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(correctedSource, tokensConfig);
       },
     },
     design: {

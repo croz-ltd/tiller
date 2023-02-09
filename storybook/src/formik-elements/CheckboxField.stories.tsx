@@ -22,7 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { CheckboxField } from "@tiller-ds/formik-elements";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { FormikDecorator, getTokensFromSource, showFactoryDecorator } from "../utils";
+import { FormikDecorator, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./CheckboxField.mdx";
 
@@ -44,7 +44,7 @@ export default {
       transformSource: (source) => {
         const tokensConfig = { CheckboxField: "checkboxFieldTokens", Checkbox: "checkboxTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(correctedSource, tokensConfig);
       },
     },
     design: {

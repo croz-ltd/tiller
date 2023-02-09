@@ -20,7 +20,7 @@ export function getObjectDiff(obj1, obj2) {
 type TokensConfig = {
   [K in keyof Theme["component"]]?: string;
 };
-export function getTokensFromSource(source: string, tokensConfig: TokensConfig | keyof Theme["component"]) {
+export function getChangedTokensFromSource(source: string, tokensConfig: TokensConfig | keyof Theme["component"]) {
   const componentDefaultTokens: Record<string, unknown>[] = [];
 
   let finalTokensConfig = tokensConfig;
@@ -46,7 +46,7 @@ export function getTokensFromSource(source: string, tokensConfig: TokensConfig |
       );
     }
   });
-  return correctSource || source;
+  return correctSource;
 }
 
 export function showFactoryDecorator(flex = false) {

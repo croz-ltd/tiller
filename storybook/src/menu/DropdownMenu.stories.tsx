@@ -23,7 +23,7 @@ import { Icon, iconTypes } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors, getTokensFromSource, showFactoryDecorator } from "../utils";
+import { extendedColors, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DropdownMenu.mdx";
 
@@ -38,7 +38,7 @@ export default {
         const correctedSource = source
           .replace(/DropdownMenuItem/g, "DropdownMenu.Item")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "DropdownMenu");
+        return getChangedTokensFromSource(correctedSource, "DropdownMenu");
       },
     },
     design: {

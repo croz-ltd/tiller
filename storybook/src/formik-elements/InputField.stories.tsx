@@ -26,7 +26,7 @@ import { Intl } from "@tiller-ds/intl";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
-import { FormikDecorator, getTokensFromSource, showFactoryDecorator } from "../utils";
+import { FormikDecorator, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./InputField.mdx";
 
@@ -59,7 +59,7 @@ export default {
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getTokensFromSource(correctedSource, "Input");
+        return getChangedTokensFromSource(correctedSource, "Input");
       },
     },
     design: {
