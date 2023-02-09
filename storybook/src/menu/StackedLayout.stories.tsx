@@ -284,7 +284,7 @@ StackedLayoutFactory.decorators = showFactoryDecorator();
 
 export const SimpleWithModal = () => (
   <Router>
-    <StackedLayout navigation={topNavigationContainer}>
+    <StackedLayout navigation={topNavigationContainer} containerVariant="constrainedPadded">
       <StackedLayout.Heading>
         <PageHeadingContainer />
       </StackedLayout.Heading>
@@ -310,7 +310,7 @@ export const WithContainerConfigWithModal = () => (
 
 export const WithFixedHeadingWithModal = () => (
   <Router>
-    <StackedLayout navigation={topNavigationContainer} isFixed={true}>
+    <StackedLayout navigation={topNavigationContainer} containerVariant="constrainedPadded" isFixed={true}>
       <StackedLayout.Heading>
         <PageHeadingContainer />
       </StackedLayout.Heading>

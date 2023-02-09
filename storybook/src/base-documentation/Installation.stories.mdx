@@ -1,7 +1,7 @@
 import { Meta } from "@storybook/addon-docs";
 
 <Meta
-  title="Installation"
+  title="Installation and Importing"
   parameters={{
     previewTabs: {
       canvas: { hidden: true },
@@ -28,13 +28,25 @@ import { Meta } from "@storybook/addon-docs";
 If you use your own starter, basic steps needed for Tiller to work are next:
 
 1. Dependency to `@tiller-ds/theme` and other wanted modules for your app.
+
 2. `tailwind.config.js` with this minimal config:
-```js
-module.exports = {
-  presets: [require('@tiller-ds/theme').preset]
-};
-```
+
+    ```js
+    module.exports = {
+      presets: [require('@tiller-ds/theme').preset]
+    };
+    ```
+
 3. Import of tiller styles in your main css file:
-```
-@import "@tiller-ds/theme/styles/tiller.css";
-```
+
+    ```
+    @import "@tiller-ds/theme/styles/tiller.css";
+    ```
+
+# Importing
+
+Component Library is divided into `modules`. Each folder represents one module.
+
+To import a component, the corresponding module needs to be installed first. One way to install the module is to enter the name of the module in the `package.json` file in format `"@tiller-ds/core": "1.1.0"` and run `yarn install`.
+
+In case you are using `tiller-starter template`, `@tiller-ds/core` module will be installed by default.

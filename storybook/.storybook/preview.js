@@ -65,6 +65,7 @@ export const parameters = {
   viewport: {
     viewports: customViewports,
   },
+  actions: { disabled: true },
 };
 
 const withIntlProvider = (Story, context) => {

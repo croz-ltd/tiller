@@ -17,14 +17,15 @@ module.exports = {
     },
   },
   stories: [
-    "../src/base-documentation/ReleaseNotes.stories.mdx",
     "../src/base-documentation/Introduction.stories.mdx",
+    "../src/base-documentation/ReleaseNotes.stories.mdx",
     "../src/**/*.stories.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)",
   ],
   addons: [
     "@storybook/addon-controls",
     "@storybook/addon-docs",
+    "@storybook/addon-essentials",
     "storybook-addon-designs",
     "storybook-addon-playroom",
     "@storybook/addon-google-analytics",
