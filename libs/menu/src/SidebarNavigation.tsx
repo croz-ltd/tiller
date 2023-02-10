@@ -197,7 +197,7 @@ function SidebarNavigation({
     tokens.container.padding,
     { [tokens.container.dark]: color === "dark" },
     { [tokens.container.light]: color === "light" },
-    { [tokens.container.default]: color === "default" }
+    { [tokens.container.default]: color === "default" },
   );
 
   const navClassName = cx(
@@ -206,7 +206,7 @@ function SidebarNavigation({
     tokens.base.padding,
     { [tokens.base.dark]: color === "dark" },
     { [tokens.base.light]: color === "light" },
-    { [tokens.base.default]: color === "default" }
+    { [tokens.base.default]: color === "default" },
   );
 
   const logoClassName = cx(
@@ -214,7 +214,7 @@ function SidebarNavigation({
     { "hidden md:inline-flex": dropdownOpened },
     { [tokens.logo.withTopRightAction.master]: topRightAction },
     { [tokens.logo.withTopRightAction.margin]: topRightAction },
-    { [tokens.logo.withoutTopRightAction]: !topRightAction }
+    { [tokens.logo.withoutTopRightAction]: !topRightAction },
   );
 
   const bottomActionsClassName = cx(tokens.bottomActions.master, tokens.bottomActions.padding);
@@ -223,7 +223,9 @@ function SidebarNavigation({
 
   const menuButtonClassName = cx(tokens.navButtons.hover);
 
-  const navClass = cx("h-96 flex-col flex-grow", {
+  const menuButtonStyleClassName = cx(tokens.navButtons.margin, tokens.navButtons.size);
+
+  const navClass = cx(tokens.base.container, {
     "md:flex hidden": !isOpen,
     flex: isOpen,
   });
@@ -249,10 +251,15 @@ function SidebarNavigation({
 
   return (
     <div className={containerClassName}>
-      <div className={`grid  grid-cols-3 justify-center`}>
+      <div className={tokens.topContainer}>
         {!dropdownOpened && (
-          <div className="md:hidden flex items-center text-center justify-start md:justify-center">
-            <Button className="ml-4 md:ml-8 h-10" color={menuButtonClassName} variant="text" onClick={handleClick}>
+          <div className={tokens.navButtons.container}>
+            <Button
+              className={menuButtonStyleClassName}
+              color={menuButtonClassName}
+              variant="text"
+              onClick={handleClick}
+            >
               {menuIcon}
             </Button>
           </div>
@@ -304,7 +311,7 @@ export function SidebarNavigationItem({
     { [tokens.item.inactive[color]]: !active },
     { [tokens.item.active[color]]: active },
     { [tokens.item.active.fontWeight]: active },
-    { [tokens.item.expandable.container]: isExpandable }
+    { [tokens.item.expandable.container]: isExpandable },
   );
 
   const iconClassName = cx(tokens.icon.master, tokens.icon.color);
@@ -317,7 +324,7 @@ export function SidebarNavigationItem({
     tokens.item.expandable.subitemsContainer.width,
     { [tokens.item.expandable.subitemsContainer.dark]: color === "dark" },
     { [tokens.item.expandable.subitemsContainer.light]: color === "light" },
-    { [tokens.item.expandable.subitemsContainer.default]: color === "default" }
+    { [tokens.item.expandable.subitemsContainer.default]: color === "default" },
   );
 
   const iconProps = { className: "ml-1 mt-px", size: 3 };
@@ -364,7 +371,7 @@ export function SidebarNavigationDropdown({
   const mobileIconClassName = cx(
     { [dropdownMenutokens.Icon.color.default]: iconColor === "default" },
     { [dropdownMenutokens.Icon.color.dark]: iconColor === "dark" },
-    { [dropdownMenutokens.Icon.color.light]: iconColor === "light" }
+    { [dropdownMenutokens.Icon.color.light]: iconColor === "light" },
   );
 
   const containerClassName = cx(
@@ -372,13 +379,13 @@ export function SidebarNavigationDropdown({
     sidebarNavigationtokens.item.expandable.subitemsContainer.boxShadow,
     { [sidebarNavigationtokens.item.expandable.subitemsContainer.dark]: popupBackgroundColor === "dark" },
     { [sidebarNavigationtokens.item.expandable.subitemsContainer.light]: popupBackgroundColor === "light" },
-    { [sidebarNavigationtokens.item.expandable.subitemsContainer.default]: popupBackgroundColor === "default" }
+    { [sidebarNavigationtokens.item.expandable.subitemsContainer.default]: popupBackgroundColor === "default" },
   );
 
   const dropdownMenuContainerClassName = cx(
     sidebarNavigationtokens.topRightAction.master,
     { "ml-8": !opened },
-    className
+    className,
   );
 
   return (
@@ -427,7 +434,7 @@ export function SidebarNavigationDropdownItem({
     { [tokens.dropdownItem.base.fontWeight]: !active },
     { [tokens.dropdownItem.base[color]]: !active },
     { [tokens.dropdownItem.active[color]]: active },
-    { [tokens.dropdownItem.active.fontWeight]: active }
+    { [tokens.dropdownItem.active.fontWeight]: active },
   );
 
   const iconClassName = cx(tokens.icon.master, tokens.icon.color);

@@ -1,4 +1,4 @@
 module.exports = {
-  "trailingComma": "es5",
-  "printWidth": 120,
+  trailingComma: "all",
+  printWidth: 120,
 };
