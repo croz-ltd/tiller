@@ -128,7 +128,7 @@ module.exports = {
 Besides customization of decision tokens of the theme, you can customize classes used on individual components.
 By changing individual components you can override specific attributes which you need, while preserving everything else from default theme.
 
-To customize component classes edit the `component` property of `tillerConfig` object inside `tillerConfig.ts` file.
+To customize component classes edit the `component` property of your component config object inside `tiller.config.ts` file.
 
 Each component has its own properties which apply certain tailwind classes to the component.
 
@@ -139,7 +139,7 @@ Example:
 ```ts
 import { ThemeConfigFactory } from "@tiller-ds/theme";
 
-export const tillerConfig: ThemeConfigFactory = {
+export const defaultComponentConfig: ThemeConfigFactory = {
   component: {
     Button: {
       base: {
