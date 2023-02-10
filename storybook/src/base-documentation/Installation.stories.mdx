@@ -18,30 +18,90 @@ import { Meta } from "@storybook/addon-docs";
 
 # Installation
 
-1. Install node.js
-2. Install yarn
-3. Create project with `yarn create react-app yeey-app --template @tiller-ds/cra-template` command for CRA or `npx degit croz-ltd/tiller-vite` for Vite template
-4. Run `yarn start`/`yarn run dev` command to start your project
+## Installation via starter templates (Create React App or Vite)
 
-## Usage with custom project setup
+1. Install node.js (https://nodejs.org/en/download/) - version 14.17.3 or higher
+2. Install npm (https://www.npmjs.com/get-npm) - version 6.15.1 or higher
+3. Install yarn (https://classic.yarnpkg.com/en/docs/install/#windows-stable) - version 1.22 or higher
+4. Create project with `yarn create react-app yeey-app --template @tiller-ds/cra-template` command for CRA or `npx degit croz-ltd/tiller-vite` for Vite template
+5. Run `yarn start`/`yarn run dev` command to start your project
 
-If you use your own starter, basic steps needed for Tiller to work are next:
+## Installation via custom project setup
 
-1. Dependency to `@tiller-ds/theme` and other wanted modules for your app.
+If you use your own starter, basic steps needed for Tiller to function properly are:
 
-2. `tailwind.config.js` with this minimal config:
+1. Install desired dependencies (e.g. `@tiller-ds/theme`) and other wanted modules for your app.
 
-    ```js
+2. Configure `tailwind.config.js` with this minimal config:
+
+    ```tsx
     module.exports = {
       presets: [require('@tiller-ds/theme').preset]
     };
     ```
 
-3. Import of tiller styles in your main css file:
+    - See [Theming and Customization](/docs/theming-and-customization--page) for more information on how to customize the theme through `tailwind.config.js`.
 
-    ```
+
+3. Import Tiller styles in your main css file (e.g. `index.css`):
+
+    ```tsx
     @import "@tiller-ds/theme/styles/tiller.css";
     ```
+
+    - This is an **important step**, as it will import all the necessary styles for Tiller to function properly.
+
+
+4. Add a **`tiller.config.ts`** file in an arbitrary location (recommended path is `src/theme/tiller.config.ts`) and configure it accordingly:
+
+    ```tsx
+    import { iconConfig } from "@tiller-ds/icons";
+    import { ThemeConfigFactory, IconConfig } from "@tiller-ds/theme";
+
+    export const defaultComponentConfig: ThemeConfigFactory = {
+        component: {
+            // component overrides are defined here
+        },
+    };
+
+    export const defaultIconConfig: IconConfig = {
+        ...iconConfig,
+    };
+    ```
+
+
+5. Import the component and icon configurations into your `main.tsx` file:
+
+    ```tsx
+    import React from "react";
+    import ReactDOM from "react-dom/client";
+
+    import { ThemeProvider } from "@tiller-ds/theme";
+
+    import App from "./App";
+    import {
+        defaultIconConfig,
+        defaultComponentConfig,
+    } from "./theme/tiller.config";
+    import "./index.css";
+    import { IntlProvider } from "@tiller-ds/intl";
+
+    ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+    <React.StrictMode>
+        <ThemeProvider
+            themeConfig={defaultComponentConfig}
+            iconConfig={defaultIconConfig}
+        >
+            <IntlProvider lang="en">
+                <App />
+            </IntlProvider>
+        </ThemeProvider>
+    </React.StrictMode>
+    );
+    ```
+
+    - `IntlProvider` is not required, but it is recommended to use it for localization and if you
+    need to use some components that **require it for functioning (see the list [here](/docs/component-library-intl-intl--basic)).**
 
 # Importing
 
