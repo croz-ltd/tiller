@@ -1414,8 +1414,10 @@ const defaultComponentConfig = {
       default: "text-white bg-primary-700",
       padding: "py-4 px-3",
     },
+    topContainer: "grid grid-cols-3 justify-center",
     base: {
       master: "flex-col space-y-1 scrollbar overflow-y-auto",
+      container: "h-96 flex-col flex-grow",
       boxShadow: "shadow-sm",
       borderRadius: "rounded-md",
       default: "text-white bg-primary-600",
@@ -1424,6 +1426,9 @@ const defaultComponentConfig = {
       padding: "p-2",
     },
     navButtons: {
+      container: "md:hidden flex items-center text-center justify-start md:justify-center",
+      margin: "ml-4 md:ml-8",
+      size: "h-10",
       hover: "primary",
       master: "hover:text-black",
       default: "text-primary-300",
