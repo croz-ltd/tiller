@@ -50,7 +50,7 @@ export default function PasswordInputField({
   const [showPassword, setShowPassword] = React.useState(false);
   const [capsLock, setCapsLock] = React.useState(false);
   const passwordInputRef = React.useRef<HTMLInputElement>(null);
-  const tokens = useTokens("Input", props.inputTokens);
+  const tokens = useTokens("Input", props.tokens);
   const showPasswordIcon = useIcon("showPassword");
   const hidePasswordIcon = useIcon("hidePassword");
 
