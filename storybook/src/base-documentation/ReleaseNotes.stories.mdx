@@ -18,7 +18,26 @@ import { Meta } from "@storybook/addon-docs";
 
 # Release Notes
 
-## **1.1.0 - latest** <span>_(Feb 6th 2023)_</span>
+## **1.2.0 - latest** <span>_(Feb 13th 2023)_</span>
+
+**Bug Fixes:**
+- `Input`: fixed _onReset_ prop not functional
+- fixed _className_ not passing onto some components correctly
+
+**Component Improvements**
+- `SidebarNavigation`: moved important classes to tokens configuration ([#46](https://github.com/croz-ltd/tiller/issues/46))
+- `ProgressBar`: specifying _active_ prop is now not required for each step
+
+**Storybook Improvements:** ([#40](https://github.com/croz-ltd/tiller/issues/40))
+- improved [Introduction](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page)
+  and [Installation](https://croz-ltd.github.io/tiller/?path=/docs/installation-and-importing--page) pages
+- improved code output in Storybook
+- improved code snippets for [Playroom](https://croz-ltd.github.io/tiller/playroom/)
+- improved factories
+- added factories for `StackedLayout` and `SidebarLayout`
+- added custom viewports for better testing
+
+## 1.1.0 <span>_(Feb 6th 2023)_</span>
 
 **Bug Fixes:**
 - fixed className in `Typography` & `Toggle` ([#32](https://github.com/croz-ltd/tiller/issues/32))
