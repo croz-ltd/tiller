@@ -985,6 +985,7 @@ const defaultComponentConfig = {
   Input: {
     master: "block w-full text-ellipsis overflow-hidden",
     fontSize: "text-base",
+    textColor: "text-body",
     lineHeight: "sm:leading-5",
     borderColor: `border border-slate-300 focus:border-primary-300`,
     borderRadius: "rounded-md",
@@ -1041,10 +1042,12 @@ const defaultComponentConfig = {
       clickableTrailing: "hover:text-gray-500 pointer-events-auto cursor-pointer flex hover:text-slate-500",
     },
     clear: {
-      base: "pointer-events-auto cursor-pointer",
+      base: "pointer-events-auto",
       padding: "mr-3",
-      color: "text-gray-400 hover:text-slate-700",
+      color: "text-gray-400",
       size: 3,
+      disabled: "opacity-50",
+      clickableTrailing: "cursor-pointer hover:text-slate-700",
     },
   },
   Icon: {
@@ -1666,10 +1669,10 @@ const defaultComponentConfig = {
     disabled: "opacity-50",
   },
   TimePicker: {
-    container: "w-full bg-white shadow p-2 left-0",
-    innerContainer: "mb-2 flex justify-between items-center",
+    container: "w-full flex flex-col items-center justify-center bg-white shadow p-2 left-0",
+    innerContainer: "mt-2 mb-3 flex justify-center space-x-4 items-center",
     pickerHeaderContainer: "flex justify-between items-center space-x-1",
-    pickerBodyContainer: "flex justify-center",
+    pickerBodyContainer: "flex justify-center mb-2",
     clockContainer: {
       master: "relative flex justify-center items-center",
       backgroundColor: "bg-primary-50",

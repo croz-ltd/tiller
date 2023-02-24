@@ -188,6 +188,7 @@ export default function Input({
   const inputClassName = cx(
     tokens.master,
     tokens.fontSize,
+    tokens.textColor,
     tokens.lineHeight,
     { [tokens.padding.input]: !props?.id?.includes("downshift") },
     { [tokens.padding.autocomplete]: props?.id?.includes("downshift") },
@@ -233,7 +234,10 @@ export default function Input({
     [tokens.container.withLabel]: label,
   });
 
-  const inputClearClassName = cx(tokens.clear.base, tokens.clear.padding, tokens.clear.color);
+  const inputClearClassName = cx(tokens.clear.base, tokens.clear.padding, tokens.clear.color, {
+    [tokens.clear.disabled]: disabled || props.readOnly,
+    [tokens.clear.clickableTrailing]: !disabled && !props.readOnly,
+  });
   const finalClearIcon = useIcon("dismiss", clearIcon, { className: inputClearClassName, size: tokens.clear.size });
   const finalWarningIcon = useIcon("inputError", warningIcon, { className: tokens.error.Icon.color, size: 5 });
 
@@ -275,7 +279,11 @@ export default function Input({
       </div>
       <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
         {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
-        {props.value && allowClear && finalClearIcon && <button onClick={onReset}>{finalClearIcon}</button>}
+        {props.value && allowClear && finalClearIcon && (
+          <button type="button" onClick={onReset} disabled={disabled}>
+            {finalClearIcon}
+          </button>
+        )}
         {inlineTrailingIcon && (
           <InputIcon icon={<div className={inlineTrailingIconClass}>{inlineTrailingIcon}</div>} trailing={true} />
         )}

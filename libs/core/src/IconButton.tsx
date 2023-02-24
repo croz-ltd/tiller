@@ -110,7 +110,7 @@ export default function IconButton({
 }: IconButtonProps) {
   const tokens = useTokens("IconButton", props.tokens);
 
-  const buttonClass = cx(buttonClassName, tokens.master, tokens.container.padding);
+  const buttonClass = cx(buttonClassName, tokens.master, tokens.container.padding, { "cursor-default": disabled });
 
   const disabledIconClass = cx(buttonClassName, [tokens.icon.opacity], [icon.props.className]);
 
@@ -134,6 +134,6 @@ export default function IconButton({
           {icon}
         </WithLink>
       )}
-    </>
+    </>,
   );
 }

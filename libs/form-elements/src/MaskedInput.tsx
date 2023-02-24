@@ -66,7 +66,7 @@ export default function MaskedInput({
   const inputPlaceholder = placeholder ? placeholder : showMask ? convertMaskToPlaceholder(mask) : placeholder;
 
   const onMaskChange = useMaskedInput({
-    input: currentRef,
+    input: props.inputRef || currentRef,
     mask: mask,
     onChange: onChange,
     keepCharPositions: keepCharPositions,
@@ -75,7 +75,8 @@ export default function MaskedInput({
 
   return (
     <Input
-      inputRef={currentRef}
+      {...props}
+      inputRef={(props.inputRef as React.RefObject<HTMLInputElement>) || currentRef}
       name={name}
       id={id}
       data-testid={id}
@@ -83,7 +84,6 @@ export default function MaskedInput({
       onChange={onMaskChange}
       placeholder={inputPlaceholder}
       onBlur={onBlur}
-      {...props}
     />
   );
 }
