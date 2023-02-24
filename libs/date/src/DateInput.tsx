@@ -17,16 +17,19 @@
 
 import * as React from "react";
 
-import { useDatepicker, START_DATE, OnDatesChangeProps } from "@datepicker-react/hooks";
 import { useIntl } from "react-intl";
+
+import { useDatepicker, START_DATE, OnDatesChangeProps } from "@datepicker-react/hooks";
 import Popover, { positionMatchWidth, positionRight } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
-import { Input, InputProps } from "@tiller-ds/form-elements";
-import { TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { InputProps, MaskedInput } from "@tiller-ds/form-elements";
+import { useIntlContext } from "@tiller-ds/intl";
+import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
 import { usePickerOpener } from "./usePickerOpener";
+import { checkDatesInterval, dateMask, formatDate } from "./utils";
 
 export type DateInputProps = {
   /**
@@ -39,6 +42,12 @@ export type DateInputProps = {
    * Custom class name for the container.
    */
   className?: string;
+
+  /**
+   * Enables automatic closing of the popover once a date is manually typed in.
+   * Off by default.
+   */
+  closeAfterEntry?: boolean;
 
   /**
    * Enables or disables the component's functionality.
@@ -65,6 +74,11 @@ export type DateInputProps = {
    * Represents the label above the date input field.
    */
   label?: React.ReactNode;
+
+  /**
+   * The desired mask shown in the field component (string or Regex expressions array).
+   */
+  mask?: (string | RegExp)[];
 
   /**
    * Maximum possible date enabled for selection.
@@ -116,13 +130,23 @@ export type DateInputProps = {
    */
   value: Date | null;
 } & Omit<InputProps, "onBlur" | "onChange" | "value"> &
-  Omit<Intl.DateTimeFormatOptions, "localeMatcher" | "weekday" | "year" | "month" | "day">;
+  Omit<Intl.DateTimeFormatOptions, "localeMatcher" | "weekday" | "year" | "month" | "day"> &
+  DateInputTokensProps;
+
+type DateInputTokensProps = {
+  tokens?: ComponentTokens<"DateInput">;
+};
 
 type DateInputInputProps = {
   /**
    * Event handler which enables you to call a function and trigger an action when a user clicks an input.
    */
   onClick: () => void;
+
+  /**
+   * Function that handles the behaviour of the component once its state changes.
+   */
+  onChange: (value: string) => void;
   /**
    * InputRef stores a reference to input.
    */
@@ -136,8 +160,13 @@ type DateInputInputProps = {
    * Custom icon instead of the trailing calendar one.
    */
   dateIcon?: React.ReactElement;
-} & DateInputProps &
-  TokenProps<"Input">;
+
+  /**
+   * The value of the field.
+   */
+  value: string;
+} & Omit<DateInputProps, "onChange" | "value"> &
+  TokenProps<"DateInput">;
 
 export default function DateInput({
   allowClear = true,
@@ -148,19 +177,33 @@ export default function DateInput({
   onBlur,
   fixedPopoverWidth = true,
   popoverPosition = "left",
+  closeAfterEntry,
+  mask,
   ...props
 }: DateInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datePickerRef = React.useRef<HTMLDivElement>(null);
 
+  const intl = useIntl();
+  const { lang } = useIntlContext();
+
+  const formattedValue = value
+    ? `${intl.formatDate(value, {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })}`
+    : "";
+  const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
+
   const onDatesChange = (data: OnDatesChangeProps) => {
-    inputRef.current?.focus();
     props.onChange(data.startDate);
     setOpened(false);
   };
 
   const datePicker = useDatepicker({
-    startDate: value || minDate || null,
+    initialVisibleMonth: value || minDate || new Date(),
+    startDate: value || null,
     endDate: null,
     focusedInput: START_DATE,
     minBookingDate: minDate,
@@ -168,20 +211,44 @@ export default function DateInput({
     numberOfMonths: 1,
     onDatesChange,
   });
-  const checkActiveMonthsValidity =
-    datePicker.activeMonths[0].month === value?.getMonth() && datePicker.activeMonths[0].year === value?.getFullYear();
+  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, (onBlur = undefined));
 
-  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, onBlur);
+  const checkActiveMonthsValidity =
+    value &&
+    datePicker.activeMonths[0].month === value.getMonth() &&
+    datePicker.activeMonths[0].year === value.getFullYear();
 
   const onOpen = () => {
-    if (props.disabled || props.readOnly) {
+    if (props.disabled) {
       return;
     }
-    if (!checkActiveMonthsValidity) {
+    if (!checkActiveMonthsValidity && value) {
       datePicker.onDateFocus(value || minDate || (null as unknown as Date));
     }
     setOpened(true);
     inputRef.current?.focus();
+  };
+
+  const onChange = (value: string) => {
+    const dateValue = formatDate(value, lang);
+    if (!dateValue || checkDatesInterval(dateValue, minDate, maxDate, lang)) {
+      if (dateValue) {
+        props.onChange(dateValue);
+        datePicker.onDateFocus(formatDate(value, lang) as Date);
+      } else {
+        props.onChange(null);
+        setTypedValue(value);
+      }
+    }
+  };
+
+  const onReset = () => {
+    if (props.onReset) {
+      props.onReset();
+    }
+    inputRef.current?.focus();
+    setTypedValue("");
+    setOpened(false);
   };
 
   return (
@@ -191,10 +258,13 @@ export default function DateInput({
         inputRef={inputRef}
         onClick={onOpen}
         onFocus={onOpen}
-        focusedDate={value}
+        focusedDate={value || null}
         allowClear={allowClear}
-        onBlur={onBlur ? onBlur : undefined}
-        value={value}
+        onBlur={onBlur}
+        value={formattedValue || typedValue}
+        onChange={onChange}
+        onReset={onReset}
+        tokens={{ textColor: !value ? "text-body-light" : undefined }}
       />
       <Popover
         className="z-50"
@@ -205,7 +275,7 @@ export default function DateInput({
           <DatePicker
             datePicker={datePicker}
             datePickerRef={datePickerRef}
-            focusedDate={value}
+            focusedDate={value || null}
             minYear={minDate?.getFullYear()}
             maxYear={maxDate?.getFullYear()}
             isDateRange={false}
@@ -224,22 +294,36 @@ function DateInputInput({
   required,
   allowClear = true,
   dateIcon,
+  mask,
+  value,
+  inputRef,
   ...props
 }: DateInputInputProps) {
-  const intl = useIntl();
-  const tokens = useTokens("Input", props.tokens);
-  const finalDateIcon = useIcon("date", dateIcon, { className: tokens.Icon.clickableTrailing });
+  const { lang } = useIntlContext();
+  const tokens = useTokens("DateInput", props.tokens);
+
+  const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !props.disabled });
+  const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
 
   return (
-    <Input
+    <MaskedInput
       {...props}
-      value={focusedDate ? intl.formatDate(focusedDate) : ""}
+      value={value}
+      inputRef={inputRef}
+      mask={mask ? mask : lang === "en" ? dateMask(value, "en") : dateMask(value, "hr")}
+      keepCharPositions={true}
+      showMask={false}
+      placeholder={props.placeholder !== undefined ? props.placeholder : lang === "en" ? "mm/dd/yyyy" : "dd.mm.yyyy."}
       name={props.name}
       onClick={onClick}
-      onBlur={() => ({})}
+      onBlur={props.onBlur}
+      onChange={(e) => onChange(e.target.value)}
+      onReset={props.onReset}
       allowClear={allowClear}
       required={required}
-      inlineTrailingIcon={<IconButton icon={finalDateIcon} onClick={onClick} showTooltip={false} />}
+      inlineTrailingIcon={
+        <IconButton disabled={props.disabled} icon={finalDateIcon} onClick={onClick} showTooltip={false} />
+      }
       autoComplete="off"
     />
   );
