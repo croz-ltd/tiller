@@ -41,8 +41,20 @@ export default {
   component: DateRangeInput,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source: string) => {
+        const correctedSource = source
+          .replace(/{name}/g, "'test'")
+          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
+          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
+          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        if (correctedSource.indexOf("incl-code") === -1) {
+          return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
+        }
+        return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
+      },
     },
     design: {
       type: "figma",
@@ -52,7 +64,27 @@ export default {
   },
 };
 
-export const WithLabel = () => <DateRangeInput name={name} label={<Intl name="label" />} onChange={() => {}} />;
+export const WithState = () => {
+  // incl-code
+  const [firstDate, setFirstDate] = React.useState<Date | null>(null);
+  const [secondDate, setSecondDate] = React.useState<Date | null>(null);
+  return (
+    <DateRangeInput
+      name={name}
+      label={<Intl name="label" />}
+      start={firstDate}
+      end={secondDate}
+      onChange={(firstDate, secondDate) => {
+        setFirstDate(firstDate);
+        setSecondDate(secondDate);
+      }}
+      onReset={() => {
+        setFirstDate(null);
+        setSecondDate(null);
+      }}
+    />
+  );
+};
 
 export const WithoutLabel = () => <DateRangeInput name={name} onChange={() => {}} />;
 

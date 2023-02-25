@@ -139,32 +139,16 @@ type DateInputTokensProps = {
 };
 
 type DateInputInputProps = {
-  /**
-   * Event handler which enables you to call a function and trigger an action when a user clicks an input.
-   */
-  onClick: () => void;
-
-  /**
-   * Function that handles the behaviour of the component once its state changes.
-   */
-  onChange: (value: string) => void;
-  /**
-   * InputRef stores a reference to input.
-   */
-  inputRef: React.RefObject<HTMLInputElement>;
-  /**
-   * It uses react-intl formatDate method and returns the string representation of the formatted date.
-   */
-  focusedDate: Date | null;
-
-  /**
-   * Custom icon instead of the trailing calendar one.
-   */
   dateIcon?: React.ReactElement;
 
-  /**
-   * The value of the field.
-   */
+  focusedDate: Date | null;
+
+  inputRef: React.RefObject<HTMLInputElement>;
+
+  onChange: (value: string) => void;
+
+  onClick: () => void;
+
   value: string;
 } & Omit<DateInputProps, "onChange" | "value" | "inputRef"> &
   TokenProps<"DateInput">;
@@ -234,6 +218,9 @@ export default function DateInput({
     const dateValue = formatDate(value, lang);
     if (!dateValue || checkDatesInterval(dateValue, minDate, maxDate, lang)) {
       if (dateValue) {
+        if (closeAfterEntry) {
+          setOpened(false);
+        }
         props.onChange(dateValue);
         datePicker.onDateFocus(formatDate(value, lang) as Date);
       } else {

@@ -63,8 +63,16 @@ export default {
   component: DateRangeInputField,
   parameters: {
     docs: {
-      source: { type: "dynamic", excludeDecorators: true },
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/{name}/g, "'test'")
+          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
+          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
+          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -73,16 +81,18 @@ export default {
   },
   decorators: [
     // eslint-disable-next-line react/display-name
-    (sendryFn: () => React.ReactNode) => (
+    (storyFn: () => React.ReactNode) => (
       <FormikDecorator initialValues={initialValues} initialErrors={initialErrors} initialTouched={initialTouched}>
-        {sendryFn()}
+        {storyFn()}
       </FormikDecorator>
     ),
     withDesign,
   ],
 };
 
-export const WithLabel = () => <DateRangeInputField start={start} end={end} label={<Intl name="label" />} />;
+export const WithLabel = () => (
+  <DateRangeInputField closeAfterEntry={true} start={start} end={end} label={<Intl name="label" />} />
+);
 
 export const WithoutLabel = () => <DateRangeInputField start={start} end={end} />;
 
