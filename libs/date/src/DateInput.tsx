@@ -127,7 +127,7 @@ export type DateInputProps = {
   required?: boolean;
 
   /**
-   * The value of the field sent on submit and/or retrieved on component render (in Date format 'yyyy-MM-dd').
+   * The value of the field sent on submit and/or retrieved on component render (Date type).
    */
   value: Date | null;
 } & Omit<InputProps, "onBlur" | "onChange" | "value"> &

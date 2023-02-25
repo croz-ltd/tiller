@@ -55,8 +55,16 @@ export default {
   component: DateTimeInputField,
   parameters: {
     docs: {
-      source: { type: "dynamic", excludeDecorators: true },
       page: mdx,
+      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/{name}/g, "'test'")
+          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
+          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
+          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",

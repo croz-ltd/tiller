@@ -40,9 +40,18 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source: string) => {
+        const correctedSource = source
+          .replace(/{name}/g, "'test'")
+          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
+          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
+          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        if (correctedSource.indexOf("incl-code") === -1) {
+          return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
+        }
+        return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
       },
     },
     design: {
@@ -51,6 +60,24 @@ export default {
     },
     decorators: [withDesign],
   },
+};
+
+export const WithState = () => {
+  // incl-code
+  const [date, setDate] = React.useState<Date | null>(null);
+  return (
+    <DateTimeInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
 };
 
 export const WithLabel = () => (

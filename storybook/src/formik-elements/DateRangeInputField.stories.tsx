@@ -117,7 +117,7 @@ export const Disabled = () => (
 );
 
 export const ReadOnly = () => (
-  <DateRangeInputField start={start} end={end} label={<Intl name="label" />} readOnly={true} />
+  <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} readOnly={true} />
 );
 
 export const WithPlaceholder = (args, context) => (

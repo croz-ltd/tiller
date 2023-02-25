@@ -74,6 +74,7 @@ export type TimePickerProps = {
   timePickerRef: React.Ref<HTMLDivElement>;
   type?: "use12Hours" | "use24Hours";
   value: Time;
+  showMinutes?: boolean;
 } & TokenProps<"TimePicker">;
 
 export default function TimePicker({
@@ -83,6 +84,7 @@ export default function TimePicker({
   timePickerRef,
   className = "",
   fixedWidth,
+  showMinutes,
   ...props
 }: TimePickerProps) {
   const tokens = useTokens("TimePicker", props.tokens);
@@ -113,6 +115,10 @@ export default function TimePicker({
     setHourInput(hourValue.toString());
     setMinuteInput(minuteValue.toString());
   }, [value, mouseDown, use12Hours]);
+
+  React.useEffect(() => {
+    setViewHours(!showMinutes);
+  }, [showMinutes]);
 
   const onTimeChange = (hourValue: number | null, minuteValue: number | null, clockTypeValue: ClockType) => {
     const nonNullHour = hourValue === null ? MIDNIGHT : hourValue;
