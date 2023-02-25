@@ -280,7 +280,7 @@ export default function Input({
       <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
         {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
         {props.value && allowClear && finalClearIcon && (
-          <button type="button" onClick={onReset} disabled={disabled}>
+          <button type="button" onClick={onReset} disabled={disabled || props.readOnly}>
             {finalClearIcon}
           </button>
         )}

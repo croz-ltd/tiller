@@ -71,23 +71,28 @@ export const checkDatesInterval = (
   lang?: string,
   time?: boolean,
 ) => {
-  if (!minDate && !maxDate) {
+  if (!time) {
+    value instanceof Date && value?.setHours(0, 0, 0, 0);
+    minDate?.setHours(0, 0, 0, 0);
+    maxDate?.setHours(0, 0, 0, 0);
+  }
+  if ((!minDate && !maxDate) || !value) {
     return true;
   }
   const toFormat = value instanceof Date ? value : formatDate(value, lang, time);
   const dateTime = toFormat?.getTime() as number;
   if (minDate && !maxDate) {
-    if (dateTime > minDate?.getTime()) {
+    if (dateTime >= minDate?.getTime()) {
       return true;
     }
   }
   if (maxDate && !minDate) {
-    if (dateTime < maxDate?.getTime()) {
+    if (dateTime <= maxDate?.getTime()) {
       return true;
     }
   }
   if (minDate && maxDate) {
-    if (dateTime > minDate?.getTime() && dateTime < maxDate?.getTime()) {
+    if (dateTime >= minDate?.getTime() && dateTime <= maxDate?.getTime()) {
       return true;
     }
   }
@@ -96,7 +101,8 @@ export const checkDatesInterval = (
 
 /**
  * Represents Tiller's date mask for handing over to the Masked Input component.
- * The mask has checks for month and day values of the date and supports English (mm/dd/yyyy) and Croatian (dd. mm. yyyy.) formats.
+ * The mask has checks for month and day values of the date and supports English ('mm/dd/yyyy')
+ * and Croatian ('dd. mm. yyyy.') formats.
  * @param {string | null}  value          Date value for which the mask is created
  * @param {string}    lang                Language for which the mask is created
  * @return  {(string | RegExp)[]}         Returns an array of strings and regular expressions that represent the mask
@@ -135,6 +141,21 @@ export const dateMask = (value: string | null, lang: string) => {
     return hrMask;
   }
   return enMask;
+};
+
+/**
+ * Represents Tiller's date range mask for handing over to the Masked Input component.
+ * The mask has checks for month and day values of the date and supports English ('mm/dd/yyyy - mm/dd/yyyy')
+ * and Croatian ('dd. mm. yyyy. - dd. mm. yyyy.') formats.
+ * @param {string | null}  value          Date value for which the mask is created
+ * @param {string}    lang                Language for which the mask is created
+ * @return  {(string | RegExp)[]}         Returns an array of strings and regular expressions that represent the mask
+ */
+export const dateRangeMask = (value: string | null, lang: string) => {
+  const startingDate = value?.split(" - ")[0] as string;
+  const endingDate = value?.split(" - ")[1] as string;
+
+  return [...dateMask(startingDate, lang), " ", "-", " ", ...dateMask(endingDate, lang)];
 };
 
 /**
@@ -198,7 +219,7 @@ export const dateTimeMask = (value: string | null, lang: string, twelveHours: bo
 
 /**
  * Represents Tiller's time mask for handing over to the Masked Input component.
- * The mask has checks for month and day values of the date and supports hh:mm and hh:mm AM/PM formats.
+ * The mask has checks for month and day values of the date and supports 'hh:mm' and 'hh:mm AM/PM' formats.
  * @param {string | null}  value          Date value for which the mask is created
  * @param {boolean}        twelveHours    Determines whether the time is in 12-hour format
  * @return  {(string | RegExp)[]}         Returns an array of strings and regular expressions that represent the mask
@@ -218,7 +239,7 @@ export const determineMonthInput = (lang: "hr" | "en", value: string | null) => 
       return /[1-9]/;
     }
   }
-  return /[1-2]/;
+  return /[0-2]/;
 };
 
 export const determineDayInput = (lang: "hr" | "en", value: string | null) => {

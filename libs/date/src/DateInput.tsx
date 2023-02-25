@@ -28,6 +28,7 @@ import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
+import useDynamicMask from "./useDynamicMask";
 import { usePickerOpener } from "./usePickerOpener";
 import { checkDatesInterval, dateMask, formatDate } from "./utils";
 
@@ -150,7 +151,7 @@ type DateInputInputProps = {
   /**
    * InputRef stores a reference to input.
    */
-  inputRef: React.Ref<HTMLInputElement>;
+  inputRef: React.RefObject<HTMLInputElement>;
   /**
    * It uses react-intl formatDate method and returns the string representation of the formatted date.
    */
@@ -165,7 +166,7 @@ type DateInputInputProps = {
    * The value of the field.
    */
   value: string;
-} & Omit<DateInputProps, "onChange" | "value"> &
+} & Omit<DateInputProps, "onChange" | "value" | "inputRef"> &
   TokenProps<"DateInput">;
 
 export default function DateInput({
@@ -219,7 +220,7 @@ export default function DateInput({
     datePicker.activeMonths[0].year === value.getFullYear();
 
   const onOpen = () => {
-    if (props.disabled) {
+    if (props.disabled || props.readOnly) {
       return;
     }
     if (!checkActiveMonthsValidity && value) {
@@ -264,6 +265,7 @@ export default function DateInput({
         value={formattedValue || typedValue}
         onChange={onChange}
         onReset={onReset}
+        mask={mask ? mask : dateMask(typedValue, lang)}
         tokens={{ textColor: !value ? "text-body-light" : undefined }}
       />
       <Popover
@@ -302,15 +304,16 @@ function DateInputInput({
   const { lang } = useIntlContext();
   const tokens = useTokens("DateInput", props.tokens);
 
-  const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !props.disabled });
+  const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
   const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
+  const dynamicMask = useDynamicMask(inputRef, value as string, mask as (string | RegExp)[]);
 
   return (
     <MaskedInput
       {...props}
       value={value}
       inputRef={inputRef}
-      mask={mask ? mask : lang === "en" ? dateMask(value, "en") : dateMask(value, "hr")}
+      mask={dynamicMask}
       keepCharPositions={true}
       showMask={false}
       placeholder={props.placeholder !== undefined ? props.placeholder : lang === "en" ? "mm/dd/yyyy" : "dd.mm.yyyy."}
@@ -322,7 +325,12 @@ function DateInputInput({
       allowClear={allowClear}
       required={required}
       inlineTrailingIcon={
-        <IconButton disabled={props.disabled} icon={finalDateIcon} onClick={onClick} showTooltip={false} />
+        <IconButton
+          disabled={props.disabled || props.readOnly}
+          icon={finalDateIcon}
+          onClick={onClick}
+          showTooltip={false}
+        />
       }
       autoComplete="off"
     />

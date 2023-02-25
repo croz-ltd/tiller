@@ -92,7 +92,7 @@ export const WithDateValue = () => <DateInputField name={nameWithDateValue} labe
 
 export const Disabled = () => <DateInputField name={name} label={<Intl name="label" />} disabled={true} />;
 
-export const ReadOnly = () => <DateInputField name={name} label={<Intl name="label" />} readOnly={true} />;
+export const ReadOnly = () => <DateInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />;
 
 export const WithoutClearButton = () => <DateInputField name={name} label={<Intl name="label" />} allowClear={false} />;
 

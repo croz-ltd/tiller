@@ -64,10 +64,15 @@ export default function MaskedInput({
   const id = `masked-input-${name}`;
   const currentRef = React.useRef(null);
   const inputPlaceholder = placeholder ? placeholder : showMask ? convertMaskToPlaceholder(mask) : placeholder;
+  const [dynamicMask, setDynamicMask] = React.useState(mask);
+
+  React.useEffect(() => {
+    setDynamicMask(mask);
+  }, [mask]);
 
   const onMaskChange = useMaskedInput({
     input: props.inputRef || currentRef,
-    mask: mask,
+    mask: dynamicMask,
     onChange: onChange,
     keepCharPositions: keepCharPositions,
     value: props.value,

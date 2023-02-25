@@ -31,4 +31,13 @@ export { default as DateRangeInput } from "./DateRangeInput";
 export { default as DateTime } from "./DateTime";
 export { default as DateTimeInput } from "./DateTimeInput";
 export { default as TimeInput } from "./TimeInput";
-export { getDateFormatByLang, formatDate, checkDatesInterval, dateMask, dateTimeMask, timeMask } from "./utils";
+export {
+  getDateFormatByLang,
+  formatDate,
+  checkDatesInterval,
+  dateMask,
+  dateRangeMask,
+  dateTimeMask,
+  timeMask,
+} from "./utils";
+export { default as useDynamicMask } from "./useDynamicMask";
