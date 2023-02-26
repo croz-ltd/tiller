@@ -205,7 +205,7 @@ export default function Input({
     { [tokens.inlineLeadingIcon]: inlineLeadingIcon },
     { [tokens.inlineLeadingAddOn]: inlineLeadingAddOn },
     { [tokens.inlineTrailingAddOn]: inlineTrailingAddOn },
-    { [tokens.disabled]: disabled }
+    { [tokens.disabled]: disabled },
   );
 
   const extendedInputClassName = cx(
@@ -216,7 +216,7 @@ export default function Input({
     { [tokens.error.color]: error },
     { [tokens.error.placeholder]: error },
     { [tokens.error.boxShadow]: error },
-    { [tokens.disabled]: disabled }
+    { [tokens.disabled]: disabled },
   );
 
   const inlineTrailingIconClass = cx({
@@ -273,7 +273,7 @@ export default function Input({
           </div>
         )}
       </div>
-      <div className={`absolute inset-y-0 flex ${extend ? "items-start top-3" : "items-center"} right-0`}>
+      <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
         {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
         {props.value && allowClear && finalClearIcon && <button onClick={onReset}>{finalClearIcon}</button>}
         {inlineTrailingIcon && (
@@ -296,7 +296,7 @@ function InputIcon({ icon, trailing, inputId, ...props }: InputIconProps) {
     "flex pointer-events-auto items-center",
     { [tokens.Icon.color]: !trailing },
     { [tokens.Icon.Container.leading]: !trailing },
-    { [tokens.Icon.Container.trailing]: trailing && !inputId?.includes("downshift") }
+    { [tokens.Icon.Container.trailing]: trailing && !inputId?.includes("downshift") },
   );
   return <div className={className}>{icon}</div>;
 }
@@ -318,14 +318,14 @@ function InputInlineAddOn({ inline, trailing, children, ...props }: InputInlineA
     { "left-0": !trailing },
     { "right-0": trailing },
     { [tokens.addOn.InlineAddOn.leading]: !trailing },
-    { [tokens.addOn.InlineAddOn.trailing]: trailing }
+    { [tokens.addOn.InlineAddOn.trailing]: trailing },
   );
 
   const addOnClassName = cx(
     tokens.addOn.color,
     tokens.addOn.fontSize,
     { [tokens.addOn.inline]: inline },
-    { [tokens.addOn.outline]: !inline }
+    { [tokens.addOn.outline]: !inline },
   );
 
   return (
