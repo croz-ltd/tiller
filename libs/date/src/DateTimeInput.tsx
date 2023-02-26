@@ -353,7 +353,7 @@ export default function DateTimeInput({
             : !showMask
             ? lang === "en"
               ? `mm/dd/yyyy hh:mm${isTwelveHours ? " AM/PM" : ""}`
-              : `dd.mm.yyyy. hh:mm${isTwelveHours ? " AM/PM" : ""}`
+              : `dd. mm. yyyy. hh:mm${isTwelveHours ? " AM/PM" : ""}`
             : undefined
         }
         value={formattedValue || typedValue}
