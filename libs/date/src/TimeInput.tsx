@@ -166,6 +166,7 @@ export default function TimeInput({
   const onOpen = () => {
     if (props.disabled || props.readOnly) return;
 
+    setShowTimePickerMinutes(false);
     setOpened(true);
     inputRef.current?.focus();
   };

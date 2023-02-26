@@ -338,6 +338,15 @@ export default function DateTimeInput({
     }
   };
 
+  const onReset = () => {
+    if (props.onReset) {
+      props.onReset();
+    }
+    inputRef.current?.focus();
+    setTypedValue("");
+    setOpened(false);
+  };
+
   return (
     <div className={cx(timeInputTokens.container, className)}>
       <MaskedInput
@@ -362,14 +371,7 @@ export default function DateTimeInput({
         onFocus={onOpen}
         onBlur={onBlur}
         onChange={(e) => onChange(e.target.value)}
-        onReset={() => {
-          if (props.onReset) {
-            props.onReset();
-          }
-          inputRef.current?.focus();
-          setTypedValue("");
-          setOpened(false);
-        }}
+        onReset={onReset}
         allowClear={allowClear}
         inlineTrailingIcon={
           <IconButton

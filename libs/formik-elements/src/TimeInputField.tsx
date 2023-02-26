@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 
 import { TimeInput, TimeInputProps } from "@tiller-ds/date";
 
