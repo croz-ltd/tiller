@@ -34,7 +34,7 @@ type FormLayoutProps = {
    * Each type defines the placement of the title, content and/or Card component.
    */
   type?: "simple" | "card" | "full-width";
-};
+} & TokenProps<"FormLayout">;
 
 type FormLayoutSectionProps = {
   /**
@@ -104,7 +104,8 @@ type FormLayoutSectionContext = {
 const FormLayoutContext = createNamedContext<FormLayoutContext>("FormLayoutContext");
 const FormLayoutSectionContext = createNamedContext<FormLayoutSectionContext>("FormLayoutSectionContext");
 
-function FormLayout({ children, type = "simple" }: FormLayoutProps) {
+function FormLayout({ children, type = "simple", ...props }: FormLayoutProps) {
+  const tokens = useTokens("FormLayout", props.tokens);
   const formLayoutContext = React.useMemo(() => ({ type }), [type]);
 
   const childrenArray = React.Children.toArray(children);
@@ -115,15 +116,15 @@ function FormLayout({ children, type = "simple" }: FormLayoutProps) {
       if (type === "card") {
         result.push(
           <div key={i * 2} className="hidden sm:block">
-            <div className="py-5">
-              <div className="border-t border-gray-200">&nbsp;</div>
+            <div className={tokens.borderPadding}>
+              <div className={tokens.border}>&nbsp;</div>
             </div>
           </div>
         );
       }
 
       const className =
-        type === "simple" ? "mt-8 border-t border-gray-200 pt-8" : type === "card" ? "mt-10 sm:mt-0" : "mt-6";
+        type === "simple" ? `${tokens.simpleBorder}` : type === "card" ? "mt-10 sm:mt-0" : "mt-6";
 
       result.push(
         <div key={i * 2 + 1} className={className}>
@@ -178,14 +179,14 @@ export function FormLayoutSection({ title, subtitle, children, ...props }: FormL
         );
       }
       return (
-        <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
-            <div className="px-4 sm:px-0">
-              <h2 className="text-lg text-gray-900 font-medium leading-6">{title}</h2>
-              <h6 className="text-sm text-gray-500 mt-1 leading-5">{subtitle}</h6>
+        <div className={tokens.card.layout}>
+          <div className={tokens.card.titleContainer}>
+            <div className={tokens.card.padding}>
+              <h2 className={tokens.card.title}>{title}</h2>
+              <h6 className={tokens.card.subtitle}>{subtitle}</h6>
             </div>
           </div>
-          <div className="mt-5 md:mt-0 md:col-span-2">
+          <div className={tokens.card.container}>
             <Card>{children}</Card>
           </div>
         </div>
@@ -232,12 +233,12 @@ export function FormLayoutSectionContent({ children, ...props }: FormLayoutSecti
   if (context?.type === "full-width" && sectionContext) {
     return (
       <Card.Body {...props}>
-        <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
+        <div className={tokens.content.layout}>
+          <div className={tokens.content.titleContainer}>
             <h2 className={titleClassName}>{sectionContext.title}</h2>
             <h6 className={subtitleClassName}>{sectionContext.subtitle}</h6>
           </div>
-          <div className="mt-5 md:mt-0 md:col-span-2 space-y-10">{children}</div>
+          <div className={tokens.content.container}>{children}</div>
         </div>
       </Card.Body>
     );

@@ -106,7 +106,7 @@ function Body({ children }: React.PropsWithChildren<Record<string, unknown>>) {
 }
 
 export default {
-  title: "Component Library/Core/FormLayout",
+  title: "Component Library/Form-elements/FormLayout",
   component: FormLayout,
 
   decorators: [
