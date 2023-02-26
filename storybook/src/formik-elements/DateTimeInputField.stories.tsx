@@ -20,7 +20,7 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { DateTimeInputField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { beautifyDateSource, FormikDecorator } from "../utils";
 import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
@@ -31,8 +31,6 @@ import mdx from "./DateTimeInputField.mdx";
 
 const translations = storybookDictionary.translations;
 const name = "time";
-const maxDate = new Date("2021-01-10");
-const minDate = new Date("2019-01-20");
 const nameWithError = "timeWithError";
 const nameWithValue = "nameWithValue";
 const offsetDateTime = "offsetDateTime";
@@ -56,15 +54,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source
-          .replace(/{name}/g, "'test'")
-          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
-          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
-          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifyDateSource(source),
     },
     design: {
       type: "figma",
@@ -86,7 +77,14 @@ export const WithLabel = () => <DateTimeInputField name={name} label={<Intl name
 
 export const WithoutLabel = () => <DateTimeInputField name={name} />;
 
-export const WithValue = () => <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    [nameWithValue]: "2020-11-20T21:21:28",
+  };
+  return <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} />;
+};
 
 export const WithoutClearButton = () => <DateTimeInputField name={nameWithValue} allowClear={false} />;
 
@@ -121,14 +119,29 @@ export const WithCustomPlaceholder = (args, context) => (
 );
 
 export const WithMinAndMaxDate = () => (
-  <DateTimeInputField name={name} label={<Intl name="label" />} minDate={minDate} maxDate={maxDate} />
+  <DateTimeInputField
+    name={name}
+    label={<Intl name="label" />}
+    minDate={new Date("2019-01-20")}
+    maxDate={new Date("2021-01-10")}
+  />
 );
 export const WithMinAndMaxDateAndValue = () => (
-  <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} minDate={minDate} maxDate={maxDate} />
+  <DateTimeInputField
+    name={nameWithValue}
+    label={<Intl name="label" />}
+    minDate={new Date("2019-01-20")}
+    maxDate={new Date("2021-01-10")}
+  />
 );
 
 export const WithTwelveHours = () => <DateTimeInputField name={name} label={<Intl name="label" />} type="use12Hours" />;
 
-export const WithTwelveHoursAndValue = () => (
-  <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} type="use12Hours" />
-);
+export const WithTwelveHoursAndValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    [nameWithValue]: "2020-11-20T21:21:28",
+  };
+  return <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} type="use12Hours" />;
+};

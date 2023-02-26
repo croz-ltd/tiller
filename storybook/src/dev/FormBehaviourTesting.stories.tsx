@@ -86,11 +86,11 @@ const backendProps = {
                 item.name
                   .concat(" " + item.surname)
                   .toLowerCase()
-                  .indexOf(query.toLowerCase()) !== -1
+                  .indexOf(query.toLowerCase()) !== -1,
             )
-          : items
+          : items,
       ),
-      500
+      500,
     ),
   getOptionValue: (item: Item) => item.username,
 };
@@ -174,104 +174,7 @@ function WrapInFormContainer({
 
 export const UsualUsageTest = () => (
   <WrapInFormContainer>
-    {(values) => (
-      <Form>
-        <AutocompleteField
-          label="AutocompleteField Test"
-          {...backendProps}
-          name="autocompleteMultiple"
-          allowMultiple={true}
-          required={true}
-        />
-        <div className="flex space-x-2 mt-2">
-          <Button
-            type="button"
-            color="danger"
-            size="sm"
-            onClick={() => values.getFieldHelpers("autocompleteMultiple").setValue([], false)}
-          >
-            Reset Autocomplete Field
-          </Button>
-          <Button
-            type="button"
-            color="warning"
-            size="sm"
-            onClick={() => values.getFieldHelpers("autocompleteMultiple").setValue(items.slice(0, 2), false)}
-          >
-            Change Autocomplete Field
-          </Button>
-        </div>
-        <MetaHelper fieldName="autocompleteMultiple" />
-        <AutocompleteField label="AutocompleteField Test" {...backendProps} name="autocompleteSingle" required={true} />
-        <div className="flex space-x-2 mt-2">
-          <Button
-            type="button"
-            color="danger"
-            size="sm"
-            onClick={() => values.getFieldHelpers("autocompleteSingle").setValue("", false)}
-          >
-            Reset Autocomplete Field
-          </Button>
-          <Button
-            type="button"
-            color="warning"
-            size="sm"
-            onClick={() => values.getFieldHelpers("autocompleteSingle").setValue(items[1], false)}
-          >
-            Change Autocomplete Field
-          </Button>
-        </div>
-        <MetaHelper fieldName="autocompleteSingle" />
-        <SelectField
-          {...commonProps}
-          name="select"
-          options={items}
-          label="SelectField Test"
-          required={true}
-          allowMultiple={true}
-        />
-        <MetaHelper fieldName="select" />
-
-        <DateInputField name="date" label="DateInputField Test" required={true} />
-        <MetaHelper fieldName="date" />
-        <DateRangeInputField start="dateStart" end="dateEnd" label="DateRangeInputField Test" required={true} />
-        <MetaHelper fieldName="dateStart" />
-        <MetaHelper fieldName="dateEnd" />
-        <DateTimeInputField name="datetime" label="DateTimeInputField Test" required={true} />
-        <MetaHelper fieldName="datetime" />
-        <TimeInputField name="time" label="TimeInputField Test" required={true} />
-        <MetaHelper fieldName="time" />
-
-        <InputField name="input" label="InputField Test" required={true} />
-        <MetaHelper fieldName="input" />
-        <TextareaField name="textarea" label="TextAreaField Test" required={true} />
-        <MetaHelper fieldName="textarea" />
-        <PasswordInputField {...commonProps} name="password" label="PasswordInputField Test" required={true} />
-        <MetaHelper fieldName="password" />
-        <MaskedInputField
-          name="masked"
-          label="MaskedInputField Test"
-          required={true}
-          mask={["(", /[1-9]/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
-        />
-        <MetaHelper fieldName="masked" />
-        <NumberInputField name="number" label="NumberInputField Test" required={true} />
-        <MetaHelper fieldName="number" />
-
-        <div className="flex space-x-2">
-          <Button type="submit">Submit form</Button>
-          <Button type="reset" color="danger" size="md">
-            Reset form
-          </Button>
-        </div>
-      </Form>
-    )}
-  </WrapInFormContainer>
-);
-
-export const InitialErrorsTest = () => {
-  return (
-    <WrapInFormContainer includeInitialErrors={true}>
+    <>
       {(values) => (
         <Form>
           <AutocompleteField
@@ -319,7 +222,7 @@ export const InitialErrorsTest = () => {
               type="button"
               color="warning"
               size="sm"
-              onClick={() => values.getFieldHelpers("autocompleteSingle").setValue(items[1], true)}
+              onClick={() => values.getFieldHelpers("autocompleteSingle").setValue(items[1], false)}
             >
               Change Autocomplete Field
             </Button>
@@ -369,6 +272,112 @@ export const InitialErrorsTest = () => {
           </div>
         </Form>
       )}
+    </>
+  </WrapInFormContainer>
+);
+
+export const InitialErrorsTest = () => {
+  return (
+    <WrapInFormContainer includeInitialErrors={true}>
+      <>
+        {(values) => (
+          <Form>
+            <AutocompleteField
+              label="AutocompleteField Test"
+              {...backendProps}
+              name="autocompleteMultiple"
+              allowMultiple={true}
+              required={true}
+            />
+            <div className="flex space-x-2 mt-2">
+              <Button
+                type="button"
+                color="danger"
+                size="sm"
+                onClick={() => values.getFieldHelpers("autocompleteMultiple").setValue([], false)}
+              >
+                Reset Autocomplete Field
+              </Button>
+              <Button
+                type="button"
+                color="warning"
+                size="sm"
+                onClick={() => values.getFieldHelpers("autocompleteMultiple").setValue(items.slice(0, 2), false)}
+              >
+                Change Autocomplete Field
+              </Button>
+            </div>
+            <MetaHelper fieldName="autocompleteMultiple" />
+            <AutocompleteField
+              label="AutocompleteField Test"
+              {...backendProps}
+              name="autocompleteSingle"
+              required={true}
+            />
+            <div className="flex space-x-2 mt-2">
+              <Button
+                type="button"
+                color="danger"
+                size="sm"
+                onClick={() => values.getFieldHelpers("autocompleteSingle").setValue("", false)}
+              >
+                Reset Autocomplete Field
+              </Button>
+              <Button
+                type="button"
+                color="warning"
+                size="sm"
+                onClick={() => values.getFieldHelpers("autocompleteSingle").setValue(items[1], true)}
+              >
+                Change Autocomplete Field
+              </Button>
+            </div>
+            <MetaHelper fieldName="autocompleteSingle" />
+            <SelectField
+              {...commonProps}
+              name="select"
+              options={items}
+              label="SelectField Test"
+              required={true}
+              allowMultiple={true}
+            />
+            <MetaHelper fieldName="select" />
+
+            <DateInputField name="date" label="DateInputField Test" required={true} />
+            <MetaHelper fieldName="date" />
+            <DateRangeInputField start="dateStart" end="dateEnd" label="DateRangeInputField Test" required={true} />
+            <MetaHelper fieldName="dateStart" />
+            <MetaHelper fieldName="dateEnd" />
+            <DateTimeInputField name="datetime" label="DateTimeInputField Test" required={true} />
+            <MetaHelper fieldName="datetime" />
+            <TimeInputField name="time" label="TimeInputField Test" required={true} />
+            <MetaHelper fieldName="time" />
+
+            <InputField name="input" label="InputField Test" required={true} />
+            <MetaHelper fieldName="input" />
+            <TextareaField name="textarea" label="TextAreaField Test" required={true} />
+            <MetaHelper fieldName="textarea" />
+            <PasswordInputField {...commonProps} name="password" label="PasswordInputField Test" required={true} />
+            <MetaHelper fieldName="password" />
+            <MaskedInputField
+              name="masked"
+              label="MaskedInputField Test"
+              required={true}
+              mask={["(", /[1-9]/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+            />
+            <MetaHelper fieldName="masked" />
+            <NumberInputField name="number" label="NumberInputField Test" required={true} />
+            <MetaHelper fieldName="number" />
+
+            <div className="flex space-x-2">
+              <Button type="submit">Submit form</Button>
+              <Button type="reset" color="danger" size="md">
+                Reset form
+              </Button>
+            </div>
+          </Form>
+        )}
+      </>
     </WrapInFormContainer>
   );
 };
@@ -428,7 +437,7 @@ export const DateTimeTest = () => {
 };
 
 export const DateRangeTest = () => {
-  type DateRange = { start: Date | undefined; end: Date | undefined };
+  type DateRange = { start: Date | null; end: Date | null };
 
   const [dateRange1, setDateRange1] = React.useState<DateRange>({
     start: new Date("2020-10-05"),
@@ -444,33 +453,41 @@ export const DateRangeTest = () => {
       <DateRangeInput
         name="dateRange1"
         style={{ width: "300px" }}
-        start={dateRange1.start}
-        end={dateRange1.end}
+        start={dateRange1.start as Date}
+        end={dateRange1.end as Date}
         onChange={(start, end) => {
           if (start && end) {
             setDateRange1({ start: start, end: end });
-            setDateRange2({ start: start, end: undefined });
+            setDateRange2({ start: end, end: null });
           } else if (start) {
-            setDateRange1({ start: start, end: undefined });
+            setDateRange1({ start: start, end: null });
           } else {
-            setDateRange1({ start: undefined, end: undefined });
-            setDateRange2({ start: undefined, end: undefined });
+            setDateRange1({ start: null, end: null });
+            setDateRange2({ start: null, end: null });
           }
+        }}
+        onReset={() => {
+          setDateRange1({ start: null, end: null });
+          setDateRange2({ start: null, end: null });
         }}
       />
       <DateRangeInput
         name="dateRange2"
         style={{ width: "300px" }}
-        start={dateRange2.start}
-        end={dateRange2.end}
+        start={dateRange2.start as Date}
+        end={dateRange2.end as Date}
         onChange={(start, end) => {
           if (start && end) {
             setDateRange2({ start: start, end: end });
           } else if (start) {
-            setDateRange2({ start: start, end: undefined });
+            setDateRange2({ start: start, end: null });
           } else {
-            setDateRange2({ start: undefined, end: undefined });
+            setDateRange2({ start: null, end: null });
           }
+        }}
+        onReset={() => {
+          setDateRange1({ start: null, end: null });
+          setDateRange2({ start: null, end: null });
         }}
       />
     </div>

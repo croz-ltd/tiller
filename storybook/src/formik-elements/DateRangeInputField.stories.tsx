@@ -20,7 +20,7 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { DateRangeInputField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { beautifyDateSource, FormikDecorator } from "../utils";
 import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
@@ -38,8 +38,6 @@ const startWithError = "startDateWithError";
 const endWithValue = "endDateWithValue";
 const endWithDateValue = "endDateWithDateValue";
 const endWithError = "endDateWithError";
-const minDate = new Date("2020-10-05");
-const maxDate = new Date("2020-11-20");
 
 const initialValues = {
   [startWithValue]: "2020-10-05",
@@ -64,15 +62,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source
-          .replace(/{name}/g, "'test'")
-          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
-          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
-          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifyDateSource(source),
     },
     design: {
       type: "figma",
@@ -90,27 +81,42 @@ export default {
   ],
 };
 
-export const WithLabel = () => (
-  <DateRangeInputField closeAfterEntry={true} start={start} end={end} label={<Intl name="label" />} />
-);
+export const WithLabel = () => <DateRangeInputField start={start} end={end} label={<Intl name="label" />} />;
 
 export const WithoutLabel = () => <DateRangeInputField start={start} end={end} />;
 
-export const WithValue = () => (
-  <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} />
-);
+export const WithValue = () => {
+  // incl-code
+  // initial values passed as initialValues prop of Formik
+  const initialValues = {
+    [startWithValue]: "2020-10-05",
+    [endWithValue]: "2020-10-10",
+  };
+  return <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} />;
+};
 
-export const WithDateValue = () => (
-  <DateRangeInputField start={startWithDateValue} end={endWithDateValue} label={<Intl name="label" />} />
-);
+export const WithDateValue = () => {
+  // incl-code
+  // initial Date values passed as initialValues prop of Formik
+  const initialValues = {
+    [startWithDateValue]: new Date(),
+    [endWithDateValue]: new Date("2025-01-01"),
+  };
+  return <DateRangeInputField start={startWithDateValue} end={endWithDateValue} label={<Intl name="label" />} />;
+};
 
 export const WithoutClearButton = () => (
   <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} allowClear={false} />
 );
 
-export const WithStartValue = () => (
-  <DateRangeInputField start={startWithValue} end={end} label={<Intl name="label" />} />
-);
+export const WithStartValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    [startWithValue]: "2020-10-05",
+  };
+  return <DateRangeInputField start={startWithValue} end={end} label={<Intl name="label" />} />;
+};
 
 export const Disabled = () => (
   <DateRangeInputField start={start} end={end} label={<Intl name="label" />} disabled={true} />
@@ -149,5 +155,5 @@ export const WithStartError = () => <DateRangeInputField start={startWithError} 
 export const WithEndError = () => <DateRangeInputField start={start} end={endWithError} />;
 
 export const WithMinAndMaxDate = () => (
-  <DateRangeInputField start={start} end={end} minDate={minDate} maxDate={maxDate} />
+  <DateRangeInputField start={start} end={end} minDate={new Date("2020-10-05")} maxDate={new Date("2025-01-01")} />
 );

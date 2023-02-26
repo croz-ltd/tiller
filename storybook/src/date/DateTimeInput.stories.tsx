@@ -24,15 +24,14 @@ import { DateTimeInput } from "@tiller-ds/date";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
-import mdx from "./DateTimeInput.mdx";
 import storybookDictionary from "../intl/storybookDictionary";
+import { beautifyDateSource } from "../utils";
+
+import mdx from "./DateTimeInput.mdx";
 
 const translations = storybookDictionary.translations;
 const name = "datetimeinput";
 const error = "Test error";
-const maxDate = new Date("2021-01-10");
-const minDate = new Date("2019-01-20");
-const value = new Date("2020-11-20T11:21:28.635778");
 
 export default {
   title: "Component Library/Date/DateTimeInput",
@@ -41,18 +40,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source: string) => {
-        const correctedSource = source
-          .replace(/{name}/g, "'test'")
-          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
-          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
-          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        if (correctedSource.indexOf("incl-code") === -1) {
-          return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
-        }
-        return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
-      },
+      transformSource: (source: string) => beautifyDateSource(source),
     },
     design: {
       type: "figma",
@@ -64,6 +52,7 @@ export default {
 
 export const WithState = () => {
   // incl-code
+  // date state with stored Date or null value
   const [dateTime, setDateTime] = React.useState<Date | null>(null);
   return (
     <DateTimeInput
@@ -96,14 +85,20 @@ export const WithoutLabel = () => (
 );
 
 export const WithValue = () => (
-  <DateTimeInput name={name} value={value} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
+  <DateTimeInput
+    name={name}
+    value={new Date("2020-11-20T11:21:28.635778")}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
+  />
 );
 
 export const Disabled = () => (
   <DateTimeInput
     name={name}
     label={<Intl name="label" />}
-    value={value}
+    value={new Date("2020-11-20T11:21:28.635778")}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
@@ -155,7 +150,7 @@ export const ReadOnly = () => (
   <DateTimeInput
     name={name}
     label={<Intl name="label" />}
-    value={value}
+    value={new Date("2020-11-20T11:21:28.635778")}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
@@ -183,8 +178,8 @@ export const WithMinAndMaxDate = () => (
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
-    minDate={minDate}
-    maxDate={maxDate}
+    minDate={new Date("2019-01-20")}
+    maxDate={new Date("2021-01-10")}
   />
 );
 
@@ -192,12 +187,12 @@ export const WithMinAndMaxDateAndValue = () => (
   <DateTimeInput
     name={name}
     label={<Intl name="label" />}
-    value={value}
+    value={new Date("2020-11-20T11:21:28.635778")}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
-    minDate={minDate}
-    maxDate={maxDate}
+    minDate={new Date("2019-01-20")}
+    maxDate={new Date("2021-01-10")}
   />
 );
 
@@ -217,7 +212,7 @@ export const WithTwelveHoursAndValue = () => (
   <DateTimeInput
     name={name}
     label={<Intl name="label" />}
-    value={value}
+    value={new Date("2020-11-20T11:21:28.635778")}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}

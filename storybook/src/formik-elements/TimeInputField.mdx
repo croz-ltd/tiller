@@ -4,17 +4,25 @@ import { TimeInput } from "@tiller-ds/date";
 import { TimeInputField } from "@tiller-ds/formik-elements";
 import { ThemeTokens } from "../utils";
 
-
 # Time Input Field
 
-Time Input allow users to enter a specific time value. They can be used for a wide range of scenarios.
+Time Input Field allows users to enter a specific time value. They can be used for a wide range of scenarios.
 
 Common use cases include:
+
 - Setting an alarm
 - Scheduling a meeting
 
-This is a **field** component, which means it is differs from `TimeInputField` by having an integrated logic for `onChange`, `onBlur` and `onReset`
-functions which `TimeInput` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+This is a **field** component, which means it is differs from [Time Input](/docs/component-library-date-timeinput--with-label#time-input)
+by having an integrated logic for `onChange`, `onBlur` and `onReset` functions which `TimeInput` possesses using Formik.
+There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+Props are described on the [Time Input Field Props section](/docs/component-library-formik-elements-timeinputfield--disabled#time-input-field-props)
+of the documentation.
+
+## **Prerequisites for functioning**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 <Stories includePrimary={true} />
 
@@ -27,4 +35,5 @@ functions which `TimeInput` possesses using Formik. There is no need for any cus
 <ArgsTable of={TimeInput} />
 
 ## Time Input Tokens:
-<ThemeTokens component="TimeInput"/>
+
+<ThemeTokens component="TimeInput" />

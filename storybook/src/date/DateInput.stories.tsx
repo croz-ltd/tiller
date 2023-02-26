@@ -25,6 +25,7 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import storybookDictionary from "../intl/storybookDictionary";
+import { beautifyDateSource } from "../utils";
 
 import mdx from "./DateInput.mdx";
 
@@ -35,18 +36,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source: string) => {
-        const correctedSource = source
-          .replace(/{name}/g, "'test'")
-          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
-          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
-          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        if (correctedSource.indexOf("incl-code") === -1) {
-          return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
-        }
-        return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
-      },
+      transformSource: (source: string) => beautifyDateSource(source),
     },
     design: {
       type: "figma",
@@ -61,6 +51,7 @@ const name = "test";
 
 export const WithState = () => {
   // incl-code
+  // state with stored Date or null value
   const [date, setDate] = React.useState<Date | null>(null);
   return (
     <DateInput

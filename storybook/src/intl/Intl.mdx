@@ -15,24 +15,26 @@ This is because these components use `react-intl` peer dependency in order to fu
 display components which depend on your location.
 
 **The list of components which require your app to be wrapped inside `Intl Provider`**:
- - Amount
- - CheckboxGroup(field)
- - Date
- - DateInput(field)
- - DatePicker
- - DateRangeInput(field)
- - DateTimeInput(field)
- - DragZone(field)
- - Input(field)
- - Login
- - Number
- - NumberInput(field)
- - RadioGroup(field)
- - Select(field)
- - Slider(field)
- - Textarea(field)
- - Toggle(field)
- - TreeSelect(field)
+
+- Amount
+- CheckboxGroup(field)
+- Date
+- DateInput(field)
+- DatePicker
+- DateRangeInput(field)
+- DateTimeInput(field)
+- TimeInput(field)
+- DragZone(field)
+- Input(field)
+- Login
+- Number
+- NumberInput(field)
+- RadioGroup(field)
+- Select(field)
+- Slider(field)
+- Textarea(field)
+- Toggle(field)
+- TreeSelect(field)
 
 ## Default Intl Dictionary
 
@@ -76,7 +78,7 @@ root.render(
         <App />
       </ThemeProvider>
     </IntlProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 ```
 
@@ -86,25 +88,31 @@ You can now replace default labels from two components using your custom diction
 over time.
 
 By providing the keyConfig with a valid configuration of type **CommonKeys** you can override default values for:
-  - previousText and nextText of Pagination component (if you pass others via Pagination props those will override the dictionary values)
-  - required label shown when hovering over a required marker for a field (*)
+
+- previousText and nextText of Pagination component (if you pass others via Pagination props those will override the dictionary values)
+- required label shown when hovering over a required marker for a field (\*)
 
 CommonKeys type is defined as below:
 
 ```ts
 CommonKeys = {
-      required?: string,
-      "autocomplete.noTags?": string,
-      "autocomplete.addTag?": string,
-      "autocomplete.noResults?": string,
-      "select.noResults?": string,
+  required: string,
+  "autocomplete.noTags?": string,
+  "autocomplete.addTag?": string,
+  "autocomplete.noResults?": string,
+  "select.noResults?": string,
 };
 ```
 
 Example of usage which overrides the required label is shown below:
 
 ```ts
-<IntlProvider lang={"en"} loadDictionary={undefined} dictionary={someDictionary} keyConfig={{required: "requiredTooltip"}}>
+<IntlProvider
+  lang={"en"}
+  loadDictionary={undefined}
+  dictionary={someDictionary}
+  keyConfig={{ required: "requiredTooltip" }}
+>
   <ThemeProvider themeConfig={tillerConfig}>
     <App />
   </ThemeProvider>
