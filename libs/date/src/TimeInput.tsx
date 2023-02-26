@@ -210,7 +210,9 @@ export default function TimeInput({
     let calculatedMinute = 0;
     let calculatedClockType: ClockType = "";
 
-    if (value === "" || value === undefined) return { hour: null, minute: null, type: calculatedClockType };
+    if (value === "" || value === undefined || value === null) {
+      return { hour: null, minute: null, type: calculatedClockType };
+    }
 
     if (withTimeZone) {
       if (value) {
@@ -279,18 +281,21 @@ export default function TimeInput({
     const timeValue = isTwelveHours ? value.split(" ")[0].concat(" " + value.split(" ")[1]) : value;
 
     let convertedValue: string = value;
-    if (isTwelveHours && convertedValue && !timeValue.includes(defaultPlaceholderChar)) {
+    if (isTwelveHours && convertedValue.length > 0 && !timeValue.includes(defaultPlaceholderChar)) {
       convertedValue = convertTwelveHoursTimeTo24Hours(timeValue);
     }
 
-    if (!formatTime(convertedValue).includes(NaN)) {
+    if (convertedValue.length > 0 && !formatTime(convertedValue).includes(NaN)) {
+      if (closeAfterEntry) {
+        setOpened(false);
+      }
       props.onChange(convertedValue);
     } else {
       props.onChange(null);
+      setTypedValue(value);
     }
-    setTypedValue(value);
 
-    if (inputRef.current?.selectionStart && inputRef.current?.selectionStart > 3) {
+    if (!timeValue.split(":")[0].includes(defaultPlaceholderChar)) {
       setShowTimePickerMinutes(true);
     } else {
       setShowTimePickerMinutes(false);
