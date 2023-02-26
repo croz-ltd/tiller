@@ -64,17 +64,17 @@ export default {
 
 export const WithState = () => {
   // incl-code
-  const [date, setDate] = React.useState<Date | null>(null);
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
   return (
     <DateTimeInput
       name={name}
-      value={date}
+      value={dateTime}
       label={<Intl name="label" />}
       onChange={(newDate) => {
-        setDate(newDate);
+        setDateTime(newDate);
       }}
       onReset={() => {
-        setDate(null);
+        setDateTime(null);
       }}
     />
   );

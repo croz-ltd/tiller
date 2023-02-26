@@ -24,6 +24,8 @@ import { TimeInput } from "@tiller-ds/date";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
+import storybookDictionary from "../intl/storybookDictionary";
+
 import mdx from "./TimeInput.mdx";
 
 export default {
@@ -32,9 +34,18 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source: string) => {
+        const correctedSource = source
+          .replace(/{name}/g, "'test'")
+          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
+          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
+          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        if (correctedSource.indexOf("incl-code") === -1) {
+          return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
+        }
+        return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
       },
     },
     design: {
@@ -45,6 +56,7 @@ export default {
   },
 };
 
+const translations = storybookDictionary.translations;
 const name = "test";
 const localDateTime = "2020-11-20T11:21:28.635778";
 const localTime = "11:21:28.635803";
@@ -53,6 +65,23 @@ const offsetDateTime = "2020-11-20T11:21:28.63602+05:00";
 const offsetTime = "11:21:28.635970+05:00";
 const zonedDateTime = "2020-11-20T11:21:28.636042+01:00";
 
+export const WithState = () => {
+  // incl-code
+  const [time, setTime] = React.useState<string | null>(null);
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setTime(newDate);
+      }}
+      onReset={() => {
+        setTime(null);
+      }}
+    />
+  );
+};
 export const WithLabel = () => (
   <TimeInput name={name} label={<Intl name="label" />} value="" onChange={() => {}} onBlur={() => {}} />
 );
@@ -62,6 +91,18 @@ export const WithoutLabel = () => <TimeInput name={name} value="" onChange={() =
 export const WithValue = () => <TimeInput name={name} value={value} onChange={() => {}} onBlur={() => {}} />;
 
 export const Disabled = () => <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} disabled={true} />;
+
+export const WithCustomPlaceholder = (args, context) => (
+  <TimeInput
+    name={name}
+    value={null}
+    label={<Intl name="label" />}
+    placeholder={translations[context.globals.language]["placeholder"]}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
+  />
+);
 
 export const WithHelp = () => (
   <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} help={<Intl name="help" />} />

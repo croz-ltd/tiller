@@ -20,12 +20,12 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { DateInputField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
 import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import storybookDictionary from "../intl/storybookDictionary";
+import { FormikDecorator } from "../utils";
 
 import mdx from "./DateInputField.mdx";
 

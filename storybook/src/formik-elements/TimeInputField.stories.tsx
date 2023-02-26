@@ -24,10 +24,12 @@ import { TimeInputField } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
+import storybookDictionary from "../intl/storybookDictionary";
 import { FormikDecorator } from "../utils";
 
 import mdx from "./TimeInputField.mdx";
 
+const translations = storybookDictionary.translations;
 const name = "time";
 const localDateTime = "localDateTime";
 const localTime = "localTime";
@@ -62,6 +64,14 @@ export default {
     docs: {
       page: mdx,
       source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        return source
+          .replace(/{name}/g, "'test'")
+          .replace(/{<Intl name="label" \/>}/g, "'Test label'")
+          .replace(/{<Intl name="help" \/>}/g, "'Test help content'")
+          .replace(/{<Intl name="tooltip" \/>}/g, "'Test tooltip content'")
+          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+      },
     },
     design: {
       type: "figma",
@@ -90,6 +100,14 @@ export const WithoutClearButton = () => (
 );
 
 export const Disabled = () => <TimeInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
+
+export const WithCustomPlaceholder = (args, context) => (
+  <TimeInputField
+    name={name}
+    label={<Intl name="label" />}
+    placeholder={translations[context.globals.language]["placeholder"]}
+  />
+);
 
 export const WithHelp = () => <TimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
 
