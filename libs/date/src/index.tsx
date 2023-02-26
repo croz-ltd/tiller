@@ -34,10 +34,10 @@ export { default as TimeInput } from "./TimeInput";
 export {
   getDateFormatByLang,
   formatDate,
+  convertTwelveHoursTimeTo24Hours,
   checkDatesInterval,
   dateMask,
   dateRangeMask,
   dateTimeMask,
   timeMask,
 } from "./utils";
-export { default as useDynamicMask } from "./useDynamicMask";

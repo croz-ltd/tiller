@@ -28,7 +28,6 @@ import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
-import useDynamicMask from "./useDynamicMask";
 import { usePickerOpener } from "./usePickerOpener";
 import { checkDatesInterval, dateMask, formatDate } from "./utils";
 
@@ -54,6 +53,17 @@ export type DateInputProps = {
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * When enabled, the date mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Value passed through from validation indicating to display the error on the component.
@@ -125,6 +135,11 @@ export type DateInputProps = {
    * still requires validation on frontend or backend to accompany this value if set to true.
    */
   required?: boolean;
+
+  /**
+   * Show or hide the desired mask for date value when no value is present in the field.
+   */
+  showMask?: boolean;
 
   /**
    * The value of the field sent on submit and/or retrieved on component render (Date type).
@@ -286,6 +301,8 @@ function DateInputInput({
   mask,
   value,
   inputRef,
+  dynamicMask = true,
+  showMask,
   ...props
 }: DateInputInputProps) {
   const { lang } = useIntlContext();
@@ -293,17 +310,25 @@ function DateInputInput({
 
   const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
   const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
-  const dynamicMask = useDynamicMask(inputRef, value as string, mask as (string | RegExp)[]);
 
   return (
     <MaskedInput
       {...props}
       value={value}
       inputRef={inputRef}
-      mask={dynamicMask}
+      mask={mask as (string | RegExp)[]}
+      dynamic={dynamicMask}
+      showMask={showMask}
       keepCharPositions={true}
-      showMask={false}
-      placeholder={props.placeholder !== undefined ? props.placeholder : lang === "en" ? "mm/dd/yyyy" : "dd.mm.yyyy."}
+      placeholder={
+        props.placeholder !== undefined
+          ? props.placeholder
+          : !showMask
+          ? lang === "en"
+            ? "mm/dd/yyyy"
+            : "dd. mm. yyyy."
+          : undefined
+      }
       name={props.name}
       onClick={onClick}
       onBlur={props.onBlur}

@@ -21,8 +21,19 @@ import useMaskedInput from "@viewstools/use-masked-input";
 
 import { convertMaskToPlaceholder } from "./convertMaskToPlaceholder";
 import Input, { InputProps } from "./Input";
+import useDynamicMask from "./useDynamicMask";
 
 export type MaskedInputProps = {
+  /**
+   * When enabled, the mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the original mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * Off by default.
+   */
+  dynamic?: boolean;
   /**
    * When true, adding or deleting characters won't affect the position of other characters.
    */
@@ -45,7 +56,7 @@ export type MaskedInputProps = {
   required?: boolean;
 
   /**
-   * Show or hide the desired mask for input values.
+   * Show or hide the desired mask for input values when no value is present in the field.
    */
   showMask?: boolean;
 } & Omit<InputProps, "type">;
@@ -59,20 +70,23 @@ export default function MaskedInput({
   mask,
   showMask = true,
   keepCharPositions = false,
+  dynamic,
   ...props
 }: MaskedInputProps) {
   const id = `masked-input-${name}`;
   const currentRef = React.useRef(null);
   const inputPlaceholder = placeholder ? placeholder : showMask ? convertMaskToPlaceholder(mask) : placeholder;
-  const [dynamicMask, setDynamicMask] = React.useState(mask);
+
+  const [finalMask, setFinalMask] = React.useState(mask);
+  const dynamicMask = useDynamicMask(props.inputRef as React.RefObject<HTMLInputElement>, props.value as string, mask);
 
   React.useEffect(() => {
-    setDynamicMask(mask);
-  }, [mask]);
+    setFinalMask(dynamicMask);
+  }, [dynamicMask]);
 
   const onMaskChange = useMaskedInput({
     input: props.inputRef || currentRef,
-    mask: dynamicMask,
+    mask: dynamic ? finalMask : mask,
     onChange: onChange,
     keepCharPositions: keepCharPositions,
     value: props.value,

@@ -16,7 +16,7 @@
  */
 
 const emptyArray: (string | RegExp)[] = [];
-const defaultPlaceholderChar = "_";
+export const defaultPlaceholderChar = "_";
 
 export function convertMaskToPlaceholder(mask = emptyArray, placeholderChar = defaultPlaceholderChar) {
   if (!isArray(mask)) {
@@ -28,7 +28,7 @@ export function convertMaskToPlaceholder(mask = emptyArray, placeholderChar = de
       "Placeholder character must not be used as part of the mask. Please specify a character " +
         "that is not present in your mask as your placeholder character.\n\n" +
         `The placeholder character that was received is: ${JSON.stringify(placeholderChar)}\n\n` +
-        `The mask that was received is: ${JSON.stringify(mask)}`
+        `The mask that was received is: ${JSON.stringify(mask)}`,
     );
   }
 

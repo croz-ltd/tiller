@@ -127,7 +127,7 @@ export const ReadOnly = () => (
   />
 );
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateInput
     name={name}
     value={null}

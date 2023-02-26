@@ -113,7 +113,7 @@ export const ReadOnly = () => (
   />
 );
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateRangeInput name={name} placeholder={translations[context.globals.language]["placeholder"]} onChange={() => {}} />
 );
 

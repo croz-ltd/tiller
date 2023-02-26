@@ -19,49 +19,45 @@ import { useState, useEffect, RefObject, useCallback } from "react";
 
 import { range } from "lodash";
 
-/**
- * Represents Tiller's dynamic mask hook for handing over to the Masked Input component.
- * The mask is dynamic because it changes when the input element is focused and unfocused.
- * When the input element is focused, the original mask is shown, and when the input element is unfocused,
- * the mask is shortened to exclude the placeholder characters.
- * @param {RefObject<HTMLInputElement>} ref           Reference to the input element for which the mask is created
- * @param {string}                      value         Value of the field for which the mask is created
- * @param {(string | RegExp)[]}         originalMask  Original mask for the field (shown when the field is focused)
- * @return  {(string | RegExp)[]}                     Returns an array of strings and regular expressions that represent a dynamic mask
- * @component
- * @example
- * const dynamicMask = useDynamicMask(ref, value, originalMask)
- * return (
- *   <MaskedInput
- *       {...props}
- *       value={value}
- *       inputRef={ref}
- *       mask={dynamicMask} />
- * )
- */
+import { defaultPlaceholderChar } from "./convertMaskToPlaceholder";
+
 export default function useDynamicMask(
   ref: RefObject<HTMLInputElement>,
   value: string,
   originalMask: (string | RegExp)[],
 ): (string | RegExp)[] {
   const getAnyCharMask = useCallback(() => {
-    const placeholderIndex = value?.split("").indexOf("_");
+    const placeholderIndex = value?.split("").indexOf(defaultPlaceholderChar);
     return range(0, placeholderIndex !== -1 ? placeholderIndex : value.length).map(() => /./);
   }, [value]);
 
-  const [mask, setMask] = useState<(string | RegExp)[]>(getAnyCharMask());
+  const [dynamicMask, setDynamicMask] = useState<(string | RegExp)[]>(getAnyCharMask());
+
+  const getDynamicMask = useCallback(() => {
+    const anyCharArr = getAnyCharMask() as (string | RegExp)[];
+    const isRefFocused = dynamicMask.every((value, index) => {
+      if (anyCharArr[index] === undefined) {
+        return false;
+      }
+      return value.toString() === anyCharArr[index].toString();
+    });
+    if (isRefFocused) {
+      return dynamicMask;
+    }
+    return originalMask;
+  }, [getAnyCharMask, dynamicMask, originalMask]);
 
   useEffect(() => {
     const handleFocusIn = () => {
       // Return original mask when the ref's element is focused
-      setMask(originalMask);
+      setDynamicMask(originalMask);
     };
     const handleFocusOut = () => {
       // Change the mask when the ref's element is unfocused
-      setMask(getAnyCharMask());
+      setDynamicMask(getAnyCharMask());
     };
 
-    const refElement = ref.current;
+    const refElement = ref ? ref.current : null;
     if (refElement) {
       refElement.addEventListener("focusin", handleFocusIn);
       refElement.addEventListener("focusout", handleFocusOut);
@@ -73,7 +69,7 @@ export default function useDynamicMask(
         refElement.removeEventListener("focusout", handleFocusOut);
       }
     };
-  }, [getAnyCharMask, originalMask, ref, value]);
+  }, [getAnyCharMask, originalMask, ref]);
 
-  return mask;
+  return getDynamicMask();
 }

@@ -17,6 +17,12 @@
 
 import * as dateFns from "date-fns";
 
+import transformHourTo24HoursValue from "./transformHourTo24HoursValue";
+
+const AM = "AM";
+const PM = "PM";
+const twelveHoursAddOn = [" ", /[AaPp]/, /[Mm]/];
+
 /**
  * Get the date format in desired language or ISO format if no language is provided.
  *
@@ -100,6 +106,24 @@ export const checkDatesInterval = (
 };
 
 /**
+ * Converts a value from 12-hour format 'hh:mm AM' or 'hh:mm PM' (not case-sensitive)
+ * to 24-hour format 'hh:mm'.
+ *
+ * @param   {string}  value   Value to be converted (in string format)
+ * @return  {string}          Value in 24-hour format (in string format)
+ */
+export const convertTwelveHoursTimeTo24Hours = (value: string) => {
+  const minutes = value.split(" ")[0].split(":")[1];
+  const amPm = value.split(" ")[1].toUpperCase();
+  const hours = transformHourTo24HoursValue(parseInt(value.split(":")[0]), amPm === "PM" ? PM : AM);
+  if (amPm === "PM" || amPm === "AM") {
+    return `${hours}:${minutes}`;
+  } else {
+    return value;
+  }
+};
+
+/**
  * Represents Tiller's date mask for handing over to the Masked Input component.
  * The mask has checks for month and day values of the date and supports English ('mm/dd/yyyy')
  * and Croatian ('dd. mm. yyyy.') formats.
@@ -168,8 +192,6 @@ export const dateRangeMask = (value: string | null, lang: string) => {
  * @return  {(string | RegExp)[]}         Returns an array of strings and regular expressions that represent the mask
  */
 export const dateTimeMask = (value: string | null, lang: string, twelveHours: boolean) => {
-  const twelveHoursAddOn = [" ", /[AaPp]/, /[Mm]/];
-
   const enMask = [
     /[0,1]/,
     determineMonthInput("en", value),
@@ -225,9 +247,13 @@ export const dateTimeMask = (value: string | null, lang: string, twelveHours: bo
  * @return  {(string | RegExp)[]}         Returns an array of strings and regular expressions that represent the mask
  */
 export const timeMask = (value: string | null, twelveHours?: boolean) => {
-  const twelveHoursAddOn = [" ", /[AP]/, /M/];
-
-  const mask = [twelveHours ? /[0-1]/ : /\d/, twelveHours ? /[0-9]/ : /\d/, ":", /[0-5]/, /[0-9]/];
+  const mask = [
+    twelveHours ? /[0-1]/ : /\d/,
+    determineHourInput("hr", value, twelveHours || false, true),
+    ":",
+    /[0-5]/,
+    /[0-9]/,
+  ];
 
   return twelveHours ? [...mask, ...twelveHoursAddOn] : mask;
 };

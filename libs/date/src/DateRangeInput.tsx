@@ -28,7 +28,6 @@ import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
-import useDynamicMask from "./useDynamicMask";
 import { checkDatesInterval, dateRangeMask, formatDate } from "./utils";
 
 type DateTimeFormatOptionsOnly = "localeMatcher" | "weekday" | "year" | "month" | "day";
@@ -55,6 +54,17 @@ export type DateRangeInputProps = {
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * When enabled, the date range mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Forces a set end date for the component.
@@ -131,6 +141,11 @@ export type DateRangeInputProps = {
    * still requires validation on frontend or backend to accompany this value if set to true.
    */
   required?: boolean;
+
+  /**
+   * Show or hide the desired mask for date range value when no value is present in the field.
+   */
+  showMask?: boolean;
 
   /**
    * Forces a set start date for the component.
@@ -388,6 +403,8 @@ function DateRangeInputInput({
   mask,
   inputRef,
   dateIcon,
+  dynamicMask = true,
+  showMask,
   ...props
 }: DateRangeInputInputProps) {
   const { lang } = useIntlContext();
@@ -395,21 +412,23 @@ function DateRangeInputInput({
   const tokens = useTokens("DateInput", props.tokens);
   const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
   const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
-  const dynamicMask = useDynamicMask(inputRef, value as string, mask as (string | RegExp)[]);
 
   return (
     <MaskedInput
       {...props}
       inputRef={inputRef}
-      mask={dynamicMask}
+      mask={mask as (string | RegExp)[]}
       keepCharPositions={true}
-      showMask={false}
+      dynamic={dynamicMask}
+      showMask={showMask}
       placeholder={
         props.placeholder !== undefined
           ? props.placeholder
-          : lang === "en"
-          ? "mm/dd/yyyy - mm/dd/yyyy"
-          : "dd.mm.yyyy. - dd.mm.yyyy."
+          : !showMask
+          ? lang === "en"
+            ? "mm/dd/yyyy - mm/dd/yyyy"
+            : "dd. mm. yyyy. - dd. mm. yyyy."
+          : undefined
       }
       value={value ?? undefined}
       name={props.name}

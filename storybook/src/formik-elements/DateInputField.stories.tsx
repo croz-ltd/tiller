@@ -96,7 +96,7 @@ export const ReadOnly = () => <DateInputField name={nameWithValue} label={<Intl 
 
 export const WithoutClearButton = () => <DateInputField name={name} label={<Intl name="label" />} allowClear={false} />;
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateInputField
     name={name}
     label={<Intl name="label" />}

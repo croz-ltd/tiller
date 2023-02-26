@@ -120,7 +120,7 @@ export const ReadOnly = () => (
   <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} readOnly={true} />
 );
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateRangeInputField start={start} end={end} placeholder={translations[context.globals.language]["placeholder"]} />
 );
 
