@@ -163,7 +163,7 @@ export const ReadOnly = () => (
   />
 );
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateTimeInput
     name={name}
     label={<Intl name="label" />}

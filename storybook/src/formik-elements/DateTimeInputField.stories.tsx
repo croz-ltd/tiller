@@ -112,7 +112,7 @@ export const WithError = () => <DateTimeInputField name={nameWithError} label={<
 
 export const ReadOnly = () => <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />;
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateTimeInputField
     name={name}
     label={<Intl name="label" />}

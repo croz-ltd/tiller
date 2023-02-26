@@ -22,17 +22,15 @@ import { OnDatesChangeProps, START_DATE, useDatepicker } from "@datepicker-react
 import Popover, { positionMatchWidth } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
-import { InputProps, MaskedInput } from "@tiller-ds/form-elements";
+import { defaultPlaceholderChar, InputProps, MaskedInput } from "@tiller-ds/form-elements";
 import { useIntlContext } from "@tiller-ds/intl";
 import { cx, useTokens, ComponentTokens, useIcon } from "@tiller-ds/theme";
 
 import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
 import DatePicker from "./DatePicker";
 import TimePicker, { ClockType, TimePickerProps } from "./TimePicker";
-import transformHourTo24HoursValue from "./transformHourTo24HoursValue";
-import useDynamicMask from "./useDynamicMask";
 import { usePickerOpener } from "./usePickerOpener";
-import { checkDatesInterval, dateTimeMask, formatDate } from "./utils";
+import { checkDatesInterval, convertTwelveHoursTimeTo24Hours, dateTimeMask, formatDate } from "./utils";
 
 const AM = "AM";
 const MIDNIGHT = 0;
@@ -55,6 +53,17 @@ export type DateTimeInputProps = {
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * When enabled, the date time mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Value passed through from validation indicating to display the error on the component.
@@ -114,6 +123,11 @@ export type DateTimeInputProps = {
   required?: boolean;
 
   /**
+   * Show or hide the desired mask for date-time value when no value is present in the field.
+   */
+  showMask?: boolean;
+
+  /**
    * The value of the field sent on submit and/or retrieved on component render (in Date format).
    */
   value: Date | null;
@@ -144,6 +158,8 @@ export default function DateTimeInput({
   allowClear = true,
   mask,
   closeAfterEntry,
+  dynamicMask = true,
+  showMask,
   ...props
 }: DateTimeInputProps & DateTimeInputTokens) {
   const intl = useIntl();
@@ -282,18 +298,16 @@ export default function DateTimeInput({
 
   const onChange = (value: string) => {
     const dateValue = lang === "hr" ? value.split(" ").slice(0, 3).join(" ") : value.split(" ")[0];
-    const timeValue = lang === "hr" ? value.split(" ")[3] : value.split(" ")[1];
+    const timeValue =
+      lang === "en"
+        ? isTwelveHours
+          ? value.split(" ")[1].concat(" " + value.split(" ")[2])
+          : value.split(" ")[1]
+        : value.split(" ")[3];
 
     let convertedValue: Date | string = value;
-    if (isTwelveHours && value.split(" ")[1] && value.split(" ")[2]) {
-      const minutes = value.split(" ")[1].split(":")[1];
-      const amPm = value.split(" ")[2].toUpperCase();
-      if (amPm === "PM" || amPm === "AM") {
-        const hours = transformHourTo24HoursValue(parseInt(value.split(" ")[1].split(":")[0]), amPm === "PM" ? PM : AM);
-        convertedValue = `${value.split(" ")[0]} ${hours}:${minutes}`;
-      } else {
-        convertedValue = value;
-      }
+    if (isTwelveHours && !timeValue.includes(defaultPlaceholderChar)) {
+      convertedValue = `${value.split(" ")[0]} ${convertTwelveHoursTimeTo24Hours(timeValue)}`;
     }
 
     const dateExists = formatDate(dateValue, lang);
@@ -317,34 +331,30 @@ export default function DateTimeInput({
       }
     }
 
-    if (dateExists && !timeValue.split(":")[0].includes("_")) {
+    if (dateExists && !timeValue.split(":")[0].includes(defaultPlaceholderChar)) {
       setShowTimePickerMinutes(true);
     } else {
       setShowTimePickerMinutes(false);
     }
   };
 
-  const finalMask = mask ? mask : dateTimeMask(typedValue, lang, isTwelveHours);
-  const dynamicMask = useDynamicMask(
-    inputRef,
-    (formattedValue || typedValue) as string,
-    finalMask as (string | RegExp)[],
-  );
-
   return (
     <div className={cx(timeInputTokens.container, className)}>
       <MaskedInput
         {...props}
         inputRef={inputRef}
-        mask={dynamicMask}
+        mask={mask ? mask : dateTimeMask(typedValue, lang, isTwelveHours)}
+        dynamic={dynamicMask}
+        showMask={showMask}
         keepCharPositions={true}
-        showMask={false}
         placeholder={
           props.placeholder !== undefined
             ? props.placeholder
-            : lang === "en"
-            ? `mm/dd/yyyy hh:mm${isTwelveHours ? " AM/PM" : ""}`
-            : `dd.mm.yyyy. hh:mm${isTwelveHours ? " AM/PM" : ""}`
+            : !showMask
+            ? lang === "en"
+              ? `mm/dd/yyyy hh:mm${isTwelveHours ? " AM/PM" : ""}`
+              : `dd.mm.yyyy. hh:mm${isTwelveHours ? " AM/PM" : ""}`
+            : undefined
         }
         value={formattedValue || typedValue}
         name={props.name}
