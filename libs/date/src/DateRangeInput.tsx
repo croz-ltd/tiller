@@ -17,10 +17,11 @@
 
 import * as React from "react";
 
+import * as dateFns from "date-fns";
+
 import { useDatepicker, START_DATE, OnDatesChangeProps, FocusedInput, END_DATE } from "@datepicker-react/hooks";
 
 import Popover, { positionMatchWidth, positionRight } from "@reach/popover";
-import { useIntl } from "react-intl";
 
 import { IconButton } from "@tiller-ds/core";
 import { InputProps, MaskedInput } from "@tiller-ds/form-elements";
@@ -28,7 +29,7 @@ import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
-import { checkDatesInterval, dateRangeMask, formatDate } from "./utils";
+import { checkDatesInterval, formatDate, getDateFormatByLang, getMaskFromFormat } from "./utils";
 
 type DateTimeFormatOptionsOnly = "localeMatcher" | "weekday" | "year" | "month" | "day";
 
@@ -49,6 +50,11 @@ export type DateRangeInputProps = {
    * Off by default.
    */
   closeAfterEntry?: boolean;
+
+  /**
+   * The format of the date mask. E.g. 'yyyy-MM-dd' or 'dd/MM/yyyy'.
+   */
+  dateFormat?: string;
 
   /**
    * Enables or disables the component's functionality.
@@ -145,7 +151,7 @@ export type DateRangeInputProps = {
   /**
    * Show or hide the desired mask for date range value when no value is present in the field.
    */
-  showMask?: boolean;
+  showMaskOnEmpty?: boolean;
 
   /**
    * Forces a set start date for the component.
@@ -190,25 +196,14 @@ export default function DateRangeInput({
   allowClear,
   closeAfterEntry,
   onBlur,
+  dateFormat,
   ...props
 }: DateRangeInputProps) {
-  const intl = useIntl();
   const { lang } = useIntlContext();
 
-  const formattedStart = start
-    ? `${intl.formatDate(start, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })}`
-    : "";
-  const formattedEnd = end
-    ? `${intl.formatDate(end, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })}`
-    : "";
+  const formattedDateFormat = dateFormat?.replace(/m/g, "M");
+  const formattedStart = start ? dateFns.format(start, formattedDateFormat || getDateFormatByLang(lang)) : "";
+  const formattedEnd = end ? dateFns.format(end, formattedDateFormat || getDateFormatByLang(lang)) : "";
 
   const formattedValue = !formattedStart && !formattedEnd ? "" : `${formattedStart} - ${formattedEnd}`;
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
@@ -321,8 +316,8 @@ export default function DateRangeInput({
   }, [onBlur, opened]);
 
   const onChange = (start: string, end: string) => {
-    const startingDate = formatDate(start, lang) as Date;
-    const endingDate = formatDate(end, lang) as Date;
+    const startingDate = formatDate(start, formattedDateFormat || getDateFormatByLang(lang)) as Date;
+    const endingDate = formatDate(end, formattedDateFormat || getDateFormatByLang(lang)) as Date;
 
     if (
       checkDatesInterval(startingDate, minDate, maxDate, lang) &&
@@ -344,7 +339,7 @@ export default function DateRangeInput({
       } else {
         props.onChange(null, null);
       }
-      setTypedValue(start + " - " + end);
+      setTypedValue(!start && !end ? "" : start + " - " + end);
     }
     inputRef.current?.focus();
   };
@@ -356,6 +351,18 @@ export default function DateRangeInput({
     inputRef.current?.focus();
     setTypedValue("");
     setOpened(false);
+  };
+
+  const getDateRangeMask = () => {
+    const startingDate = typedValue?.split(" - ")[0] as string;
+    const endingDate = typedValue?.split(" - ")[1] as string;
+    const rangeAddOn = [" ", "-", " "];
+
+    return [
+      ...getMaskFromFormat(startingDate, formattedDateFormat || getDateFormatByLang(lang)),
+      ...rangeAddOn,
+      ...getMaskFromFormat(endingDate, formattedDateFormat || getDateFormatByLang(lang)),
+    ];
   };
 
   return (
@@ -371,7 +378,8 @@ export default function DateRangeInput({
         onBlur={onBlur}
         allowClear={allowClear}
         value={typedValue}
-        mask={props.mask ? props.mask : dateRangeMask(typedValue, lang)}
+        mask={getDateRangeMask()}
+        dateFormat={dateFormat}
         tokens={{ textColor: !(formattedStart && formattedEnd) ? "text-body-light" : undefined }}
       />
       <Popover
@@ -404,7 +412,8 @@ function DateRangeInputInput({
   inputRef,
   dateIcon,
   dynamicMask = true,
-  showMask,
+  showMaskOnEmpty,
+  dateFormat,
   ...props
 }: DateRangeInputInputProps) {
   const { lang } = useIntlContext();
@@ -413,6 +422,19 @@ function DateRangeInputInput({
   const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
   const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
 
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (dateFormat) {
+      return dateFormat + " - " + dateFormat;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+    return lang === "en" ? "mm/dd/yyyy - mm/dd/yyyy" : "dd. mm. yyyy. - dd. mm. yyyy.";
+  };
+
   return (
     <MaskedInput
       {...props}
@@ -420,16 +442,8 @@ function DateRangeInputInput({
       mask={mask as (string | RegExp)[]}
       keepCharPositions={true}
       dynamic={dynamicMask}
-      showMask={showMask}
-      placeholder={
-        props.placeholder !== undefined
-          ? props.placeholder
-          : !showMask
-          ? lang === "en"
-            ? "mm/dd/yyyy - mm/dd/yyyy"
-            : "dd. mm. yyyy. - dd. mm. yyyy."
-          : undefined
-      }
+      showMask={showMaskOnEmpty}
+      placeholder={getPlaceholder()}
       value={value ?? undefined}
       name={props.name}
       onClick={onClick}

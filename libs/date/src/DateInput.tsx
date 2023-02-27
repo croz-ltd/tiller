@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { useIntl } from "react-intl";
+import * as dateFns from "date-fns";
 
 import { useDatepicker, START_DATE, OnDatesChangeProps } from "@datepicker-react/hooks";
 import Popover, { positionMatchWidth, positionRight } from "@reach/popover";
@@ -29,7 +29,7 @@ import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/
 
 import DatePicker from "./DatePicker";
 import { usePickerOpener } from "./usePickerOpener";
-import { checkDatesInterval, dateMask, formatDate } from "./utils";
+import { checkDatesInterval, formatDate, getDateFormatByLang, getMaskFromFormat } from "./utils";
 
 export type DateInputProps = {
   /**
@@ -53,6 +53,11 @@ export type DateInputProps = {
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * The format of the date mask. E.g. 'yyyy-MM-dd' or 'dd/MM/yyyy'.
+   */
+  dateFormat?: string;
 
   /**
    * When enabled, the date mask changes on (un)focusing of the input element.
@@ -85,11 +90,6 @@ export type DateInputProps = {
    * Represents the label above the date input field.
    */
   label?: React.ReactNode;
-
-  /**
-   * The desired mask shown in the field component (string or Regex expressions array).
-   */
-  mask?: (string | RegExp)[];
 
   /**
    * Maximum possible date enabled for selection.
@@ -139,7 +139,7 @@ export type DateInputProps = {
   /**
    * Show or hide the desired mask for date value when no value is present in the field.
    */
-  showMask?: boolean;
+  showMaskOnEmpty?: boolean;
 
   /**
    * The value of the field sent on submit and/or retrieved on component render (Date type).
@@ -160,6 +160,8 @@ type DateInputInputProps = {
 
   inputRef: React.RefObject<HTMLInputElement>;
 
+  mask?: (string | RegExp)[];
+
   onChange: (value: string) => void;
 
   onClick: () => void;
@@ -178,22 +180,15 @@ export default function DateInput({
   fixedPopoverWidth = true,
   popoverPosition = "left",
   closeAfterEntry,
-  mask,
+  dateFormat,
   ...props
 }: DateInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datePickerRef = React.useRef<HTMLDivElement>(null);
-
-  const intl = useIntl();
   const { lang } = useIntlContext();
 
-  const formattedValue = value
-    ? `${intl.formatDate(value, {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })}`
-    : "";
+  const formattedDateFormat = dateFormat?.replace(/m/g, "M");
+  const formattedValue = value ? dateFns.format(value, formattedDateFormat || getDateFormatByLang(lang)) : "";
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
   const onDatesChange = (data: OnDatesChangeProps) => {
@@ -230,14 +225,14 @@ export default function DateInput({
   };
 
   const onChange = (value: string) => {
-    const dateValue = formatDate(value, lang);
+    const dateValue = formatDate(value, formattedDateFormat || getDateFormatByLang(lang));
     if (!dateValue || checkDatesInterval(dateValue, minDate, maxDate, lang)) {
       if (dateValue) {
         if (closeAfterEntry) {
           setOpened(false);
         }
         props.onChange(dateValue);
-        datePicker.onDateFocus(formatDate(value, lang) as Date);
+        datePicker.onDateFocus(formatDate(value, formattedDateFormat || getDateFormatByLang(lang)) as Date);
       } else {
         props.onChange(null);
         setTypedValue(value);
@@ -267,7 +262,8 @@ export default function DateInput({
         value={formattedValue || typedValue}
         onChange={onChange}
         onReset={onReset}
-        mask={mask ? mask : dateMask(typedValue, lang)}
+        mask={getMaskFromFormat(typedValue, formattedDateFormat || getDateFormatByLang(lang))}
+        dateFormat={dateFormat}
         tokens={{ textColor: !value ? "text-body-light" : undefined }}
       />
       <Popover
@@ -302,7 +298,8 @@ function DateInputInput({
   value,
   inputRef,
   dynamicMask = true,
-  showMask,
+  showMaskOnEmpty,
+  dateFormat,
   ...props
 }: DateInputInputProps) {
   const { lang } = useIntlContext();
@@ -311,6 +308,19 @@ function DateInputInput({
   const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
   const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
 
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (dateFormat) {
+      return dateFormat;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+    return lang === "en" ? "mm/dd/yyyy" : "dd. mm. yyyy.";
+  };
+
   return (
     <MaskedInput
       {...props}
@@ -318,17 +328,9 @@ function DateInputInput({
       inputRef={inputRef}
       mask={mask as (string | RegExp)[]}
       dynamic={dynamicMask}
-      showMask={showMask}
+      showMask={showMaskOnEmpty}
       keepCharPositions={true}
-      placeholder={
-        props.placeholder !== undefined
-          ? props.placeholder
-          : !showMask
-          ? lang === "en"
-            ? "mm/dd/yyyy"
-            : "dd. mm. yyyy."
-          : undefined
-      }
+      placeholder={getPlaceholder()}
       name={props.name}
       onClick={onClick}
       onBlur={props.onBlur}

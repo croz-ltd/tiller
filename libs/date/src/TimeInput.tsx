@@ -87,11 +87,6 @@ export type TimeInputProps = {
   label?: React.ReactNode;
 
   /**
-   * The desired mask shown in the field component (string or Regex expressions).
-   */
-  mask?: (string | RegExp)[];
-
-  /**
    * The accessor value for the input field component (for validation, fetching, etc.).
    */
   name: string;
@@ -113,9 +108,9 @@ export type TimeInputProps = {
   required?: boolean;
 
   /**
-   * Show or hide the desired mask for time value when no value is present in the field.
+   * Show or hide the mask for time value when no value is present in the field.
    */
-  showMask?: boolean;
+  showMaskOnEmpty?: boolean;
   /**
    * The value of the field sent on submit and/or retrieved on component render (in Date format).
    */
@@ -146,10 +141,9 @@ export default function TimeInput({
   onBlur,
   fixedPopoverWidth = true,
   allowClear = true,
-  mask,
   closeAfterEntry,
   dynamicMask = true,
-  showMask,
+  showMaskOnEmpty,
   ...props
 }: TimeInputProps & TimeInputTokens) {
   const { lang } = useIntlContext();
@@ -312,24 +306,26 @@ export default function TimeInput({
     setOpened(false);
   };
 
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+    return lang === "en" ? `hh:mm${isTwelveHours ? " AM/PM" : ""}` : `hh:mm${isTwelveHours ? " AM/PM" : ""}`;
+  };
+
   return (
     <div className={cx(timeInputTokens.container, className)}>
       <MaskedInput
         {...props}
         inputRef={inputRef}
-        mask={mask ? mask : timeMask(typedValue, isTwelveHours)}
+        mask={timeMask(typedValue, isTwelveHours)}
         dynamic={dynamicMask}
-        showMask={showMask}
+        showMask={showMaskOnEmpty}
         keepCharPositions={true}
-        placeholder={
-          props.placeholder !== undefined
-            ? props.placeholder
-            : !showMask
-            ? lang === "en"
-              ? `hh:mm${isTwelveHours ? " AM/PM" : ""}`
-              : `hh:mm${isTwelveHours ? " AM/PM" : ""}`
-            : undefined
-        }
+        placeholder={getPlaceholder()}
         value={formatHourMinuteValue(value || typedValue)}
         name={props.name}
         onClick={onOpen}
