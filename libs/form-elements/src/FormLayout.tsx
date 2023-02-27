@@ -51,6 +51,11 @@ type FormLayoutSectionProps = {
    * Content displayed inside the section.
    */
   children: React.ReactNode;
+
+  /**
+   * Custom container (div) className.
+   */
+  className?: string;
 } & TokenProps<"FormLayout">;
 
 type FormLayoutSectionContentProps = {
@@ -139,7 +144,7 @@ function FormLayout({ children, type = "simple", ...props }: FormLayoutProps) {
   return <FormLayoutContext.Provider value={formLayoutContext}>{result}</FormLayoutContext.Provider>;
 }
 
-export function FormLayoutSection({ title, subtitle, children, ...props }: FormLayoutSectionProps) {
+export function FormLayoutSection({ title, subtitle, children, className, ...props }: FormLayoutSectionProps) {
   const context = React.useContext(FormLayoutContext);
   const tokens = useTokens("FormLayout", props.tokens);
 
@@ -162,7 +167,7 @@ export function FormLayoutSection({ title, subtitle, children, ...props }: FormL
   switch (context?.type ?? "") {
     case "simple":
       return (
-        <div>
+        <div className={className}>
           <div>
             <h2 className={titleClassName}>{title}</h2>
             <h6 className={subtitleClassName}>{subtitle}</h6>
