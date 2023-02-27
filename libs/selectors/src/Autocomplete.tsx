@@ -153,7 +153,7 @@ export type AutocompleteProps<T extends {}> = {
   /**
    * Defines the behaviour of the component once the state resets.
    */
-  onReset?: (allowMultiple?: boolean) => void;
+  onReset?: () => void;
   /**
    * The placeholder displayed inside the text input field.
    */
@@ -673,7 +673,7 @@ function Autocomplete<T extends {}>({
       return;
     }
     if (onReset) {
-      onReset(allowMultiple);
+      onReset();
     }
 
     event.stopPropagation();

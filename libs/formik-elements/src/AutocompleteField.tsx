@@ -105,8 +105,8 @@ export default function AutocompleteField<T>({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [field.value]);
 
-  const onReset = (allowMultiple?: boolean) => {
-    if (allowMultiple) {
+  const onReset = () => {
+    if (props.allowMultiple) {
       helpers.setValue([], shouldValidate);
     } else {
       helpers.setValue(null, shouldValidate);
