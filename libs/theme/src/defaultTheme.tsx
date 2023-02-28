@@ -932,8 +932,18 @@ const defaultComponentConfig = {
     card: {
       layout: "md:grid md:grid-cols-3 md:gap-6",
       titleContainer: "md:col-span-1",
-      title: "text-lg text-gray-900 font-medium leading-6",
-      subtitle: "text-sm text-gray-500 mt-1 leading-5",
+      title: {
+        fontSize: "text-lg",
+        color: "text-gray-900",
+        fontWeight: "font-medium",
+        lineHeight: "leading-6",
+      },
+      subtitle: {
+        fontSize: "text-sm",
+        color: "text-gray-500",
+        margin: "mt-1",
+        lineHeight: "leading-5",
+      },
       container: "mt-5 md:mt-0 md:col-span-2",
       padding: "px-4 sm:px-0",
     },

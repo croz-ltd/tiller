@@ -164,6 +164,20 @@ export function FormLayoutSection({ title, subtitle, children, className, ...pro
     tokens.subtitle.lineHeight
   );
 
+  const cardTitleClassName = cx(
+    tokens.card.title.fontSize,
+    tokens.card.title.color,
+    tokens.card.title.fontWeight,
+    tokens.card.title.lineHeight,
+  );
+
+  const cardSubtitleClassName = cx(
+    tokens.card.subtitle.fontSize,
+    tokens.card.subtitle.color,
+    tokens.card.subtitle.margin,
+    tokens.card.subtitle.lineHeight,
+  );
+
   switch (context?.type ?? "") {
     case "simple":
       return (
@@ -187,8 +201,8 @@ export function FormLayoutSection({ title, subtitle, children, className, ...pro
         <div className={tokens.card.layout}>
           <div className={tokens.card.titleContainer}>
             <div className={tokens.card.padding}>
-              <h2 className={tokens.card.title}>{title}</h2>
-              <h6 className={tokens.card.subtitle}>{subtitle}</h6>
+              <h2 className={cardTitleClassName}>{title}</h2>
+              <h6 className={cardSubtitleClassName}>{subtitle}</h6>
             </div>
           </div>
           <div className={tokens.card.container}>
