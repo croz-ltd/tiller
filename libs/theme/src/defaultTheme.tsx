@@ -926,6 +926,27 @@ const defaultComponentConfig = {
   },
   FormLayout: {
     backgroundColor: "bg-white",
+    border: "border-t border-gray-200",
+    simpleBorder: "mt-8 border-t border-gray-200 pt-8",
+    borderPadding: "py-5",
+    card: {
+      layout: "md:grid md:grid-cols-3 md:gap-6",
+      titleContainer: "md:col-span-1",
+      title: {
+        fontSize: "text-lg",
+        color: "text-gray-900",
+        fontWeight: "font-medium",
+        lineHeight: "leading-6",
+      },
+      subtitle: {
+        fontSize: "text-sm",
+        color: "text-gray-500",
+        margin: "mt-1",
+        lineHeight: "leading-5",
+      },
+      container: "mt-5 md:mt-0 md:col-span-2",
+      padding: "px-4 sm:px-0",
+    },
     title: {
       fontSize: "text-lg",
       color: "text-gray-900",
@@ -939,6 +960,9 @@ const defaultComponentConfig = {
       lineHeight: "leading-5",
     },
     content: {
+      layout: "md:grid md:grid-cols-3 md:gap-6",
+      titleContainer: "md:col-span-1",
+      container: "mt-5 md:mt-0 md:col-span-2 space-y-10",
       title: {
         fontSize: "text-sm",
         color: "text-gray-500",
