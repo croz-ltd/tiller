@@ -285,9 +285,10 @@ export default function DateTimeInput({
   }, [withTimeZone, value]);
 
   const formattedDateFormat = dateFormat?.replace(/m/g, "M");
+  const finalDateFormat = formattedDateFormat || getDateFormatByLang(lang);
   const timeAddOn = " HH:mm"; // HH must be uppercase!
   const formattedValue = value
-    ? `${dateFns.format(value, formattedDateFormat || getDateFormatByLang(lang))} ${addLeadingZerosToDigit(
+    ? `${dateFns.format(value, finalDateFormat)} ${addLeadingZerosToDigit(
         isTwelveHours ? timePicker.hour : value.getHours(),
       )}:${addLeadingZerosToDigit(isTwelveHours ? timePicker.minute : value.getMinutes())}${
         isTwelveHours ? " " + timePicker.type : ""
@@ -316,7 +317,7 @@ export default function DateTimeInput({
       convertedValue = `${value.split(" ")[0]} ${convertTwelveHoursTimeTo24Hours(timeValue)}`;
     }
 
-    const dateExists = formatDate(dateValue, formattedDateFormat || getDateFormatByLang(lang));
+    const dateExists = formatDate(dateValue, finalDateFormat);
     if (!dateExists || checkDatesInterval(dateExists, minDate, maxDate, lang)) {
       if (dateExists) {
         openSelectedPicker("time");
@@ -366,9 +367,9 @@ export default function DateTimeInput({
     if (showMaskOnEmpty) {
       return undefined;
     }
-    return lang === "en"
-      ? `mm/dd/yyyy hh:mm${isTwelveHours ? " AM/PM" : ""}`
-      : `dd. mm. yyyy. hh:mm${isTwelveHours ? " AM/PM" : ""}`;
+
+    const defaultDateFormat = getDateFormatByLang(lang, true).toLowerCase();
+    return `${defaultDateFormat}${isTwelveHours ? " AM/PM" : ""}`;
   };
 
   const getDateTimeMask = () => {

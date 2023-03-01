@@ -201,9 +201,9 @@ export default function DateRangeInput({
 }: DateRangeInputProps) {
   const { lang } = useIntlContext();
 
-  const formattedDateFormat = dateFormat?.replace(/m/g, "M");
-  const formattedStart = start ? dateFns.format(start, formattedDateFormat || getDateFormatByLang(lang)) : "";
-  const formattedEnd = end ? dateFns.format(end, formattedDateFormat || getDateFormatByLang(lang)) : "";
+  const finalDateFormat = dateFormat?.replace(/m/g, "M") || getDateFormatByLang(lang);
+  const formattedStart = start ? dateFns.format(start, finalDateFormat) : "";
+  const formattedEnd = end ? dateFns.format(end, finalDateFormat) : "";
 
   const formattedValue = !formattedStart && !formattedEnd ? "" : `${formattedStart} - ${formattedEnd}`;
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
@@ -316,8 +316,8 @@ export default function DateRangeInput({
   }, [onBlur, opened]);
 
   const onChange = (start: string, end: string) => {
-    const startingDate = formatDate(start, formattedDateFormat || getDateFormatByLang(lang)) as Date;
-    const endingDate = formatDate(end, formattedDateFormat || getDateFormatByLang(lang)) as Date;
+    const startingDate = formatDate(start, finalDateFormat) as Date;
+    const endingDate = formatDate(end, finalDateFormat) as Date;
 
     if (
       checkDatesInterval(startingDate, minDate, maxDate, lang) &&
@@ -359,9 +359,9 @@ export default function DateRangeInput({
     const rangeAddOn = [" ", "-", " "];
 
     return [
-      ...getMaskFromFormat(startingDate, formattedDateFormat || getDateFormatByLang(lang)),
+      ...getMaskFromFormat(startingDate, finalDateFormat),
       ...rangeAddOn,
-      ...getMaskFromFormat(endingDate, formattedDateFormat || getDateFormatByLang(lang)),
+      ...getMaskFromFormat(endingDate, finalDateFormat),
     ];
   };
 
@@ -432,7 +432,9 @@ function DateRangeInputInput({
     if (showMaskOnEmpty) {
       return undefined;
     }
-    return lang === "en" ? "mm/dd/yyyy - mm/dd/yyyy" : "dd. mm. yyyy. - dd. mm. yyyy.";
+
+    const defaultDateFormat = getDateFormatByLang(lang).toLowerCase();
+    return `${defaultDateFormat} - ${defaultDateFormat}`;
   };
 
   return (

@@ -187,8 +187,8 @@ export default function DateInput({
   const datePickerRef = React.useRef<HTMLDivElement>(null);
   const { lang } = useIntlContext();
 
-  const formattedDateFormat = dateFormat?.replace(/m/g, "M");
-  const formattedValue = value ? dateFns.format(value, formattedDateFormat || getDateFormatByLang(lang)) : "";
+  const finalDateFormat = dateFormat?.replace(/m/g, "M") || getDateFormatByLang(lang);
+  const formattedValue = value ? dateFns.format(value, finalDateFormat) : "";
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
   const onDatesChange = (data: OnDatesChangeProps) => {
@@ -225,14 +225,14 @@ export default function DateInput({
   };
 
   const onChange = (value: string) => {
-    const dateValue = formatDate(value, formattedDateFormat || getDateFormatByLang(lang));
+    const dateValue = formatDate(value, finalDateFormat);
     if (!dateValue || checkDatesInterval(dateValue, minDate, maxDate, lang)) {
       if (dateValue) {
         if (closeAfterEntry) {
           setOpened(false);
         }
         props.onChange(dateValue);
-        datePicker.onDateFocus(formatDate(value, formattedDateFormat || getDateFormatByLang(lang)) as Date);
+        datePicker.onDateFocus(formatDate(value, finalDateFormat) as Date);
       } else {
         props.onChange(null);
         setTypedValue(value);
@@ -262,7 +262,7 @@ export default function DateInput({
         value={formattedValue || typedValue}
         onChange={onChange}
         onReset={onReset}
-        mask={getMaskFromFormat(typedValue, formattedDateFormat || getDateFormatByLang(lang))}
+        mask={getMaskFromFormat(typedValue, finalDateFormat)}
         dateFormat={dateFormat}
         tokens={{ textColor: !value ? "text-body-light" : undefined }}
       />
@@ -318,7 +318,7 @@ function DateInputInput({
     if (showMaskOnEmpty) {
       return undefined;
     }
-    return lang === "en" ? "mm/dd/yyyy" : "dd. mm. yyyy.";
+    return getDateFormatByLang(lang).toLowerCase();
   };
 
   return (

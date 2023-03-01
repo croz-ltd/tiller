@@ -18,6 +18,7 @@
 import * as dateFns from "date-fns";
 
 import transformHourTo24HoursValue from "./transformHourTo24HoursValue";
+import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
 
 const AM = "AM";
 const PM = "PM";
@@ -113,9 +114,11 @@ export const checkDatesInterval = (
  * @return  {string}          Value in 24-hour format (in string format)
  */
 export const convertTwelveHoursTimeTo24Hours = (value: string) => {
-  const minutes = value.split(" ")[0].split(":")[1];
   const amPm = value.split(" ")[1].toUpperCase();
-  const hours = transformHourTo24HoursValue(parseInt(value.split(":")[0]), amPm === "PM" ? PM : AM);
+  const hours = addLeadingZerosToDigit(
+    transformHourTo24HoursValue(parseInt(value.split(":")[0]), amPm === "PM" ? PM : AM),
+  );
+  const minutes = value.split(" ")[0].split(":")[1];
   if (amPm === "PM" || amPm === "AM") {
     return `${hours}:${minutes}`;
   } else {
@@ -188,16 +191,8 @@ export const dateTimeMask = (value: string, dateFormat?: string, lang?: string, 
  * @param {boolean}        twelveHours    Determines whether the time is in 12-hour format
  * @return  {(string | RegExp)[]}         Returns an array of strings and regular expressions that represent the mask
  */
-export const timeMask = (value: string | null, twelveHours?: boolean) => {
-  const mask = [
-    twelveHours ? /[0-1]/ : /\d/,
-    determineHourInput("hr", value, twelveHours || false, true),
-    ":",
-    /[0-5]/,
-    /[0-9]/,
-  ];
-
-  return twelveHours ? [...mask, ...twelveHoursAddOn] : mask;
+export const timeMask = (value: string, twelveHours?: boolean) => {
+  return getMaskFromFormat(value, "HH:mm", twelveHours);
 };
 
 export const getMaskFromFormat = (value: string, format: string, twelveHours?: boolean): (string | RegExp)[] => {
@@ -210,13 +205,13 @@ export const getMaskFromFormat = (value: string, format: string, twelveHours?: b
   format.split("").forEach((char, index) => {
     if (char === "M") {
       if (monthPosition !== index) {
-        generatedMask.push(determineMonthInput("en", value, index - 1));
+        generatedMask.push(determineMonthInput(value, index - 1));
       } else {
         generatedMask.push(/[0-1]/);
       }
     } else if (char === "d") {
       if (dayPosition !== index) {
-        generatedMask.push(determineDayInput("en", value, index - 1));
+        generatedMask.push(determineDayInput(value, index - 1));
       } else {
         generatedMask.push(/[0-3]/);
       }
@@ -227,7 +222,7 @@ export const getMaskFromFormat = (value: string, format: string, twelveHours?: b
     }
     if (char === "H") {
       if (hourPosition !== index) {
-        generatedMask.push(determineHourInput("en", value, twelveHours || false, false, index - 1));
+        generatedMask.push(determineHourInput(value, twelveHours || false, index - 1));
       } else {
         generatedMask.push(twelveHours ? /[0-1]/ : /[0-2]/);
       }
@@ -250,45 +245,38 @@ function isNotLetter(char: string): boolean {
   return !/[a-zA-Z]/.test(char);
 }
 
-export const determineMonthInput = (lang: "hr" | "en", value: string | null, position?: number) => {
-  const finalPosition = position || (lang === "hr" ? 4 : 0);
-
+export const determineMonthInput = (value: string | null, position: number) => {
   if (value && value.length > 0) {
-    if (value[finalPosition] === "0") {
+    if (value[position] === "0") {
       return /[1-9]/;
     }
   }
+
   return /[0-2]/;
 };
 
-export const determineDayInput = (lang: "hr" | "en", value: string | null, position?: number) => {
-  const finalPosition = position?.toString() ? position : lang === "hr" ? 0 : 3;
+export const determineDayInput = (value: string | null, position: number) => {
   if (value && value.length > 0) {
-    if (value[finalPosition] === "3") {
+    if (value[position] === "3") {
       return /[0-1]/;
     }
-    if (value[finalPosition] === "0") {
+    if (value[position] === "0") {
       return /[1-9]/;
     }
   }
+
   return /[0-9]/;
 };
 
-export const determineHourInput = (
-  lang: "hr" | "en",
-  value: string | null,
-  twelveHours: boolean,
-  timeOnly: boolean,
-  position?: number,
-) => {
-  const finalPosition = position || (lang === "hr" ? 14 : 11);
+export const determineHourInput = (value: string | null, twelveHours: boolean, position: number) => {
   if (value && value.length > 0) {
-    if (value[finalPosition] === "2") {
+    if (value[position] === "2") {
       return /[0-3]/;
     }
-    if (twelveHours && value[finalPosition] === "1") {
+    if (twelveHours && value[position] === "1") {
       return /[0-2]/;
     }
   }
+
   return /[0-9]/;
 };

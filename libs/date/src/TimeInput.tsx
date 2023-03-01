@@ -313,7 +313,8 @@ export default function TimeInput({
     if (showMaskOnEmpty) {
       return undefined;
     }
-    return lang === "en" ? `hh:mm${isTwelveHours ? " AM/PM" : ""}` : `hh:mm${isTwelveHours ? " AM/PM" : ""}`;
+
+    return `hh:mm${isTwelveHours ? " AM/PM" : ""}`;
   };
 
   return (
