@@ -18,17 +18,55 @@ import { Meta } from "@storybook/addon-docs";
 
 # Release Notes
 
-## **1.2.0 - latest** <span>_(Feb 13th 2023)_</span>
+## **1.3.0 - latest** <span>_(Mar 1st 2023)_</span>
+
+**Bug fixes:**
+
+- `Autocomplete`: fixed inability to remove some tags on tagsContained variant ([#53](https://github.com/croz-ltd/tiller/issues/53))
+
+**Component Improvements:**
+
+- `DateInput(Field)`, `DateRangeInput(Field)`, `DateTimeInput(Field)`, `TimeInput(Field)`: added **ability to type date/time values** inside inputs
+  ([#45](https://github.com/croz-ltd/tiller/issues/45))
+
+  - choosing a date/time from pickers will still work as before
+  - the fields hold a **null** value when a value present in the field is not valid, otherwise they hold valid date/time values
+  - _dateFormat_ prop on date inputs allows specifying the desired format of the date
+  - _dynamicMask_ prop removes the mask when the input is not focused for better user experience (**on** by default)
+  - _showMaskOnEmpty_ prop enables showing the mask when the input is empty (**off** by default)
+  - for more detailed information about all new props see prop docs for each component
+
+- `AutocompleteField`: logic behind onReset has been refined ([#55](https://github.com/croz-ltd/tiller/issues/55))
+  - if allowMultiple is enabled -> value becomes **[]** on reset
+  - if allowMultiple is disabled -> value becomes **null** on reset
+- `FormLayout`: moved classes to tokens for more customizable experience ([#58](https://github.com/croz-ltd/tiller/issues/58))
+
+**Design System Improvements:**
+
+- useful date/time utilities are now importable from Date module (see JSDocs of each utility for more information):
+  - `getDateFormatByLang`
+  - `formatDate`
+  - `convertTwelveHoursTimeTo24Hours`
+  - `checkDatesInterval`
+  - `dateMask`
+  - `dateRangeMask`
+  - `dateTimeMask`
+  - `timeMask`
+
+## 1.2.0 - latest <span>_(Feb 13th 2023)_</span>
 
 **Bug Fixes:**
+
 - `Input`: fixed _onReset_ prop not functional
 - fixed _className_ not passing onto some components correctly
 
 **Component Improvements**
+
 - `SidebarNavigation`: moved important classes to tokens configuration ([#46](https://github.com/croz-ltd/tiller/issues/46))
 - `ProgressBar`: specifying _active_ prop is now not required for each step
 
 **Storybook Improvements:** ([#40](https://github.com/croz-ltd/tiller/issues/40))
+
 - improved [Introduction](https://croz-ltd.github.io/tiller/?path=/docs/introduction--page)
   and [Installation](https://croz-ltd.github.io/tiller/?path=/docs/installation-and-importing--page) pages
 - improved code output in Storybook
@@ -40,10 +78,12 @@ import { Meta } from "@storybook/addon-docs";
 ## 1.1.0 <span>_(Feb 6th 2023)_</span>
 
 **Bug Fixes:**
+
 - fixed className in `Typography` & `Toggle` ([#32](https://github.com/croz-ltd/tiller/issues/32))
 - fixed `PasswordInputField` style when hovering over the icon ([#32](https://github.com/croz-ltd/tiller/issues/32))
 
 **Component Improvements**
+
 - improved `TopNavigation` responsiveness ([#36](https://github.com/croz-ltd/tiller/issues/36))
 - added `topRightAction` prop to the `TopNavigation` component to display custom DropdownMenu ([#36](https://github.com/croz-ltd/tiller/issues/36))
 - added className to `PageHeading` ([#32](https://github.com/croz-ltd/tiller/issues/32))
@@ -51,31 +91,38 @@ import { Meta } from "@storybook/addon-docs";
 - `FormLayoutSection` actions styles moved outside the component to theme ([#32](https://github.com/croz-ltd/tiller/issues/32))
 
 **Storybook Improvements:**
+
 - fixed inconsistent icons display in Storybook ([#38](https://github.com/croz-ltd/tiller/issues/38))
 
 **Design System Improvements:**
+
 - fixed Playroom snippets ([#33](https://github.com/croz-ltd/tiller/issues/33))
 - improved refactor-dependecies script ([#30](https://github.com/croz-ltd/tiller/issues/30))
 
 **Docs Improvements:**
+
 - improved documentation for SelectField, Intl, Login, TopNavigation & SidebarNavigation Components ([#32](https://github.com/croz-ltd/tiller/issues/32))
 
 ## **1.0.2 - latest** <span>_(Jan 23th 2023)_</span>
 
 **Bug Fixes:**
+
 - fixed `@tiller-ds/icons` module to properly display icons ([#26](https://github.com/croz-ltd/tiller/issues/26))
 - fixed `TopNavigation` mobile view Expander Icon ([#13](https://github.com/croz-ltd/tiller/issues/13))
 - the focus doesn't shift to `Tabs` when clicking on a tab if scroll buttons are disabled ([#11](https://github.com/croz-ltd/tiller/issues/11))
 - fixed `Autocomplete` error message - showing error beneath the tags ([#9](https://github.com/croz-ltd/tiller/issues/9))
 
 **Storybook Improvements:**
+
 - fixed Figma URL when clicking Tiller Logo ([#4](https://github.com/croz-ltd/tiller/issues/4))
 - fixed `FormLayout` import in Storybook ([#5](https://github.com/croz-ltd/tiller/issues/5))
 
 **Design System Improvements:**
+
 - fixed `example app` using `tiller-ds` v1.0.1 modules ([#17](https://github.com/croz-ltd/tiller/issues/17))
 
 **Docs Improvements:**
+
 - improved documentation for various modules ([#20](https://github.com/croz-ltd/tiller/issues/20))
 - fix `CRA command` in README.md & info update ([#4](https://github.com/croz-ltd/tiller/issues/4))
 - update CONTRIBUTING.md ([#4](https://github.com/croz-ltd/tiller/issues/4))
