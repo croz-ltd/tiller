@@ -1,4 +1,31 @@
 {
   "name": "@tiller-ds/theme",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "color presets",
+    "color scheme",
+    "component configuration",
+    "icon customization",
+    "page customization",
+    "page design",
+    "page styling",
+    "theme customization",
+    "theme provider",
+    "theme",
+    "tokens"
+  ]
 }

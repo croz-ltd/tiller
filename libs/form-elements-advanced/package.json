@@ -1,4 +1,23 @@
 {
   "name": "@tiller-ds/form-elements-advanced",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "advanced form elements",
+    "rich text editor",
+    "text editor"
+  ]
 }

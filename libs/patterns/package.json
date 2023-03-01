@@ -1,4 +1,26 @@
 {
   "name": "@tiller-ds/patterns",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "component patterns",
+    "login component",
+    "login form",
+    "login pattern",
+    "login",
+    "patterns"
+  ]
 }

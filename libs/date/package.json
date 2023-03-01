@@ -1,4 +1,28 @@
 {
   "name": "@tiller-ds/date",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "date components",
+    "date input",
+    "date range input",
+    "date time input",
+    "date",
+    "description list",
+    "time components",
+    "time input"
+  ]
 }
