@@ -17,8 +17,8 @@
 
 import * as dateFns from "date-fns";
 
-import transformHourTo24HoursValue from "./transformHourTo24HoursValue";
 import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
+import transformHourTo24HoursValue from "./transformHourTo24HoursValue";
 
 const AM = "AM";
 const PM = "PM";
