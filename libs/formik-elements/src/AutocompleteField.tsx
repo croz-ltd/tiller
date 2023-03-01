@@ -106,7 +106,11 @@ export default function AutocompleteField<T>({
   }, [field.value]);
 
   const onReset = () => {
-    helpers.setValue(undefined, shouldValidate);
+    if (props.allowMultiple) {
+      helpers.setValue([], shouldValidate);
+    } else {
+      helpers.setValue(null, shouldValidate);
+    }
     setValue(undefined);
   };
 

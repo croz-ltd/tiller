@@ -411,7 +411,7 @@ function Autocomplete<T extends {}>({
               } else if (inputValue) {
                 if (tags && onAddCustomTag) {
                   setFilteredOptions(
-                    getDifference([...response, ...Array.of(onAddCustomTag(inputValue))], selectedOptions)
+                    getDifference([...response, ...Array.of(onAddCustomTag(inputValue))], selectedOptions),
                   );
                 } else {
                   setFilteredOptions(response);
@@ -487,7 +487,7 @@ function Autocomplete<T extends {}>({
     autocompleteTokens.List.base.master,
     autocompleteTokens.List.base.borderRadius,
     autocompleteTokens.List.base.boxShadow,
-    autocompleteTokens.List.base.outline
+    autocompleteTokens.List.base.outline,
   );
 
   const listInnerClassName = cx(
@@ -495,7 +495,7 @@ function Autocomplete<T extends {}>({
     autocompleteTokens.List.inner.borderRadius,
     autocompleteTokens.List.inner.backgroundColor,
     autocompleteTokens.List.inner.boxShadow,
-    autocompleteTokens.List.inner.outline
+    autocompleteTokens.List.inner.outline,
   );
 
   const loadingClassName = cx(
@@ -504,7 +504,7 @@ function Autocomplete<T extends {}>({
     },
     autocompleteTokens.Loading.overlay.master,
     autocompleteTokens.Loading.overlay.backgroundColor,
-    autocompleteTokens.Loading.overlay.opacity
+    autocompleteTokens.Loading.overlay.opacity,
   );
 
   const selectItemClassName = cx(
@@ -512,14 +512,14 @@ function Autocomplete<T extends {}>({
     selectTokens.Item.base.padding,
     selectTokens.Item.base.fontSize,
     selectTokens.Item.base.lineHeight,
-    selectTokens.Item.base.color
+    selectTokens.Item.base.color,
   );
 
   const itemClassName = (bold: boolean, selected: boolean) =>
     cx(
       autocompleteTokens.Item.base.regular,
       { [autocompleteTokens.Item.base.selected]: selected },
-      { [autocompleteTokens.Item.accentuated]: bold }
+      { [autocompleteTokens.Item.accentuated]: bold },
     );
 
   const activeClassName = (bold: boolean, selected: boolean, hovered: boolean) =>
@@ -527,26 +527,26 @@ function Autocomplete<T extends {}>({
       autocompleteTokens.Item.active.regular,
       { [autocompleteTokens.Item.active.selected]: selected },
       { [autocompleteTokens.Item.active.hovered]: selected && hovered },
-      { [autocompleteTokens.Item.accentuated]: bold }
+      { [autocompleteTokens.Item.accentuated]: bold },
     );
 
   const clearClassName = cx(
     { [autocompleteTokens.Clear.active]: !disabled },
     autocompleteTokens.Clear.base.padding,
     autocompleteTokens.Clear.base.margin,
-    "flex align-center"
+    "flex align-center",
   );
 
   const selectClassName = cx(
     autocompleteTokens.Select.base,
     { [autocompleteTokens.Select.active]: !disabled },
-    { "pt-2.5": tags && tagsContained && !value }
+    { "pt-2.5": tags && tagsContained && !value },
   );
 
   const loadingInnerClassName = cx(
     autocompleteTokens.Loading.inner.padding,
     autocompleteTokens.Loading.inner.margin,
-    "bg-white"
+    "bg-white",
   );
 
   const tagPlaceholderClassName = cx({
@@ -603,7 +603,7 @@ function Autocomplete<T extends {}>({
       if (getOptionValue) {
         if (arrayIncludes(selectedOptions, highlightedOption)) {
           const filteredOptions = selectedOptions.filter(
-            (option) => !(getOptionValue(option) === getOptionValue(highlightedOption))
+            (option) => !(getOptionValue(option) === getOptionValue(highlightedOption)),
           );
           setSelectedOptions(filteredOptions);
         } else {
@@ -699,7 +699,7 @@ function Autocomplete<T extends {}>({
               ) : (
                 inputValue &&
                 !tagExists() && <SelectItem key={index} tag={true} option={onAddCustomTag(inputValue)} index={index} />
-              )
+              ),
             )}
         </>
       );
@@ -721,7 +721,7 @@ function Autocomplete<T extends {}>({
     const complexSelectedClassName = cx(
       autocompleteTokens.Item.complex.selected.master,
       autocompleteTokens.Item.complex.selected.color,
-      autocompleteTokens.Item.complex.selected.size
+      autocompleteTokens.Item.complex.selected.size,
     );
 
     const selected = getOptionValue
@@ -762,7 +762,7 @@ function Autocomplete<T extends {}>({
                     </span>
                   </div>
                   {allowMultiple && selected && selectedIcon}
-                </>
+                </>,
               )
             : onAddCustomTag &&
               contentWrapper(
@@ -772,7 +772,7 @@ function Autocomplete<T extends {}>({
                     {safeItemToString(onAddCustomTag(inputValue))}
                   </Badge>
                 </>,
-                true
+                true,
               )
           : contentWrapper(
               <div className={autocompleteTokens.Item.complex.container}>
@@ -780,7 +780,7 @@ function Autocomplete<T extends {}>({
                   {getOptionLabel ? optionLabelFn(option) : safeItemToString(option)}
                 </div>
                 {allowMultiple && <div className={complexSelectedClassName}>{selected && selectedIcon}</div>}
-              </div>
+              </div>,
             )}
       </>
     );
@@ -801,8 +801,7 @@ function Autocomplete<T extends {}>({
 
   const tagsDisplay = (
     <div
-      className={`flex flex-wrap ${tagsContained ? "p-1" : selectedOptions.length > 0 && "pt-1"} rounded-md`}
-      style={{ height: "44px" }}
+      className={`flex flex-wrap ${tagsContained ? "p-1" : selectedOptions.length > 0 && "pt-1"} z-50 rounded-md`}
       ref={tagsContained ? toggleRef : undefined}
     >
       {allowMultiple && selectedOptions.length > 0
@@ -842,7 +841,6 @@ function Autocomplete<T extends {}>({
     <>
       <Input
         className={className}
-        style={tagsContained ? { height: "40px" } : undefined}
         id={id}
         label={label}
         tooltip={tooltip}
