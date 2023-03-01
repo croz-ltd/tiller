@@ -17,11 +17,12 @@
 
 import * as React from "react";
 
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 
 import { DateTimeInput, DateTimeInputProps } from "@tiller-ds/date";
-import useShouldValidate from "./useShouldValidate";
+
 import useFormikBypass from "./useFormikBypass";
+import useShouldValidate from "./useShouldValidate";
 
 type DateTimeInputOnlyPropsUnion = "value" | "onChange" | "onBlur" | "error";
 
@@ -37,8 +38,8 @@ export default function DateTimeInputField({ name, allowClear = true, ...props }
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);
 
-  const onChange = (value: Date) => {
-    helpers.setValue(new Date(value), shouldValidate);
+  const onChange = (value: Date | null) => {
+    helpers.setValue(value ? new Date(value) : null, shouldValidate);
     initialError.current = undefined;
   };
 

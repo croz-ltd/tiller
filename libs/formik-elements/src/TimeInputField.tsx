@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 
 import { TimeInput, TimeInputProps } from "@tiller-ds/date";
 
@@ -43,8 +43,8 @@ export default function TimeInputField({ name, allowClear = true, ...props }: Ti
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);
 
-  const onChange = (value: string) => {
-    helpers.setValue(value, shouldValidate);
+  const onChange = (value: string | null) => {
+    helpers.setValue(value ? value : null, shouldValidate);
     initialError.current = undefined;
   };
 
@@ -56,7 +56,7 @@ export default function TimeInputField({ name, allowClear = true, ...props }: Ti
   return (
     <TimeInput
       name={field.name}
-      value={field.value ?? ""}
+      value={field.value}
       error={meta.touched && (initialError.current ? initialError.current : meta.error)}
       onChange={onChange}
       onReset={onReset}

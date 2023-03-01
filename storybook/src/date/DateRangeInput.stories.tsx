@@ -25,24 +25,22 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import storybookDictionary from "../intl/storybookDictionary";
+import { beautifyDateSource } from "../utils";
 
 import mdx from "./DateRangeInput.mdx";
 
 const translations = storybookDictionary.translations;
 const name = "daterange";
-const startWithValue = new Date("2020-01-01");
-const endWithValue = new Date("2020-01-15");
 const error = "date-error";
-const minDate = new Date("2020-10-05");
-const maxDate = new Date("2020-11-20");
 
 export default {
   title: "Component Library/Date/DateRangeInput",
   component: DateRangeInput,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source: string) => beautifyDateSource(source),
     },
     design: {
       type: "figma",
@@ -52,15 +50,36 @@ export default {
   },
 };
 
-export const WithLabel = () => <DateRangeInput name={name} label={<Intl name="label" />} onChange={() => {}} />;
+export const WithState = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
+  return (
+    <DateRangeInput
+      name={name}
+      label={<Intl name="label" />}
+      start={startDate}
+      end={endDate}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+      onReset={() => {
+        setStartDate(null);
+        setEndDate(null);
+      }}
+    />
+  );
+};
 
 export const WithoutLabel = () => <DateRangeInput name={name} onChange={() => {}} />;
 
 export const WithValue = () => (
   <DateRangeInput
     name={name}
-    start={startWithValue}
-    end={endWithValue}
+    start={new Date("2020-01-01")}
+    end={new Date("2020-01-15")}
     label={<Intl name="label" />}
     onChange={() => {}}
   />
@@ -71,10 +90,17 @@ export const Disabled = () => (
 );
 
 export const ReadOnly = () => (
-  <DateRangeInput name={name} label={<Intl name="label" />} readOnly={true} onChange={() => {}} />
+  <DateRangeInput
+    name={name}
+    start={new Date("2020-01-01")}
+    end={new Date("2020-01-15")}
+    label={<Intl name="label" />}
+    readOnly={true}
+    onChange={() => {}}
+  />
 );
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateRangeInput name={name} placeholder={translations[context.globals.language]["placeholder"]} onChange={() => {}} />
 );
 
@@ -95,5 +121,5 @@ export const WithTooltip = () => (
 export const WithError = () => <DateRangeInput name={name} onChange={() => {}} error={error} />;
 
 export const WithMinAndMaxDate = () => (
-  <DateRangeInput name={name} minDate={minDate} maxDate={maxDate} onChange={() => {}} />
+  <DateRangeInput name={name} minDate={new Date("2020-10-05")} maxDate={new Date("2020-11-20")} onChange={() => {}} />
 );

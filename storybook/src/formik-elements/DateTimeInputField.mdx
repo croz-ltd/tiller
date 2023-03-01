@@ -1,24 +1,37 @@
-import {ArgsTable, Stories} from "@storybook/addon-docs";
+import { ArgsTable, Stories } from "@storybook/addon-docs";
 
 import { DateTimeInput } from "@tiller-ds/date";
 import { ThemeTokens } from "../utils";
-
 
 # Date Time Input Field
 
 `DateTimeInputField` is an input field for selecting both a date and a time.
 
-Allows choosing date then time. There are 4 steps available (year, date, hour and minute), so tabs are required to visually distinguish date/time steps.
+The component accepts the following types for **value** prop:
+
+- null
+- Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
+- string type - example: _"2023-11-20T21:21:28"_ or (offset time) "2023-11-20T11:21:28.63602+05:00"
+
+There are 4 steps available (year, date, hour and minute), so tabs are required to visually distinguish date/time steps.
+
+This is a **field** component, which means it is differs from [Date Time Input](/docs/component-library-date-datetimeinput--with-state#datetimeinput) by having an integrated logic for `onChange`, `onBlur` and `onReset`
+functions which `Date Input` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+Props are described on the [Date Time Input Field Props section](/docs/component-library-formik-elements-datetimeinputfield--disabled#date-time-input-field-props)
+of the documentation.
 
 ## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 <Stories includePrimary={true} />
 
 ## Date Time Input Field Props:
 
 `DateTimeInputField` component has one unique prop:
- - `name` (_string_): the accessor value for the field component (for validation, fetching, etc.).
+
+- `name` (_string_): the accessor value for the field component (for validation, fetching, etc.).
 
 Other props are inferred from the `DateTimeInput` component and are displayed below:
 
@@ -27,4 +40,5 @@ Other props are inferred from the `DateTimeInput` component and are displayed be
 <ArgsTable of={DateTimeInput} />
 
 ## Date Time Input Tokens:
-<ThemeTokens component="DateTimeInput"/>
+
+<ThemeTokens component="DateTimeInput" />

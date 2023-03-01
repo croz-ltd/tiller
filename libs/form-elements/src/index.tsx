@@ -60,3 +60,4 @@ export { default as Textarea } from "./Textarea";
 export { default as Toggle } from "./Toggle";
 export { getThousandSeparator } from "./getThousandSeparator";
 export { getDecimalSeparator } from "./getDecimalSeparator";
+export { defaultPlaceholderChar } from "./convertMaskToPlaceholder";

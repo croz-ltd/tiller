@@ -25,6 +25,7 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import storybookDictionary from "../intl/storybookDictionary";
+import { beautifyDateSource } from "../utils";
 
 import mdx from "./DateInput.mdx";
 
@@ -34,10 +35,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source: string) => beautifyDateSource(source),
     },
     design: {
       type: "figma",
@@ -49,10 +48,25 @@ export default {
 
 const translations = storybookDictionary.translations;
 const name = "test";
-const value = new Date("2020-01-01");
-const error = "Test error text";
-const minDate = new Date("2019-01-20");
-const maxDate = new Date("2020-02-25");
+
+export const WithState = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
 
 export const WithLabel = () => (
   <DateInput
@@ -62,7 +76,6 @@ export const WithLabel = () => (
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
-    popoverPosition="right"
   />
 );
 
@@ -73,7 +86,7 @@ export const WithoutLabel = () => (
 export const WithValue = () => (
   <DateInput
     name={name}
-    value={value}
+    value={new Date("2020-01-01")}
     label={<Intl name="label" />}
     onChange={() => {}}
     onReset={() => {}}
@@ -84,7 +97,7 @@ export const WithValue = () => (
 export const Disabled = () => (
   <DateInput
     name={name}
-    value={value}
+    value={new Date("2020-01-01")}
     label={<Intl name="label" />}
     disabled={true}
     onChange={() => {}}
@@ -96,7 +109,7 @@ export const Disabled = () => (
 export const ReadOnly = () => (
   <DateInput
     name={name}
-    value={value}
+    value={new Date("2020-01-01")}
     label={<Intl name="label" />}
     readOnly={true}
     onChange={() => {}}
@@ -105,7 +118,7 @@ export const ReadOnly = () => (
   />
 );
 
-export const WithPlaceholder = (args, context) => (
+export const WithCustomPlaceholder = (args, context) => (
   <DateInput
     name={name}
     value={null}
@@ -150,7 +163,7 @@ export const WithError = () => (
     name={name}
     value={null}
     label={<Intl name="label" />}
-    error={error}
+    error={"Test error text"}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
@@ -162,8 +175,8 @@ export const WithMinAndMaxDate = () => (
     name={name}
     value={null}
     label={<Intl name="label" />}
-    minDate={minDate}
-    maxDate={maxDate}
+    minDate={new Date("2019-01-20")}
+    maxDate={new Date("2020-02-25")}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}
@@ -172,10 +185,10 @@ export const WithMinAndMaxDate = () => (
 export const WithMinAndMaxDateAndValue = () => (
   <DateInput
     name={name}
-    value={value}
+    value={new Date("2020-01-01")}
     label={<Intl name="label" />}
-    minDate={minDate}
-    maxDate={maxDate}
+    minDate={new Date("2019-01-20")}
+    maxDate={new Date("2020-02-25")}
     onChange={() => {}}
     onReset={() => {}}
     onBlur={() => {}}

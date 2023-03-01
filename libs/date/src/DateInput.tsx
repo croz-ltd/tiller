@@ -17,16 +17,19 @@
 
 import * as React from "react";
 
+import * as dateFns from "date-fns";
+
 import { useDatepicker, START_DATE, OnDatesChangeProps } from "@datepicker-react/hooks";
-import { useIntl } from "react-intl";
 import Popover, { positionMatchWidth, positionRight } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
-import { Input, InputProps } from "@tiller-ds/form-elements";
-import { TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { InputProps, MaskedInput } from "@tiller-ds/form-elements";
+import { useIntlContext } from "@tiller-ds/intl";
+import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
 import { usePickerOpener } from "./usePickerOpener";
+import { checkDatesInterval, formatDate, getDateFormatByLang, getMaskFromFormat } from "./utils";
 
 export type DateInputProps = {
   /**
@@ -41,9 +44,31 @@ export type DateInputProps = {
   className?: string;
 
   /**
+   * Enables automatic closing of the popover once a date is manually typed in.
+   * Off by default.
+   */
+  closeAfterEntry?: boolean;
+
+  /**
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * The format of the date mask. E.g. 'yyyy-MM-dd' or 'dd/MM/yyyy'.
+   */
+  dateFormat?: string;
+
+  /**
+   * When enabled, the date mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Value passed through from validation indicating to display the error on the component.
@@ -112,32 +137,38 @@ export type DateInputProps = {
   required?: boolean;
 
   /**
-   * The value of the field sent on submit and/or retrieved on component render (in Date format 'yyyy-MM-dd').
+   * Show or hide the desired mask for date value when no value is present in the field.
+   */
+  showMaskOnEmpty?: boolean;
+
+  /**
+   * The value of the field sent on submit and/or retrieved on component render (Date type).
    */
   value: Date | null;
 } & Omit<InputProps, "onBlur" | "onChange" | "value"> &
-  Omit<Intl.DateTimeFormatOptions, "localeMatcher" | "weekday" | "year" | "month" | "day">;
+  Omit<Intl.DateTimeFormatOptions, "localeMatcher" | "weekday" | "year" | "month" | "day"> &
+  DateInputTokensProps;
+
+type DateInputTokensProps = {
+  tokens?: ComponentTokens<"DateInput">;
+};
 
 type DateInputInputProps = {
-  /**
-   * Event handler which enables you to call a function and trigger an action when a user clicks an input.
-   */
-  onClick: () => void;
-  /**
-   * InputRef stores a reference to input.
-   */
-  inputRef: React.Ref<HTMLInputElement>;
-  /**
-   * It uses react-intl formatDate method and returns the string representation of the formatted date.
-   */
+  dateIcon?: React.ReactElement;
+
   focusedDate: Date | null;
 
-  /**
-   * Custom icon instead of the trailing calendar one.
-   */
-  dateIcon?: React.ReactElement;
-} & DateInputProps &
-  TokenProps<"Input">;
+  inputRef: React.RefObject<HTMLInputElement>;
+
+  mask?: (string | RegExp)[];
+
+  onChange: (value: string) => void;
+
+  onClick: () => void;
+
+  value: string;
+} & Omit<DateInputProps, "onChange" | "value" | "inputRef"> &
+  TokenProps<"DateInput">;
 
 export default function DateInput({
   allowClear = true,
@@ -148,19 +179,26 @@ export default function DateInput({
   onBlur,
   fixedPopoverWidth = true,
   popoverPosition = "left",
+  closeAfterEntry,
+  dateFormat,
   ...props
 }: DateInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datePickerRef = React.useRef<HTMLDivElement>(null);
+  const { lang } = useIntlContext();
+
+  const finalDateFormat = dateFormat?.replace(/m/g, "M") || getDateFormatByLang(lang);
+  const formattedValue = value ? dateFns.format(value, finalDateFormat) : "";
+  const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
   const onDatesChange = (data: OnDatesChangeProps) => {
-    inputRef.current?.focus();
     props.onChange(data.startDate);
     setOpened(false);
   };
 
   const datePicker = useDatepicker({
-    startDate: value || minDate || null,
+    initialVisibleMonth: value || minDate || new Date(),
+    startDate: value || null,
     endDate: null,
     focusedInput: START_DATE,
     minBookingDate: minDate,
@@ -168,20 +206,47 @@ export default function DateInput({
     numberOfMonths: 1,
     onDatesChange,
   });
-  const checkActiveMonthsValidity =
-    datePicker.activeMonths[0].month === value?.getMonth() && datePicker.activeMonths[0].year === value?.getFullYear();
+  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, (onBlur = undefined));
 
-  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, onBlur);
+  const checkActiveMonthsValidity =
+    value &&
+    datePicker.activeMonths[0].month === value.getMonth() &&
+    datePicker.activeMonths[0].year === value.getFullYear();
 
   const onOpen = () => {
     if (props.disabled || props.readOnly) {
       return;
     }
-    if (!checkActiveMonthsValidity) {
+    if (!checkActiveMonthsValidity && value) {
       datePicker.onDateFocus(value || minDate || (null as unknown as Date));
     }
     setOpened(true);
     inputRef.current?.focus();
+  };
+
+  const onChange = (value: string) => {
+    const dateValue = formatDate(value, finalDateFormat);
+    if (!dateValue || checkDatesInterval(dateValue, minDate, maxDate, lang)) {
+      if (dateValue) {
+        if (closeAfterEntry) {
+          setOpened(false);
+        }
+        props.onChange(dateValue);
+        datePicker.onDateFocus(formatDate(value, finalDateFormat) as Date);
+      } else {
+        props.onChange(null);
+        setTypedValue(value);
+      }
+    }
+  };
+
+  const onReset = () => {
+    if (props.onReset) {
+      props.onReset();
+    }
+    inputRef.current?.focus();
+    setTypedValue("");
+    setOpened(false);
   };
 
   return (
@@ -191,10 +256,15 @@ export default function DateInput({
         inputRef={inputRef}
         onClick={onOpen}
         onFocus={onOpen}
-        focusedDate={value}
+        focusedDate={value || null}
         allowClear={allowClear}
-        onBlur={onBlur ? onBlur : undefined}
-        value={value}
+        onBlur={onBlur}
+        value={formattedValue || typedValue}
+        onChange={onChange}
+        onReset={onReset}
+        mask={getMaskFromFormat(typedValue, finalDateFormat)}
+        dateFormat={dateFormat}
+        tokens={{ textColor: !value ? "text-body-light" : undefined }}
       />
       <Popover
         className="z-50"
@@ -205,7 +275,7 @@ export default function DateInput({
           <DatePicker
             datePicker={datePicker}
             datePickerRef={datePickerRef}
-            focusedDate={value}
+            focusedDate={value || null}
             minYear={minDate?.getFullYear()}
             maxYear={maxDate?.getFullYear()}
             isDateRange={false}
@@ -224,22 +294,58 @@ function DateInputInput({
   required,
   allowClear = true,
   dateIcon,
+  mask,
+  value,
+  inputRef,
+  dynamicMask = true,
+  showMaskOnEmpty,
+  dateFormat,
   ...props
 }: DateInputInputProps) {
-  const intl = useIntl();
-  const tokens = useTokens("Input", props.tokens);
-  const finalDateIcon = useIcon("date", dateIcon, { className: tokens.Icon.clickableTrailing });
+  const { lang } = useIntlContext();
+  const tokens = useTokens("DateInput", props.tokens);
+
+  const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
+  const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
+
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (dateFormat) {
+      return dateFormat;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+    return getDateFormatByLang(lang).toLowerCase();
+  };
 
   return (
-    <Input
+    <MaskedInput
       {...props}
-      value={focusedDate ? intl.formatDate(focusedDate) : ""}
+      value={value}
+      inputRef={inputRef}
+      mask={mask as (string | RegExp)[]}
+      dynamic={dynamicMask}
+      showMask={showMaskOnEmpty}
+      keepCharPositions={true}
+      placeholder={getPlaceholder()}
       name={props.name}
       onClick={onClick}
-      onBlur={() => ({})}
+      onBlur={props.onBlur}
+      onChange={(e) => onChange(e.target.value)}
+      onReset={props.onReset}
       allowClear={allowClear}
       required={required}
-      inlineTrailingIcon={<IconButton icon={finalDateIcon} onClick={onClick} showTooltip={false} />}
+      inlineTrailingIcon={
+        <IconButton
+          disabled={props.disabled || props.readOnly}
+          icon={finalDateIcon}
+          onClick={onClick}
+          showTooltip={false}
+        />
+      }
       autoComplete="off"
     />
   );

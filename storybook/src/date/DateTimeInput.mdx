@@ -3,15 +3,25 @@ import { ArgsTable, Stories } from "@storybook/addon-docs";
 import { DateTimeInput } from "@tiller-ds/date";
 import { ThemeTokens } from "../utils";
 
-
 # Date Time Input
 
-Date Time Input is an input field for selecting both a date and a time.
+Date Time Input is an input field for selecting a date and a time using pickers or by typing in an arbitrary value.
 
-Allows choosing date then time. There are 4 steps available (year, date, hour and minute), so tabs are required to visually distinguish date/time steps.
+The component accepts the following types for **value** prop:
+
+- null
+- Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
+
+There are 4 steps available (year, date, hour and minute), so tabs are required to visually distinguish date/time steps.
+
+For integration with Formik see docs [here](/docs/component-library-formik-elements-datetimeinputfield--with-label#datetimeinputfield).
+
+Props are described on the [Date Time Input Props section](/docs/component-library-date-datetimeinput--disabled#date-time-input-props)
+of the documentation.
 
 ## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 <Stories includePrimary={true} />
 
@@ -20,4 +30,5 @@ Allows choosing date then time. There are 4 steps available (year, date, hour an
 <ArgsTable of={DateTimeInput} />
 
 ## Date Time Input Tokens:
-<ThemeTokens component="DateTimeInput"/>
+
+<ThemeTokens component="DateTimeInput" />

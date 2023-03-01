@@ -20,7 +20,8 @@ import * as React from "react";
 import Popover, { positionMatchWidth } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
-import { Input, InputProps } from "@tiller-ds/form-elements";
+import { defaultPlaceholderChar, InputProps, MaskedInput } from "@tiller-ds/form-elements";
+import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 import TimePicker, { ClockType, TimePickerProps } from "./TimePicker";
@@ -29,6 +30,7 @@ import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
 import formatTime from "./formatTime";
 import getTimeZoneOffset from "./getTimeZoneOffset";
 import { usePickerOpener } from "./usePickerOpener";
+import { convertTwelveHoursTimeTo24Hours, timeMask } from "./utils";
 
 const AM = "AM";
 const MIDNIGHT = 0;
@@ -42,9 +44,26 @@ export type TimeInputProps = {
   className?: string;
 
   /**
+   * Enables automatic closing of the popover once a date is manually typed in.
+   * Off by default.
+   */
+  closeAfterEntry?: boolean;
+
+  /**
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * When enabled, the date mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Value passed through from validation indicating to display the error on the component.
@@ -80,7 +99,7 @@ export type TimeInputProps = {
   /**
    * Function that handles the behaviour of the component once its state changes.
    */
-  onChange: (value: string) => void;
+  onChange: (value: string | null) => void;
 
   /**
    * Turns this field into a required field in the form. Only applies visual representation (* next to label),
@@ -89,9 +108,13 @@ export type TimeInputProps = {
   required?: boolean;
 
   /**
+   * Show or hide the mask for time value when no value is present in the field.
+   */
+  showMaskOnEmpty?: boolean;
+  /**
    * The value of the field sent on submit and/or retrieved on component render (in Date format).
    */
-  value: string;
+  value: string | null;
 
   /**
    * Enables or disables the display of a time zone.
@@ -106,17 +129,25 @@ type TimeInputTokens = {
   inputTokens?: ComponentTokens<"Input">;
 };
 
+export type TimePickerValue =
+  | { hour: null; minute: null; type: "" }
+  | { hour: number; minute: number; type: ClockType };
+
 export default function TimeInput({
   className,
   type,
   value,
   withTimeZone,
   onBlur,
-  onChange,
   fixedPopoverWidth = true,
   allowClear = true,
+  closeAfterEntry,
+  dynamicMask = true,
+  showMaskOnEmpty,
   ...props
 }: TimeInputProps & TimeInputTokens) {
+  const { lang } = useIntlContext();
+
   const isTwelveHours = type === "use12Hours";
   const timeInputTokens = useTokens("TimeInput", props.timeInputTokens);
   const inputTokens = useTokens("Input", props.inputTokens);
@@ -124,10 +155,12 @@ export default function TimeInput({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timePickerRef = React.useRef<HTMLDivElement>(null);
   const { opened, setOpened } = usePickerOpener(false, inputRef, timePickerRef, onBlur);
+  const [showTimePickerMinutes, setShowTimePickerMinutes] = React.useState(false);
 
   const onOpen = () => {
     if (props.disabled || props.readOnly) return;
 
+    setShowTimePickerMinutes(false);
     setOpened(true);
     inputRef.current?.focus();
   };
@@ -143,23 +176,23 @@ export default function TimeInput({
           const dateTime = new Date(`${date} ${hour}:${minute}`);
           const [hourOffset, minuteOffset] = getTimeZoneOffset(dateTime);
 
-          onChange(`${date}T${hour}:${minute}${hourOffset}:${minuteOffset}`);
+          props.onChange(`${date}T${hour}:${minute}${hourOffset}:${minuteOffset}`);
         } else {
           const date = new Date();
           const [hourOffset, minuteOffset] = getTimeZoneOffset(date);
 
-          onChange(`${hour}:${minute}${hourOffset}:${minuteOffset}`);
+          props.onChange(`${hour}:${minute}${hourOffset}:${minuteOffset}`);
         }
       } else {
         if (value.includes("T")) {
           const date = value.split("T")[0];
-          onChange(`${date}T${hour}:${minute}`);
+          props.onChange(`${date}T${hour}:${minute}`);
         } else {
-          onChange(`${hour}:${minute}`);
+          props.onChange(`${hour}:${minute}`);
         }
       }
     } else {
-      onChange(`${hour}:${minute}`);
+      props.onChange(`${hour}:${minute}`);
     }
 
     if (!opened && value !== "") {
@@ -167,12 +200,14 @@ export default function TimeInput({
     }
   };
 
-  const timePickerValue = React.useMemo(() => {
+  const timePickerValue: TimePickerValue = React.useMemo(() => {
     let calculatedHour = 0;
     let calculatedMinute = 0;
     let calculatedClockType: ClockType = "";
 
-    if (value === "" || value === undefined) return { hour: null, minute: null, type: calculatedClockType };
+    if (value === "" || value === undefined || value === null) {
+      return { hour: null, minute: null, type: calculatedClockType };
+    }
 
     if (withTimeZone) {
       if (value) {
@@ -191,7 +226,7 @@ export default function TimeInput({
         }
       }
     } else {
-      const [formattedHour, formatterMinute] = formatTime(value);
+      const [formattedHour, formatterMinute] = formatTime(value as string);
       calculatedHour = formattedHour;
       calculatedMinute = formatterMinute;
     }
@@ -209,37 +244,102 @@ export default function TimeInput({
     return { hour: calculatedHour, minute: calculatedMinute, type: calculatedClockType };
   }, [withTimeZone, value, isTwelveHours]);
 
-  const formatHourMinuteValue = () => {
+  const [typedValue, setTypedValue] = React.useState<string>(
+    value
+      ? `${addLeadingZerosToDigit(timePickerValue.hour)}:${addLeadingZerosToDigit(timePickerValue.minute)}${
+          timePickerValue.type ? " " + timePickerValue.type : ""
+        }`
+      : "",
+  );
+
+  const formatHourMinuteValue = (value: string) => {
     let formattedHourMinute = "";
 
-    if (value) {
+    if (value && !formatTime(value).includes(NaN)) {
       formattedHourMinute = `${addLeadingZerosToDigit(
-        timePickerValue.hour === null ? MIDNIGHT : timePickerValue.hour
+        timePickerValue.hour === null ? MIDNIGHT : timePickerValue.hour,
       )}:${addLeadingZerosToDigit(timePickerValue.minute === null ? MIDNIGHT : timePickerValue.minute)}`;
 
       if (isTwelveHours) {
         formattedHourMinute = `${formattedHourMinute} ${timePickerValue.type}`;
       }
+      return formattedHourMinute;
     }
 
-    return formattedHourMinute;
+    return value;
   };
 
-  const finalTimeIcon = useIcon("time", undefined, { className: inputTokens.Icon.clickableTrailing });
+  const dateIconClassName = cx({ [inputTokens.Icon.clickableTrailing]: !(props.disabled || props.readOnly) });
+  const finalTimeIcon = useIcon("time", undefined, { className: dateIconClassName });
+
+  const onChange = (value: string) => {
+    const timeValue = isTwelveHours ? value.split(" ")[0].concat(" " + value.split(" ")[1]) : value;
+
+    let convertedValue: string = value;
+    if (isTwelveHours && convertedValue.length > 0 && !timeValue.includes(defaultPlaceholderChar)) {
+      convertedValue = convertTwelveHoursTimeTo24Hours(timeValue);
+    }
+
+    if (convertedValue.length > 0 && !formatTime(convertedValue).includes(NaN)) {
+      if (closeAfterEntry) {
+        setOpened(false);
+      }
+      props.onChange(convertedValue);
+    } else {
+      props.onChange(null);
+      setTypedValue(value);
+    }
+
+    if (!timeValue.split(":")[0].includes(defaultPlaceholderChar)) {
+      setShowTimePickerMinutes(true);
+    } else {
+      setShowTimePickerMinutes(false);
+    }
+  };
+
+  const onReset = () => {
+    if (props.onReset) {
+      props.onReset();
+    }
+    inputRef.current?.focus();
+    setTypedValue("");
+    setOpened(false);
+  };
+
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+
+    return `hh:mm${isTwelveHours ? " AM/PM" : ""}`;
+  };
 
   return (
     <div className={cx(timeInputTokens.container, className)}>
-      <Input
-        value={formatHourMinuteValue()}
+      <MaskedInput
         {...props}
-        name={props.name}
-        allowClear={allowClear}
-        onClick={onOpen}
-        onBlur={() => ({})}
-        onChange={() => onChange}
-        inlineTrailingIcon={<IconButton icon={finalTimeIcon} onClick={onOpen} aria-disabled={props.disabled} />}
-        autoComplete="off"
         inputRef={inputRef}
+        mask={timeMask(typedValue, isTwelveHours)}
+        dynamic={dynamicMask}
+        showMask={showMaskOnEmpty}
+        keepCharPositions={true}
+        placeholder={getPlaceholder()}
+        value={formatHourMinuteValue(value || typedValue)}
+        name={props.name}
+        onClick={onOpen}
+        onFocus={onOpen}
+        onBlur={onBlur}
+        onChange={(e) => onChange(e.target.value)}
+        onReset={onReset}
+        allowClear={allowClear}
+        inlineTrailingIcon={
+          <IconButton disabled={props.disabled} icon={finalTimeIcon} onClick={onOpen} showTooltip={false} />
+        }
+        tokens={{ textColor: !value ? "text-body-light" : undefined }}
+        autoComplete="off"
       />
       <Popover className="z-50" targetRef={inputRef} position={positionMatchWidth}>
         {opened && (
@@ -250,6 +350,7 @@ export default function TimeInput({
             timePickerRef={timePickerRef}
             className="mt-2 rounded-lg"
             fixedWidth={fixedPopoverWidth}
+            showMinutes={showTimePickerMinutes}
           />
         )}
       </Popover>

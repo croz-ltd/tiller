@@ -17,16 +17,19 @@
 
 import * as React from "react";
 
+import * as dateFns from "date-fns";
+
 import { useDatepicker, START_DATE, OnDatesChangeProps, FocusedInput, END_DATE } from "@datepicker-react/hooks";
 
 import Popover, { positionMatchWidth, positionRight } from "@reach/popover";
-import { useIntl } from "react-intl";
 
-import { Input, InputProps } from "@tiller-ds/form-elements";
-import { ComponentTokens, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { IconButton } from "@tiller-ds/core";
+import { InputProps, MaskedInput } from "@tiller-ds/form-elements";
+import { useIntlContext } from "@tiller-ds/intl";
+import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
-import { IconButton } from "@tiller-ds/core";
+import { checkDatesInterval, formatDate, getDateFormatByLang, getMaskFromFormat } from "./utils";
 
 type DateTimeFormatOptionsOnly = "localeMatcher" | "weekday" | "year" | "month" | "day";
 
@@ -43,9 +46,31 @@ export type DateRangeInputProps = {
   className?: string;
 
   /**
+   * Enables automatic closing of the popover once a date is manually typed in.
+   * Off by default.
+   */
+  closeAfterEntry?: boolean;
+
+  /**
+   * The format of the date mask. E.g. 'yyyy-MM-dd' or 'dd/MM/yyyy'.
+   */
+  dateFormat?: string;
+
+  /**
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * When enabled, the date range mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Forces a set end date for the component.
@@ -74,6 +99,11 @@ export type DateRangeInputProps = {
   label?: React.ReactNode;
 
   /**
+   * The desired mask shown in the field component (string or Regex expressions).
+   */
+  mask?: (string | RegExp)[];
+
+  /**
    * Maximum possible date enabled for selection.
    */
   maxDate?: Date;
@@ -87,6 +117,11 @@ export type DateRangeInputProps = {
    * The accessor value for the input field component (for validation, fetching, etc.).
    */
   name: string;
+
+  /**
+   * Defines the behaviour of the component once the focus shifts away from the component.
+   */
+  onBlur?: () => void;
 
   /**
    * Function that handles the behaviour of the component once its state changes.
@@ -114,10 +149,15 @@ export type DateRangeInputProps = {
   required?: boolean;
 
   /**
+   * Show or hide the desired mask for date range value when no value is present in the field.
+   */
+  showMaskOnEmpty?: boolean;
+
+  /**
    * Forces a set start date for the component.
    */
   start?: Date | null;
-} & Omit<InputProps, "onChange" | "value"> &
+} & Omit<InputProps, "onChange" | "onBlur" | "value"> &
   Omit<Intl.DateTimeFormatOptions, DateTimeFormatOptionsOnly> &
   DateInputTokensProps;
 
@@ -126,15 +166,19 @@ type DateInputTokensProps = {
 };
 
 type DateRangeInputInputProps = {
+  dateIcon?: React.ReactElement;
+
+  inputRef: React.RefObject<HTMLInputElement>;
+
+  onChange: (start: string, end: string) => void;
+
   onClick: () => void;
 
-  inputRef: React.Ref<HTMLInputElement>;
-
   value: string | null;
-} & Omit<DateRangeInputProps, "start" | "end"> &
+} & Omit<DateRangeInputProps, "start" | "end" | "onChange" | "inputRef"> &
   TokenProps<"DateInput">;
 
-type datePickerState = {
+type DatePickerState = {
   startDate: Date | null;
   endDate: Date | null;
   focusedInput: FocusedInput;
@@ -150,13 +194,32 @@ export default function DateRangeInput({
   fixedPopoverWidth = true,
   popoverPosition = "left",
   allowClear,
+  closeAfterEntry,
+  onBlur,
+  dateFormat,
   ...props
 }: DateRangeInputProps) {
-  const [datePickerState, setDatePickerState] = React.useState<datePickerState>({
-    startDate: null,
-    endDate: null,
+  const { lang } = useIntlContext();
+
+  const finalDateFormat = dateFormat?.replace(/m/g, "M") || getDateFormatByLang(lang);
+  const formattedStart = start ? dateFns.format(start, finalDateFormat) : "";
+  const formattedEnd = end ? dateFns.format(end, finalDateFormat) : "";
+
+  const formattedValue = !formattedStart && !formattedEnd ? "" : `${formattedStart} - ${formattedEnd}`;
+  const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
+
+  React.useEffect(() => {
+    if (inputRef.current !== document.activeElement) {
+      setTypedValue(formattedValue);
+    }
+  }, [formattedEnd, formattedStart, formattedValue]);
+
+  const [datePickerState, setDatePickerState] = React.useState<DatePickerState>({
+    startDate: start ?? null,
+    endDate: end ?? null,
     focusedInput: start && !end ? END_DATE : START_DATE,
   });
+  const [opened, setOpened] = React.useState(false);
 
   const onDatesChange = (data: OnDatesChangeProps) => {
     if (data.startDate && !data.endDate) {
@@ -174,6 +237,23 @@ export default function DateRangeInput({
     }
   };
 
+  const checkEndValidity = (customStart?: Date, customEnd?: Date) => {
+    customStart?.setHours(0, 0, 0, 0);
+    customEnd?.setHours(0, 0, 0, 0);
+    if (customStart && customEnd) {
+      return customStart.getTime() <= customEnd.getTime();
+    }
+    if (datePickerState.startDate && datePickerState.endDate) {
+      datePickerState.startDate.setHours(0, 0, 0, 0);
+      datePickerState.endDate.setHours(0, 0, 0, 0);
+      return datePickerState.startDate.getTime() <= datePickerState.endDate.getTime();
+    }
+    if (start && end) {
+      return start.getTime() <= end.getTime();
+    }
+    return true;
+  };
+
   const datePicker = useDatepicker({
     startDate: start ?? datePickerState.startDate,
     endDate: end ?? datePickerState.endDate,
@@ -184,17 +264,19 @@ export default function DateRangeInput({
     onDatesChange,
   });
   const checkActiveMonthsValidity =
-    (datePicker.activeMonths[0].month === start?.getMonth() &&
-      datePicker.activeMonths[0].year === start?.getFullYear()) ||
-    (datePicker.activeMonths[1].month === end?.getMonth() && datePicker.activeMonths[1].year === end?.getFullYear());
-
-  const [opened, setOpened] = React.useState(false);
+    start &&
+    datePicker.activeMonths[0].month === start?.getMonth() &&
+    datePicker.activeMonths[0].year === start?.getFullYear();
 
   React.useEffect(() => {
     if (start && end && !checkActiveMonthsValidity) {
-      setDatePickerState({ startDate: start, endDate: end, focusedInput: null });
-    } else if (start && !end && !checkActiveMonthsValidity) {
-      setDatePickerState({ startDate: start, endDate: null, focusedInput: END_DATE });
+      setDatePickerState({
+        startDate: start,
+        endDate: end,
+        focusedInput: null,
+      });
+    } else if (start && !end) {
+      setDatePickerState({ startDate: start ?? null, endDate: null, focusedInput: END_DATE });
     } else if (!start && !end) {
       setDatePickerState({ startDate: null, endDate: null, focusedInput: START_DATE });
     }
@@ -205,7 +287,7 @@ export default function DateRangeInput({
     if (props.disabled || props.readOnly) {
       return;
     }
-    if (!checkActiveMonthsValidity) {
+    if (!checkActiveMonthsValidity && !datePicker.isDateFocused(start as Date)) {
       datePicker.onDateFocus(start || minDate || (null as unknown as Date));
     }
     setOpened(true);
@@ -231,7 +313,57 @@ export default function DateRangeInput({
     return () => {
       window.removeEventListener("mousedown", listener);
     };
-  }, [opened]);
+  }, [onBlur, opened]);
+
+  const onChange = (start: string, end: string) => {
+    const startingDate = formatDate(start, finalDateFormat) as Date;
+    const endingDate = formatDate(end, finalDateFormat) as Date;
+
+    if (
+      checkDatesInterval(startingDate, minDate, maxDate, lang) &&
+      checkDatesInterval(endingDate, minDate, maxDate, lang) &&
+      checkEndValidity(startingDate, endingDate)
+    ) {
+      if (startingDate && !endingDate) {
+        datePicker.onDateFocus(startingDate);
+        props.onChange(startingDate, null);
+      } else if (endingDate && !startingDate) {
+        props.onChange(null, endingDate);
+      } else if (startingDate && endingDate) {
+        if (closeAfterEntry) {
+          setOpened(false);
+        }
+        datePicker.onDateFocus(endingDate);
+        props.onChange(startingDate, endingDate);
+        setDatePickerState({ startDate: startingDate, endDate: endingDate, focusedInput: START_DATE });
+      } else {
+        props.onChange(null, null);
+      }
+      setTypedValue(!start && !end ? "" : start + " - " + end);
+    }
+    inputRef.current?.focus();
+  };
+
+  const onReset = () => {
+    if (props.onReset) {
+      props.onReset();
+    }
+    inputRef.current?.focus();
+    setTypedValue("");
+    setOpened(false);
+  };
+
+  const getDateRangeMask = () => {
+    const startingDate = typedValue?.split(" - ")[0] as string;
+    const endingDate = typedValue?.split(" - ")[1] as string;
+    const rangeAddOn = [" ", "-", " "];
+
+    return [
+      ...getMaskFromFormat(startingDate, finalDateFormat),
+      ...rangeAddOn,
+      ...getMaskFromFormat(endingDate, finalDateFormat),
+    ];
+  };
 
   return (
     <div className={className}>
@@ -241,8 +373,14 @@ export default function DateRangeInput({
         inputRef={inputRef}
         onClick={onOpen}
         onFocus={onOpen}
+        onChange={onChange}
+        onReset={onReset}
+        onBlur={onBlur}
         allowClear={allowClear}
-        value={formatValue(start, end)}
+        value={typedValue}
+        mask={getDateRangeMask()}
+        dateFormat={dateFormat}
+        tokens={{ textColor: !(formattedStart && formattedEnd) ? "text-body-light" : undefined }}
       />
       <Popover
         className="z-50"
@@ -265,33 +403,64 @@ export default function DateRangeInput({
   );
 }
 
-function DateRangeInputInput({ onClick, onChange, value, allowClear, ...props }: DateRangeInputInputProps) {
+function DateRangeInputInput({
+  onClick,
+  onChange,
+  value,
+  allowClear = true,
+  mask,
+  inputRef,
+  dateIcon,
+  dynamicMask = true,
+  showMaskOnEmpty,
+  dateFormat,
+  ...props
+}: DateRangeInputInputProps) {
+  const { lang } = useIntlContext();
+
   const tokens = useTokens("DateInput", props.tokens);
-  const finalDateIcon = useIcon("date", undefined, { className: tokens.DatePicker.range.iconColor });
+  const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });
+  const finalDateIcon = useIcon("date", dateIcon, { className: dateIconClassName });
+
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (dateFormat) {
+      return dateFormat + " - " + dateFormat;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+
+    const defaultDateFormat = getDateFormatByLang(lang).toLowerCase();
+    return `${defaultDateFormat} - ${defaultDateFormat}`;
+  };
 
   return (
-    <Input
+    <MaskedInput
       {...props}
-      allowClear={allowClear}
-      value={value ?? ""}
+      inputRef={inputRef}
+      mask={mask as (string | RegExp)[]}
+      keepCharPositions={true}
+      dynamic={dynamicMask}
+      showMask={showMaskOnEmpty}
+      placeholder={getPlaceholder()}
+      value={value ?? undefined}
+      name={props.name}
       onClick={onClick}
-      inlineTrailingIcon={<IconButton icon={finalDateIcon} onClick={onClick} showTooltip={false} />}
+      onChange={(e) => onChange(e.target.value.split(" - ")[0], e.target.value.split(" - ")[1])}
+      onReset={props.onReset}
+      allowClear={allowClear}
+      inlineTrailingIcon={
+        <IconButton
+          disabled={props.disabled || props.readOnly}
+          icon={finalDateIcon}
+          onClick={onClick}
+          showTooltip={false}
+        />
+      }
+      autoComplete="off"
     />
   );
-}
-
-function formatValue(start: Date | null | undefined, end: Date | null | undefined) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const intl = useIntl();
-
-  let value = "";
-  if (start != null) {
-    value = `${intl.formatDate(start)} -`;
-  }
-
-  if (end != null) {
-    const formattedEndDate = intl.formatDate(end);
-    value = value === `` ? `${value}- ${formattedEndDate}` : `${value}${formattedEndDate}`;
-  }
-  return value;
 }

@@ -6,16 +6,21 @@ import { ThemeTokens } from "../utils";
 
 # Date Input Field
 
-The `DateInputField` component allows users to enter a date either through text input, or by choosing a date from the calendar.
-
-Date pickers allow users to select past, present, or future dates.
+The `Date Input Field` component allows users to enter a date either through text input, or by choosing a date from the calendar.
 
 In case you have `DateInput` field on the right side of your form, use prop `popoverPosition="right"` to position calendar to the right.
 
-`function noRefCheck() {}` shown in Stories below is Storybook issue when the function is not explicitly defined `(e.g. () => {})`.
+The component accepts the following types as initial values for **name** accessor prop:
+  - null
+  - undefined
+  - Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
+  - string type in format 'yyyy-mm-dd' - example: _"2024-01-01"_, example 2: _"2023-06-21"_
 
-This is a **field** component, which means it is differs from `DateInput` by having an integrated logic for `onChange`, `onBlur` and `onReset`
-functions which `DateInput` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+This is a **field** component, which means it is differs from [Date Input](/docs/component-library-date-dateinput--with-state#dateinput) by having an integrated logic for `onChange`, `onBlur` and `onReset`
+functions which `Date Input` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
+
+Props are described on the [Date Input Field Props section](/docs/component-library-formik-elements-dateinputfield--disabled#date-input-field-props)
+of the documentation.
 
 ## **Prerequisites for functioning**:
  - Intl Provider (details [here](/docs/component-library-intl-intl--basic))

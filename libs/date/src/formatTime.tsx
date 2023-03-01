@@ -16,7 +16,7 @@
  */
 
 export default function formatTime(value: string) {
-  if (value) {
+  if (value && value.split(":")[1] && value.split(":")[1].length > 0) {
     if (value.includes("T")) {
       const dateTime = value.split("T");
       const time = dateTime[1].split(":");

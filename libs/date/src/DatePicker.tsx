@@ -201,7 +201,7 @@ function DatePickerContainer({ className = "", fixedWidth, ...props }: DatePicke
     tokens.DatePicker.base.master,
     tokens.DatePicker.base.backgroundColor,
     tokens.DatePicker.base.padding,
-    className
+    className,
   );
 
   const mobile = (window.innerWidth < 768) as boolean;
@@ -231,7 +231,7 @@ function DateRangePickerContainer({ className = "", fixedWidth, ...props }: Date
     tokens.DatePicker.range.margin,
     tokens.DatePicker.range.borderRadius,
     tokens.DatePicker.range.padding,
-    className
+    className,
   );
 
   const mobile = (window.innerWidth < 768) as boolean;
@@ -365,14 +365,14 @@ function MonthPickerLabels({ month, year, ...props }: MonthPickerLabelsProps) {
     tokens.DatePicker.Month.monthLabel.margin,
     tokens.DatePicker.Month.monthLabel.fontSize,
     tokens.DatePicker.Month.monthLabel.fontWeight,
-    tokens.DatePicker.Month.monthLabel.color
+    tokens.DatePicker.Month.monthLabel.color,
   );
 
   const yearLabelClassName = cx(
     tokens.DatePicker.Month.yearLabel.margin,
     tokens.DatePicker.Month.yearLabel.fontSize,
     tokens.DatePicker.Month.yearLabel.fontWeight,
-    tokens.DatePicker.Month.yearLabel.color
+    tokens.DatePicker.Month.yearLabel.color,
   );
 
   const { expanderIcon } = usePickerIcons(props);
@@ -419,7 +419,7 @@ function DatePickerYear({ currentYear, selectedYear, ...props }: DatePickerYearP
     tokens.DatePicker.Button.base,
     { [tokens.DatePicker.Button.regular]: !disabled && currentYear === selectedYear },
     { [tokens.DatePicker.Button.yearHovered]: !disabled && currentYear !== selectedYear },
-    { [tokens.DatePicker.Button.disabled]: disabled }
+    { [tokens.DatePicker.Button.disabled]: disabled },
   );
 
   const onClick = () => {
@@ -493,13 +493,12 @@ export function DaysPicker({ weekdayLabels, days, ...props }: DaysPickerProps) {
 function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
   const tokens = useTokens("DateInput", props.tokens);
   const { startDate, datePicker, isDateRange } = useDatePickerContext();
-  const dayRef = React.useRef(null);
 
   const { onClick, onKeyDown, onMouseEnter, tabIndex, disabledDate } = useDay({
     date,
     focusedDate: startDate,
     ...datePicker,
-    dayRef,
+    dayRef: null as unknown as React.RefObject<HTMLButtonElement>,
   });
 
   const dayButtonClassName = cx(
@@ -510,7 +509,7 @@ function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
     {
       [tokens.DatePicker.Button.dateHovered]: !disabledDate && startDate?.getTime() !== date.getTime() && !isDateRange,
     },
-    { [tokens.DatePicker.Button.disabled]: disabledDate }
+    { [tokens.DatePicker.Button.disabled]: disabledDate },
   );
 
   return (
@@ -522,7 +521,6 @@ function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
         onMouseEnter={onMouseEnter}
         tabIndex={tabIndex}
         type="button"
-        ref={dayRef}
       >
         {dayLabel}
       </button>

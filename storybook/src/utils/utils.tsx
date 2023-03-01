@@ -42,7 +42,7 @@ export function getChangedTokensFromSource(source: string, tokensConfig: TokensC
       correctSource = _.replace(
         correctSource,
         findTokens,
-        `${tokenVariable}={${JSON.stringify(_.pick(tokens, reduced)).replace(/"([^"]+)":/g, "$1:")}}`
+        `${tokenVariable}={${JSON.stringify(_.pick(tokens, reduced)).replace(/"([^"]+)":/g, "$1:")}}`,
       );
     }
   });
@@ -71,4 +71,17 @@ export function showFactoryDecorator(flex = false) {
       return storyFn();
     },
   ];
+}
+
+export function beautifyDateSource(source) {
+  const correctedSource = source
+    .replace(/{name}/g, '"test"')
+    .replace(/{<Intl name="label" \/>}/g, '"Test label"')
+    .replace(/{<Intl name="help" \/>}/g, '"Test help content"')
+    .replace(/{<Intl name="tooltip" \/>}/g, '"Test tooltip content"')
+    .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+  if (correctedSource.indexOf("incl-code") === -1) {
+    return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
+  }
+  return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
 }

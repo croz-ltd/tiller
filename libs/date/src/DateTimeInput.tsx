@@ -17,19 +17,27 @@
 
 import * as React from "react";
 
-import { useIntl } from "react-intl";
+import * as dateFns from "date-fns";
+
 import { OnDatesChangeProps, START_DATE, useDatepicker } from "@datepicker-react/hooks";
 import Popover, { positionMatchWidth } from "@reach/popover";
 
-import { Input, InputProps } from "@tiller-ds/form-elements";
+import { IconButton } from "@tiller-ds/core";
+import { defaultPlaceholderChar, InputProps, MaskedInput } from "@tiller-ds/form-elements";
+import { useIntlContext } from "@tiller-ds/intl";
 import { cx, useTokens, ComponentTokens, useIcon } from "@tiller-ds/theme";
 
+import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
 import DatePicker from "./DatePicker";
 import TimePicker, { ClockType, TimePickerProps } from "./TimePicker";
-
-import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
 import { usePickerOpener } from "./usePickerOpener";
-import { IconButton } from "@tiller-ds/core";
+import {
+  checkDatesInterval,
+  convertTwelveHoursTimeTo24Hours,
+  formatDate,
+  getDateFormatByLang,
+  getMaskFromFormat,
+} from "./utils";
 
 const AM = "AM";
 const MIDNIGHT = 0;
@@ -43,9 +51,31 @@ export type DateTimeInputProps = {
   className?: string;
 
   /**
+   * Enables automatic closing of the popover once a date is manually typed in.
+   * Off by default.
+   */
+  closeAfterEntry?: boolean;
+
+  /**
    * Enables or disables the component's functionality.
    */
   disabled?: boolean;
+
+  /**
+   * The format of the date mask. E.g. 'yyyy-MM-dd' or 'dd/MM/yyyy'.
+   */
+  dateFormat?: string;
+
+  /**
+   * When enabled, the date time mask changes on (un)focusing of the input element.
+   *
+   * When the input element is focused, the date mask is shown.
+   *
+   * When the input element is unfocused, the mask is shortened to exclude the placeholder characters.
+   *
+   * **ON** by default.
+   */
+  dynamicMask?: boolean;
 
   /**
    * Value passed through from validation indicating to display the error on the component.
@@ -91,13 +121,18 @@ export type DateTimeInputProps = {
   /**
    * Function that handles the behaviour of the component once its state changes.
    */
-  onChange: (value: Date) => void;
+  onChange: (value: Date | null) => void;
 
   /**
    * Turns this field into a required field in the form. Only applies visual representation (* next to label),
    * still requires validation on frontend or backend to accompany this value if set to true.
    */
   required?: boolean;
+
+  /**
+   * Show or hide the desired mask for date-time value when no value is present in the field.
+   */
+  showMaskOnEmpty?: boolean;
 
   /**
    * The value of the field sent on submit and/or retrieved on component render (in Date format).
@@ -124,14 +159,17 @@ export default function DateTimeInput({
   value,
   withTimeZone,
   onBlur,
-  onChange,
   minDate,
   maxDate,
   fixedPopoverWidth = true,
   allowClear = true,
+  closeAfterEntry,
+  dynamicMask = true,
+  showMaskOnEmpty,
+  dateFormat,
   ...props
 }: DateTimeInputProps & DateTimeInputTokens) {
-  const intl = useIntl();
+  const { lang } = useIntlContext();
 
   const dateTimePickerTokens = useTokens("DateTimePicker", props.dateTimePickerTokens);
   const dateTimeInputTokens = useTokens("DateTimeInput", props.dateTimeInputTokens);
@@ -144,6 +182,8 @@ export default function DateTimeInput({
   const dateTimePickerRef = React.useRef<HTMLDivElement>(null);
 
   const [isDatePicker, setIsDatePicker] = React.useState<boolean>(true);
+  const [showTimePickerMinutes, setShowTimePickerMinutes] = React.useState(false);
+
   const { opened, setOpened } = usePickerOpener(false, inputRef, dateTimePickerRef, onBlur);
 
   const isTwelveHours = type === "use12Hours";
@@ -153,15 +193,15 @@ export default function DateTimeInput({
   const timeTabClasses = cx(dateTimePickerTokens.tab, { [dateTimeInputTokens.borderBottomWidth]: !isDatePicker });
 
   const timeTabIconClasses = cx(
-    inputTokens.Icon.clickableTrailing,
+    { [inputTokens.Icon.clickableTrailing]: isDatePicker },
     { [dateTimeInputTokens.Icon.color]: !isDatePicker },
-    { "text-gray-400": isDatePicker }
+    { "text-gray-400": isDatePicker },
   );
 
   const dateTabIconClasses = cx(
-    inputTokens.Icon.clickableTrailing,
+    { [inputTokens.Icon.clickableTrailing]: !isDatePicker },
     { [dateTimeInputTokens.Icon.color]: isDatePicker },
-    { "text-gray-400": !isDatePicker }
+    { "text-gray-400": !isDatePicker },
   );
 
   const onOpen = () => {
@@ -173,12 +213,12 @@ export default function DateTimeInput({
     ) {
       datePicker.onDateFocus(value || minDate || (null as unknown as Date));
     }
-    if (!value) {
-      datePicker.onDateFocus(minDate || (null as unknown as Date));
-    }
 
-    setOpened(true);
-    openSelectedPicker("date");
+    if (!opened) {
+      setOpened(true);
+      setShowTimePickerMinutes(false);
+      openSelectedPicker("date");
+    }
     inputRef.current?.focus();
   };
 
@@ -188,14 +228,15 @@ export default function DateTimeInput({
     const selectedDate = data.startDate ? data.startDate : new Date();
 
     if (selectedDate !== value && selectedDate !== minDate) {
-      onChange(createNewDate(selectedDate, currentHours, currentMinutes));
+      props.onChange(createNewDate(selectedDate, currentHours, currentMinutes));
+      setShowTimePickerMinutes(false);
       openSelectedPicker("time");
     }
   };
 
   const onTimeChange = (hourValue: number | null, minuteValue: number | null) => {
     const nonNullHour = hourValue === null ? MIDNIGHT : hourValue;
-    onChange(createNewDate(value ? value : new Date(), nonNullHour, minuteValue ? minuteValue : 0));
+    props.onChange(createNewDate(value ? value : new Date(), nonNullHour, minuteValue ? minuteValue : 0));
   };
 
   const openSelectedPicker = (selectedTab: string) => {
@@ -204,7 +245,8 @@ export default function DateTimeInput({
   };
 
   const datePicker = useDatepicker({
-    startDate: value || minDate || null,
+    initialVisibleMonth: value || minDate || new Date(),
+    startDate: value || null,
     endDate: null,
     focusedInput: START_DATE,
     minBookingDate: minDate,
@@ -242,36 +284,132 @@ export default function DateTimeInput({
     };
   }, [withTimeZone, value]);
 
-  let formattedValue = value
-    ? `${intl.formatDate(value)} ${addLeadingZerosToDigit(value.getHours())}:${addLeadingZerosToDigit(
-        value.getMinutes()
-      )}`
+  const formattedDateFormat = dateFormat?.replace(/m/g, "M");
+  const finalDateFormat = formattedDateFormat || getDateFormatByLang(lang);
+  const timeAddOn = " HH:mm"; // HH must be uppercase!
+  const formattedValue = value
+    ? `${dateFns.format(value, finalDateFormat)} ${addLeadingZerosToDigit(
+        isTwelveHours ? timePicker.hour : value.getHours(),
+      )}:${addLeadingZerosToDigit(isTwelveHours ? timePicker.minute : value.getMinutes())}${
+        isTwelveHours ? " " + timePicker.type : ""
+      }`
     : "";
-
-  if (isTwelveHours) {
-    formattedValue = `${formattedValue} ${timePicker.type}`;
-  }
+  const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
   const mobile = (window.innerWidth < 768) as boolean;
 
-  const finalDateIconInput = useIcon("date", undefined, { className: inputTokens.Icon.clickableTrailing });
+  const dateIconClassName = cx({ [inputTokens.Icon.clickableTrailing]: !(props.disabled || props.readOnly) });
+  const finalDateIconInput = useIcon("date", undefined, { className: dateIconClassName });
   const finalDateIconPopup = useIcon("date", undefined, { className: dateTabIconClasses });
   const finalTimeIconPopup = useIcon("time", undefined, { className: timeTabIconClasses });
 
+  const onChange = (value: string) => {
+    const dateValue = lang === "hr" ? value.split(" ").slice(0, 3).join(" ") : value.split(" ")[0];
+    const timeValue =
+      lang === "en"
+        ? isTwelveHours && value
+          ? value.split(" ")[1].concat(" " + value.split(" ")[2])
+          : value.split(" ")[1]
+        : value.split(" ")[3];
+
+    let convertedValue: Date | string = value;
+    if (value && isTwelveHours && !timeValue.includes(defaultPlaceholderChar)) {
+      convertedValue = `${value.split(" ")[0]} ${convertTwelveHoursTimeTo24Hours(timeValue)}`;
+    }
+
+    const dateExists = formatDate(dateValue, finalDateFormat);
+    if (!dateExists || checkDatesInterval(dateExists, minDate, maxDate, lang)) {
+      if (dateExists) {
+        openSelectedPicker("time");
+      } else if (!isDatePicker) {
+        openSelectedPicker("date");
+      }
+
+      convertedValue = formatDate(
+        convertedValue,
+        dateFormat ? formattedDateFormat + timeAddOn : getDateFormatByLang(lang, true),
+      ) as Date;
+      if (convertedValue && checkDatesInterval(convertedValue, minDate, maxDate, lang, true)) {
+        if (closeAfterEntry) {
+          setOpened(false);
+        }
+        props.onChange(createNewDate(convertedValue, convertedValue.getHours(), convertedValue.getMinutes()));
+        datePicker.onDateFocus(convertedValue);
+      } else {
+        props.onChange(null);
+        setTypedValue(value);
+      }
+    }
+
+    if (dateExists && !timeValue.split(":")[0].includes(defaultPlaceholderChar)) {
+      setShowTimePickerMinutes(true);
+    } else {
+      setShowTimePickerMinutes(false);
+    }
+  };
+
+  const onReset = () => {
+    if (props.onReset) {
+      props.onReset();
+    }
+    inputRef.current?.focus();
+    setTypedValue("");
+    setOpened(false);
+  };
+
+  const getPlaceholder = () => {
+    if (props.placeholder !== undefined) {
+      return props.placeholder;
+    }
+    if (dateFormat) {
+      return `${dateFormat} hh:mm${isTwelveHours ? " AM/PM" : ""}`;
+    }
+    if (showMaskOnEmpty) {
+      return undefined;
+    }
+
+    const defaultDateFormat = getDateFormatByLang(lang, true).toLowerCase();
+    return `${defaultDateFormat}${isTwelveHours ? " AM/PM" : ""}`;
+  };
+
+  const getDateTimeMask = () => {
+    return [
+      ...getMaskFromFormat(
+        typedValue,
+        dateFormat ? formattedDateFormat + timeAddOn : getDateFormatByLang(lang, true),
+        isTwelveHours,
+      ),
+    ];
+  };
+
   return (
     <div className={cx(timeInputTokens.container, className)}>
-      <Input
-        value={formattedValue}
+      <MaskedInput
         {...props}
+        inputRef={inputRef}
+        mask={getDateTimeMask()}
+        dynamic={dynamicMask}
+        showMask={showMaskOnEmpty}
+        keepCharPositions={true}
+        placeholder={getPlaceholder()}
+        value={formattedValue || typedValue}
         name={props.name}
-        allowClear={allowClear}
         onClick={onOpen}
         onFocus={onOpen}
-        onBlur={() => ({})}
-        onChange={() => ({})}
-        inlineTrailingIcon={<IconButton icon={finalDateIconInput} onClick={onOpen} showTooltip={false} />}
+        onBlur={onBlur}
+        onChange={(e) => onChange(e.target.value)}
+        onReset={onReset}
+        allowClear={allowClear}
+        inlineTrailingIcon={
+          <IconButton
+            disabled={props.disabled || props.readOnly}
+            icon={finalDateIconInput}
+            onClick={onOpen}
+            showTooltip={false}
+          />
+        }
         autoComplete="off"
-        inputRef={inputRef}
+        tokens={{ textColor: !value ? "text-body-light" : undefined }}
       />
       <Popover className="z-50" targetRef={inputRef} position={positionMatchWidth}>
         {opened && (
@@ -296,7 +434,7 @@ export default function DateTimeInput({
                 <DatePicker
                   datePicker={datePicker}
                   datePickerRef={datePickerRef}
-                  focusedDate={value}
+                  focusedDate={value || null}
                   isDateRange={false}
                   minYear={minDate?.getFullYear()}
                   maxYear={maxDate?.getFullYear()}
@@ -311,6 +449,7 @@ export default function DateTimeInput({
                   timePickerRef={timePickerRef}
                   className={dateTimeInputTokens.borderRadius}
                   type={type}
+                  showMinutes={showTimePickerMinutes}
                 />
               )}
             </div>

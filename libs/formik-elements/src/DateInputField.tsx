@@ -17,8 +17,8 @@
 
 import * as React from "react";
 
-import { useField, useFormikContext } from "formik";
 import * as dateFns from "date-fns";
+import { useField } from "formik";
 
 import { DateInput, DateInputProps } from "@tiller-ds/date";
 
@@ -43,7 +43,6 @@ export type DateInputFieldProps = {
 } & Omit<DateInputProps, DateInputOnlyPropsUnion>;
 
 export default function DateInputField({ name, allowClear = true, ...props }: DateInputFieldProps) {
-  const formik = useFormikContext();
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);

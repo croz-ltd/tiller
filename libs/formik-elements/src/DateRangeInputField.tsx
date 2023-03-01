@@ -18,7 +18,7 @@
 import React from "react";
 
 import * as dateFns from "date-fns";
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 
 import { DateRangeInput, DateRangeInputProps } from "@tiller-ds/date";
 import useShouldValidate from "./useShouldValidate";
@@ -63,8 +63,8 @@ export default function DateRangeInputField({ start, end, allowClear = true, ...
   const dateFormat = "yyyy-MM-dd";
 
   const onChange = (startValue: Date | null, endValue: Date | null) => {
-    startHelpers.setValue(startValue && dateFns.format(startValue, dateFormat), shouldValidate);
-    endHelpers.setValue(endValue && dateFns.format(endValue, dateFormat), shouldValidate);
+    startHelpers.setValue(startValue ? dateFns.format(startValue, dateFormat) : null, shouldValidate);
+    endHelpers.setValue(endValue ? dateFns.format(endValue, dateFormat) : null, shouldValidate);
     initialStartError.current = undefined;
     initialEndError.current = undefined;
   };
