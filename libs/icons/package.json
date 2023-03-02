@@ -1,4 +1,25 @@
 {
   "name": "@tiller-ds/icons",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "custom icons",
+    "icons",
+    "loading icon",
+    "phosphor icons",
+    "svg"
+  ]
 }

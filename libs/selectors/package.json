@@ -1,4 +1,31 @@
 {
   "name": "@tiller-ds/selectors",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "autocomplete",
+    "autocompletion",
+    "input components",
+    "input elements",
+    "multiple selection input",
+    "page resizer",
+    "select",
+    "selectors",
+    "single selection input",
+    "tags",
+    "tree select"
+  ]
 }

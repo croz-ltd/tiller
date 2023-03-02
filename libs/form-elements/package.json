@@ -1,4 +1,33 @@
 {
   "name": "@tiller-ds/form-elements",
-  "version": "0.0.0-dev"
+  "version": "0.0.0-dev",
+  "keywords": [
+    "accessibility",
+    "component library",
+    "customizable",
+    "design system",
+    "modularity",
+    "react components",
+    "react",
+    "style guide",
+    "tailwind css",
+    "theming",
+    "tiller",
+    "tiller-ds",
+    "typography",
+    "ui kit",
+    "checkbox group",
+    "checkbox",
+    "field group",
+    "field",
+    "form elements",
+    "form layout",
+    "input",
+    "label",
+    "masked input",
+    "number input",
+    "radio group",
+    "text area",
+    "toggle"
+  ]
 }
