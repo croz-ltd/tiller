@@ -44,7 +44,7 @@ export default {
 
 export const Simple = () => (
   <Notification
-    icon={<Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />}
+    icon={<Icon type="check-circle" size={6} variant="fill" className="text-success" />}
     title={<Intl name="notificationTitle" />}
     content={<Intl name="notificationContent" />}
     onDismiss={() => {}}
@@ -53,7 +53,7 @@ export const Simple = () => (
 
 export const WithActionsBelow = () => (
   <Notification
-    icon={<Icon type="check-circle" size={6} variant="fill" className="text-green-400" />}
+    icon={<Icon type="check-circle" size={6} variant="fill" className="text-success" />}
     title={<Intl name={"notificationTitle"} />}
     content={<Intl name="notificationContent" />}
     actions={[
@@ -70,7 +70,7 @@ export const WithActionsBelow = () => (
 
 export const WithButtonsBelow = () => (
   <Notification
-    icon={<Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />}
+    icon={<Icon type="check-circle" size={6} variant="fill" className="text-success" />}
     title={<Intl name="notificationTitle" />}
     content={<Intl name="notificationContent" />}
     actions={[
@@ -87,9 +87,9 @@ export const WithButtonsBelow = () => (
 
 export const WithError = () => (
   <Notification
-    icon={<Icon type="warning-circle" size={6} variant="fill" className="text-red-400" />}
-    title={<Intl name="notificationTitle" />}
-    content={<Intl name="notificationContent" />}
+    icon={<Icon type="warning-circle" size={6} variant="fill" className="text-danger" />}
+    title={<Intl name="notificationErrorTitle" />}
+    content={<Intl name="notificationErrorContent" />}
     actions={[
       <Link variant="danger" key={0}>
         <Intl name="errorLog" />
@@ -101,7 +101,7 @@ export const WithError = () => (
 
 export const WithActionsRight = () => (
   <Notification
-    icon={<Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />}
+    icon={<Icon type="check-circle" size={6} variant="fill" className="text-success" />}
     title={<Intl name={"notificationTitle"} />}
     content={<Intl name="notificationContent" />}
     closeButton={false}

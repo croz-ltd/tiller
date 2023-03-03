@@ -91,11 +91,11 @@ function ProgressBar({ startingIndex = 0, completed = false, children, className
     tokens.container.borderColor,
     tokens.container.borderRadius,
     "overflow-x-auto scrollbar",
-    className
+    className,
   );
 
   const activeStepIndex = findIndex(React.Children.toArray(children), (child) =>
-    React.isValidElement(child) ? child.props.active : false
+    React.isValidElement(child) ? child.props.active : false,
   );
 
   const endingIndex = React.Children.toArray(children).length - 1;
@@ -123,26 +123,27 @@ export function Step({ active, children, ...props }: StepProps) {
 
   const indexIconDivClassName = cx(
     tokens.indexIcon.master,
+    tokens.indexIcon.borderRadius,
     { [tokens.indexIcon.backgroundColor]: before || completed },
     { [tokens.indexIcon.borderWidth]: (active || after) && !completed },
     { [tokens.indexIcon.borderColor]: active },
-    { [tokens.indexIcon.afterBorderColor]: after }
+    { [tokens.indexIcon.afterBorderColor]: after },
   );
 
   const textIndexClassName = cx(
     tokens.textIndex.master,
+    tokens.textIndex.fontSize,
+    tokens.textIndex.fontWeight,
+    tokens.textIndex.lineHeight,
     { [tokens.textIndex.color]: active && !completed },
     { [tokens.textIndex.beforeTextColor]: before || completed },
-    { [tokens.textIndex.afterTextColor]: after }
+    { [tokens.textIndex.afterTextColor]: after },
   );
 
   const stepContainerClassName = cx(
     tokens.stepContainer.master,
     tokens.stepContainer.padding,
     tokens.stepContainer.margin,
-    tokens.stepContainer.fontSize,
-    tokens.stepContainer.fontWeight,
-    tokens.stepContainer.lineHeight
   );
 
   const finalCompletedIcon = useIcon("completed", props.completedIcon, {
