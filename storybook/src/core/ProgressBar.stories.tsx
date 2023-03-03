@@ -70,7 +70,7 @@ export const Checked = () => {
   return (
     <Card>
       <ProgressBar>
-        <ProgressBar.Step active={false}>
+        <ProgressBar.Step>
           <span>Preparing</span>
         </ProgressBar.Step>
         <ProgressBar.Step>
@@ -79,7 +79,7 @@ export const Checked = () => {
         <ProgressBar.Step>
           <span>Created</span>
         </ProgressBar.Step>
-        <ProgressBar.Step>
+        <ProgressBar.Step active={true}>
           <span>Reviewed</span>
         </ProgressBar.Step>
         <ProgressBar.Step>

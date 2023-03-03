@@ -40,8 +40,11 @@ const preset = {
           DEFAULT: colors.blue["800"],
           hover: colors.blue["600"],
         },
-        body: {
+        heading: {
           DEFAULT: colors.slate["900"],
+        },
+        body: {
+          DEFAULT: colors.slate["800"],
           light: colors.slate["500"],
         },
       },
@@ -50,9 +53,9 @@ const preset = {
       },
       fontSize: {
         base: font("sm", "5", "normal"),
-        small: font("sm"),
-        title: font("lg", "7", "medium"),
-        subtitle: font("sm", "5", "normal"),
+        normal: font("base", "6", "normal"),
+        title: font("lg", "6", "medium"),
+        subtitle: font("sm", "4", "normal"),
         h1: font("4xl", "10", "bold"),
         h2: font("3xl", "9", "bold"),
         h3: font("2xl", "8", "bold"),

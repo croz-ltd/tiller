@@ -137,6 +137,7 @@ export function Step({ active, children, ...props }: StepProps) {
 
   const indexIconDivClassName = cx(
     tokens.indexIcon.master,
+    tokens.indexIcon.borderRadius,
     { [tokens.indexIcon.backgroundColor]: before || completed },
     { [tokens.indexIcon.borderWidth]: (active || after) && !completed },
     { [tokens.indexIcon.borderColor]: active },
@@ -145,6 +146,9 @@ export function Step({ active, children, ...props }: StepProps) {
 
   const textIndexClassName = cx(
     tokens.textIndex.master,
+    tokens.textIndex.fontSize,
+    tokens.textIndex.fontWeight,
+    tokens.textIndex.lineHeight,
     { [tokens.textIndex.color]: active && !completed },
     { [tokens.textIndex.beforeTextColor]: before || completed },
     { [tokens.textIndex.afterTextColor]: after },
@@ -154,9 +158,6 @@ export function Step({ active, children, ...props }: StepProps) {
     tokens.stepContainer.master,
     tokens.stepContainer.padding,
     tokens.stepContainer.margin,
-    tokens.stepContainer.fontSize,
-    tokens.stepContainer.fontWeight,
-    tokens.stepContainer.lineHeight,
   );
 
   const finalCompletedIcon = useIcon("completed", props.completedIcon, {
