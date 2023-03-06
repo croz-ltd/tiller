@@ -31,6 +31,7 @@ export type CommonKeys = {
   autocompleteAddTag?: string;
   autocompleteNoResults?: string;
   selectNoResults?: string;
+  paginationDefault?: string;
 };
 
 type IntlProviderProps = {
@@ -75,11 +76,11 @@ type IntlValue = {
   commonKeys: CommonKeys;
 };
 
-type IntlContext = IntlValue & {
+export type IntlContextType = IntlValue & {
   intl: IntlShape;
 };
 
-export const IntlContext = createNamedContext<IntlContext>("IntlContext");
+export const IntlContext = createNamedContext<IntlContextType>("IntlContext");
 
 export function useIntl(
   language: string,
@@ -91,7 +92,8 @@ export function useIntl(
     autocompleteAddTag: "autocomplete.addTag",
     autocompleteNoResults: "autocomplete.noResults",
     selectNoResults: "select.noResults",
-  }
+    paginationDefault: "pagination.default",
+  },
 ): IntlValue {
   const [lang, setLang] = React.useState<string>(language);
   const [dictionary, setDictionary] = React.useState<Dictionary>(dict || ({} as Dictionary));
@@ -112,7 +114,7 @@ export function useIntl(
         }
       }
     },
-    [loadDictionary]
+    [loadDictionary],
   );
 
   React.useEffect(() => {
@@ -133,7 +135,7 @@ export function useIntl(
       intlUtil: new IntlUtil(dictionary, lang),
       commonKeys: keyConfig,
     }),
-    [lang, dictionary, changeLang]
+    [lang, dictionary, changeLang],
   );
 }
 
