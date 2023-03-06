@@ -147,7 +147,7 @@ export function FieldLabel({ id, label, required, tooltip, ...props }: FieldLabe
   const inputTokens = useTokens("Input", props.inputTokens);
   const fieldTokens = useTokens("Field", props.fieldTokens);
 
-  const requiredLabelText = useLabel("required");
+  const requiredLabelText = useLabel("required", "Required field");
 
   return (
     <Label id={id}>

@@ -21,7 +21,7 @@ import defaultDictionary from "./intlDictionary";
 import { CommonKeys } from "./IntlProvider";
 import { useIntlContext } from "./useIntlContext";
 
-export function useLabel(name: keyof CommonKeys): string {
+export function useLabel(name: keyof CommonKeys, fallbackValue: string): string {
   const intlContext = useIntlContext();
 
   if (intlContext) {
@@ -35,5 +35,5 @@ export function useLabel(name: keyof CommonKeys): string {
     return (dictionary?.translations?.[lang]?.[key] || dictionary?.messages?.[key]) as string;
   }
 
-  return "Required field";
+  return fallbackValue;
 }
