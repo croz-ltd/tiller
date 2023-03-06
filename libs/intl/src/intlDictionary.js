@@ -6,6 +6,7 @@ export default {
     "autocomplete.noTags": "No tags selected",
     "autocomplete.noResults": "No results for:",
     "select.noResults": "No results",
+    "pagination.default": "Showing {from} to {to} of {total} results",
   },
   translations: {
     hr: {
@@ -15,6 +16,7 @@ export default {
       "autocomplete.noTags": "Nema odabranih oznaka",
       "autocomplete.noResults": "Nema rezultata za:",
       "select.noResults": "Nema rezultata",
+      "pagination.default": "Prikazuje se {from} do {to} od {total} rezultata",
     },
     en: {
       required: "Required field",
@@ -23,6 +25,7 @@ export default {
       "autocomplete.noTags": "No tags selected",
       "autocomplete.noResults": "No results for:",
       "select.noResults": "No results",
+      "pagination.default": "Showing {from} to {to} of {total} results",
     },
   },
 };
