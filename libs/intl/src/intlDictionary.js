@@ -5,7 +5,7 @@ export default {
     "autocomplete.addTag": "Add tag:",
     "autocomplete.noResults": "No results for:",
     "select.noResults": "No results",
-    "pagination.default": "Showing {from} to {to} of {total} results",
+    "pagination.summary": "Showing {from} to {to} of {total} results",
   },
   translations: {
     hr: {
@@ -14,7 +14,7 @@ export default {
       "autocomplete.addTag": "Dodaj oznaku:",
       "autocomplete.noResults": "Nema rezultata za:",
       "select.noResults": "Nema rezultata",
-      "pagination.default": "Prikazuje se {from} do {to} od {total} rezultata",
+      "pagination.summary": "Prikazuje se {from} do {to} od {total} rezultata",
     },
     en: {
       required: "Required field",
@@ -22,7 +22,7 @@ export default {
       "autocomplete.addTag": "Add tag:",
       "autocomplete.noResults": "No results for:",
       "select.noResults": "No results",
-      "pagination.default": "Showing {from} to {to} of {total} results",
+      "pagination.summary": "Showing {from} to {to} of {total} results",
     },
   },
 };

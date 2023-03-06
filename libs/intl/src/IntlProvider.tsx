@@ -31,7 +31,7 @@ export type CommonKeys = {
   autocompleteAddTag?: string;
   autocompleteNoResults?: string;
   selectNoResults?: string;
-  paginationDefault?: string;
+  paginationSummary?: string;
 };
 
 type IntlProviderProps = {
@@ -92,7 +92,7 @@ export function useIntl(
     autocompleteAddTag: "autocomplete.addTag",
     autocompleteNoResults: "autocomplete.noResults",
     selectNoResults: "select.noResults",
-    paginationDefault: "pagination.default",
+    paginationSummary: "pagination.summary",
   },
 ): IntlValue {
   const [lang, setLang] = React.useState<string>(language);
