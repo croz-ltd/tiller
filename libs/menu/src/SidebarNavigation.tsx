@@ -335,6 +335,7 @@ export function SidebarNavigationItem({
     return (
       <div className="cursor-pointer flex flex-col md:items-start items-center">
         <div {...props} className={cn} onClick={() => setOpened(!opened)}>
+          {icon && <div className={iconClassName}>{icon}</div>}
           {title}
           {opened ? closeExpanderIcon : openExpanderIcon}
         </div>
