@@ -99,12 +99,14 @@ const defaultComponentConfig = {
         regular:
           "w-full text-sm px-4 py-2 block leading-5 cursor-pointer text-slate-700 hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:text-slate-900 focus:bg-slate-100 truncate",
         selected: "flex items-center justify-between bg-primary-50",
+        selectedCustom: "flex items-center justify-between bg-secondary-50",
       },
       active: {
         regular:
           "w-full text-sm px-4 py-2 block leading-5 cursor-pointer text-slate-900 bg-slate-100 focus:outline-none truncate",
         selected: "flex justify-between items-center",
         hovered: "bg-primary-light",
+        hoveredCustom: "bg-secondary-light",
       },
       accentuated: "font-bold",
       complex: {
@@ -162,6 +164,11 @@ const defaultComponentConfig = {
       fontSize: "text-sm",
       lineHeight: "leading-5",
       color: "text-slate-700",
+    },
+    tagPlaceholder: {
+      master: "h-6 mt-2 ml-2",
+      fontSize: "text-base",
+      textColor: "text-body",
     },
   },
   Badge: {

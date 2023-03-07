@@ -73,7 +73,7 @@ export function showFactoryDecorator(flex = false) {
   ];
 }
 
-export function beautifyDateSource(source) {
+export function beautifySource(source) {
   const correctedSource = source
     .replace(/{name}/g, '"test"')
     .replace(/{<Intl name="label" \/>}/g, '"Test label"')
@@ -83,5 +83,8 @@ export function beautifyDateSource(source) {
   if (correctedSource.indexOf("incl-code") === -1) {
     return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf("/>") + 2);
   }
-  return correctedSource.substring(correctedSource.indexOf("incl-code") + "incl-code".length);
+  return correctedSource.substring(
+    correctedSource.indexOf("incl-code") + "incl-code".length,
+    correctedSource.lastIndexOf(");") + 2,
+  );
 }
