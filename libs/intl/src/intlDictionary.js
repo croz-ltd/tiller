@@ -6,6 +6,7 @@ export default {
     "autocomplete.noResults": "No results for:",
     "select.noResults": "No results",
     "pagination.summary": "Showing {from} to {to} of {total} results",
+    "pageResizer.summary": "Show {pageSizeSelect} results per page",
   },
   translations: {
     hr: {
@@ -15,6 +16,7 @@ export default {
       "autocomplete.noResults": "Nema rezultata za:",
       "select.noResults": "Nema rezultata",
       "pagination.summary": "Prikazuje se {from} do {to} od {total} rezultata",
+      "pageResizer.summary": "Prikaži {pageSizeSelect} rezultata po stranici",
     },
     en: {
       required: "Required field",
@@ -23,6 +25,7 @@ export default {
       "autocomplete.noResults": "No results for:",
       "select.noResults": "No results",
       "pagination.summary": "Showing {from} to {to} of {total} results",
+      "pageResizer.summary": "Show {pageSizeSelect} results per page",
     },
   },
 };
