@@ -8,12 +8,16 @@ import { ThemeTokens } from "../utils";
 `Date Range Input Field` allows users to choose a starting and an ending date from a popup calendar display or type in an arbitrary range.
 
 The component accepts the following as initial values for **start** and **end** accessor name props:
-  - null
-  - undefined
-  - empty string or a string in a '_yyyy-mm-dd_' format
-  - type Date - example: _new Date()_, example 2: _new Date("2023-01-20")_
+
+- null
+- undefined
+- empty string or a string in a '_yyyy-mm-dd_' format
+- type Date - example: _new Date()_, example 2: _new Date("2023-01-20")_
 
 If a string value is given, the component itself makes sure to convert the string into a Date format.
+
+**Note**: if using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
+otherwise the format is determined by the `dateFormat` prop.
 
 This is a **field** component, which means it is differs from [Date Range Input](/docs/component-library-date-daterangeinput--with-state#date-range-input)
 by having a provided logic for seamless wrapping of the component inside Formik for easier form creation.
@@ -21,8 +25,9 @@ by having a provided logic for seamless wrapping of the component inside Formik 
 Props are described on the [Date Range Input Field Props section](/docs/component-library-formik-elements-daterangeinputfield--disabled#date-range-input-field-props)
 of the documentation.
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+## **Recommended for optimal usage**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 <Stories includePrimary={true} />
 
@@ -31,4 +36,5 @@ of the documentation.
 <ArgsTable of={DateRangeInputField} />
 
 ## Date Input Tokens:
-<ThemeTokens component="DateInput"/>
+
+<ThemeTokens component="DateInput" />

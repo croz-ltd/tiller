@@ -179,7 +179,7 @@ export default function DateTimeInput({
   highlightToday,
   ...props
 }: DateTimeInputProps & DateTimeInputTokens) {
-  const { lang } = useIntlContext();
+  const lang = useIntlContext(true)?.lang;
 
   const dateTimePickerTokens = useTokens("DateTimePicker", props.dateTimePickerTokens);
   const dateTimeInputTokens = useTokens("DateTimeInput", props.dateTimeInputTokens);
