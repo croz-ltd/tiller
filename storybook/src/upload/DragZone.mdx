@@ -16,28 +16,25 @@ To use `DragZone` in a component, you must also have a call to `useFileUpload` h
 currently in the file list. `useFileUpload` hook also provides a list of the uploaded files which can be used in
 `FileList` Component, or in your custom implementation of the uploaded file list.
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
-
 Basic example looks something like this:
 
 <Canvas>
-    <Story id="component-library-upload-dragzone--simple"/>
+  <Story id="component-library-upload-dragzone--simple" />
 </Canvas>
 
-*Note that you usually do not need to provide `send` parameter. Here the mock version is used for storybook
-    purposes only.*
+_Note that you usually do not need to provide `send` parameter. Here the mock version is used for storybook
+purposes only._
 
 `DragZone` also allows multiple file upload at the same time with the `allowMultiple` prop:
 
 <Canvas>
-    <Story id="component-library-upload-dragzone--with-multiple-files"/>
+  <Story id="component-library-upload-dragzone--with-multiple-files" />
 </Canvas>
 
 `DragZone` is commonly used with the `FileList` component, which renders current file list in a simple table.
 
 <Canvas>
-    <Story id="component-library-upload-dragzone--and-file-list"/>
+  <Story id="component-library-upload-dragzone--and-file-list" />
 </Canvas>
 
 If you want to have a file upload inside a form which already uses Formik, see `DragZoneField`.
@@ -48,6 +45,7 @@ If you want to have a file upload inside a form which already uses Formik, see `
 list previously fetched from the backend.
 
 It can be used in two ways:
+
 1. as a controlled file list where you must manually update which files are currently uploaded
 2. as an uncontrolled file list where you specify default update handler and do not think about anything else
 
@@ -62,13 +60,13 @@ function MyUploadComponent() {
 
   React.useEffect(() => {
     fileUploadHookValue.onUpdateCallback((added, removed) => {
-      setUploadedFileIds(oldFileIds => {
+      setUploadedFileIds((oldFileIds) => {
         let newFileIds = [...oldFileIds];
         if (added !== undefined) {
           newFileIds.push(added);
         }
         if (removed !== undefined) {
-          newFileIds = newFileIds.filter(id => id !== removed);
+          newFileIds = newFileIds.filter((id) => id !== removed);
         }
         // update internal file id list with correct updated list
         fileUploadHookValue.onUploadedFileIds(newFileIds);
@@ -77,13 +75,7 @@ function MyUploadComponent() {
     });
   }, []);
 
-  return (
-    <DragZone
-      title="Upload files"
-      url="/api/upload-file"
-      hook={fileUploadHookValue}
-    />
-  );
+  return <DragZone title="Upload files" url="/api/upload-file" hook={fileUploadHookValue} />;
 }
 ```
 
@@ -93,13 +85,7 @@ This is a bit tedious, so if you do not have a valid reason to store a list your
 function MyShorterUploadComponent() {
   const fileUploadHookValue = useFileUpload([], true);
 
-  return (
-    <DragZone
-      title="Upload files"
-      url="/api/upload-file"
-      hook={fileUploadHookValue}
-    />
-  );
+  return <DragZone title="Upload files" url="/api/upload-file" hook={fileUploadHookValue} />;
 }
 ```
 
@@ -125,10 +111,10 @@ If your backend saves more information, you can extend the `File` type with your
 
 ```tsx
 type Document = {
-   size: number;
-   uploadDate: string;
-   fileType: FileType;
-   author: string;
+  size: number;
+  uploadDate: string;
+  fileType: FileType;
+  author: string;
 } & File;
 
 function MyBetterUploaderComponent() {
@@ -136,14 +122,12 @@ function MyBetterUploaderComponent() {
 
   return (
     <>
-      <DragZone
-        title="Upload files"
-        url="/api/upload-file-but-better"
-        hook={fileUploadHookValue}
-      />
+      <DragZone title="Upload files" url="/api/upload-file-but-better" hook={fileUploadHookValue} />
       <div>
-        {fileUploadHookValue.uploadedFiles.map(doc => (
-          <p>{doc.name}, {doc.size}MB, author: {doc.author}</p>
+        {fileUploadHookValue.uploadedFiles.map((doc) => (
+          <p>
+            {doc.name}, {doc.size}MB, author: {doc.author}
+          </p>
         ))}
       </div>
     </>
@@ -156,4 +140,5 @@ function MyBetterUploaderComponent() {
 <ArgsTable of={DragZone} />
 
 ## Drag Zone Tokens:
-<ThemeTokens component="DragZone"/>
+
+<ThemeTokens component="DragZone" />

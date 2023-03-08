@@ -90,7 +90,7 @@ function FieldGroup({
   const fieldGroupTokens = useTokens("FieldGroup", props.fieldGroupTokens);
   const inputTokens = useTokens("Input", props.inputTokens);
 
-  const requiredLabelText = useLabel("required");
+  const requiredLabelText = useLabel("required", "Required field");
 
   let errorMessage = error;
 
@@ -102,7 +102,7 @@ function FieldGroup({
     className,
     fieldGroupTokens.Group.content.master,
     { [fieldGroupTokens.Group.content.horizontal]: !vertical },
-    { [fieldGroupTokens.Group.content.vertical]: vertical }
+    { [fieldGroupTokens.Group.content.vertical]: vertical },
   );
 
   return (

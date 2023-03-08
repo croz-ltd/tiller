@@ -185,7 +185,7 @@ export default function DateInput({
 }: DateInputProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datePickerRef = React.useRef<HTMLDivElement>(null);
-  const { lang } = useIntlContext();
+  const lang = useIntlContext(true)?.lang;
 
   const finalDateFormat = dateFormat?.replace(/m/g, "M") || getDateFormatByLang(lang);
   const formattedValue = value ? dateFns.format(value, finalDateFormat) : "";
@@ -302,7 +302,8 @@ function DateInputInput({
   dateFormat,
   ...props
 }: DateInputInputProps) {
-  const { lang } = useIntlContext();
+  const lang = useIntlContext(true)?.lang;
+
   const tokens = useTokens("DateInput", props.tokens);
 
   const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });

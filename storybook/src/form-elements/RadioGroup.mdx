@@ -3,7 +3,6 @@ import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
 import { RadioGroup } from "@tiller-ds/form-elements";
 import { ThemeTokens } from "../utils";
 
-
 # Radio Group
 
 A `RadioGroup` is a form element that lets users select a single choice from a list of at least two options. The user can only select one radio option at a time.
@@ -14,9 +13,6 @@ Radio groups should:
 - Allow users to select only one option.
 - Include at most 6 options. If there's a chance the Radio might later expand to include more than 6 options, use a Select instead.
 - List options in a rational order that makes logical sense.
-
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 ## With Help Text
 
@@ -70,4 +66,5 @@ You can control the radio with the `value` and `onChange` props:
 <ArgsTable of={RadioGroup} />
 
 ## RadioGroup Tokens:
+
 <ThemeTokens component="RadioGroup" />

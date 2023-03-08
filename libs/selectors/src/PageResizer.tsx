@@ -17,6 +17,7 @@
 
 import React from "react";
 
+import { Intl, useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 import Select from "./Select";
@@ -62,6 +63,7 @@ type PageResizerTokensProps = {
 };
 
 export default function PageResizer({ pageSizes, onPageSizeChange, children, className, ...props }: PageResizerProps) {
+  const intl = useIntlContext();
   const tokens = useTokens("PageResizer", props.tokens);
   const { pageSize, totalElements } = props;
 
@@ -73,7 +75,7 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
 
   const selectClassName = cx("px-2 mb-1", className);
 
-  const pageSizeSelectField = (
+  const pageSizeSelect = (
     <Select
       name="value"
       value={pageSize}
@@ -91,12 +93,22 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
   }
 
   if (children) {
-    return children(pageSizeSelectField) as React.ReactElement<any>;
+    return children(pageSizeSelect) as React.ReactElement<any>;
   }
 
   return (
     <div>
-      <p className={tokens.master}>Show {pageSizeSelectField} results per page</p>
+      <p className={tokens.master}>
+        {intl ? (
+          <Intl name={intl.commonKeys["pageResizerSummary"] as string} params={{ pageSizeSelect: pageSizeSelect }}>
+            {{
+              pageSizeSelect: () => pageSizeSelect,
+            }}
+          </Intl>
+        ) : (
+          <>Show {pageSizeSelect} results per page</>
+        )}
+      </p>
     </div>
   );
 }

@@ -4,12 +4,18 @@ import { Date } from "@tiller-ds/date";
 
 # Date
 
-Tiller Date Component uses `FormattedDate` from `react-intl` library.
+Converts _children_ to a formatted date.
 
-By default `<FormattedDate>` will render the formatted number into a React.Fragment.
+There are 2 possible usages of this component:
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+1. **With IntlProvider**: the component uses `FormattedDate` from `react-intl` library and converts children to
+   a format inferred by locale.
+
+2. **Without IntlProvider**: the component uses _formatFrom_ and _formatTo_ props to convert children to a desired format.
+
+## **Recommended for optimal usage**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 <Stories includePrimary={true} />
 
