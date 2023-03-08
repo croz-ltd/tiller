@@ -17,6 +17,7 @@
 
 import * as React from "react";
 
+import _ from "lodash";
 import { IntlContext as ReactIntlContext, IntlProvider as ReactIntlProvider, IntlShape } from "react-intl";
 
 import { createNamedContext } from "@tiller-ds/util";
@@ -32,6 +33,7 @@ export type CommonKeys = {
   autocompleteNoResults?: string;
   selectNoResults?: string;
   paginationSummary?: string;
+  pageResizerSummary?: string;
 };
 
 type IntlProviderProps = {
@@ -47,7 +49,7 @@ type IntlProviderProps = {
   dictionary?: Dictionary;
 
   /**
-   * Similar to dictionary prop, but serves as a function which generally receives your dictionary as a return value.
+   * Similar to dictionary prop, but represents a promise which returns your dictionary.
    */
   loadDictionary?: ((lang: string) => Promise<Dictionary>) | undefined;
 
@@ -80,20 +82,23 @@ export type IntlContextType = IntlValue & {
   intl: IntlShape;
 };
 
+const defaultKeyConfig: CommonKeys = {
+  required: "required",
+  autocompleteNoTags: "autocomplete.noTags",
+  autocompleteAddTag: "autocomplete.addTag",
+  autocompleteNoResults: "autocomplete.noResults",
+  selectNoResults: "select.noResults",
+  paginationSummary: "pagination.summary",
+  pageResizerSummary: "pageResizer.summary",
+};
+
 export const IntlContext = createNamedContext<IntlContextType>("IntlContext");
 
 export function useIntl(
   language: string,
   dict: Dictionary | undefined = intlDictionary,
   loadDictionary: ((lang: string) => Promise<Dictionary>) | undefined,
-  keyConfig: CommonKeys = {
-    required: "required",
-    autocompleteNoTags: "autocomplete.noTags",
-    autocompleteAddTag: "autocomplete.addTag",
-    autocompleteNoResults: "autocomplete.noResults",
-    selectNoResults: "select.noResults",
-    paginationSummary: "pagination.summary",
-  },
+  keyConfig: CommonKeys = defaultKeyConfig,
 ): IntlValue {
   const [lang, setLang] = React.useState<string>(language);
   const [dictionary, setDictionary] = React.useState<Dictionary>(dict || ({} as Dictionary));
@@ -133,9 +138,9 @@ export function useIntl(
       changeLang,
       dictionary,
       intlUtil: new IntlUtil(dictionary, lang),
-      commonKeys: keyConfig,
+      commonKeys: _.merge(defaultKeyConfig, keyConfig),
     }),
-    [lang, dictionary, changeLang],
+    [lang, changeLang, dictionary, keyConfig],
   );
 }
 
