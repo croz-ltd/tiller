@@ -35,6 +35,10 @@ export default {
   },
 };
 
-const date = "2020-02-25" as unknown as Date;
+export const WithIntl = () => <Date>2020-02-25</Date>;
 
-export const Example = () => <Date>{date}</Date>;
+export const WithoutIntl = () => (
+  <Date formatFrom="yyyy-MM-dd" formatTo="MM/dd/yyyy">
+    2020-02-25
+  </Date>
+);
