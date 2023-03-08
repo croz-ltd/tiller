@@ -21,7 +21,7 @@ import { useSelect, UseSelectStateChangeTypes } from "downshift";
 import Popover, { positionMatchWidth } from "@reach/popover";
 
 import { Field } from "@tiller-ds/form-elements";
-import { Intl } from "@tiller-ds/intl";
+import { useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 export type SelectProps<T> = {
@@ -271,7 +271,7 @@ function Select<T>({
     tokens.Select.lineHeight,
     tokens.Select.padding,
     tokens.Select.borderRadius,
-    tokens.Select.backgroundColor
+    tokens.Select.backgroundColor,
   );
 
   const listClassName = cx({ invisible: !isOpen }, tokens.List.master, tokens.List.borderRadius, tokens.List.boxShadow);
@@ -281,14 +281,14 @@ function Select<T>({
     tokens.List.inner.borderRadius,
     tokens.List.inner.backgroundColor,
     tokens.List.inner.boxShadow,
-    tokens.List.inner.outline
+    tokens.List.inner.outline,
   );
 
   const clearClassName = cx(
     { [tokens.Clear.active]: !isDisabled },
     tokens.Clear.base.padding,
     tokens.Clear.base.margin,
-    "flex align-center"
+    "flex align-center",
   );
 
   const activeClassName = (hovered: boolean) =>
@@ -308,11 +308,11 @@ function Select<T>({
   const defaultIsItemDisabledFn = () => false;
   const optionLabelFn = getOptionLabel || children || defaultFn;
   const isItemDisabledFn = isItemDisabled || defaultIsItemDisabledFn;
+
+  const noResultsText = useLabel("selectNoResults", "No results");
   const placeholderElement = (
     <div className={tokens.placeholder}>
-      {options.length !== 0
-        ? placeholder || <>&nbsp;</>
-        : (noResultsPlaceholder || <Intl name="select.noResults" />) ?? <>&nbsp;</>}
+      {options.length !== 0 ? placeholder || <>&nbsp;</> : (noResultsPlaceholder || noResultsText) ?? <>&nbsp;</>}
     </div>
   );
   const singleOptionLabelFn = (singleValue?: T | null) =>
@@ -354,7 +354,7 @@ function Select<T>({
         tokens.Item.base.lineHeight,
         tokens.Item.base.color,
         { [tokens.Item.base.selected]: selected },
-        { [tokens.Item.base.disabled]: isDisabled }
+        { [tokens.Item.base.disabled]: isDisabled },
       );
 
     const selectedClassName = cx(tokens.Item.selected.master, tokens.Item.selected.color, tokens.Item.selected.size);

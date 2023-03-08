@@ -23,7 +23,7 @@ import Popover, { positionMatchWidth } from "@reach/popover";
 
 import { Badge } from "@tiller-ds/core";
 import { Input } from "@tiller-ds/form-elements";
-import { Intl } from "@tiller-ds/intl";
+import { useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 export type AutocompleteProps<T extends {}> = {
@@ -359,12 +359,11 @@ function Autocomplete<T extends {}>({
 
   const isEmpty = React.useRef(!!initialInputValue);
 
-  const noResultsPlaceholderContent =
-    inputValue?.length > 0 ? (
-      <>
-        <Intl name="autocomplete.noResults" /> {inputValue}
-      </>
-    ) : null;
+  const noResultsText = useLabel("autocompleteNoResults", "No results for:");
+  const addTagText = useLabel("autocompleteAddTag", "Add tag:");
+  const noTagsText = useLabel("autocompleteNoTags", "No tags selected");
+
+  const noResultsPlaceholderContent = inputValue?.length > 0 ? `${noResultsText} ${inputValue}` : null;
   const hasContent = filteredOptions.length > 0 || (noResultsPlaceholderContent && !loading);
   const highlightedOption = filteredOptions[highlightedIndex];
 
@@ -767,7 +766,7 @@ function Autocomplete<T extends {}>({
             : onAddCustomTag &&
               contentWrapper(
                 <>
-                  <Intl name="autocomplete.addTag" /> {""}
+                  {addTagText}{" "}
                   <Badge color="secondary" dot={true} small={true}>
                     {safeItemToString(onAddCustomTag(inputValue))}
                   </Badge>
@@ -829,11 +828,7 @@ function Autocomplete<T extends {}>({
               {safeItemToString(v)}
             </Badge>
           ))
-        : tagsContained && (
-            <div className={tagPlaceholderClassName}>
-              <Intl name="autocomplete.noTags" />
-            </div>
-          )}
+        : tagsContained && <div className={tagPlaceholderClassName}>{noTagsText}</div>}
     </div>
   );
 
