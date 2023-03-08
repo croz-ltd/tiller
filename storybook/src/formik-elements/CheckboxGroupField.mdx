@@ -3,7 +3,6 @@ import { Stories, ArgsTable } from "@storybook/addon-docs";
 import { CheckboxGroup } from "@tiller-ds/form-elements";
 import { ThemeTokens } from "../utils";
 
-
 # Checkbox Group Field
 
 The `CheckboxGroupField` component is used for displaying a group of checkbox fields with a label and an optional help text.
@@ -12,9 +11,6 @@ This is a **field** component, which means it is differs from `CheckboxGroup` by
 `CheckboxGroup` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
 
 Props are described in detail on the [Checkbox Group Field Props section](#checkbox-group-field-props) of the documentation.
-
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 ## Usage
 
@@ -29,7 +25,7 @@ without having to manually add the title and group the checkboxes.
 ## Accessibility
 
 - Ensure that the `vertical` prop is used on mobile displays if your checkbox group contains a lot of items to avoid
-overflowing.
+  overflowing.
 
 <Stories includePrimary={true} />
 
@@ -37,10 +33,12 @@ overflowing.
 
 `CheckboxGroupField` component has the same props as `CheckboxGroup` component,
 **except**:
- - `value` - inferred from field name
- - `onChange` - handled by Formik
 
-<ArgsTable of={ CheckboxGroup } exclude={["value", "onChange"]} />
+- `value` - inferred from field name
+- `onChange` - handled by Formik
+
+<ArgsTable of={CheckboxGroup} exclude={["value", "onChange"]} />
 
 ## Checkbox Group Tokens:
-<ThemeTokens component="CheckboxGroup"/>
+
+<ThemeTokens component="CheckboxGroup" />

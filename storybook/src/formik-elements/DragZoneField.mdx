@@ -1,4 +1,4 @@
-import {ArgsTable, Stories} from "@storybook/addon-docs";
+import { ArgsTable, Stories } from "@storybook/addon-docs";
 
 import { DragZone } from "@tiller-ds/upload";
 import { ThemeTokens } from "../utils";
@@ -19,15 +19,13 @@ currently in the file list. `useFileUpload` hook also provides a list of the upl
 This is a **field** component, which means it is differs from `DragZone` by having a provided logic for seamless
 wrapping of the component inside Formik for easier form creation.
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
-
 ## useFileUpload details
 
 `useFileUpload` is used as an actual logic what is currently in the file list. It can be initialized with the file
 list previously fetched from the backend.
 
 It can be used in two ways:
+
 1. as a controlled file list where you must manually update which files are currently uploaded
 2. as an uncontrolled file list where you specify default update handler and do not think about anything else
 
@@ -42,13 +40,13 @@ function MyUploadComponent() {
 
   React.useEffect(() => {
     fileUploadHookValue.onUpdateCallback((added, removed) => {
-      setUploadedFileIds(oldFileIds => {
+      setUploadedFileIds((oldFileIds) => {
         let newFileIds = [...oldFileIds];
         if (added !== undefined) {
           newFileIds.push(added);
         }
         if (removed !== undefined) {
-          newFileIds = newFileIds.filter(id => id !== removed);
+          newFileIds = newFileIds.filter((id) => id !== removed);
         }
         // update internal file id list with correct updated list
         fileUploadHookValue.onUploadedFileIds(newFileIds);
@@ -57,13 +55,7 @@ function MyUploadComponent() {
     });
   }, []);
 
-  return (
-    <DragZone
-      title="Upload files"
-      url="/api/upload-file"
-      hook={fileUploadHookValue}
-    />
-  );
+  return <DragZone title="Upload files" url="/api/upload-file" hook={fileUploadHookValue} />;
 }
 ```
 
@@ -73,13 +65,7 @@ This is a bit tedious, so if you do not have a valid reason to store a list your
 function MyShorterUploadComponent() {
   const fileUploadHookValue = useFileUpload([], true);
 
-  return (
-    <DragZone
-      title="Upload files"
-      url="/api/upload-file"
-      hook={fileUploadHookValue}
-    />
-  );
+  return <DragZone title="Upload files" url="/api/upload-file" hook={fileUploadHookValue} />;
 }
 ```
 
@@ -105,10 +91,10 @@ If your backend saves more information, you can extend the `File` type with your
 
 ```tsx
 type Document = {
-   size: number;
-   uploadDate: string;
-   fileType: FileType;
-   author: string;
+  size: number;
+  uploadDate: string;
+  fileType: FileType;
+  author: string;
 } & File;
 
 function MyBetterUploaderComponent() {
@@ -116,14 +102,12 @@ function MyBetterUploaderComponent() {
 
   return (
     <>
-      <DragZone
-        title="Upload files"
-        url="/api/upload-file-but-better"
-        hook={fileUploadHookValue}
-      />
+      <DragZone title="Upload files" url="/api/upload-file-but-better" hook={fileUploadHookValue} />
       <div>
-        {fileUploadHookValue.uploadedFiles.map(doc => (
-          <p>{doc.name}, {doc.size}MB, author: {doc.author}</p>
+        {fileUploadHookValue.uploadedFiles.map((doc) => (
+          <p>
+            {doc.name}, {doc.size}MB, author: {doc.author}
+          </p>
         ))}
       </div>
     </>
@@ -138,4 +122,5 @@ function MyBetterUploaderComponent() {
 <ArgsTable of={DragZone} />
 
 ## Drag Zone Tokens:
-<ThemeTokens component="DragZone"/>
+
+<ThemeTokens component="DragZone" />
