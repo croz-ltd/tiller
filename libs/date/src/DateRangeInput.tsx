@@ -199,7 +199,7 @@ export default function DateRangeInput({
   dateFormat,
   ...props
 }: DateRangeInputProps) {
-  const { lang } = useIntlContext();
+  const lang = useIntlContext(true)?.lang;
 
   const finalDateFormat = dateFormat?.replace(/m/g, "M") || getDateFormatByLang(lang);
   const formattedStart = start ? dateFns.format(start, finalDateFormat) : "";
@@ -416,7 +416,7 @@ function DateRangeInputInput({
   dateFormat,
   ...props
 }: DateRangeInputInputProps) {
-  const { lang } = useIntlContext();
+  const lang = useIntlContext(true)?.lang;
 
   const tokens = useTokens("DateInput", props.tokens);
   const dateIconClassName = cx({ [tokens.DatePicker.range.iconColor]: !(props.disabled || props.readOnly) });

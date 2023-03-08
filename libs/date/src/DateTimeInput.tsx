@@ -169,7 +169,7 @@ export default function DateTimeInput({
   dateFormat,
   ...props
 }: DateTimeInputProps & DateTimeInputTokens) {
-  const { lang } = useIntlContext();
+  const lang = useIntlContext(true)?.lang;
 
   const dateTimePickerTokens = useTokens("DateTimePicker", props.dateTimePickerTokens);
   const dateTimeInputTokens = useTokens("DateTimeInput", props.dateTimeInputTokens);
