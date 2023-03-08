@@ -11,9 +11,6 @@ The field uses third party library `react-number-format` for formatting field va
 This is a **field** component, which means it is differs from `NumberInput` by having a provided logic for seamless
 wrapping of the component inside Formik for easier form creation.
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
-
 ## Best practices
 
 `NumberInputField` should be used for actual number values, such as counts and measures.
@@ -21,6 +18,10 @@ wrapping of the component inside Formik for easier form creation.
 Do not use it for other digit-based values, such as telephone, credit card, and social security numbers.
 
 When applicable, set the most common choice as the default value. For example, airline, bus, train and other travel companies typically default the number of passengers to 1.
+
+## **Prerequisites for functioning**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
 
 <Stories includePrimary={true} />
 
