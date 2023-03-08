@@ -183,7 +183,7 @@ function PageSummary({ pageNumber, pageSize, totalElements, children, ...props }
     <p className={pageSummaryClassName}>
       {intl ? (
         <Intl
-          name={intl.commonKeys["paginationSummary"] ?? "pagination.summary"}
+          name={intl.commonKeys["paginationSummary"] as string}
           params={{ from: fromElement, to: toElement, total: totalElement }}
         >
           {{

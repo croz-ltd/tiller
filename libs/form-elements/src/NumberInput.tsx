@@ -92,28 +92,34 @@ export type NumberInputProps = {
 } & Omit<NumberFormatProps, NumberFormatOnlyPropsUnion>;
 
 export default function NumberInput({ name, onChange, onBlur, ...props }: NumberInputProps) {
-  const { intl } = useIntlContext();
-  const decimalSeparator = getDecimalSeparator(intl);
-  const thousandSeparator = getThousandSeparator(intl);
+  const intlContext = useIntlContext();
 
-  const id = `numberformat-${name}`;
+  if (intlContext) {
+    const { intl } = intlContext;
+    const decimalSeparator = getDecimalSeparator(intl);
+    const thousandSeparator = getThousandSeparator(intl);
 
-  return (
-    <ReactNumberFormat
-      id={id}
-      data-testid={id}
-      name={name}
-      decimalSeparator={decimalSeparator}
-      thousandSeparator={thousandSeparator}
-      allowedDecimalSeparators={[decimalSeparator]}
-      onValueChange={(values) => {
-        if (onChange) {
-          onChange(values.floatValue);
-        }
-      }}
-      customInput={Input}
-      onBlur={onBlur}
-      {...props}
-    />
-  );
+    const id = `numberformat-${name}`;
+
+    return (
+      <ReactNumberFormat
+        id={id}
+        data-testid={id}
+        name={name}
+        decimalSeparator={decimalSeparator}
+        thousandSeparator={thousandSeparator}
+        allowedDecimalSeparators={[decimalSeparator]}
+        onValueChange={(values) => {
+          if (onChange) {
+            onChange(values.floatValue);
+          }
+        }}
+        customInput={Input}
+        onBlur={onBlur}
+        {...props}
+      />
+    );
+  } else {
+    throw new Error("NumberInput component requires IntlProvider wrapper for functioning.");
+  }
 }
