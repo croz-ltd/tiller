@@ -21,9 +21,10 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
-import { createNamedContext, findChild } from "@tiller-ds/util";
+import { findChild } from "@tiller-ds/util";
 
 import DropdownMenu, { DropdownMenuMenuProps } from "./DropdownMenu";
+import NavigationContextProvider, { NavigationDropdownContext } from "./NavigationContextProvider";
 
 export type TopNavigationProps = {
   /**
@@ -243,23 +244,6 @@ type ThemeNavigationMenuContainerProps = {
   color?: "default" | "dark" | "light";
 } & TokenProps<"TopNavigation">;
 
-type TopNavigationDropdownContextProps = {
-  small: boolean;
-  children: React.ReactNode;
-};
-
-type TopNavigationDropdownContext = {
-  small: boolean;
-};
-
-const TopNavigationDropdownContext = createNamedContext<TopNavigationDropdownContext>("TopNavigationDropdownContext", {
-  small: false,
-});
-
-function TopNavigationContextProvider({ small, children }: TopNavigationDropdownContextProps) {
-  return <TopNavigationDropdownContext.Provider value={{ small }}>{children}</TopNavigationDropdownContext.Provider>;
-}
-
 function TopNavigation({
   logo,
   color = "default",
@@ -275,7 +259,6 @@ function TopNavigation({
   const sidebarNavigationTokens = useTokens("SidebarNavigation", props.sidebarNavigationTokens);
 
   const [isOpen, setIsOpen] = React.useState(false);
-  const [dropdownOpened, setDropdownOpened] = React.useState(false);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -298,15 +281,14 @@ function TopNavigation({
     topNavigationTokens.base.padding,
     { [topNavigationTokens.base.dark]: color === "dark" },
     { [topNavigationTokens.base.light]: color === "light" },
-    { [topNavigationTokens.base.default]: color === "default" }
+    { [topNavigationTokens.base.default]: color === "default" },
   );
 
   const logoClassName = cx(
     topNavigationTokens.logo.master,
-    { "hidden md:inline-flex": dropdownOpened },
     { [topNavigationTokens.logo.withTopRightAction.master]: topRightAction },
     { [topNavigationTokens.logo.withTopRightAction.margin]: topRightAction },
-    { [topNavigationTokens.logo.withoutTopRightAction]: !topRightAction }
+    { [topNavigationTokens.logo.withoutTopRightAction]: !topRightAction },
   );
 
   const navButtonClassName = cx(sidebarNavigationTokens.navButtons.master, sidebarNavigationTokens.navButtons[color]);
@@ -322,60 +304,70 @@ function TopNavigation({
   const menuIcon = useIcon("menu", undefined, iconProps);
 
   return (
-    <nav className={baseClassName}>
-      <div className={containerClassName}>
-        {!dropdownOpened && (
-          <div className={topNavigationTokens.menuButtonContainer}>
-            <Button className="ml-4 md:ml-8 h-10" color={menuButtonClassName} variant="text" onClick={handleClick}>
-              {isOpen ? closeIcon : menuIcon}
-            </Button>
-          </div>
-        )}
-        {logo && variant === "centered" && <div className={logoClassName}>{logo}</div>}
-        <div className={topNavigationTokens.innerContainer}>
-          {logo && (variant === "basic" || variant === "contained") && <div className={logoClassName}>{logo}</div>}
-          {(variant === "basic" || variant === "contained") && (
-            <TopNavigationMenuContainer variant={variant} className={headerClasses}>
-              {navigation}
-            </TopNavigationMenuContainer>
-          )}
-        </div>
-        {topRightAction && (
-          <div
-            className={`flex items-center justify-end md:mr-2 md:col-span-1 ${
-              !dropdownOpened ? (logo ? "col-span-1 mr-4" : "col-span-2 mr-4") : "col-span-3"
-            }`}
-          >
-            <div
-              className={`${dropdownOpened ? "w-full md:w-fit" : ""}`}
-              onClick={() => setDropdownOpened(!dropdownOpened)}
-            >
-              {topRightAction}
+    <NavigationContextProvider small={false} menuOpened={isOpen} actionOpened={false}>
+      <NavigationDropdownContext.Consumer>
+        {({ isActionOpened }) => (
+          <nav className={baseClassName}>
+            <div className={containerClassName}>
+              {!isActionOpened && (
+                <>
+                  <div className={topNavigationTokens.menuButtonContainer}>
+                    <Button
+                      className="ml-4 md:ml-8 h-10"
+                      color={menuButtonClassName}
+                      variant="text"
+                      onClick={handleClick}
+                    >
+                      {isOpen ? closeIcon : menuIcon}
+                    </Button>
+                  </div>
+                  {logo && variant === "centered" && <div className={logoClassName}>{logo}</div>}
+                  <div className={topNavigationTokens.innerContainer}>
+                    {logo && (variant === "basic" || variant === "contained") && (
+                      <div className={logoClassName}>{logo}</div>
+                    )}
+                    {(variant === "basic" || variant === "contained") && (
+                      <TopNavigationMenuContainer variant={variant} className={headerClasses}>
+                        {navigation}
+                      </TopNavigationMenuContainer>
+                    )}
+                  </div>
+                </>
+              )}
+              {topRightAction && (
+                <div className={`flex items-center justify-end md:mr-2 ${isActionOpened ? "col-span-3 mt-2" : "mr-4"}`}>
+                  <div className={`${isActionOpened && "w-full md:w-fit"}`}>{topRightAction}</div>
+                </div>
+              )}
+              {searchBar && (
+                <div className={searchBarClasses}>
+                  <div className={topNavigationTokens.searchBar}>{searchBar}</div>
+                </div>
+              )}
+              {actions && (
+                <div className={topNavigationTokens.actionsAndDropdownContainer}>
+                  <div className={topNavigationTokens.innerActionsAndDropdownContainer}>
+                    <div className={topNavigationTokens.actionsContainer}>{actions}</div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        )}
-        <div className={searchBarClasses}>
-          <div className={topNavigationTokens.searchBar}>{searchBar}</div>
-        </div>
-        <div className={topNavigationTokens.actionsAndDropdownContainer}>
-          <div className={topNavigationTokens.innerActionsAndDropdownContainer}>
-            <div className={topNavigationTokens.actionsContainer}>{actions}</div>
-          </div>
-        </div>
-      </div>
-      {variant === "centered" && (
-        <TopNavigationMenuContainer variant={variant} className={headerClasses}>
-          {navigation}
-        </TopNavigationMenuContainer>
-      )}
+            {variant === "centered" && (
+              <TopNavigationMenuContainer variant={variant} className={headerClasses}>
+                {navigation}
+              </TopNavigationMenuContainer>
+            )}
 
-      <div className={topNavigationTokens.smallMenuContainer}>
-        <div className={menuClasses}>
-          <div className={topNavigationTokens.smallMenuInnerContainer}>{navigation}</div>
-          {actions}
-        </div>
-      </div>
-    </nav>
+            <div className={topNavigationTokens.smallMenuContainer}>
+              <div className={menuClasses}>
+                <div className={topNavigationTokens.smallMenuInnerContainer}>{navigation}</div>
+                {actions}
+              </div>
+            </div>
+          </nav>
+        )}
+      </NavigationDropdownContext.Consumer>
+    </NavigationContextProvider>
   );
 }
 
@@ -391,7 +383,7 @@ function TopNavigationMenuContainer({
   const innerMenuContainerClassName = cx(
     tokens.innerMenuContainer,
     { [className]: variant === "basic" || variant === "contained" },
-    { "justify-start mt-2 pb-3": variant === "centered" }
+    { "justify-start mt-2 pb-3": variant === "centered" },
   );
 
   return (
@@ -413,7 +405,8 @@ export function TopNavigationItem({
   backgroundColor,
   ...props
 }: TopNavigationItemProps) {
-  const [opened, setOpened] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
+  const { isMenuOpened, onMenuOpenedToggle } = React.useContext(NavigationDropdownContext);
 
   const tokens = useTokens("TopNavigation", props.tokens);
   const location = useLocation();
@@ -430,7 +423,7 @@ export function TopNavigationItem({
     { [tokens.Item.inactive[color]]: !active },
     { [tokens.Item.active[color]]: active },
     { [tokens.Item.active.fontWeight]: active },
-    { [tokens.Item.expandable.container]: isExpandable }
+    { [tokens.Item.expandable.container]: isExpandable },
   );
 
   const containerClassName = cx(
@@ -439,7 +432,7 @@ export function TopNavigationItem({
     tokens.Item.expandable.subitemsContainer.width,
     { [tokens.Item.expandable.subitemsContainer.dark]: color === "dark" },
     { [tokens.Item.expandable.subitemsContainer.light]: color === "light" },
-    { [tokens.Item.expandable.subitemsContainer.default]: color === "default" }
+    { [tokens.Item.expandable.subitemsContainer.default]: color === "default" },
   );
 
   const iconProps = { className: "ml-1", size: 3 };
@@ -449,30 +442,32 @@ export function TopNavigationItem({
   if (isExpandable) {
     return (
       <div className="w-full">
-        <div className="hidden md:block" onClick={() => setOpened(!opened)} onBlur={() => setOpened(false)}>
-          <TopNavigationContextProvider small={false}>
-            <DropdownMenu
-              title={title}
-              menuType="text"
-              variant="text"
-              tokens={{}}
-              className={cn}
-              popupBackgroundColor={backgroundColor ? backgroundColor : color}
-            >
-              {children}
-            </DropdownMenu>
-          </TopNavigationContextProvider>
+        <div
+          className="hidden md:block"
+          onClick={() => onMenuOpenedToggle && onMenuOpenedToggle(!isMenuOpened)}
+          onBlur={() => onMenuOpenedToggle && onMenuOpenedToggle(false)}
+        >
+          <DropdownMenu
+            title={title}
+            menuType="text"
+            variant="text"
+            tokens={{}}
+            className={cn}
+            popupBackgroundColor={backgroundColor ? backgroundColor : color}
+          >
+            {children}
+          </DropdownMenu>
         </div>
         <div className="md:hidden">
           <div className="flex flex-col flex-wrap items-center">
-            <Link {...props} to={to || "#"} className={cn + ` items-center`} onClick={() => setOpened(!opened)}>
+            <Link {...props} to={to || "#"} className={cn + ` items-center`} onClick={() => setExpanded(!expanded)}>
               {title}
-              {opened ? closeExpanderIcon : openExpanderIcon}
+              {expanded ? closeExpanderIcon : openExpanderIcon}
             </Link>
-            {opened && (
-              <TopNavigationContextProvider small={true}>
+            {expanded && (
+              <NavigationContextProvider small={true} menuOpened={isMenuOpened} actionOpened={false}>
                 <div className={containerClassName}>{children}</div>
-              </TopNavigationContextProvider>
+              </NavigationContextProvider>
             )}
           </div>
         </div>
@@ -510,13 +505,12 @@ export function TopNavigationDropdown({
 }: TopNavigationDropdownProps) {
   const topNavigationTokens = useTokens("TopNavigation", props.tokens);
   const dropdownMenuTokens = useTokens("DropdownMenu", props.tokens);
-
-  const [opened, setOpened] = React.useState(false);
+  const { isActionOpened, onActionOpenedToggle } = React.useContext(NavigationDropdownContext);
 
   const mobileIconClassName = cx(
     { [dropdownMenuTokens.Icon.color.default]: iconColor === "default" },
     { [dropdownMenuTokens.Icon.color.dark]: iconColor === "dark" },
-    { [dropdownMenuTokens.Icon.color.light]: iconColor === "light" }
+    { [dropdownMenuTokens.Icon.color.light]: iconColor === "light" },
   );
 
   const containerClassName = cx(
@@ -526,7 +520,7 @@ export function TopNavigationDropdown({
     topNavigationTokens.Item.expandable.subitemsContainer.width,
     { [topNavigationTokens.Item.expandable.subitemsContainer.dark]: iconColor === "light" },
     { [topNavigationTokens.Item.expandable.subitemsContainer.light]: iconColor === "dark" },
-    { [topNavigationTokens.Item.expandable.subitemsContainer.default]: iconColor === "default" }
+    { [topNavigationTokens.Item.expandable.subitemsContainer.default]: iconColor === "default" },
   );
 
   return (
@@ -545,16 +539,16 @@ export function TopNavigationDropdown({
           <div className="px-2">{children}</div>
         </DropdownMenu>
       </div>
-      <div className={`md:hidden flex flex-col ${opened ? "w-full" : "w-fit"}`}>
+      <div className={`md:hidden flex flex-col ${isActionOpened ? "grid-cols-3" : "w-fit"}`}>
         <Button
           variant={buttonVariant}
           color={buttonColor}
-          onClick={() => setOpened(!opened)}
+          onClick={() => (onActionOpenedToggle ? onActionOpenedToggle(!isActionOpened) : undefined)}
           className="flex items-center justify-center space-x-2"
         >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
-        {opened && <div className={containerClassName}>{children}</div>}
+        {isActionOpened && <div className={containerClassName}>{children}</div>}
       </div>
     </>
   );
@@ -569,11 +563,11 @@ export function TopNavigationDropdownItem({
   className,
   ...props
 }: TopNavigationDropdownItemProps) {
-  const { small } = React.useContext(TopNavigationDropdownContext);
+  const { small } = React.useContext(NavigationDropdownContext);
   const tokens = useTokens("TopNavigation", props.tokens);
   const location = useLocation();
 
-  const active = to !== undefined ? location.pathname.startsWith(to) : false;
+  const active = to !== undefined ? location.pathname === to : false;
   const smallDropdownItemClassName = cx(
     tokens.smallDropdownItem.master,
     tokens.smallDropdownItem.fontSize,
@@ -581,7 +575,7 @@ export function TopNavigationDropdownItem({
     { [tokens.smallDropdownItem.base.fontWeight]: !active },
     { [tokens.smallDropdownItem.active[color]]: active },
     { [tokens.smallDropdownItem.active.fontWeight]: active },
-    className
+    className,
   );
 
   const dropdownItemClassName = cx(
@@ -592,7 +586,7 @@ export function TopNavigationDropdownItem({
     { [tokens.dropdownItem.base.fontWeight]: !active },
     { [tokens.dropdownItem.base[color]]: !active },
     { [tokens.dropdownItem.active[color]]: active },
-    { [tokens.dropdownItem.active.fontWeight]: active }
+    { [tokens.dropdownItem.active.fontWeight]: active },
   );
 
   const iconTextWrapper = (text: React.ReactNode) => {
