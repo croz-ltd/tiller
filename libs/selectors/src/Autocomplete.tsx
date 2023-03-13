@@ -569,13 +569,13 @@ function Autocomplete<T extends {}>({
 
     if (allowMultiple && event.key === "Enter" && highlightedOption !== undefined) {
       nativeEvent.preventDownshiftDefault = true;
-      checkItem(!tagExists() && highlightedIndex === filteredOptions.length - 1);
+      checkItem(-1, !tagExists() && highlightedIndex === filteredOptions.length - 1);
     }
   };
 
-  const onItemClick = (event: React.MouseEvent, customTag?: boolean) => {
+  const onItemClick = (event: React.MouseEvent, index: number, customTag?: boolean) => {
     event.nativeEvent.preventDefault();
-    checkItem(customTag);
+    checkItem(index, customTag);
   };
 
   const removeSelected = (array: T[]) => {
@@ -598,28 +598,29 @@ function Autocomplete<T extends {}>({
     }
   };
 
-  const checkItem = (customTag?: boolean) => {
-    if (allowMultiple && highlightedOption) {
+  const checkItem = (index: number, customTag?: boolean) => {
+    const selectedOption = highlightedOption || filteredOptions[index];
+    if (allowMultiple && (highlightedOption || index > -1)) {
       if (getOptionValue) {
-        if (arrayIncludes(selectedOptions, highlightedOption)) {
+        if (arrayIncludes(selectedOptions, selectedOption)) {
           const filteredOptions = selectedOptions.filter(
-            (option) => !(getOptionValue(option) === getOptionValue(highlightedOption)),
+            (option) => !(getOptionValue(option) === getOptionValue(selectedOption)),
           );
           setSelectedOptions(filteredOptions);
         } else {
           if (customTag) {
-            setCustomTags([...customTags, highlightedOption]);
+            setCustomTags([...customTags, selectedOption]);
           }
-          setSelectedOptions([...selectedOptions, highlightedOption]);
+          setSelectedOptions([...selectedOptions, selectedOption]);
         }
-      } else if (selectedOptions.includes(highlightedOption)) {
-        const filteredOptions = selectedOptions.filter((option) => !(option === highlightedOption));
+      } else if (selectedOptions.includes(selectedOption)) {
+        const filteredOptions = selectedOptions.filter((option) => !(option === selectedOption));
         setSelectedOptions(filteredOptions);
       } else {
         if (customTag) {
-          setCustomTags([...customTags, highlightedOption]);
+          setCustomTags([...customTags, selectedOption]);
         }
-        setSelectedOptions([...selectedOptions, highlightedOption]);
+        setSelectedOptions([...selectedOptions, selectedOption]);
       }
       if (tags && inputValue) {
         mounted.current = true;
@@ -735,8 +736,8 @@ function Autocomplete<T extends {}>({
           {...getItemProps({
             item: option,
             index,
-            onClickCapture: (event) => onItemClick(event, tag),
-            onMouseDownCapture: (event) => onItemClick(event, tag),
+            onClickCapture: (event) => onItemClick(event, index, tag),
+            onMouseDownCapture: (event) => onItemClick(event, index, tag),
           })}
           className={
             highlightedIndex === index
