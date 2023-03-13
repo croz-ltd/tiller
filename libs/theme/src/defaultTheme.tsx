@@ -724,7 +724,7 @@ const defaultComponentConfig = {
         container: "w-full px-1 mb-1",
       },
       Button: {
-        base: "w-full cursor-pointer text-center text-sm rounded-full leading-none transition ease-in-out duration-100 leading-loose focus:outline-none ",
+        base: "w-full h-full cursor-pointer text-center text-sm rounded-full leading-none transition ease-in-out duration-100 leading-loose focus:outline-none ",
         regular: "bg-primary text-primary-contrast",
         firstOrLast: "bg-primary text-primary-contrast",
         selected: "bg-primary-light text-primary-contrast",
@@ -1244,6 +1244,7 @@ const defaultComponentConfig = {
     },
   },
   PageHeading: {
+    container: "md:flex md:items-center md:justify-between",
     master: "flex-1 min-w-0",
     breadcrumbs: "mb-2",
     title: {

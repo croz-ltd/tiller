@@ -25,7 +25,7 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import storybookDictionary from "../intl/storybookDictionary";
-import { beautifyDateSource, FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import mdx from "./DateInputField.mdx";
 
@@ -55,7 +55,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source) => beautifyDateSource(source),
+      transformSource: (source) => beautifySource(source),
     },
     design: {
       type: "figma",

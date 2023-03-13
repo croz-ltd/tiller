@@ -27,7 +27,7 @@ import { Icon } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DataTable.mdx";
 
@@ -37,7 +37,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
           .replace(/DataTableCardHeaderTitle/g, "DataTable.CardHeader.Title")
@@ -51,7 +51,7 @@ export default {
           .replace(/DataTableExpander/g, "DataTable.Expander")
           .replace(/DataTableSelector/g, "DataTable.Selector")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, "DataTable");
+        return beautifySource(getChangedTokensFromSource(correctedSource, "DataTable"));
       },
     },
     design: {
