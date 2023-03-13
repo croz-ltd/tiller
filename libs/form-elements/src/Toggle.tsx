@@ -83,21 +83,21 @@ export default function Toggle({
     tokens.base,
     { [tokens.backgroundColor]: checked },
     { [tokens.gray]: !checked },
-    { [tokens.disabled]: disabled }
+    { [tokens.disabled]: disabled },
   );
   const toggleClassName = cx(
     tokens.toggle,
     { "translate-x-5": checked },
     { "translate-x-0": !checked },
-    { [tokens.disabled]: disabled }
+    { [tokens.disabled]: disabled },
   );
 
   const finalCheckedIcon = useIcon("completed", checkedIcon, {
-    className: "flex items-center mt-[3px] ml-[3px]",
+    className: "flex items-center my-[3px] ml-[2.8px]",
     size: 3,
   });
   const finalUncheckedIcon = useIcon("dismiss", uncheckedIcon, {
-    className: "flex items-center mt-[3px] ml-[3px]",
+    className: "flex items-center my-[3px] ml-[2.8px]",
     size: 3,
   });
 

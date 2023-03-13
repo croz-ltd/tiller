@@ -76,18 +76,12 @@ export const WithActions = () => {
           <FileList.Header expandable={file.id === "1"}>
             <FileList.Header.Name>{file.name}</FileList.Header.Name>
             <FileList.Header.Action to={`/${file.id}/download`}>Download</FileList.Header.Action>
-            <FileList.Header.Action>
-              <span
-                onClick={() => {
-                  return helpers.deleteFile(file);
-                }}
-              >
-                Delete
-              </span>
-            </FileList.Header.Action>
+            <FileList.Header.Action onClick={() => helpers.deleteFile(file)}>Delete</FileList.Header.Action>
             <FileList.Header.Action>
               <Icon
                 type="pencil"
+                size={4}
+                className="flex"
                 onClick={() => {
                   return helpers.deleteFile(file);
                 }}

@@ -72,7 +72,6 @@ export type TopNavigationProps = {
 
 type TopNavigationTokensProps = {
   topNavigationTokens?: ComponentTokens<"TopNavigation">;
-  sidebarNavigationTokens?: ComponentTokens<"SidebarNavigation">;
 };
 
 export type TopNavigationItemProps = {
@@ -272,7 +271,6 @@ function TopNavigation({
   ...props
 }: TopNavigationProps) {
   const topNavigationTokens = useTokens("TopNavigation", props.topNavigationTokens);
-  const sidebarNavigationTokens = useTokens("SidebarNavigation", props.sidebarNavigationTokens);
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [dropdownOpened, setDropdownOpened] = React.useState(false);
@@ -298,7 +296,7 @@ function TopNavigation({
     topNavigationTokens.base.padding,
     { [topNavigationTokens.base.dark]: color === "dark" },
     { [topNavigationTokens.base.light]: color === "light" },
-    { [topNavigationTokens.base.default]: color === "default" }
+    { [topNavigationTokens.base.default]: color === "default" },
   );
 
   const logoClassName = cx(
@@ -306,10 +304,10 @@ function TopNavigation({
     { "hidden md:inline-flex": dropdownOpened },
     { [topNavigationTokens.logo.withTopRightAction.master]: topRightAction },
     { [topNavigationTokens.logo.withTopRightAction.margin]: topRightAction },
-    { [topNavigationTokens.logo.withoutTopRightAction]: !topRightAction }
+    { [topNavigationTokens.logo.withoutTopRightAction]: !topRightAction },
   );
 
-  const navButtonClassName = cx(sidebarNavigationTokens.navButtons.master, sidebarNavigationTokens.navButtons[color]);
+  const navButtonClassName = cx(topNavigationTokens.navButtons.master, topNavigationTokens.navButtons[color]);
 
   const menuButtonClassName = cx(topNavigationTokens.navButtons.hover);
 
@@ -391,7 +389,7 @@ function TopNavigationMenuContainer({
   const innerMenuContainerClassName = cx(
     tokens.innerMenuContainer,
     { [className]: variant === "basic" || variant === "contained" },
-    { "justify-start mt-2 pb-3": variant === "centered" }
+    { "justify-start mt-2 pb-3": variant === "centered" },
   );
 
   return (
@@ -430,7 +428,7 @@ export function TopNavigationItem({
     { [tokens.Item.inactive[color]]: !active },
     { [tokens.Item.active[color]]: active },
     { [tokens.Item.active.fontWeight]: active },
-    { [tokens.Item.expandable.container]: isExpandable }
+    { [tokens.Item.expandable.container]: isExpandable },
   );
 
   const containerClassName = cx(
@@ -439,7 +437,7 @@ export function TopNavigationItem({
     tokens.Item.expandable.subitemsContainer.width,
     { [tokens.Item.expandable.subitemsContainer.dark]: color === "dark" },
     { [tokens.Item.expandable.subitemsContainer.light]: color === "light" },
-    { [tokens.Item.expandable.subitemsContainer.default]: color === "default" }
+    { [tokens.Item.expandable.subitemsContainer.default]: color === "default" },
   );
 
   const iconProps = { className: "ml-1", size: 3 };
@@ -516,7 +514,7 @@ export function TopNavigationDropdown({
   const mobileIconClassName = cx(
     { [dropdownMenuTokens.Icon.color.default]: iconColor === "default" },
     { [dropdownMenuTokens.Icon.color.dark]: iconColor === "dark" },
-    { [dropdownMenuTokens.Icon.color.light]: iconColor === "light" }
+    { [dropdownMenuTokens.Icon.color.light]: iconColor === "light" },
   );
 
   const containerClassName = cx(
@@ -526,7 +524,7 @@ export function TopNavigationDropdown({
     topNavigationTokens.Item.expandable.subitemsContainer.width,
     { [topNavigationTokens.Item.expandable.subitemsContainer.dark]: iconColor === "light" },
     { [topNavigationTokens.Item.expandable.subitemsContainer.light]: iconColor === "dark" },
-    { [topNavigationTokens.Item.expandable.subitemsContainer.default]: iconColor === "default" }
+    { [topNavigationTokens.Item.expandable.subitemsContainer.default]: iconColor === "default" },
   );
 
   return (
@@ -579,9 +577,10 @@ export function TopNavigationDropdownItem({
     tokens.smallDropdownItem.fontSize,
     tokens.smallDropdownItem.transition,
     { [tokens.smallDropdownItem.base.fontWeight]: !active },
+    { [tokens.smallDropdownItem.base[color]]: !active },
     { [tokens.smallDropdownItem.active[color]]: active },
     { [tokens.smallDropdownItem.active.fontWeight]: active },
-    className
+    className,
   );
 
   const dropdownItemClassName = cx(
@@ -592,7 +591,7 @@ export function TopNavigationDropdownItem({
     { [tokens.dropdownItem.base.fontWeight]: !active },
     { [tokens.dropdownItem.base[color]]: !active },
     { [tokens.dropdownItem.active[color]]: active },
-    { [tokens.dropdownItem.active.fontWeight]: active }
+    { [tokens.dropdownItem.active.fontWeight]: active },
   );
 
   const iconTextWrapper = (text: React.ReactNode) => {

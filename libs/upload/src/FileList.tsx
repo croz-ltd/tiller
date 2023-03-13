@@ -129,7 +129,7 @@ function FileHeader({ expandable = false, children, className, ...props }: FileH
     tokens.container.borderRadius,
     tokens.container.padding,
     tokens.container.fontSize,
-    tokens.container.lineHeight
+    tokens.container.lineHeight,
   );
 
   const toggleExpander = () => {
@@ -176,10 +176,12 @@ function FileListName({ children, className, fileIcon, ...props }: FileListNameP
 
   const containerClassName = cx(className, "w-0 flex-1 flex items-center");
 
+  const fileListNameClassName = cx(tokens.fileName.textColor, tokens.fileName.fontSize);
+
   return (
     <div className={containerClassName}>
       {finalFileIcon}
-      <span className={tokens.color}>{children}</span>
+      <span className={fileListNameClassName}>{children}</span>
     </div>
   );
 }
@@ -187,7 +189,7 @@ function FileListName({ children, className, fileIcon, ...props }: FileListNameP
 function FileListAction({ to, children, className, ...props }: FileListActionsProps) {
   const tokens = useTokens("FileList", props.tokens);
 
-  const actionsClassName = cx(tokens.actions.master, tokens.actions.fontWeight, tokens.actions.color);
+  const actionsClassName = cx(tokens.actions.master, tokens.actions.fontSize, tokens.actions.color);
 
   const containerClassName = cx(className, "ml-4 flex-shrink-0 space-x-2");
 

@@ -41,13 +41,13 @@ export type DropdownMenuMenuProps = {
 
   /**
    * Custom icon serving as a dropdown menu open button.
-   * If you wish to show this icon as a leading icon (before the title), set the 'leadingIcon' prop to 'true'.
+   * If you wish to show this icon as a leading icon (before the title), set the 'iconPlacement' prop to 'leading'.
    */
   openExpanderIcon?: React.ReactElement;
 
   /**
    * Custom icon serving as a dropdown menu close button.
-   * If you wish to show this icon as a leading icon (before the title), set the 'leadingIcon' prop to 'true'.
+   * If you wish to show this icon as a leading icon (before the title), set the 'iconPlacement' prop to 'leading'.
    */
   closeExpanderIcon?: React.ReactElement;
 
@@ -123,7 +123,7 @@ function DropdownMenu({
   const iconClassName = cx(
     { [tokens.Icon.color.default]: iconColor === "default" },
     { [tokens.Icon.color.dark]: iconColor === "dark" },
-    { [tokens.Icon.color.light]: iconColor === "light" }
+    { [tokens.Icon.color.light]: iconColor === "light" },
   );
 
   const iconProps = { className: iconClassName, size: 3 };
@@ -139,7 +139,7 @@ function DropdownMenu({
   );
 
   return (
-    <Dropdown className={className}>
+    <Dropdown>
       <Dropdown.Button>
         {menuType === "text" && (
           <Button
@@ -194,8 +194,9 @@ export function DropdownMenuItem({
     tokens.MenuItem.master,
     tokens.MenuItem.padding,
     tokens.MenuItem.fontSize,
+    tokens.MenuItem.textColor,
     tokens.MenuItem.transition,
-    { [tokens.MenuItem.disabled]: disabled }
+    { [tokens.MenuItem.disabled]: disabled },
   );
 
   return (
@@ -223,20 +224,20 @@ function DropdownMenuContainer({
     tokens.MenuContainer.width,
     tokens.MenuContainer.borderRadius,
     tokens.MenuContainer.boxShadow,
-    tokens.MenuContainer.backgroundColor
+    tokens.MenuContainer.backgroundColor,
   );
 
   const menuInnerContainerClassName = cx(
     tokens.MenuInnerContainer.borderRadius,
     tokens.MenuInnerContainer.boxShadow,
     tokens.MenuInnerContainer.backgroundColor[backgroundColor],
-    "overflow-y-auto scrollbar"
+    "overflow-y-auto scrollbar",
   );
 
   const menuContainerChildrenClassName = cx(
     tokens.MenuContainerChildren.master,
     tokens.MenuContainerChildren.padding,
-    tokens.MenuContainerChildren.textColor[backgroundColor]
+    tokens.MenuContainerChildren.textColor[backgroundColor],
   );
 
   const containerPadding: number = React.useMemo(() => {
@@ -244,7 +245,7 @@ function DropdownMenuContainer({
       return parseInt(
         getComputedStyle(childrenContainerRef.current as Element)
           .getPropertyValue("padding-top")
-          .match(/\d{1,3}/g)?.[0] || "2"
+          .match(/\d{1,3}/g)?.[0] || "2",
       );
     }
     return 2;
