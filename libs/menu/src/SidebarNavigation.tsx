@@ -24,6 +24,7 @@ import { Button } from "@tiller-ds/core";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DropdownMenu, { DropdownMenuMenuProps } from "./DropdownMenu";
+import NavigationContextProvider, { NavigationDropdownContext } from "./NavigationContextProvider";
 
 type SidebarNavigationProps = {
   /**
@@ -189,7 +190,6 @@ function SidebarNavigation({
   const tokens = useTokens("SidebarNavigation", props.tokens);
 
   const [isOpen, setIsOpen] = React.useState(false);
-  const [dropdownOpened, setDropdownOpened] = React.useState(false);
 
   const containerClassName = cx(
     className,
@@ -211,7 +211,6 @@ function SidebarNavigation({
 
   const logoClassName = cx(
     tokens.logo.master,
-    { "hidden md:inline-flex": dropdownOpened },
     { [tokens.logo.withTopRightAction.master]: topRightAction },
     { [tokens.logo.withTopRightAction.margin]: topRightAction },
     { [tokens.logo.withoutTopRightAction]: !topRightAction },
@@ -250,37 +249,44 @@ function SidebarNavigation({
   const menuIcon = useIcon("menu", undefined, { className: navButtonClassName });
 
   return (
-    <div className={containerClassName}>
-      <div className={tokens.topContainer}>
-        {!dropdownOpened && (
-          <div className={tokens.navButtons.container}>
-            <Button
-              className={menuButtonStyleClassName}
-              color={menuButtonClassName}
-              variant="text"
-              onClick={handleClick}
-            >
-              {menuIcon}
-            </Button>
+    <NavigationContextProvider menuOpened={isOpen} actionOpened={false}>
+      <NavigationDropdownContext.Consumer>
+        {({ isActionOpened }) => (
+          <div className={containerClassName}>
+            <div className={tokens.topContainer}>
+              {!isActionOpened && (
+                <>
+                  <div className={tokens.navButtons.container}>
+                    <Button
+                      className={menuButtonStyleClassName}
+                      color={menuButtonClassName}
+                      variant="text"
+                      onClick={handleClick}
+                    >
+                      {menuIcon}
+                    </Button>
+                  </div>
+                  {logo && <div className={logoClassName}>{logo}</div>}
+                </>
+              )}
+              {topRightAction && (
+                <div
+                  className={`flex items-center justify-end md:justify-center md:mr-0 md:col-span-1 ${
+                    !isActionOpened ? (logo ? "col-span-1 mr-4" : "col-span-2 mr-4") : "col-span-3"
+                  }`}
+                >
+                  {topRightAction}
+                </div>
+              )}
+            </div>
+            <div className={navClass}>
+              <nav className={navClassName}>{children}</nav>
+              {bottomActions && <div className={bottomActionsClassName}>{bottomActions}</div>}
+            </div>
           </div>
         )}
-        {logo && <div className={logoClassName}>{logo}</div>}
-        {topRightAction && (
-          <div
-            className={`flex items-center justify-end md:justify-center md:mr-2 md:col-span-1 ${
-              !dropdownOpened ? (logo ? "col-span-1 mr-4" : "col-span-2 mr-4") : "col-span-3"
-            }`}
-            onClick={() => setDropdownOpened(!dropdownOpened)}
-          >
-            {topRightAction}
-          </div>
-        )}
-      </div>
-      <div className={navClass}>
-        <nav className={navClassName}>{children}</nav>
-        {bottomActions && <div className={bottomActionsClassName}>{bottomActions}</div>}
-      </div>
-    </div>
+      </NavigationDropdownContext.Consumer>
+    </NavigationContextProvider>
   );
 }
 
@@ -294,12 +300,12 @@ export function SidebarNavigationItem({
   className,
   ...props
 }: SidebarNavigationItemProps) {
-  const [opened, setOpened] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
 
   const tokens = useTokens("SidebarNavigation", props.tokens);
   const location = useLocation();
 
-  const active = to !== undefined ? location.pathname.includes(to) : false;
+  const active = to !== undefined ? location.pathname === to : false;
   const cn = cx(
     className,
     tokens.item.master,
@@ -334,12 +340,12 @@ export function SidebarNavigationItem({
   if (isExpandable) {
     return (
       <div className="cursor-pointer flex flex-col md:items-start items-center">
-        <div {...props} className={cn} onClick={() => setOpened(!opened)}>
+        <div {...props} className={cn} onClick={() => setExpanded(!expanded)}>
           {icon && <div className={iconClassName}>{icon}</div>}
           {title}
-          {opened ? closeExpanderIcon : openExpanderIcon}
+          {expanded ? closeExpanderIcon : openExpanderIcon}
         </div>
-        {opened && <div className={containerClassName}>{children}</div>}
+        {expanded && <div className={containerClassName}>{children}</div>}
       </div>
     );
   }
@@ -364,28 +370,27 @@ export function SidebarNavigationDropdown({
   className,
   ...props
 }: SidebarNavigationDropdownProps) {
-  const sidebarNavigationtokens = useTokens("SidebarNavigation", props.sidebarNavigationTokens);
-  const dropdownMenutokens = useTokens("DropdownMenu", props.dropdownMenuTokens);
-
-  const [opened, setOpened] = React.useState(false);
+  const sidebarNavigationTokens = useTokens("SidebarNavigation", props.sidebarNavigationTokens);
+  const dropdownMenuTokens = useTokens("DropdownMenu", props.dropdownMenuTokens);
+  const { isActionOpened, onActionOpenedToggle } = React.useContext(NavigationDropdownContext);
 
   const mobileIconClassName = cx(
-    { [dropdownMenutokens.Icon.color.default]: iconColor === "default" },
-    { [dropdownMenutokens.Icon.color.dark]: iconColor === "dark" },
-    { [dropdownMenutokens.Icon.color.light]: iconColor === "light" },
+    { [dropdownMenuTokens.Icon.color.default]: iconColor === "default" },
+    { [dropdownMenuTokens.Icon.color.dark]: iconColor === "dark" },
+    { [dropdownMenuTokens.Icon.color.light]: iconColor === "light" },
   );
 
   const containerClassName = cx(
-    sidebarNavigationtokens.item.expandable.subitemsContainer.padding,
-    sidebarNavigationtokens.item.expandable.subitemsContainer.boxShadow,
-    { [sidebarNavigationtokens.item.expandable.subitemsContainer.dark]: popupBackgroundColor === "dark" },
-    { [sidebarNavigationtokens.item.expandable.subitemsContainer.light]: popupBackgroundColor === "light" },
-    { [sidebarNavigationtokens.item.expandable.subitemsContainer.default]: popupBackgroundColor === "default" },
+    sidebarNavigationTokens.item.expandable.subitemsContainer.padding,
+    sidebarNavigationTokens.item.expandable.subitemsContainer.boxShadow,
+    { [sidebarNavigationTokens.item.expandable.subitemsContainer.dark]: popupBackgroundColor === "dark" },
+    { [sidebarNavigationTokens.item.expandable.subitemsContainer.light]: popupBackgroundColor === "light" },
+    { [sidebarNavigationTokens.item.expandable.subitemsContainer.default]: popupBackgroundColor === "default" },
   );
 
   const dropdownMenuContainerClassName = cx(
-    sidebarNavigationtokens.topRightAction.master,
-    { "ml-8": !opened },
+    sidebarNavigationTokens.topRightAction.master,
+    { "ml-8": !isActionOpened },
     className,
   );
 
@@ -405,11 +410,15 @@ export function SidebarNavigationDropdown({
           <div className="px-2">{children}</div>
         </DropdownMenu>
       </div>
-      <div className={`md:hidden flex flex-col ${opened && "w-full"}`}>
-        <Button variant={buttonVariant} color={buttonColor} onClick={() => setOpened(!opened)}>
+      <div className={`md:hidden flex flex-col ${isActionOpened && "w-full"}`}>
+        <Button
+          variant={buttonVariant}
+          color={buttonColor}
+          onClick={() => (onActionOpenedToggle ? onActionOpenedToggle(!isActionOpened) : undefined)}
+        >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
-        {opened && <div className={containerClassName}>{children}</div>}
+        {isActionOpened && <div className={containerClassName}>{children}</div>}
       </div>
     </div>
   );
