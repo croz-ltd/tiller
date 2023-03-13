@@ -189,6 +189,7 @@ function Select<T>({
   //used only for form submit on enter
   const inputRef = React.useRef<HTMLInputElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const stateChangeRef = React.useRef<any>(null);
 
   const selectionTypes: unknown[] = [
     useSelect.stateChangeTypes.MenuKeyDownEnter,
@@ -206,7 +207,15 @@ function Select<T>({
     items: filteredOptions,
     labelId: id,
     selectedItem: null,
-    stateReducer: (_, actionAndChanges) => {
+    stateReducer: (state, actionAndChanges) => {
+      if (
+          actionAndChanges.type === stateChangeRef.current?.type &&
+          actionAndChanges.changes.selectedItem === stateChangeRef.current?.changes.selectedItem &&
+          actionAndChanges.changes.highlightedIndex === stateChangeRef.current?.changes.highlightedIndex
+      ) {
+        return state;
+      }
+      stateChangeRef.current = actionAndChanges;
       if (allowMultiple && selectionTypes.indexOf(actionAndChanges.type) !== -1) {
         return {
           ...actionAndChanges.changes,
