@@ -20,7 +20,7 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { DateRangeInputField } from "@tiller-ds/formik-elements";
-import { beautifyDateSource, FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
@@ -63,7 +63,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source) => beautifyDateSource(source),
+      transformSource: (source) => beautifySource(source),
     },
     design: {
       type: "figma",
