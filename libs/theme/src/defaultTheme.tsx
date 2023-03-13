@@ -1439,16 +1439,16 @@ const defaultComponentConfig = {
       master: "flex flex-col gap-5 md:h-screen md:w-64",
       dark: "text-white bg-slate-800",
       light: "text-slate-700 bg-white border-b border-slate-200",
-      default: "text-white bg-primary-700",
-      padding: "py-4 px-3",
+      default: "text-white bg-primary-dark",
+      padding: "p-4 md:py-4 md:px-3",
     },
-    topContainer: "grid grid-cols-3 justify-center",
+    topContainer: "w-full grid grid-cols-3 justify-center md:flex justify-between",
     base: {
       master: "flex-col space-y-1 scrollbar overflow-y-auto",
       container: "h-96 flex-col flex-grow",
       boxShadow: "shadow-sm",
       borderRadius: "rounded-md",
-      default: "text-white bg-primary-600",
+      default: "text-white bg-primary",
       dark: "text-white bg-slate-700",
       light: "text-slate-700 bg-slate-100 border-b border-slate-200",
       padding: "p-2",
@@ -1459,7 +1459,7 @@ const defaultComponentConfig = {
       size: "h-10",
       hover: "primary",
       master: "hover:text-black",
-      default: "text-primary-300",
+      default: "text-primary-light",
       dark: "text-slate-300",
       light: "text-slate-700",
     },
@@ -1481,10 +1481,10 @@ const defaultComponentConfig = {
     item: {
       master: "flex leading-5",
       padding: "py-2 px-3",
-      fontSize: "text-base md:text-sm",
+      fontSize: "text-button-lg md:text-button-sm",
       base: {
         fontWeight: "font-medium",
-        default: `w-full text-white text-center justify-center hover:bg-primary-800 hover:text-slate-300
+        default: `w-full text-white text-center justify-center hover:bg-primary-dark hover:text-slate-300
         md:text-start md:justify-start md:rounded-none md:border-l-2 md:border-transparent 
         md:hover:text-slate-300 md:hover:bg-transparent md:hover:border-slate-300`,
         dark: `w-full text-slate-200 text-center justify-center hover:bg-slate-800 hover:text-slate-300
@@ -1496,13 +1496,13 @@ const defaultComponentConfig = {
       },
       active: {
         fontWeight: "font-semibold",
-        default: `bg-primary-800 border-primary-800 rounded-md justify-center
+        default: `bg-primary-dark border-primary-light rounded-md justify-center
         md:justify-start md:bg-transparent md:border-l-2 
         md:hover:text-slate-300 md:rounded-none`,
-        dark: `bg-slate-800 border-primary-600 rounded-md justify-center
+        dark: `bg-slate-800 border-primary rounded-md justify-center
         md:justify-start md:bg-transparent md:border-l-2 
         md:hover:text-slate-300 md:rounded-none`,
-        light: `text-slate-700 bg-slate-200 border-primary-600 rounded-md 
+        light: `text-slate-700 bg-slate-200 border-primary-dark rounded-md 
         justify-center md:justify-start md:bg-transparent md:border-l-2  
         md:hover:text-slate-500 md:rounded-none`,
       },
@@ -1511,10 +1511,10 @@ const defaultComponentConfig = {
         subitemsContainer: {
           padding: "p-2",
           margin: "md:ml-4",
-          borderRadius: "rounded-md md:rounded-none",
+          borderRadius: "rounded-md md:rounded",
           boxShadow: "shadow-sm",
           width: "w-4/5",
-          default: "bg-primary-700 ",
+          default: "bg-primary-dark",
           dark: "bg-slate-800 ",
           light: "bg-white ",
         },
@@ -1533,11 +1533,11 @@ const defaultComponentConfig = {
     dropdownItem: {
       master: "my-1 block flex justify-center md:justify-start",
       padding: "py-2 px-2 md:pl-2 md:py-0.5",
-      fontSize: "text-base md:text-sm",
+      fontSize: "text-button-lg md:text-button-sm",
       base: {
         fontWeight: "font-medium",
         default: `w-full text-white text-center justify-center 
-        hover:bg-primary-800 hover:text-slate-300 md:border-transparent 
+        hover:bg-primary hover:text-slate-300 md:border-transparent 
         md:text-start md:justify-start md:rounded-none md:border-l-2
         md:hover:text-slate-300 md:hover:bg-transparent md:hover:border-slate-300`,
         dark: `w-full text-slate-200 text-center justify-center
@@ -1551,8 +1551,8 @@ const defaultComponentConfig = {
       },
       active: {
         fontWeight: "font-semibold",
-        default: `text-slate-200 bg-primary-800 rounded-md justify-center
-        border-primary-900 md:justify-start md:bg-transparent md:border-l-2 
+        default: `text-slate-200 bg-primary rounded-md justify-center
+        border-primary-light md:justify-start md:bg-transparent md:border-l-2 
         md:hover:text-slate-300 md:rounded-none`,
         dark: `text-slate-200 bg-slate-700 rounded-md justify-center 
         border-primary-600 md:justify-start md:bg-transparent md:border-l-2 
@@ -1701,10 +1701,10 @@ const defaultComponentConfig = {
       padding: "py-4",
       dark: "text-white bg-slate-800",
       light: "text-slate-700 bg-white border-b border-slate-200",
-      default: "text-white bg-primary-700",
+      default: "text-white bg-primary-dark",
     },
     logo: {
-      master: "ml-2 flex-shrink-0",
+      master: "ml-0 md:ml-2 shrink-0",
       withTopRightAction: {
         master: "md:justify-start md:col-span-2",
         margin: "md:ml-2",
@@ -1714,19 +1714,19 @@ const defaultComponentConfig = {
     navButtons: {
       hover: "primary",
       master: "hover:text-black",
-      default: "text-primary-300",
+      default: "text-primary-light",
       dark: "text-slate-300",
       light: "text-slate-700",
     },
     Item: {
       master: "flex leading-5",
       padding: "px-3 py-2",
-      fontSize: `text-base md:text-sm`,
+      fontSize: "text-button-lg md:text-button-sm",
       base: {
         fontWeight: "font-medium",
         transition: "transition ease-in-out duration-150",
         default: `w-full text-white text-center justify-center
-        hover:bg-primary-800 hover:text-slate-300 md:border-transparent
+        hover:bg-primary hover:text-slate-300 md:border-transparent
         md:text-start md:justify-start md:rounded-none md:border-b-2
         md:hover:text-slate-300 md:hover:bg-transparent md:hover:border-slate-300`,
         dark: `w-full text-slate-200 text-center justify-center
@@ -1740,23 +1740,23 @@ const defaultComponentConfig = {
       },
       active: {
         fontWeight: "font-semibold",
-        default: `w-full bg-primary-800 rounded-md border-primary-900
+        default: `w-full bg-primary rounded-md border-primary-light
         justify-center md:justify-start md:bg-transparent md:border-b-2
         md:hover:text-slate-300 md:rounded-none`,
-        dark: `w-full bg-slate-700 rounded-md border-primary-600
+        dark: `w-full bg-slate-700 rounded-md border-primary
         justify-center md:justify-start md:bg-transparent md:border-b-2
         md:hover:text-slate-300 md:rounded-none`,
-        light: `w-full text-slate-700 bg-slate-200 rounded-md border-primary-600
+        light: `w-full text-slate-700 bg-slate-200 rounded-md border-primary-dark
         justify-center md:justify-start md:bg-transparent md:border-b-2
          md:hover:text-slate-500 md:rounded-none`,
       },
       expandable: {
-        container: "flex items-center space-x-0.5 ",
+        container: "flex items-center space-x-0.5",
         subitemsContainer: {
           master: "rounded-md",
           padding: "p-2 px-2",
           width: "w-full",
-          default: "bg-primary-600 ",
+          default: "bg-primary",
           dark: "bg-slate-900 ",
           light: "bg-slate-100 ",
         },
@@ -1769,8 +1769,8 @@ const defaultComponentConfig = {
       space: "ml-4",
       transition: "transition duration-300 ease-in-out",
     },
-    fullWidth: "w-full px-4 grid grid-cols-3 justify-center justify-between",
-    container: " max-w-7xl mx-auto",
+    fullWidth: "w-full px-4 grid grid-cols-3 justify-center md:flex justify-between",
+    container: "max-w-7xl mx-auto",
     innerContainer: "flex justify-center items-center md:ml-2 md:justify-start md:col-span-2",
     menuContainer: "hidden md:block",
     innerMenuContainer: "flex items-baseline space-x-4",
@@ -1778,7 +1778,7 @@ const defaultComponentConfig = {
     innerActionsAndDropdownContainer: "flex justify-end items-center",
     menuButtonContainer: "md:hidden flex items-center text-center justify-start md:justify-center",
     smallMenuContainer: "flex flex-wrap flex-col",
-    smallMenuInnerContainer: "mx-4 px-2 pb-3 flex flex-col flex-start flex-wrap items-start",
+    smallMenuInnerContainer: "mx-4 px-2 pb-3 flex flex-col space-y-2 flex-start flex-wrap items-start",
     smallDropdownContainer: "pb-3 flex flex-col flex-wrap ",
     smallDropdown: "px-4 flex items-center",
     actionsContainer: "flex-shrink-0",
@@ -1798,40 +1798,40 @@ const defaultComponentConfig = {
       default: "border-b-2 border-white",
     },
     dropdownItem: {
-      master: "my-1 py-2 px-2  block flex justify-center md:pl-2 md:py-0.5 md:justify-start",
-      fontSize: "text-base md:text-sm",
+      master: "my-1 py-2 px-2 block flex justify-center md:pl-2 md:py-0.5 md:justify-start",
+      fontSize: "text-button-lg md:text-button-sm",
       base: {
         fontWeight: "font-medium",
         default: `w-full text-white text-center justify-center
-        hover:bg-primary-800 hover:text-slate-300 md:text-start md:justify-start
-        md:rounded-none md:border-b-2 md:border-transparent md:hover:text-slate-300
+        hover:bg-primary-dark hover:text-slate-300 md:text-start md:justify-start
+        md:rounded-none md:border-l-2 md:border-transparent md:hover:text-slate-300
         md:hover:bg-transparent md:hover:border-slate-300`,
         dark: `w-full text-slate-200 text-center justify-center 
         hover:bg-slate-700 hover:text-slate-300 md:text-start md:justify-start
-        md:rounded-none md:border-b-2 md:border-transparent md:hover:text-slate-300
+        md:rounded-none md:border-l-2 md:border-transparent md:hover:text-slate-300
          md:hover:bg-transparent md:hover:border-slate-300`,
         light: `w-full text-slate-500 text-center justify-center 
         hover:bg-slate-200 hover:text-slate-700 md:text-start md:justify-start
-        md:rounded-none md:border-b-2 md:border-transparent md:hover:text-slate-700
+        md:rounded-none md:border-l-2 md:border-transparent md:hover:text-slate-700
         md:hover:bg-transparent md:hover:border-slate-400`,
       },
       active: {
         fontWeight: "font-semibold",
-        default: `text-slate-200 bg-primary-800 rounded-md justify-center
-        md:justify-start md:bg-transparent md:border-b-2 border-primary-900 
+        default: `text-slate-200 bg-primary-dark rounded-md justify-center
+        md:justify-start md:bg-transparent md:border-l-2 border-primary-light 
         md:hover:text-slate-300 md:rounded-none`,
         dark: `text-slate-200 bg-slate-700 rounded-md justify-center 
-        md:justify-start md:bg-transparent md:border-b-2 border-primary-600 
+        md:justify-start md:bg-transparent md:border-l-2 border-primary-600 
         md:hover:text-slate-300 md:rounded-none`,
         light: `text-slate-700 bg-slate-200 rounded-md justify-center 
-        md:justify-start md:bg-transparent md:border-b-2 border-primary-600 
+        md:justify-start md:bg-transparent md:border-l-2 border-primary-600 
         md:hover:text-slate-500 md:rounded-none`,
       },
       transition: "transition duration-150 ease-in-out",
     },
     smallDropdownItem: {
       master: "my-1 py-2 block text-center",
-      fontSize: "text-base md:text-sm",
+      fontSize: "text-button-lg md:text-button-sm",
       base: {
         fontWeight: "font-medium",
         default: `text-white hover:text-slate-200 hover:bg-primary-700 focus:bg-primary-700`,
