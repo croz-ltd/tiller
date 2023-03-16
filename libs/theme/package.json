@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/theme",
   "version": "0.0.0-dev",
+  "description": "Theme module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

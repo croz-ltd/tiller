@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/icons",
   "version": "0.0.0-dev",
+  "description": "Icons module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

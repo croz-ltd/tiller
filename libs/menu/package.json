@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/menu",
   "version": "0.0.0-dev",
+  "description": "Menu module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

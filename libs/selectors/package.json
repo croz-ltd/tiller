@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/selectors",
   "version": "0.0.0-dev",
+  "description": "Selectors module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",
