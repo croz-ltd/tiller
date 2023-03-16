@@ -42,6 +42,11 @@ export type ProgressBarProps = {
    * Custom additional class name for the main container.
    */
   className?: string;
+
+  /**
+   * Custom step separator shown between steps.
+   */
+  separator?: React.ReactNode;
 } & ProgressBarTokensProps;
 
 type ProgressBarTokensProps = {
@@ -72,6 +77,7 @@ type StepContext = {
   startingIndex: number;
   endingIndex: number;
   completed: boolean;
+  separator: React.ReactNode;
 };
 
 const StepContext = createNamedContext<StepContext>("StepContext", {
@@ -80,9 +86,17 @@ const StepContext = createNamedContext<StepContext>("StepContext", {
   startingIndex: -1,
   endingIndex: -1,
   completed: false,
+  separator: undefined,
 });
 
-function ProgressBar({ startingIndex = 0, completed = false, children, className, ...props }: ProgressBarProps) {
+function ProgressBar({
+  startingIndex = 0,
+  completed = false,
+  children,
+  className,
+  separator,
+  ...props
+}: ProgressBarProps) {
   const tokens = useTokens("ProgressBar", props.tokens);
 
   const containerClassName = cx(
@@ -91,17 +105,17 @@ function ProgressBar({ startingIndex = 0, completed = false, children, className
     tokens.container.borderColor,
     tokens.container.borderRadius,
     "overflow-x-auto scrollbar",
-    className
+    className,
   );
 
   const activeStepIndex = findIndex(React.Children.toArray(children), (child) =>
-    React.isValidElement(child) ? child.props.active : false
+    React.isValidElement(child) ? child.props.active : false,
   );
 
   const endingIndex = React.Children.toArray(children).length - 1;
 
   const childrenWithIndex = React.Children.map(children, (child, index) => (
-    <StepContext.Provider value={{ activeStepIndex, index, startingIndex, endingIndex, completed }}>
+    <StepContext.Provider value={{ activeStepIndex, index, startingIndex, endingIndex, completed, separator }}>
       {child}
     </StepContext.Provider>
   ));
@@ -115,7 +129,7 @@ function ProgressBar({ startingIndex = 0, completed = false, children, className
 
 export function Step({ active, children, ...props }: StepProps) {
   const tokens = useTokens("ProgressBar", props.tokens);
-  const { activeStepIndex, index, startingIndex, endingIndex, completed } = React.useContext(StepContext);
+  const { activeStepIndex, index, startingIndex, endingIndex, completed, separator } = React.useContext(StepContext);
 
   const before = index < activeStepIndex;
   const after = index > activeStepIndex;
@@ -126,14 +140,14 @@ export function Step({ active, children, ...props }: StepProps) {
     { [tokens.indexIcon.backgroundColor]: before || completed },
     { [tokens.indexIcon.borderWidth]: (active || after) && !completed },
     { [tokens.indexIcon.borderColor]: active },
-    { [tokens.indexIcon.afterBorderColor]: after }
+    { [tokens.indexIcon.afterBorderColor]: after },
   );
 
   const textIndexClassName = cx(
     tokens.textIndex.master,
     { [tokens.textIndex.color]: active && !completed },
     { [tokens.textIndex.beforeTextColor]: before || completed },
-    { [tokens.textIndex.afterTextColor]: after }
+    { [tokens.textIndex.afterTextColor]: after },
   );
 
   const stepContainerClassName = cx(
@@ -142,7 +156,7 @@ export function Step({ active, children, ...props }: StepProps) {
     tokens.stepContainer.margin,
     tokens.stepContainer.fontSize,
     tokens.stepContainer.fontWeight,
-    tokens.stepContainer.lineHeight
+    tokens.stepContainer.lineHeight,
   );
 
   const finalCompletedIcon = useIcon("completed", props.completedIcon, {
@@ -153,6 +167,8 @@ export function Step({ active, children, ...props }: StepProps) {
   const content =
     before || completed ? finalCompletedIcon : <p className={textIndexClassName}>{index + startingIndex}</p>;
 
+  const stepSeparator = separator ?? <DefaultSeparator />;
+
   return (
     <li className="relative md:flex-1 md:flex">
       <div className="group flex items-center">
@@ -160,13 +176,13 @@ export function Step({ active, children, ...props }: StepProps) {
           <div className={indexIconDivClassName}>{content}</div>
           <p className={textIndexClassName}>{children}</p>
         </div>
-        {!isLastStep && <RightArrow />}
+        {!isLastStep && stepSeparator}
       </div>
     </li>
   );
 }
 
-function RightArrow({ ...props }) {
+function DefaultSeparator({ ...props }) {
   const tokens = useTokens("ProgressBar", props.tokens);
   return (
     <div className="hidden md:block absolute top-0 right-0 h-full w-1">
