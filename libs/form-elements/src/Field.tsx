@@ -127,6 +127,9 @@ export default function Field({
   if (errorMessage?.toString().startsWith("intl:")) {
     errorMessage = <Intl name={errorMessage.toString().replace("intl:", "")} />;
   }
+  if (typeof errorMessage !== "string" && !React.isValidElement(errorMessage)) {
+    errorMessage = ""
+  }
 
   return (
     <div className={containerClassName}>
