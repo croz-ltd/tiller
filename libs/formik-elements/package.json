@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/formik-elements",
   "version": "0.0.0-dev",
+  "description": "Formik elements module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

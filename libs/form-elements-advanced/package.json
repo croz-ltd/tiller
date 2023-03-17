@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/form-elements-advanced",
   "version": "0.0.0-dev",
+  "description": "Form elements module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/intl",
   "version": "0.0.0-dev",
+  "description": "Intl module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

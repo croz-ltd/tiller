@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/patterns",
   "version": "0.0.0-dev",
+  "description": "Patterns module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",

@@ -1,6 +1,7 @@
 {
   "name": "@tiller-ds/util",
   "version": "0.0.0-dev",
+  "description": "Util module of Tiller Design System",
   "keywords": [
     "accessibility",
     "component library",
