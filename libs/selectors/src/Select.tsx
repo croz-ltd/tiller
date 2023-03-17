@@ -203,71 +203,61 @@ function Select<T>({
     setFilteredOptions(sort ? sort(options) : options);
   }, [options, sort]);
 
-  const { getToggleButtonProps, getItemProps, getMenuProps, isOpen, highlightedIndex, reset } = useSelect<T>({
-    items: filteredOptions,
-    labelId: id,
-    selectedItem: null,
-    stateReducer: (state, actionAndChanges) => {
-      if (
-          actionAndChanges.type === stateChangeRef.current?.type &&
-          actionAndChanges.changes.selectedItem === stateChangeRef.current?.changes.selectedItem &&
-          actionAndChanges.changes.highlightedIndex === stateChangeRef.current?.changes.highlightedIndex
-      ) {
-        return state;
-      }
-      stateChangeRef.current = actionAndChanges;
-      if (allowMultiple && selectionTypes.indexOf(actionAndChanges.type) !== -1) {
-        return {
-          ...actionAndChanges.changes,
-          isOpen: true,
-        };
-      } else {
-        return actionAndChanges.changes;
-      }
-    },
-    onStateChange: (state) => {
-      const { type, selectedItem } = state as { type: UseSelectStateChangeTypes; selectedItem?: T };
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { getToggleButtonProps, getItemProps, getMenuProps, isOpen, closeMenu, openMenu, highlightedIndex, reset } =
+    useSelect<T>({
+      items: filteredOptions,
+      labelId: id,
+      selectedItem: null,
+      isOpen: isMenuOpen,
+      onStateChange: (state) => {
+        const { type, selectedItem } = state as { type: UseSelectStateChangeTypes; selectedItem?: T };
 
-      if (selectionTypes.indexOf(type) !== -1 || type === useSelect.stateChangeTypes.FunctionReset) {
-        if (allowMultiple) {
-          const currentValue = value && Array.isArray(value) ? [...value] : [];
+        if (type === useSelect.stateChangeTypes.ItemClick) {
+          setIsMenuOpen(allowMultiple);
+        }
 
-          if (selectedItem) {
-            const index = currentValue.indexOf(selectedItem);
+        if (selectionTypes.indexOf(type) !== -1 || type === useSelect.stateChangeTypes.FunctionReset) {
+          if (allowMultiple) {
+            const currentValue = value && Array.isArray(value) ? [...value] : [];
 
-            if (index === -1) {
-              currentValue.push(selectedItem);
+            if (selectedItem) {
+              const index = currentValue.indexOf(selectedItem);
+
+              if (index === -1) {
+                currentValue.push(selectedItem);
+              } else {
+                currentValue.splice(index, 1);
+              }
+
+              onChange(currentValue);
             } else {
-              currentValue.splice(index, 1);
+              onChange([]);
+            }
+          } else if (selectedItem) {
+            onChange(selectedItem);
+          }
+        } else if (type === useSelect.stateChangeTypes.MenuBlur) {
+          setIsMenuOpen(false);
+          if (onBlur) {
+            onBlur();
+          }
+          if (Array.isArray(value)) {
+            let unselectedArray;
+            if (sort) {
+              unselectedArray = Array.of(...filteredOptions.filter((item) => !value.includes(item)));
+              sort(unselectedArray);
+              unselectedArray.unshift(...sort(value));
+            } else {
+              unselectedArray = Array.of(...options.filter((item) => !value.includes(item)));
+              unselectedArray.unshift(...value);
             }
 
-            onChange(currentValue);
-          } else {
-            onChange([]);
+            setFilteredOptions(unselectedArray);
           }
-        } else if (selectedItem) {
-          onChange(selectedItem);
         }
-      } else if (type === useSelect.stateChangeTypes.MenuBlur) {
-        if (onBlur) {
-          onBlur();
-        }
-        if (Array.isArray(value)) {
-          let unselectedArray;
-          if (sort) {
-            unselectedArray = Array.of(...filteredOptions.filter((item) => !value.includes(item)));
-            sort(unselectedArray);
-            unselectedArray.unshift(...sort(value));
-          } else {
-            unselectedArray = Array.of(...options.filter((item) => !value.includes(item)));
-            unselectedArray.unshift(...value);
-          }
-
-          setFilteredOptions(unselectedArray);
-        }
-      }
-    },
-  });
+      },
+    });
 
   const selectClassName = cx(
     { [tokens.Select.error]: error },
@@ -280,7 +270,7 @@ function Select<T>({
     tokens.Select.lineHeight,
     tokens.Select.padding,
     tokens.Select.borderRadius,
-    tokens.Select.backgroundColor
+    tokens.Select.backgroundColor,
   );
 
   const listClassName = cx({ invisible: !isOpen }, tokens.List.master, tokens.List.borderRadius, tokens.List.boxShadow);
@@ -290,14 +280,14 @@ function Select<T>({
     tokens.List.inner.borderRadius,
     tokens.List.inner.backgroundColor,
     tokens.List.inner.boxShadow,
-    tokens.List.inner.outline
+    tokens.List.inner.outline,
   );
 
   const clearClassName = cx(
     { [tokens.Clear.active]: !isDisabled },
     tokens.Clear.base.padding,
     tokens.Clear.base.margin,
-    "flex align-center"
+    "flex align-center",
   );
 
   const activeClassName = (hovered: boolean) =>
@@ -363,7 +353,7 @@ function Select<T>({
         tokens.Item.base.lineHeight,
         tokens.Item.base.color,
         { [tokens.Item.base.selected]: selected },
-        { [tokens.Item.base.disabled]: isDisabled }
+        { [tokens.Item.base.disabled]: isDisabled },
       );
 
     const selectedClassName = cx(tokens.Item.selected.master, tokens.Item.selected.color, tokens.Item.selected.size);
@@ -400,7 +390,7 @@ function Select<T>({
       <div className={tokens.container} ref={containerRef}>
         <button
           className={selectClassName}
-          {...getToggleButtonProps({ ref: toggleRef, disabled: isDisabled })}
+          {...getToggleButtonProps({ ref: toggleRef, disabled: isDisabled, onClick: () => setIsMenuOpen(!isMenuOpen) })}
           type="button"
           style={{
             backgroundImage:
