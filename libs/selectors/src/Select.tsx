@@ -189,7 +189,7 @@ function Select<T>({
   //used only for form submit on enter
   const inputRef = React.useRef<HTMLInputElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const stateChangeRef = React.useRef<any>(null);
+  const itemClickRef = React.useRef<any>(null);
 
   const selectionTypes: unknown[] = [
     useSelect.stateChangeTypes.MenuKeyDownEnter,
@@ -204,18 +204,23 @@ function Select<T>({
   }, [options, sort]);
 
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const { getToggleButtonProps, getItemProps, getMenuProps, isOpen, closeMenu, openMenu, highlightedIndex, reset } =
-    useSelect<T>({
-      items: filteredOptions,
-      labelId: id,
-      selectedItem: null,
-      isOpen: isMenuOpen,
-      onStateChange: (state) => {
-        const { type, selectedItem } = state as { type: UseSelectStateChangeTypes; selectedItem?: T };
+  const { getToggleButtonProps, getItemProps, getMenuProps, isOpen, highlightedIndex, reset } = useSelect<T>({
+    items: filteredOptions,
+    labelId: id,
+    selectedItem: null,
+    isOpen: isMenuOpen,
+    onStateChange: (state) => {
+      const { type, selectedItem } = state as { type: UseSelectStateChangeTypes; selectedItem?: T };
 
-        if (type === useSelect.stateChangeTypes.ItemClick) {
-          setIsMenuOpen(allowMultiple);
-        }
+      if (selectedItem === itemClickRef.current) {
+        itemClickRef.current = null;
+        return;
+      }
+
+      if (type === useSelect.stateChangeTypes.ItemClick) {
+        itemClickRef.current = selectedItem;
+        setIsMenuOpen(allowMultiple);
+      }
 
         if (selectionTypes.indexOf(type) !== -1 || type === useSelect.stateChangeTypes.FunctionReset) {
           if (allowMultiple) {
