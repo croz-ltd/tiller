@@ -251,9 +251,7 @@ function ModalFooter({ children, ...props }: ModalFooterProps) {
 
 function ModalIcon({ className, icon, ...props }: ModalIconProps) {
   const tokens = useTokens("Modal", props.tokens);
-  const containerClassName = cx(tokens.Icon.base, className, {
-    [tokens.Icon.backgroundColor]: !className?.includes("bg"),
-  });
+  const containerClassName = cx(tokens.Icon.base, tokens.Icon.backgroundColor, className);
 
   return <div className={containerClassName}>{icon}</div>;
 }

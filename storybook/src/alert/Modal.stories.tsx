@@ -82,7 +82,17 @@ export const WithState = () => {
       </Button>
       <Modal
         {...modal}
-        icon={<Modal.Icon icon={<Icon type="lock-open" variant="bold" />} className="text-white bg-primary" />}
+        icon={
+          <Modal.Icon
+            icon={<Icon type="lock-open" variant="bold" />}
+            tokens={{
+              Icon: {
+                backgroundColor: "bg-primary",
+              },
+            }}
+            className="text-white"
+          />
+        }
       >
         <Modal.Content title={<Intl name="modalOpenTitle" />}>
           <Intl name="modalCounter" />
@@ -115,7 +125,17 @@ export const WithStateRenderProp = () => {
       </Button>
       <Modal
         {...modal}
-        icon={<Modal.Icon icon={<Icon type="lock-open" variant="bold" />} className="text-white bg-primary" />}
+        icon={
+          <Modal.Icon
+            icon={<Icon type="lock-open" variant="bold" />}
+            tokens={{
+              Icon: {
+                backgroundColor: "bg-primary",
+              },
+            }}
+            className="text-white"
+          />
+        }
       >
         {(state) => (
           <>
