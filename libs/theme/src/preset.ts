@@ -53,6 +53,7 @@ const preset = {
       },
       fontSize: {
         base: font("sm", "5", "normal"),
+        small: font("sm"),
         normal: font("base", "6", "normal"),
         title: font("lg", "6", "medium"),
         subtitle: font("sm", "4", "normal"),

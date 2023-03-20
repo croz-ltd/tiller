@@ -1867,6 +1867,11 @@ const defaultComponentConfig = {
     disabled: "bg-gray-100 pointer-events-none",
     toggle:
       "inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200 flex align-center",
+    icon: {
+      master: "flex items-center",
+      margin: "my-[3px] ml-[2.8px]",
+      size: 3,
+    },
   },
   Tooltip: {
     master: "border border-transparent bg-opacity-75 absolute whitespace-nowrap z-50 pointer-events-none shadow",

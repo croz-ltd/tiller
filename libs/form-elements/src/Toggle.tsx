@@ -91,14 +91,15 @@ export default function Toggle({
     { "translate-x-0": !checked },
     { [tokens.disabled]: disabled },
   );
+  const iconClassName = cx(tokens.icon.master, tokens.icon.margin);
 
   const finalCheckedIcon = useIcon("completed", checkedIcon, {
-    className: "flex items-center my-[3px] ml-[2.8px]",
-    size: 3,
+    className: iconClassName,
+    size: tokens.icon.size,
   });
   const finalUncheckedIcon = useIcon("dismiss", uncheckedIcon, {
-    className: "flex items-center my-[3px] ml-[2.8px]",
-    size: 3,
+    className: iconClassName,
+    size: tokens.icon.size,
   });
 
   return (
