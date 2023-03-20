@@ -503,7 +503,10 @@ function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
 
   const dayButtonClassName = cx(
     tokens.DatePicker.Button.base,
-    { [tokens.DatePicker.Button.selected]: datePicker.isDateSelected(date) },
+    {
+      [tokens.DatePicker.Button.selected]:
+        datePicker.isDateSelected(date) && !datePicker.isFirstOrLastSelectedDate(date),
+    },
     { [tokens.DatePicker.Button.firstOrLast]: datePicker.isFirstOrLastSelectedDate(date) },
     { [tokens.DatePicker.Button.hovered]: datePicker.isDateHovered(date) && isDateRange },
     {

@@ -169,12 +169,12 @@ function Modal<T = unknown>({ isOpen, onClose, state, icon, children, canDismiss
     tokens.Container.Content.container.backgroundColor,
     tokens.Container.Content.container.borderRadius,
     tokens.Container.Content.container.padding,
-    tokens.Container.Content.container.boxShadow
+    tokens.Container.Content.container.boxShadow,
   );
 
   const overlayInnerClassName = cx(
     tokens.Container.Overlay.inner.master,
-    tokens.Container.Overlay.inner.backgroundColor
+    tokens.Container.Overlay.inner.backgroundColor,
   );
 
   return (
@@ -211,7 +211,7 @@ function ModalDismiss({ ariaLabel = "Close", dismissIcon, ...props }: ModalDismi
   const dismissButtonClassName = cx(
     tokens.Dismiss.button.master,
     tokens.Dismiss.button.color,
-    tokens.Dismiss.button.hover
+    tokens.Dismiss.button.hover,
   );
 
   const finalDismissIcon = useIcon("dismiss", dismissIcon);
@@ -230,7 +230,7 @@ function ModalContent({ title, children, ...props }: ModalContentProps) {
     tokens.Content.title.fontSize,
     tokens.Content.title.lineHeight,
     tokens.Content.title.fontWeight,
-    tokens.Content.title.color
+    tokens.Content.title.color,
   );
 
   return (

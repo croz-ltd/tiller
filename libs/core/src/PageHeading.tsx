@@ -87,7 +87,7 @@ function PageHeading({ children, className, ...props }: PageHeadingProps) {
   return (
     <header>
       {breadcrumbs && <div className={tokens.breadcrumbs}>{breadcrumbs}</div>}
-      <div className={`md:flex md:items-center md:justify-between ${className}`}>
+      <div className={`${tokens.container} ${className}`}>
         {title && (
           <div className={tokens.master}>
             {title}
@@ -128,7 +128,7 @@ function PageHeadingTitle({ children, ...props }: PageHeadingTitleProps) {
     tokens.title.fontSize,
     tokens.title.fontWeight,
     tokens.title.lineHeight,
-    tokens.title.color
+    tokens.title.color,
   );
   return <h2 className={pageHeadingTitleClassName}>{children}</h2>;
 }
@@ -144,7 +144,7 @@ function PageHeadingSubtitle({ children, ...props }: PageHeadingSubtitleProps) {
     tokens.subtitle.marginTop,
     tokens.subtitle.fontSize,
     tokens.subtitle.lineHeight,
-    tokens.subtitle.color
+    tokens.subtitle.color,
   );
   return <p className={pageHeadingSubtitleClassName}>{children}</p>;
 }

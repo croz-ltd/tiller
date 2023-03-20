@@ -56,10 +56,10 @@ export const Simple = () => {
         </Modal.Content>
 
         <Modal.Footer>
-          <Button variant="filled" onClick={modal.onClose}>
+          <Button variant="filled" color="success" onClick={modal.onClose}>
             <Intl name="submit" />
           </Button>
-          <Button variant="text" onClick={modal.onClose}>
+          <Button variant="text" color="white" onClick={modal.onClose}>
             <Intl name="cancel" />
           </Button>
         </Modal.Footer>
@@ -80,8 +80,21 @@ export const WithState = () => {
       <Button id="open-button" onClick={onOpen}>
         <Intl name="open" />
       </Button>
-      <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" variant="bold" />} className="text-white" />}>
-        <Modal.Content title={<Intl name="modalTitle" />}>
+      <Modal
+        {...modal}
+        icon={
+          <Modal.Icon
+            icon={<Icon type="lock-open" variant="bold" />}
+            tokens={{
+              Icon: {
+                backgroundColor: "bg-primary",
+              },
+            }}
+            className="text-white"
+          />
+        }
+      >
+        <Modal.Content title={<Intl name="modalOpenTitle" />}>
           <Intl name="modalCounter" />
           {modal.state}
         </Modal.Content>
@@ -110,10 +123,23 @@ export const WithStateRenderProp = () => {
       <Button id="open-button" onClick={onOpen}>
         <Intl name="open" />
       </Button>
-      <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" variant="bold" />} className="text-white" />}>
+      <Modal
+        {...modal}
+        icon={
+          <Modal.Icon
+            icon={<Icon type="lock-open" variant="bold" />}
+            tokens={{
+              Icon: {
+                backgroundColor: "bg-primary",
+              },
+            }}
+            className="text-white"
+          />
+        }
+      >
         {(state) => (
           <>
-            <Modal.Content title={<Intl name="modalTitle" />}>
+            <Modal.Content title={<Intl name="modalOpenTitle" />}>
               <Intl name="modalCounter" />
               {state}
             </Modal.Content>
@@ -147,7 +173,7 @@ export const WithoutIcon = () => {
         </Modal.Content>
 
         <Modal.Footer>
-          <Button variant="filled" color="danger" onClick={modal.onClose}>
+          <Button variant="filled" color="success" onClick={modal.onClose}>
             <Intl name="submit" />
           </Button>
           <Button variant="text" color="white" onClick={modal.onClose}>
