@@ -599,7 +599,7 @@ function Autocomplete<T extends {}>({
   };
 
   const checkItem = (index: number, customTag?: boolean) => {
-    const selectedOption = highlightedOption || filteredOptions[index];
+    const selectedOption = filteredOptions[index] || highlightedOption;
     if (allowMultiple && (highlightedOption || index > -1)) {
       if (getOptionValue) {
         if (arrayIncludes(selectedOptions, selectedOption)) {
