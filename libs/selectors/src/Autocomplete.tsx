@@ -53,7 +53,9 @@ export type AutocompleteProps<T extends {}> = {
    * Needs to be enabled if an array is given to the component via options prop instead of an async fetch!
    * Useful for seamless filtering without loading animations, since all the work is done on frontend.
    * Set as a function that compares each option from the dataset with the user's input.
-   * Example: (name: string, option) => option.name.toLowerCase().includes(name.toLowerCase())
+   *
+   * @example
+   * filter = {(name: string, option) => option.name.toLowerCase().includes(name.toLowerCase())}
    */
   filter?: (query: string, item: T) => boolean;
   /**
@@ -90,34 +92,44 @@ export type AutocompleteProps<T extends {}> = {
    * Function that determines the output of selected values on field.
    * Return value is string(!) as opposed to React.ReactNode on SelectField.
    * Default behaviour: shows number of selected items if the number is larger than 1.
-   * Example 1: (items: Item[]) => (items.map(item => `${item.name} ${item.surname}`).join(", "))
    *
-   * Example 2: (items: Item[]) => (`${items.length} values selected`)
+   * @example with values
+   * getMultipleSelectedLabel = {(items: Item[]) => (items.map(item => `${item.name} ${item.surname}`).join(", "))}
+   *
+   * @example with number of values
+   * getMultipleSelectedLabel = {(items: Item[]) => (`${items.length} values selected`)}
    */
   getMultipleSelectedLabel?: (array: T[]) => string;
   /**
    * Function determining how the item will be displayed in the dropdown menu (not exclusively text).
+   *
    * If you wish to have the same display in the menu as the display in the field then this prop is not required,
    * 'itemToString' is sufficient. Define this prop only if you wish to have a complex display in the menu.
+   *
    * Defining this prop removes bolding of the matched text in the menu since the component always
    * uses this prop to show the items in the menu (you can use this prop instead of 'itemToString' if
    * 'allowMultiple' is not enabled, otherwise you must use it alongside 'itemToString').
-   * Note: this prop is not compatible with 'tags' prop because tags variant requires 'itemToString' prop to display items in a badge.
-   * Example: (item: Item) => (
+   *
+   * **Note**: this prop is not compatible with 'tags' prop because tags variant requires 'itemToString' prop to display items in a badge.
+   *
+   * @example
+   * getOptionLabel = {(item: Item) => {(
    *     <div className="flex items-center justify-between flex-wrap">
    *       <div>
    *         {item.name} {item.surname}
    *       </div>
    *       <div className="flex-shrink-0 text-sm leading-5 text-gray-500">@{item.username}</div>
    *     </div>
-   *   )
+   *   )}
    */
   getOptionLabel?: (item: T) => React.ReactNode;
   /**
    * Function describing what property of the object the component will treat as a value. Required because
    * comparison between objects requires a unique value (typically id) to properly compare two objects
    * from different arrays.
-   * Ex. (item: Item) => item.id
+   *
+   * @example
+   * getOptionValue = {(item: Item) => item.id}
    */
   getOptionValue?: (item: T) => unknown;
   /**
@@ -129,9 +141,12 @@ export type AutocompleteProps<T extends {}> = {
    * what property of an item is shown when the item is chosen (if 'allowMultiple' is disabled).
    * If you wish to show a more complex display of an item in the menu, use 'getOptionLabel' instead or alongside this prop
    * (depending on the 'allowMultiple' prop).
-   * Note: this prop is required when 'allowMultiple' is not enabled (because it's required to
+   *
+   * **Note**: this prop is required when 'allowMultiple' is not enabled (because it's required to
    * set the value of the input field on item selection) and when 'tags' prop is enabled (in order to display the item in a badge).
-   * Example: (item: Item) => `${item.name} ${item.surname}`
+   *
+   * @example
+   * itemToString = {(item: Item) => `${item.name} ${item.surname}`}
    */
   itemToString?: (item: T) => string;
   /**
@@ -141,6 +156,7 @@ export type AutocompleteProps<T extends {}> = {
   /**
    * Determines the maximum number of displayed options displayed as a dropdown list when the component is clicked.
    * For displaying all content, set this value to the length of the content array.
+   *
    * When multiple selection is enabled, this value is automatically set to the content length for ease of use.
    */
   maxItems?: number;
@@ -173,7 +189,8 @@ export type AutocompleteProps<T extends {}> = {
   onReset?: () => void;
   /**
    * For fetching an array of options from backend (async) or by passing an array of options.
-   * Important: if passing an array the filter prop must also be defined, otherwise filtering while typing will not work.
+   *
+   * **Important**: if passing an array the filter prop must also be defined, otherwise filtering while typing will not work.
    */
   options: ((query: string) => Promise<T[]>) | T[];
   /**
@@ -186,9 +203,13 @@ export type AutocompleteProps<T extends {}> = {
    */
   required?: boolean;
   /**
-   * Function representing how the component handles the displayed array of items. Most often something similar to items.sort((a, b) => a.name.localeCompare(b.name))
+   * Function representing how the component handles the displayed array of items.
    * Turned off by default because of generic types, but recommended to use for intuitiveness.
+   *
    * When working with tags the badges displayed below the field are not sorted.
+   *
+   * @example
+   * sort = {(items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name))}
    */
   sort?: (items: T[]) => T[];
   /**
@@ -198,7 +219,8 @@ export type AutocompleteProps<T extends {}> = {
 
   /**
    * Toggle for transforming the field into a multiselect field with tags.
-   * NOTE: Requires 'allowMultiple' and 'itemToString' (for displaying text inside the tag) props in order to work.
+   *
+   * **Note**: Requires 'allowMultiple' and 'itemToString' (for displaying text inside the tag) props in order to work.
    */
   tags?: boolean;
 
@@ -597,7 +619,8 @@ function Autocomplete<T extends {}>({
 
     if (allowMultiple && event.key === "Enter" && highlightedOption !== undefined) {
       nativeEvent.preventDownshiftDefault = true;
-      checkItem(-1,
+      checkItem(
+        -1,
         inputValue.length > 0 &&
           getCustomItem &&
           getDifference(filteredOptions, Array.of(getCustomItem(inputValue))).length === 0,

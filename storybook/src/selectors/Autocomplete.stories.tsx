@@ -411,7 +411,7 @@ export const WithAddingCustomTags = () => {
   return (
     <Autocomplete
       label={<Intl name="label" />}
-      placeholder="Type an arbitrary full name to add it to the list"
+      placeholder="Type an arbitrary tag name to add it to the list"
       {...frontendSimpleProps}
       options={finalItems}
       allowMultiple={true}
