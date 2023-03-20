@@ -52,8 +52,8 @@ const preset = {
         base: colors.slate["200"],
       },
       fontSize: {
-        base: font("sm", "5", "normal"),
         small: font("sm"),
+        base: font("sm", "5", "normal"),
         normal: font("base", "6", "normal"),
         title: font("lg", "6", "medium"),
         subtitle: font("sm", "4", "normal"),
