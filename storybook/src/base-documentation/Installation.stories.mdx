@@ -16,7 +16,7 @@ import { Meta } from "@storybook/addon-docs";
   }}
 />
 
-# Installation
+# 🧰 Installation
 
 ## Installation via starter templates (Create React App or Vite)
 
@@ -34,74 +34,65 @@ If you use your own starter, basic steps needed for Tiller to function properly 
 
 2. Configure `tailwind.config.js` with this minimal config:
 
-    ```tsx
-    module.exports = {
-      presets: [require('@tiller-ds/theme').preset]
-    };
-    ```
+   ```tsx
+   module.exports = {
+     presets: [require("@tiller-ds/theme").preset],
+   };
+   ```
 
-    - See [Theming and Customization](/docs/theming-and-customization--page) for more information on how to customize the theme through `tailwind.config.js`.
-
+   - See [Theming and Customization](/docs/theming-and-customization--page) for more information on how to customize the theme through `tailwind.config.js`.
 
 3. Import Tiller styles in your main css file (e.g. `index.css`):
 
-    ```tsx
-    @import "@tiller-ds/theme/styles/tiller.css";
-    ```
+   ```tsx
+   @import "@tiller-ds/theme/styles/tiller.css";
+   ```
 
-    - This is an **important step**, as it will import all the necessary styles for Tiller to function properly.
-
+   - This is an **important step**, as it will import all the necessary styles for Tiller to function properly.
 
 4. Add a **`tiller.config.ts`** file in an arbitrary location (recommended path is `src/theme/tiller.config.ts`) and configure it accordingly:
 
-    ```tsx
-    import { iconConfig } from "@tiller-ds/icons";
-    import { ThemeConfigFactory, IconConfig } from "@tiller-ds/theme";
+   ```tsx
+   import { iconConfig } from "@tiller-ds/icons";
+   import { ThemeConfigFactory, IconConfig } from "@tiller-ds/theme";
 
-    export const defaultComponentConfig: ThemeConfigFactory = {
-        component: {
-            // component overrides are defined here
-        },
-    };
+   export const defaultComponentConfig: ThemeConfigFactory = {
+     component: {
+       // component overrides are defined here
+     },
+   };
 
-    export const defaultIconConfig: IconConfig = {
-        ...iconConfig,
-    };
-    ```
-
+   export const defaultIconConfig: IconConfig = {
+     ...iconConfig,
+   };
+   ```
 
 5. Import the component and icon configurations into your `main.tsx` file:
 
-    ```tsx
-    import React from "react";
-    import ReactDOM from "react-dom/client";
+   ```tsx
+   import React from "react";
+   import ReactDOM from "react-dom/client";
 
-    import { ThemeProvider } from "@tiller-ds/theme";
+   import { ThemeProvider } from "@tiller-ds/theme";
 
-    import App from "./App";
-    import {
-        defaultIconConfig,
-        defaultComponentConfig,
-    } from "./theme/tiller.config";
-    import "./index.css";
-    import { IntlProvider } from "@tiller-ds/intl";
+   import App from "./App";
+   import { defaultIconConfig, defaultComponentConfig } from "./theme/tiller.config";
+   import "./index.css";
+   import { IntlProvider } from "@tiller-ds/intl";
 
-    ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-    <React.StrictMode>
-        <ThemeProvider
-            themeConfig={defaultComponentConfig}
-            iconConfig={defaultIconConfig}
-        >
-            <IntlProvider lang="en">
-                <App />
-            </IntlProvider>
-        </ThemeProvider>
-    </React.StrictMode>
-    );
-    ```
+   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+     <React.StrictMode>
+       <ThemeProvider themeConfig={defaultComponentConfig} iconConfig={defaultIconConfig}>
+         <IntlProvider lang="en">
+           <App />
+         </IntlProvider>
+       </ThemeProvider>
+     </React.StrictMode>,
+   );
+   ```
 
-    - `IntlProvider` is not required, but it is recommended to use it for localization and if you
-    need to use some components that **require it for functioning (see the list [here](/docs/component-library-intl-intl--basic)).**
+   - `IntlProvider` is not required, but it is recommended to use it for localization and if you
+     need to use some components that **require it for functioning (see the list [here](/docs/component-library-intl-intl--basic)).**
 
 # Importing
 
