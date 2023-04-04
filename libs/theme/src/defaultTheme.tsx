@@ -27,6 +27,9 @@ import cx from "./cx";
 const defaultComponentConfig = {
   Alert: {
     borderRadius: "rounded-lg",
+    icon: {
+      container: "flex items-center gap-3",
+    },
     title: {
       fontSize: "text-base",
       fontWeight: "font-bold",

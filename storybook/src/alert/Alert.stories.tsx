@@ -20,10 +20,10 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { Alert } from "@tiller-ds/alert";
+import { Icon, iconTypes } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
-
 import mdx from "./Alert.mdx";
 
 export default {
@@ -45,6 +45,10 @@ export default {
   },
   argTypes: {
     title: { name: "Title", control: "text" },
+    icon: {
+      name: "Icon",
+      control: { type: "select", options: iconTypes },
+    },
     children: { name: "Children (content)", control: "text" },
     className: { name: "Class Name", control: "text" },
     accentBorder: { name: "Accent Border", control: "boolean" },
@@ -54,14 +58,22 @@ export default {
   },
 };
 
-export const AlertFactory = ({ accentBorder, children, className, title, variant, useTokens, tokens }) => (
-  <Alert accentBorder={accentBorder} title={title} className={className} variant={variant} tokens={useTokens && tokens}>
+export const AlertFactory = ({ accentBorder, children, className, title, icon, variant, useTokens, tokens }) => (
+  <Alert
+    accentBorder={accentBorder}
+    title={title}
+    icon={<Icon type={icon} className="text-info text-2xl" />}
+    className={className}
+    variant={variant}
+    tokens={useTokens && tokens}
+  >
     {children}
   </Alert>
 );
 
 AlertFactory.args = {
   title: "Attention needed",
+  icon: "info",
   children: "You have a new message. Check your profile page for more info.",
   variant: "info",
   accentBorder: false,
@@ -97,6 +109,31 @@ export const WithAccent = () => (
   <Alert variant="info" accentBorder={true} className="mb-3">
     You have a new message. Check your profile page for more info.
   </Alert>
+);
+
+export const WithIcon = () => (
+  <div className="flex flex-col space-y-2">
+    <Alert icon={<Icon type="info" size={6} className="text-info" />}>
+      You have a new message. Check your profile page for more info.
+    </Alert>
+    <Alert variant="warning" icon={<Icon type="warning" size={6} className="text-warning" />}>
+      You have a new message. Check your profile page for more info.
+    </Alert>
+    <Alert
+      title="Attention needed"
+      icon={<Icon type="warning-circle" size={6} className="text-danger" />}
+      variant="danger"
+    >
+      You have a new message. Check your profile page for more info.
+    </Alert>
+    <Alert
+      title="Attention needed"
+      icon={<Icon type="check-circle" size={6} className="text-success" />}
+      variant="success"
+    >
+      You have a new message. Check your profile page for more info.
+    </Alert>
+  </div>
 );
 
 export const Warning = () => (
@@ -169,6 +206,7 @@ const HideControls = {
   accentBorder: { control: { disable: true } },
   className: { control: { disable: true } },
   title: { control: { disable: true } },
+  icon: { control: { disable: true } },
   variant: { control: { disable: true } },
   children: { control: { disable: true } },
   tokens: { control: { disable: true } },
@@ -179,6 +217,7 @@ Simple.argTypes = HideControls;
 WithTitle.argTypes = HideControls;
 WithList.argTypes = HideControls;
 WithAccent.argTypes = HideControls;
+WithIcon.argTypes = HideControls;
 Warning.argTypes = HideControls;
 Danger.argTypes = HideControls;
 Success.argTypes = HideControls;
