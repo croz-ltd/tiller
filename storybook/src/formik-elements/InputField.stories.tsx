@@ -81,6 +81,11 @@ export default {
     label: { name: "Label", control: "text" },
     help: { name: "Help", control: "text" },
     placeholder: { name: "Placeholder", control: "text" },
+    valueTransform: {
+      name: "Transform Value",
+      options: ["uppercase", "lowercase", "capitalize"],
+      control: { type: "radio" },
+    },
     tooltipText: { name: "Tooltip Text (on hover)", control: "text" },
     tooltipToggle: { name: "Toggle Tooltip (on/off)", control: { type: "boolean" } },
     tooltipIcon: { name: "Tooltip Icon", control: { type: "select", options: iconTypes } },
@@ -117,6 +122,7 @@ export const InputFieldFactory = ({
   className,
   useTokens,
   tokens,
+  valueTransform,
 }) => (
   <InputField
     name={name}
@@ -137,6 +143,7 @@ export const InputFieldFactory = ({
     allowClear={allowClear}
     className={className}
     tokens={useTokens && tokens}
+    valueTransform={valueTransform}
   />
 );
 
@@ -145,6 +152,7 @@ InputFieldFactory.args = {
   label: "Test Label",
   help: "",
   placeholder: "Test placeholder",
+  valueTransform: "lowercase",
   tooltipToggle: false,
   tooltipText: "Test tooltip content",
   tooltipIcon: "info",
@@ -174,6 +182,10 @@ export const WithLabel = () => (
 export const WithoutLabel = () => <InputField name={name} />;
 
 export const WithValue = () => <InputField name={nameWithValue} label={<Intl name="label" />} />;
+
+export const WithTransformedValue = () => (
+  <InputField name={nameWithValue} label={<Intl name="label" />} valueTransform="uppercase" />
+);
 
 export const Disabled = () => <InputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
@@ -270,6 +282,7 @@ const HideControls = {
 WithLabel.argTypes = HideControls;
 WithoutLabel.argTypes = HideControls;
 WithValue.argTypes = HideControls;
+WithTransformedValue.argTypes = HideControls;
 Disabled.argTypes = HideControls;
 WithPlaceholder.argTypes = HideControls;
 WithHelp.argTypes = HideControls;

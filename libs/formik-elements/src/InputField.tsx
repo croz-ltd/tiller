@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 
 import { Input, InputProps } from "@tiller-ds/form-elements";
 import { ComponentTokens } from "@tiller-ds/theme";
@@ -42,6 +42,12 @@ export type InputFieldProps = {
    * Determines whether the components auto trim whitespace after typing
    */
   autoTrim?: boolean;
+
+  /**
+   * Function or a string that determines how the input value should be transformed when the user types into the input field.
+   * In case it's a function, it will be called every time the input value changes. The function can then modify the value as needed and return the modified value.
+   */
+  valueTransform?: "uppercase" | "lowercase" | "capitalize" | ((value: string) => void);
 } & Omit<InputProps, InputOnlyPropsUnion> &
   InputTokensProps;
 
@@ -49,15 +55,26 @@ type InputTokensProps = {
   tokens?: ComponentTokens<"Input">;
 };
 
-export default function InputField({ name, autoTrim = true, ...props }: InputFieldProps) {
+export default function InputField({ name, autoTrim = true, valueTransform, ...props }: InputFieldProps) {
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);
 
   const onChange = (e) => {
-    helpers.setValue(e.target.value, shouldValidate);
+    let transformedValue = e.target.value;
+    if (typeof valueTransform === "function") {
+      transformedValue = valueTransform(transformedValue);
+    } else if (valueTransform === "uppercase") {
+      transformedValue = transformedValue.toUpperCase();
+    } else if (valueTransform === "lowercase") {
+      transformedValue = transformedValue.toLowerCase();
+    } else if (valueTransform === "capitalize") {
+      transformedValue = transformedValue.charAt(0).toUpperCase() + transformedValue.slice(1);
+    }
+    helpers.setValue(transformedValue, shouldValidate);
     initialError.current = undefined;
   };
+
   const onReset = () => helpers.setValue("", shouldValidate);
 
   const onBlur = () => {
