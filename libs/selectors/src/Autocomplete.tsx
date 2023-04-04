@@ -175,6 +175,15 @@ export type AutocompleteProps<T extends {}> = {
    * **Note**: this prop should be used alongside the _getCustomItem_ prop.
    */
   onAddCustomItem?: (item: T) => void;
+
+  /**
+   * **DEPRECATED.**
+   *
+   * Replaced with _onAddCustomItem_ (which is more flexible), but still usable for tags.
+   *
+   * **Do not** use alongside _onAddCustomItem_.
+   */
+  onAddCustomTag?: (item: T) => void;
   /**
    * Defines the behaviour of the component once the focus shifts away from the component.
    */
@@ -263,6 +272,7 @@ function Autocomplete<T extends {}>({
   tagsContained,
   getCustomItem,
   onAddCustomItem = () => null,
+  onAddCustomTag = () => null,
   onReset,
   onBlur,
   disabled,
@@ -381,6 +391,7 @@ function Autocomplete<T extends {}>({
           if (getCustomItem && !customOptions.includes(selectedItem)) {
             setCustomOptions([...customOptions, selectedItem]);
             onAddCustomItem(selectedItem);
+            if (tags) onAddCustomTag(selectedItem);
           }
         } else {
           const stringOptions = filteredOptions.map((option) => safeItemToString(option).toLowerCase());
@@ -666,6 +677,7 @@ function Autocomplete<T extends {}>({
           if (customItem) {
             setCustomOptions([...customOptions, selectedOption]);
             onAddCustomItem(selectedOption);
+            if (tags) onAddCustomTag(selectedOption);
           }
           setSelectedOptions([...selectedOptions, selectedOption]);
         }
@@ -676,6 +688,7 @@ function Autocomplete<T extends {}>({
         if (customItem) {
           setCustomOptions([...customOptions, selectedOption]);
           onAddCustomItem(selectedOption);
+          if (tags) onAddCustomTag(selectedOption);
         }
         setSelectedOptions([...selectedOptions, selectedOption]);
       }
