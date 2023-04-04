@@ -273,7 +273,7 @@ export default function DateRangeInput({
       setDatePickerState({
         startDate: start,
         endDate: end,
-        focusedInput: null,
+        focusedInput: START_DATE,
       });
     } else if (start && !end) {
       setDatePickerState({ startDate: start ?? null, endDate: null, focusedInput: END_DATE });

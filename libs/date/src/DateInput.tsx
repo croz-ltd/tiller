@@ -193,6 +193,7 @@ export default function DateInput({
 
   const onDatesChange = (data: OnDatesChangeProps) => {
     props.onChange(data.startDate);
+    setTypedValue(dateFns.format(data.startDate as Date, finalDateFormat));
     setOpened(false);
   };
 
