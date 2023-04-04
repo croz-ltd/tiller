@@ -1,7 +1,9 @@
 import { Meta } from "@storybook/addon-docs";
 
 import cover from "img/tiller_figma_cover.png";
-import tutorial from "img/tokens_tutorial/tokens_import.png";
+
+import tutorial_import_tokens from "img/tokens_tutorial/tokens_import.png";
+import tutorial_tokens from "./tutorial-tokens.mp4";
 
 <Meta
   title="Theming and Customization"
@@ -66,7 +68,6 @@ We'll cover the following topics in the next chapters:
 - [Option Tokens](#option-tokens)
 - [Decision Tokens](#decision-tokens)
 - [Component Tokens](#component-tokens)
-- [Customizing Individual Components](#customizing-individual-components)
 - [Customizing the Icon Set](#customizing-the-icon-set)
 - [One-off Component Customizations](#one-off-component-customizations)
 
@@ -158,16 +159,15 @@ module.exports = {
 
 _Note: if you override the `content` attribute, please pay attention that those are not merged with Tiller's preset so additional configuration may be needed._
 
-## Customizing Individual Components
+## Component Tokens
 
-Besides customization of decision tokens of the theme, you can **customize classes used on individual components**.
-By changing individual components you can override specific attributes which you need, while preserving everything else from the default theme.
+Besides customization of decision tokens of the theme, you can **customize classes used on individual components** using **component tokens**. By changing individual components you can override specific attributes which you need, while preserving everything else from the default theme.
 
 To customize component classes edit the `component` property of your component config object inside `tiller.config.ts/tsx` file.
 
 Component tokens are listed in the `Docs` section of each component.
 
-Example:
+`tiller.config.ts/tsx` example:
 
 ```ts
 import { ThemeConfigFactory } from "@tiller-ds/theme";
@@ -193,11 +193,11 @@ export const defaultComponentConfig: ThemeConfigFactory = {
 };
 ```
 
-...and add this to your `ThemeProvider`.
+By providing your config object to `ThemeProvider` the styles will be applied to all components.
 
 ## Customizing the Icon Set
 
-Tiller uses the [Phospor icons](https://phosphoricons.com/) icon set by default, but you can easily change it to any other icon set you want
+Tiller uses the [Phosphor icons](https://phosphoricons.com/) icon set by default, but you can easily change it to any other icon set you want
 by modifying the icon config inside the `tiller.config.ts/tsx` file.
 
 More information on this is available [here](/docs/component-library-icons-icon--icon-factory#using-custom-icon-library)
@@ -234,7 +234,7 @@ from [Tiller Design System - Figma UI Kit](https://www.figma.com/file/QVaavJ0ZFn
 
 We'll cover the following topics in the next chapters:
 
-- [Token Set Overview](#token-set)
+- [Token Set Overview](#token-set-overview)
 - [Importing the Token Set](#importing-the-token-set)
 - [Duplicating and Overriding the Token Set](#duplicating-and-overriding-the-token-set)
 
@@ -260,7 +260,7 @@ Once you have it installed, you can import the token set by following these step
 - Click on `Choose file` and select the downloaded set
 - Right-click on the token set and check the `Treat as source` option
 
-<img className="w-full " src={tutorial} alt="Tiller Tokens Import Tutorial" />
+<img className="w-full " src={tutorial_import_tokens} alt="Tiller Tokens Import Tutorial" />
 
 After these steps the token set should be successfully imported and automatically applied to Tiller components. You can check this by selecting any Tiller component and observing the tokens.
 
@@ -273,9 +273,21 @@ Furthermore, if you select the text inside the `Button` component, you will see 
 Now comes the fun part, actually working and modifying the token set to your preference in order to change the look of the components
 and create your own unique theme.
 
-To duplicate the default token set, right-click on the token set and select `Duplicate`.
+🔁 To duplicate the default token set, right-click on the token set and select `Duplicate`.
 This will create a copy of the token set with an arbitrary name you choose for it.
 
-You can now modify the colors to create your custom theme.
+🟢🟣🟠 You can now modify the colors to create your custom theme.
 Most of the components use `primary` as the default color, so changing the `default`, `dark` and `light` values of
-`primary` set will change the look of most of the components.
+`primary` set will change the look of most of the components. By clicking on an arbitrary color token with the right mouse button and selecting `Edit Token` you can change the color value
+to something else. We recommend using the default TailwindCSS color palette since those colors are already defined in the set, but you can use any color you want.
+
+🆎 You can also modify other tokens, like Typography.
+By clicking on an arbitrary typography token with the right mouse button and selecting `Edit Token` you can change the font size, font weight, line height, letter spacing, etc.
+
+You can see the modified tokens by **enabling your custom set**. To do this, **check the checkbox** next to the custom set's name.
+
+The following video shows how changing the values of the tokens in the token set changes the look of the components in the Figma UI Kit:
+
+<video src={tutorial_tokens} controls={false} autoPlay={true} muted={true} loop={true} title="Figma Tokens Showcase" />
+
+For more information on how to use the Tokens Studio for Figma plugin, please refer to the [official documentation](https://docs.tokens.studio/).
