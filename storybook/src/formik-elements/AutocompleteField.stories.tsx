@@ -27,6 +27,7 @@ import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
 import {
+  beautifySource,
   FormikDecorator,
   getChangedTokensFromSource,
   Item,
@@ -69,11 +70,11 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const tokensConfig = { Select: "selectTokens", Autocomplete: "autocompleteTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(beautifySource(correctedSource), tokensConfig);
       },
     },
     design: {
@@ -125,7 +126,7 @@ export default {
       if: { arg: "tags" },
     },
     sendOptionValue: { name: "Send option value (on submit)", control: "boolean" },
-    onAddCustomTag: { name: "Enable adding custom tag", control: "boolean", if: { arg: "tags" } },
+    getCustomItem: { name: "Enable adding custom items", control: "boolean" },
     className: { name: "Class Name", control: "text" },
     useTokens: { name: "Use Tokens", control: "boolean" },
     autocompleteTokens: { name: "Autocomplete Tokens", control: "object" },
@@ -172,11 +173,11 @@ const backendProps = {
                 item.name
                   .concat(" " + item.surname)
                   .toLowerCase()
-                  .indexOf(query.toLowerCase()) !== -1
+                  .indexOf(query.toLowerCase()) !== -1,
             )
-          : items
+          : items,
       ),
-      500
+      500,
     ),
   getOptionValue: (item: Item) => item.username,
 };
@@ -192,11 +193,11 @@ const backendSimpleProps = {
                 item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
                 item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
                 item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-                item.toLowerCase().indexOf(query.toLowerCase()) !== -1
+                item.toLowerCase().indexOf(query.toLowerCase()) !== -1,
             )
-          : simpleItems
+          : simpleItems,
       ),
-      500
+      500,
     ),
 };
 
@@ -232,7 +233,7 @@ export const AutocompleteFieldFactory = ({
   tags,
   tagsContained,
   sendOptionValue,
-  onAddCustomTag,
+  getCustomItem,
   className,
   useTokens,
   autocompleteTokens,
@@ -275,7 +276,23 @@ export const AutocompleteFieldFactory = ({
     sendOptionValue={sendOptionValue}
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    onAddCustomTag={tags && onAddCustomTag ? (tagName) => "#" + tagName : undefined}
+    getCustomItem={
+      getCustomItem
+        ? (tagName) => {
+            if (tags) {
+              return "cust. " + tagName;
+            }
+            const name = tagName.split(" ")[0];
+            const surname = tagName.split(" ")[1];
+            const item: Item = {
+              name: name,
+              surname: surname ?? "",
+              username: surname ? tagName[0].toLowerCase() + surname.toLowerCase() : tagName[0].toLowerCase() ?? "",
+            };
+            return item;
+          }
+        : undefined
+    }
     className={className}
     autocompleteTokens={useTokens && autocompleteTokens}
     selectTokens={useTokens && selectTokens}
@@ -293,11 +310,11 @@ AutocompleteFieldFactory.args = {
   tooltipIcon: "info",
   iconVariant: "regular",
   allowMultiple: false,
+  getCustomItem: true,
   maxItems: 5,
   multipleSelectionLabel: false,
   tags: false,
   tagsContained: false,
-  onAddCustomTag: true,
   sendOptionValue: true,
   fetchFrontend: false,
   required: false,
@@ -383,41 +400,6 @@ export const WithMultipleSelectionAndVisibleLabels = () => (
   />
 );
 
-export const WithTags = () => (
-  <AutocompleteField
-    label={<Intl name="label" />}
-    {...frontendSimpleProps}
-    tags={true}
-    allowMultiple={true}
-    onAddCustomTag={(tag) => "#" + tag}
-  />
-);
-
-export const WithComplexTags = () => (
-  <AutocompleteField
-    label={<Intl name="label" />}
-    {...frontendProps}
-    tags={true}
-    allowMultiple={true}
-    onAddCustomTag={(tag) => ({
-      name: tag.split(" ")[0],
-      surname: tag.split(" ")[1] ?? "",
-      username: tag.split(" ")[1] ? tag[0].toLowerCase() + tag.split(" ")[1].toLowerCase() : tag[0].toLowerCase() ?? "",
-    })}
-  />
-);
-
-export const WithContainedTags = () => (
-  <AutocompleteField
-    label={<Intl name="label" />}
-    {...frontendSimpleProps}
-    tags={true}
-    tagsContained={true}
-    onAddCustomTag={(tag) => "#" + tag}
-    allowMultiple={true}
-  />
-);
-
 export const WithFilteringOnFrontend = () => (
   <AutocompleteField
     label={<Intl name="label" />}
@@ -426,6 +408,74 @@ export const WithFilteringOnFrontend = () => (
     allowMultiple={true}
   />
 );
+
+export const WithTags = () => (
+  <AutocompleteField label={<Intl name="label" />} {...frontendSimpleProps} allowMultiple={true} tags={true} />
+);
+
+export const WithComplexTags = () => (
+  <AutocompleteField label={<Intl name="label" />} {...frontendProps} allowMultiple={true} tags={true} />
+);
+
+export const WithContainedTags = () => (
+  <AutocompleteField
+    label={<Intl name="label" />}
+    {...frontendSimpleProps}
+    allowMultiple={true}
+    tags={true}
+    tagsContained={true}
+  />
+);
+
+export const WithAddingCustomTags = () => {
+  // incl-code
+  const [finalItems, setFinalItems] = React.useState<string[]>(simpleItems);
+  return (
+    <AutocompleteField
+      label={<Intl name="label" />}
+      placeholder="Type an arbitrary tag name to add it to the list"
+      {...frontendSimpleProps}
+      options={finalItems}
+      allowMultiple={true}
+      tags={true}
+      getCustomItem={(tag) => "cust. " + tag}
+      onAddCustomItem={(item: string) => {
+        setFinalItems([...finalItems, item]);
+      }}
+    />
+  );
+};
+
+export const WithAddingCustomItems = () => {
+  // incl-code
+  const [finalItems, setFinalItems] = React.useState<Item[]>(items);
+  return (
+    <AutocompleteField
+      label={<Intl name="label" />}
+      placeholder="Type an arbitrary full name to add it to the list"
+      {...commonProps}
+      options={finalItems}
+      getOptionValue={(item: Item) => item.username}
+      filter={(name: string, option) =>
+        (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase())
+      }
+      allowMultiple={true}
+      getCustomItem={(item) => {
+        const newItem = {
+          name: item.split(" ")[0],
+          surname: item.split(" ")[1] ?? "",
+          username: item.split(" ")[1]
+            ? item[0].toLowerCase() + item.split(" ")[1].toLowerCase()
+            : item[0].toLowerCase() ?? "",
+        };
+        return newItem;
+      }}
+      onAddCustomItem={(item) => {
+        setFinalItems([...finalItems, item]);
+      }}
+    />
+  );
+};
 
 export const WithMisusedProps = () => (
   <AutocompleteField {...backendProps} label={<Intl name="label" />} name={nameWithMultipleValues} />
@@ -449,7 +499,7 @@ const HideControls = {
   tags: { control: { disable: true } },
   tagsContained: { control: { disable: true } },
   sendOptionValue: { control: { disable: true } },
-  onAddCustomTag: { control: { disable: true } },
+  getCustomItem: { control: { disable: true } },
   className: { control: { disable: true } },
   useTokens: { control: { disable: true } },
   autocompleteTokens: { control: { disable: true } },

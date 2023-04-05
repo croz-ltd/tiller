@@ -49,51 +49,87 @@ export type AutocompleteProps<T extends {}> = {
    */
   error?: React.ReactNode;
   /**
-   * For fetching an array of options from backend (async) or by passing an array of options.
-   * Important: if passing an array the filter prop must also be defined, otherwise filtering while typing will not work.
-   */
-  options: ((query: string) => Promise<T[]>) | T[];
-
-  /**
    * Function that defines filtering of the options on the frontend.
    * Needs to be enabled if an array is given to the component via options prop instead of an async fetch!
    * Useful for seamless filtering without loading animations, since all the work is done on frontend.
    * Set as a function that compares each option from the dataset with the user's input.
-   * Example: (name: string, option) => option.name.toLowerCase().includes(name.toLowerCase())
+   *
+   * @example
+   * filter = {(name: string, option) => option.name.toLowerCase().includes(name.toLowerCase())}
    */
   filter?: (query: string, item: T) => boolean;
+  /**
+   * Function for determining the look of the offered custom item when typing inside the component.
+   *
+   * Gives the component **ability to add custom items** and show them in the popup display.
+   * Return value of this prop also determines the shape of the item handed over by _onAddCustomItem_ prop.
+   *
+   * When adding custom items, the color of added items will be the secondary color from your config.
+   *
+   * **Note**: Persisting custom options inside the component is not possible if _onAddCustomItem_ prop is not used alongside this one.
+   *
+   * @component
+   * @example adding a prefix to tags
+   * getCustomItem = {(tag: string) => ("#" + tag)}
+   *
+   * @component
+   * @example working with complex types
+   * getCustomItem = {(tag: string) => {
+   *                 const name = tag.split(" ")[0];
+   *                 const surname = tag.split(" ")[1];
+   *                 const item: Item = {
+   *                   name: name,
+   *                   surname: surname ?? "",
+   *                   username: surname
+   *                     ? tag[0].toLowerCase() + surname.toLowerCase()
+   *                     : tag[0].toLowerCase() ?? "",
+   *                 };
+   *                 return item;
+   *               }}
+   */
+  getCustomItem?: (item: string) => T;
   /**
    * Function that determines the output of selected values on field.
    * Return value is string(!) as opposed to React.ReactNode on SelectField.
    * Default behaviour: shows number of selected items if the number is larger than 1.
-   * Example 1: (items: Item[]) => (items.map(item => `${item.name} ${item.surname}`).join(", "))
    *
-   * Example 2: (items: Item[]) => (`${items.length} values selected`)
+   * @example with values
+   * getMultipleSelectedLabel = {(items: Item[]) => (items.map(item => `${item.name} ${item.surname}`).join(", "))}
+   *
+   * @example with number of values
+   * getMultipleSelectedLabel = {(items: Item[]) => (`${items.length} values selected`)}
    */
   getMultipleSelectedLabel?: (array: T[]) => string;
   /**
    * Function determining how the item will be displayed in the dropdown menu (not exclusively text).
+   *
    * If you wish to have the same display in the menu as the display in the field then this prop is not required,
    * 'itemToString' is sufficient. Define this prop only if you wish to have a complex display in the menu.
+   *
    * Defining this prop removes bolding of the matched text in the menu since the component always
    * uses this prop to show the items in the menu (you can use this prop instead of 'itemToString' if
    * 'allowMultiple' is not enabled, otherwise you must use it alongside 'itemToString').
-   * Note: this prop is not compatible with 'tags' prop because tags variant requires 'itemToString' prop to display items in a badge.
-   * Example: (item: Item) => (
+   *
+   * **Note**: this prop is not compatible with 'tags' prop because tags variant requires 'itemToString' prop to display items in a badge.
+   *
+   * @example
+   * getOptionLabel = {(item: Item) => {(
    *     <div className="flex items-center justify-between flex-wrap">
    *       <div>
    *         {item.name} {item.surname}
    *       </div>
    *       <div className="flex-shrink-0 text-sm leading-5 text-gray-500">@{item.username}</div>
    *     </div>
-   *   )
+   *   )}
    */
   getOptionLabel?: (item: T) => React.ReactNode;
   /**
    * Function describing what property of the object the component will treat as a value. Required because
    * comparison between objects requires a unique value (typically id) to properly compare two objects
    * from different arrays.
-   * Ex. (item: Item) => item.id
+   *
+   * @example
+   * getOptionValue = {(item: Item) => item.id}
    */
   getOptionValue?: (item: T) => unknown;
   /**
@@ -102,12 +138,15 @@ export type AutocompleteProps<T extends {}> = {
   help?: React.ReactNode;
   /**
    * Function determining what property of an item (selected from a dropdown list) is shown in the menu and
-   * what property of an item is shown when the item is chosen (if 'allowMultiple' is not enabled).
+   * what property of an item is shown when the item is chosen (if 'allowMultiple' is disabled).
    * If you wish to show a more complex display of an item in the menu, use 'getOptionLabel' instead or alongside this prop
    * (depending on the 'allowMultiple' prop).
-   * Note: this prop is required when 'allowMultiple' is not enabled (because it's required to
+   *
+   * **Note**: this prop is required when 'allowMultiple' is not enabled (because it's required to
    * set the value of the input field on item selection) and when 'tags' prop is enabled (in order to display the item in a badge).
-   * Example: (item: Item) => `${item.name} ${item.surname}`
+   *
+   * @example
+   * itemToString = {(item: Item) => `${item.name} ${item.surname}`}
    */
   itemToString?: (item: T) => string;
   /**
@@ -117,6 +156,7 @@ export type AutocompleteProps<T extends {}> = {
   /**
    * Determines the maximum number of displayed options displayed as a dropdown list when the component is clicked.
    * For displaying all content, set this value to the length of the content array.
+   *
    * When multiple selection is enabled, this value is automatically set to the content length for ease of use.
    */
   maxItems?: number;
@@ -125,23 +165,25 @@ export type AutocompleteProps<T extends {}> = {
    */
   name: string;
   /**
-   * Function determining the output of added tag. Useful if you want to add a prefix to tags (for example '#') or
-   * create an object to be added (if working with complex types - possible from v2.2.2).
-   * The color of custom added badges will be colored with 'secondary' color from your config.
-   * NOTE: Adding new tags is not possible if this prop is not enabled.
-   * Example 1 - working with strings: (tag: string) => ("#" + tag)
-   * Example 2 - working with complex types: (tag: string) => {
-   *                 const item: Item = {
-   *                   name: tag.split(" ")[0],
-   *                   surname: tag.split(" ")[1] ?? "",
-   *                   username: tag.split(" ")[1]
-   *                     ? tag[0].toLowerCase() + tag.split(" ")[1].toLowerCase()
-   *                     : tag[0].toLowerCase() ?? "",
-   *                 };
-   *                 return item;
-   *               }
+   * Enables the possibility of persisting custom items inside the component by allowing you to execute the desired action
+   * (e.g. call to backend or setting state) once a new custom item has been added.
+   *
+   * The item handed over by this function has the shape of the item returned by _getCustomItem_ prop.
+   *
+   * Without defining the logic for persistence here new custom items only stay inside the component until they are unselected.
+   *
+   * **Note**: this prop should be used alongside the _getCustomItem_ prop.
    */
-  onAddCustomTag?: (item: string) => T;
+  onAddCustomItem?: (item: T) => void;
+
+  /**
+   * **DEPRECATED.**
+   *
+   * Replaced with _onAddCustomItem_ (which is more flexible), but still usable for tags.
+   *
+   * **Do not** use alongside _onAddCustomItem_.
+   */
+  onAddCustomTag?: (item: T) => void;
   /**
    * Defines the behaviour of the component once the focus shifts away from the component.
    */
@@ -155,6 +197,12 @@ export type AutocompleteProps<T extends {}> = {
    */
   onReset?: () => void;
   /**
+   * For fetching an array of options from backend (async) or by passing an array of options.
+   *
+   * **Important**: if passing an array the filter prop must also be defined, otherwise filtering while typing will not work.
+   */
+  options: ((query: string) => Promise<T[]>) | T[];
+  /**
    * The placeholder displayed inside the text input field.
    */
   placeholder?: string;
@@ -164,9 +212,13 @@ export type AutocompleteProps<T extends {}> = {
    */
   required?: boolean;
   /**
-   * Function representing how the component handles the displayed array of items. Most often something similar to items.sort((a, b) => a.name.localeCompare(b.name))
+   * Function representing how the component handles the displayed array of items.
    * Turned off by default because of generic types, but recommended to use for intuitiveness.
+   *
    * When working with tags the badges displayed below the field are not sorted.
+   *
+   * @example
+   * sort = {(items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name))}
    */
   sort?: (items: T[]) => T[];
   /**
@@ -176,7 +228,8 @@ export type AutocompleteProps<T extends {}> = {
 
   /**
    * Toggle for transforming the field into a multiselect field with tags.
-   * NOTE: Requires 'allowMultiple' and 'itemToString' (for displaying text inside the tag) props in order to work.
+   *
+   * **Note**: Requires 'allowMultiple' and 'itemToString' (for displaying text inside the tag) props in order to work.
    */
   tags?: boolean;
 
@@ -217,7 +270,9 @@ function Autocomplete<T extends {}>({
   sort,
   tags,
   tagsContained,
-  onAddCustomTag,
+  getCustomItem,
+  onAddCustomItem = () => null,
+  onAddCustomTag = () => null,
   onReset,
   onBlur,
   disabled,
@@ -228,7 +283,7 @@ function Autocomplete<T extends {}>({
 }: AutocompleteProps<T>) {
   const autocompleteTokens = useTokens("Autocomplete", props.autocompleteTokens);
   const selectTokens = useTokens("Select", props.selectTokens);
-  const selectedIcon = useIcon("completed", undefined, { className: "text-primary" });
+  const selectedIcon = useIcon("completed", undefined);
   const loadingIcon = useIcon("loading", undefined, { size: 3 });
   const searchIcon = useIcon("search", undefined, { size: 4 });
   const openExpanderIcon = useIcon("openExpander", undefined, { size: 3 });
@@ -241,8 +296,8 @@ function Autocomplete<T extends {}>({
   const menuRef = React.useRef<HTMLElement>(null);
 
   const [loading, setLoading] = React.useState(false);
-  const [customTags, setCustomTags] = React.useState<T[]>([]);
 
+  const [customOptions, setCustomOptions] = React.useState<T[]>([]);
   const [filteredOptions, setFilteredOptions] = React.useState<T[]>([]);
   const [selectedOptions, setSelectedOptions] = React.useState<T[]>(Array.isArray(value) && allowMultiple ? value : []);
 
@@ -333,6 +388,11 @@ function Autocomplete<T extends {}>({
       if (selectionTypes.indexOf(type) !== -1 && !allowMultiple) {
         if (selectedItem !== undefined && selectedItem !== null) {
           onChange(selectedItem);
+          if (getCustomItem && !customOptions.includes(selectedItem)) {
+            setCustomOptions([...customOptions, selectedItem]);
+            onAddCustomItem(selectedItem);
+            if (tags) onAddCustomTag(selectedItem);
+          }
         } else {
           const stringOptions = filteredOptions.map((option) => safeItemToString(option).toLowerCase());
           if (stringOptions.includes(inputValue.toLowerCase())) {
@@ -355,6 +415,7 @@ function Autocomplete<T extends {}>({
     if (allowMultiple) {
       setInputValue("");
     }
+    setLoading(false);
   };
 
   const isEmpty = React.useRef(!!initialInputValue);
@@ -404,22 +465,25 @@ function Autocomplete<T extends {}>({
         setLoading(true);
         loadOptions(inputValue)
           .then((response) => {
+            const uniqueResponse = Array.from(new Set(response));
             if (!cancelled) {
               setLoading(false);
               if (mounted.current && !tags && !inputValue) {
-                setFilteredOptions(selectedToTop(response, selectedOptions));
+                setFilteredOptions(selectedToTop(uniqueResponse, selectedOptions));
               } else if (inputValue) {
-                if (tags && onAddCustomTag) {
+                if (getCustomItem) {
                   setFilteredOptions(
-                    getDifference([...response, ...Array.of(onAddCustomTag(inputValue))], selectedOptions),
+                    tags
+                      ? getDifference([...uniqueResponse, ...Array.of(getCustomItem(inputValue))], selectedOptions)
+                      : [...uniqueResponse, ...Array.of(getCustomItem(inputValue))],
                   );
                 } else {
-                  setFilteredOptions(response);
+                  setFilteredOptions(uniqueResponse);
                 }
               } else if (tags && mounted.current) {
-                setFilteredOptions(removeSelected(response));
+                setFilteredOptions(removeSelected(uniqueResponse));
               } else {
-                setFilteredOptions(selectedToTop(response, selectedOptions));
+                setFilteredOptions(selectedToTop(uniqueResponse, selectedOptions));
               }
             }
           })
@@ -435,7 +499,7 @@ function Autocomplete<T extends {}>({
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options, inputValue, sort, isOpen, tags, onAddCustomTag]);
+  }, [options, inputValue, sort, isOpen, tags, getCustomItem]);
 
   const lastValue = React.useRef<T | T[] | null | undefined>();
   React.useEffect(() => {
@@ -515,18 +579,20 @@ function Autocomplete<T extends {}>({
     selectTokens.Item.base.color,
   );
 
-  const itemClassName = (bold: boolean, selected: boolean) =>
+  const itemClassName = (bold: boolean, selected: boolean, custom: boolean) =>
     cx(
       autocompleteTokens.Item.base.regular,
-      { [autocompleteTokens.Item.base.selected]: selected },
+      { [autocompleteTokens.Item.base.selected]: selected && !custom },
+      { [autocompleteTokens.Item.base.selectedCustom]: selected && custom },
       { [autocompleteTokens.Item.accentuated]: bold },
     );
 
-  const activeClassName = (bold: boolean, selected: boolean, hovered: boolean) =>
+  const activeClassName = (bold: boolean, selected: boolean, hovered: boolean, custom: boolean) =>
     cx(
       autocompleteTokens.Item.active.regular,
       { [autocompleteTokens.Item.active.selected]: selected },
-      { [autocompleteTokens.Item.active.hovered]: selected && hovered },
+      { [autocompleteTokens.Item.active.hovered]: selected && hovered && !custom },
+      { [autocompleteTokens.Item.active.hoveredCustom]: selected && hovered && custom },
       { [autocompleteTokens.Item.accentuated]: bold },
     );
 
@@ -549,16 +615,11 @@ function Autocomplete<T extends {}>({
     "bg-white",
   );
 
-  const tagPlaceholderClassName = cx({
-    "h-6 mt-2 ml-2 text-gray-500": true,
-    "text-small": true,
-    "text-body": true,
-  });
-
-  const tagExists = () =>
-    filteredOptions.length > 1 && onAddCustomTag
-      ? getDifference(filteredOptions, Array.of(onAddCustomTag(inputValue))).length === 0
-      : !onAddCustomTag;
+  const tagPlaceholderClassName = cx(
+    autocompleteTokens.tagPlaceholder.master,
+    autocompleteTokens.tagPlaceholder.fontSize,
+    autocompleteTokens.tagPlaceholder.textColor,
+  );
 
   const onKeyDown = (event: React.KeyboardEvent) => {
     const nativeEvent = event.nativeEvent as any;
@@ -569,13 +630,18 @@ function Autocomplete<T extends {}>({
 
     if (allowMultiple && event.key === "Enter" && highlightedOption !== undefined) {
       nativeEvent.preventDownshiftDefault = true;
-      checkItem(-1, !tagExists() && highlightedIndex === filteredOptions.length - 1);
+      checkItem(
+        -1,
+        inputValue.length > 0 &&
+          getCustomItem &&
+          getDifference(filteredOptions, Array.of(getCustomItem(inputValue))).length === 0,
+      );
     }
   };
 
-  const onItemClick = (event: React.MouseEvent, index: number, customTag?: boolean) => {
+  const onItemClick = (event: React.MouseEvent, index: number, customItem?: boolean) => {
     event.nativeEvent.preventDefault();
-    checkItem(index, customTag);
+    checkItem(index, customItem);
   };
 
   const removeSelected = (array: T[]) => {
@@ -598,7 +664,7 @@ function Autocomplete<T extends {}>({
     }
   };
 
-  const checkItem = (index: number, customTag?: boolean) => {
+  const checkItem = (index: number, customItem?: boolean) => {
     const selectedOption = filteredOptions[index] || highlightedOption;
     if (allowMultiple && (highlightedOption || index > -1)) {
       if (getOptionValue) {
@@ -608,8 +674,10 @@ function Autocomplete<T extends {}>({
           );
           setSelectedOptions(filteredOptions);
         } else {
-          if (customTag) {
-            setCustomTags([...customTags, selectedOption]);
+          if (customItem) {
+            setCustomOptions([...customOptions, selectedOption]);
+            onAddCustomItem(selectedOption);
+            if (tags) onAddCustomTag(selectedOption);
           }
           setSelectedOptions([...selectedOptions, selectedOption]);
         }
@@ -617,12 +685,14 @@ function Autocomplete<T extends {}>({
         const filteredOptions = selectedOptions.filter((option) => !(option === selectedOption));
         setSelectedOptions(filteredOptions);
       } else {
-        if (customTag) {
-          setCustomTags([...customTags, selectedOption]);
+        if (customItem) {
+          setCustomOptions([...customOptions, selectedOption]);
+          onAddCustomItem(selectedOption);
+          if (tags) onAddCustomTag(selectedOption);
         }
         setSelectedOptions([...selectedOptions, selectedOption]);
       }
-      if (tags && inputValue) {
+      if (customItem) {
         mounted.current = true;
         reorderOptions();
         setInputValue("");
@@ -689,17 +759,19 @@ function Autocomplete<T extends {}>({
 
   const SelectItems = () => {
     const lastIndex = allowMultiple ? filteredOptions.length : maxItems;
-    if (onAddCustomTag) {
+    if (getCustomItem) {
       return (
         <>
           {filteredOptions
-            .slice(0, lastIndex)
+            .slice(0, lastIndex === 0 && getCustomItem ? 1 : lastIndex)
             .map((option, index) =>
               !inputValue || index !== filteredOptions.length - 1 ? (
                 <SelectItem key={index} index={index} option={option} />
               ) : (
                 inputValue &&
-                !tagExists() && <SelectItem key={index} tag={true} option={onAddCustomTag(inputValue)} index={index} />
+                !arrayIncludes(filteredOptions.slice(0, filteredOptions.length - 1), getCustomItem(inputValue)) && (
+                  <SelectItem key={index} custom={true} option={getCustomItem(inputValue)} index={index} />
+                )
               ),
             )}
         </>
@@ -714,7 +786,7 @@ function Autocomplete<T extends {}>({
     );
   };
 
-  const SelectItem = ({ option, index, tag }: { option: T; index: number; tag?: boolean }) => {
+  const SelectItem = ({ option, index, custom }: { option: T; index: number; custom?: boolean }) => {
     const label = safeItemToString(option);
     const checkFirstChar = label.toLowerCase()[0] === inputValue?.toLowerCase()[0];
     const checkFirstWord = label.split(" ")[0].toLowerCase().includes(inputValue.split(" ")[0].toLowerCase());
@@ -730,6 +802,10 @@ function Autocomplete<T extends {}>({
       : selectedOptions.includes(option);
     const hovered = highlightedIndex === index;
 
+    const customContains = customOptions.includes(option);
+    const selectedIconClassName = !customContains ? "text-primary" : "text-secondary";
+    const finalSelectedIcon = React.cloneElement(selectedIcon, { className: selectedIconClassName });
+
     const contentWrapper = (children: React.ReactNode, tag?: boolean) => {
       return (
         <div
@@ -741,19 +817,18 @@ function Autocomplete<T extends {}>({
           })}
           className={
             highlightedIndex === index
-              ? activeClassName(!getOptionLabel ? !tag && boldAll : false, selected, hovered)
-              : itemClassName(!getOptionLabel ? !tag && boldAll : false, selected)
+              ? activeClassName(!getOptionLabel ? !tag && boldAll : false, selected, hovered, customContains)
+              : itemClassName(!getOptionLabel ? !tag && boldAll : false, selected, customContains)
           }
         >
           {children}
         </div>
       );
     };
-
-    return (
-      <>
-        {(selected || inputValue) && !getOptionLabel
-          ? !tag
+    if ((selected || inputValue) && !getOptionLabel) {
+      return (
+        <>
+          {!custom
             ? contentWrapper(
                 <>
                   <div className="truncate w-10/12">
@@ -762,29 +837,38 @@ function Autocomplete<T extends {}>({
                       {label.substring(inputValue?.length)}
                     </span>
                   </div>
-                  {allowMultiple && selected && selectedIcon}
+                  {allowMultiple && selected && finalSelectedIcon}
                 </>,
               )
-            : onAddCustomTag &&
+            : getCustomItem &&
               contentWrapper(
                 <>
-                  <Intl name="autocomplete.addTag" /> {""}
-                  <Badge color="secondary" dot={true} small={true}>
-                    {safeItemToString(onAddCustomTag(inputValue))}
-                  </Badge>
+                  <Intl name={tags ? "autocomplete.addTag" : "autocomplete.addItem"} /> {""}
+                  {tags ? (
+                    <Badge color="secondary" dot={true} small={true}>
+                      {safeItemToString(getCustomItem(inputValue))}
+                    </Badge>
+                  ) : (
+                    <span className="font-bold">{safeItemToString(getCustomItem(inputValue))}</span>
+                  )}
                 </>,
                 true,
-              )
-          : contentWrapper(
-              <div className={autocompleteTokens.Item.complex.container}>
-                <div className={autocompleteTokens.Item.complex.element}>
-                  {getOptionLabel ? optionLabelFn(option) : safeItemToString(option)}
-                </div>
-                {allowMultiple && <div className={complexSelectedClassName}>{selected && selectedIcon}</div>}
-              </div>,
-            )}
-      </>
-    );
+              )}
+        </>
+      );
+    } else
+      return (
+        <>
+          {contentWrapper(
+            <div className={autocompleteTokens.Item.complex.container}>
+              <div className={autocompleteTokens.Item.complex.element}>
+                {getOptionLabel ? optionLabelFn(option) : safeItemToString(option)}
+              </div>
+              {allowMultiple && <div className={complexSelectedClassName}>{selected && finalSelectedIcon}</div>}
+            </div>,
+          )}
+        </>
+      );
   };
 
   const content =
@@ -810,7 +894,7 @@ function Autocomplete<T extends {}>({
             <Badge
               key={key}
               dot={true}
-              color={!arrayIncludes(customTags, v) ? "primary" : "secondary"}
+              color={!arrayIncludes(customOptions, v) ? "primary" : "secondary"}
               onRemoveButtonClick={() => {
                 const filtered = selectedOptions.filter((toFilter) => {
                   if (getOptionValue) {

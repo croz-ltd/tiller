@@ -3,7 +3,7 @@ import { Meta, ArgsTable, Story, Canvas } from "@storybook/addon-docs";
 import { Autocomplete } from "@tiller-ds/selectors";
 import { ThemeTokens } from "../utils";
 
-<Meta title="Docs|Autocomplete" component={ Autocomplete } />
+<Meta title="Docs|Autocomplete" component={Autocomplete} />
 
 # Autocomplete
 
@@ -26,10 +26,10 @@ using **controls**.
 To create your custom Autocomplete component:
 
 - Switch to the `Canvas` section of the Storybook and navigate to `Autocomplete Factory` story
-of the Autocomplete.
+  of the Autocomplete.
 - Modify props using controls.
 - When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
-navigated to your created Autocomplete.
+  navigated to your created Autocomplete.
 - After you click the `Show code` button below your custom Autocomplete, the code of the Autocomplete will be generated.
 
 ### Result:
@@ -53,7 +53,6 @@ export type Item = {
   surname: string;
 };
 ```
-
 
 ## Used Props
 
@@ -96,23 +95,23 @@ const complexProps = {
 const backendProps = {
   ...commonProps,
   options: (query: string) =>
-  promiseTimeout(
-    Promise.resolve(
-      query.length > 0
-      ? items.filter(
-      (item) =>
-      item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-      item.surname.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-      item.username.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-      item.name
-      .concat(" " + item.surname)
-      .toLowerCase()
-      .indexOf(query.toLowerCase()) !== -1
-      )
-      : items
+    promiseTimeout(
+      Promise.resolve(
+        query.length > 0
+          ? items.filter(
+              (item) =>
+                item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.surname.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.username.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.name
+                  .concat(" " + item.surname)
+                  .toLowerCase()
+                  .indexOf(query.toLowerCase()) !== -1,
+            )
+          : items,
+      ),
+      500,
     ),
-    500
-  ),
   getOptionValue: (item: Item) => item.username,
 };
 ```
@@ -121,20 +120,20 @@ const backendProps = {
 const backendSimpleProps = {
   ...commonSimpleProps,
   options: (query: string) =>
-  promiseTimeout(
-    Promise.resolve(
-      query.length > 0
-      ? simpleItems.filter(
-      (item) =>
-      item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-      item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-      item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
-      item.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      )
-      : simpleItems
+    promiseTimeout(
+      Promise.resolve(
+        query.length > 0
+          ? simpleItems.filter(
+              (item) =>
+                item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+                item.toLowerCase().indexOf(query.toLowerCase()) !== -1,
+            )
+          : simpleItems,
+      ),
+      500,
     ),
-    500
-  ),
 };
 ```
 
@@ -144,12 +143,12 @@ const frontendProps = {
   options: items,
   getOptionValue: (item: Item) => item.username,
   filter: (name: string, option) =>
-  (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase()),
+    (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase()),
 };
 ```
 
 ```ts
-  const frontendSimpleProps = {
+const frontendSimpleProps = {
   ...commonSimpleProps,
   options: simpleItems,
   filter: (name: string, option) => (option.toLowerCase() + " " + option.toLowerCase()).includes(name.toLowerCase()),
@@ -242,35 +241,6 @@ inside the field instead of a counter shown by default.
   <Story id="component-library-selectors-autocomplete--with-multiple-selection-and-visible-labels" />
 </Canvas>
 
-## **(NEW) With Tags**
-
-By enabling the `tags` prop, the look and feel of autocomplete changes in order to accompany the display of selected
-items as tags below the field. This gives you the ability to visualize selected items more explicitly and easily remove
-selected tags or add new tags. <br />
-It is recommended to use this variant with non-complex types (strings), but the usage with complex types is also possible.
-**Note**: `tags` prop requires `allowMultiple` prop to also be enabled in order to function.
-
-<Canvas>
-  <Story id="component-library-selectors-autocomplete--with-tags" />
-</Canvas>
-
-You can also use complex values for tags, but be careful because this is a bit more complicated to implement due to the nature of objects.
-Make sure you secure your `onAddCustomTag` function if you wish to have this option enabled when using complex types.
-The example below represents the secured usage of this function, no matter the input value.
-
-<Canvas>
-  <Story id="component-library-selectors-autocomplete--with-complex-tags" />
-</Canvas>
-
-## **(NEW) With Contained Tags**
-
-Another variant for displaying tags is achieved by turning on the `tagsContained` prop. By doing this, the look and feel
-of the component changes to a more contained one as tags are put inside the field itself.
-
-<Canvas>
-  <Story id="component-library-selectors-autocomplete--with-contained-tags" />
-</Canvas>
-
 ## With Filtering on Frontend
 
 If you enable filtering on the frontend you will experience **faster responses without loading animations** because
@@ -284,12 +254,74 @@ but it's important to define the filtering method on the frontend with the `filt
   <Story id="component-library-selectors-autocomplete--with-filtering-on-frontend" />
 </Canvas>
 
+## With Tags
+
+By enabling the `tags` prop, the look and feel of autocomplete field changes in order to accompany the display of selected
+items as tags below the field. This gives you the ability to visualize selected items more explicitly and easily remove
+selected tags or add new tags. <br />
+It is recommended to use this variant with non-complex types (strings), but the usage with complex types is also possible.
+**Note**: `tags` prop requires `allowMultiple` prop to also be enabled in order to function.
+
+<Canvas>
+  <Story id="component-library-selectors-autocomplete--with-tags" />
+</Canvas>
+
+You can also use complex values for tags, but be careful because this is a bit more complicated to implement due to the nature of objects.
+Make sure you secure your _getCustomItem_ and _onAddCustomItem_ functions if you wish to have this option enabled when using complex types.
+The example below represents the secured usage of this function, no matter the input value.
+
+<Canvas>
+  <Story id="component-library-selectors-autocomplete--with-complex-tags" />
+</Canvas>
+
+## With Contained Tags
+
+Another variant for displaying tags is achieved by turning on the `tagsContained` prop. By doing this, the look and feel
+of the component changes to a more contained one as tags are put inside the field itself.
+
+<Canvas>
+  <Story id="component-library-selectors-autocomplete--with-contained-tags" />
+</Canvas>
+
+## With Complex Tags
+
+You can also pass complex objects as tags, there's no restriction to simple types. The _getCustomItem_ and _onAddCustomItem_ props
+take care of how your newly added props will be saved.
+See the description of these props in the [Autocomplete Props section](#autocomplete-props)
+of the documentation for best explanation of their usage.
+
+<Canvas>
+  <Story id="component-library-selectors-autocomplete--with-complex-tags" />
+</Canvas>
+
+## With Adding Custom Tags
+
+If you want to enable adding custom tags, the _getCustomItem_ and _onAddCustomItem_ props
+take care of how your newly added props will be saved.
+See the description of these props in the [Autocomplete Props section](#autocomplete-props)
+of the documentation for best explanation of their usage.
+
+<Canvas>
+  <Story id="component-library-selectors-autocomplete--with-adding-custom-tags" />
+</Canvas>
+
+## **(NEW) With Adding Custom Items**
+
+Using _getCustomItem_ prop you can enable the ability to check/select a newly added custom item.
+However, if you wish to persist the item inside the component even if it's unselected, you need to use the
+_onAddCustomItem_ prop alongside the _getCustomItem_ prop. Check the prop docs for more info.
+
+<Canvas>
+  <Story id="component-library-selectors-autocomplete--with-adding-custom-items" />
+</Canvas>
+
 ## With Misused Props
 
 If you, for example, do the following:
-  - fetch an array from backend, but don't enable the `allowMultiple` prop or vice versa,
-  - pass an array instead of an async promise (decide to do full frontend fetch and filtering), but don't pass the `filter` prop <br />
-...the component automatically becomes disabled and notifies you to adjust the props accordingly.
+
+- fetch an array from backend, but don't enable the `allowMultiple` prop or vice versa,
+- pass an array instead of an async promise (decide to do full frontend fetch and filtering), but don't pass the `filter` prop <br />
+  ...the component automatically becomes disabled and notifies you to adjust the props accordingly.
 
 <Canvas>
   <Story id="component-library-selectors-autocomplete--with-misused-props" />
@@ -298,7 +330,7 @@ If you, for example, do the following:
 ## Usage
 
 - Use `Autocomplete` in a form as a way to allow the user to enter a value associated with a key, such as entering their name in a field labeled name
-and choosing from the list of available options.
+  and choosing from the list of available options.
 
 - You may wish to review the general forms documentation about designing forms.
 
@@ -309,21 +341,23 @@ and choosing from the list of available options.
 - All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
 
 - **Tip**: don't show too much info, some props like maxItems are optional for a reason, and the default value exists because
-it represents an optimal UX design.
+  it represents an optimal UX design.
 
 ## Best Practices
 
 - Use the sort prop to sort items, it is much easier for a user to find the item if the items are sorted
 - **Prefer Autocomplete over Select in most cases**, it gives the same features with the extra ability to search
 - If you want to truly have a Select Field experience on Autocomplete (all options listed), set the `maxItems` prop to
-the length of your items array
+  the length of your items array
 - If the size of your dataset is not large, or you want a seamless experience, you may want to enable **filtering on frontend**
-for faster visual response without loading animations
+  for faster visual response without loading animations
 - Make sure to follow up with your validation (be it on frontend on backend) if you enable `required` prop, because the prop only
-visually defines the field as required
+  visually defines the field as required
 
 ### Autocomplete Props:
+
 <ArgsTable of={Autocomplete} />
 
 ## Autocomplete Tokens:
-<ThemeTokens component="Autocomplete"/>
+
+<ThemeTokens component="Autocomplete" />
