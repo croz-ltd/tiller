@@ -61,6 +61,11 @@ export type AlertProps = {
    * Style of the alert. Determines the color of the component depending on the variant type.
    */
   variant?: Variant;
+
+  /**
+   * Icon shown on the left side of the Alert.
+   */
+  icon?: React.ReactNode;
 } & AlertTokensProps;
 
 type AlertTokensProps = {
@@ -69,6 +74,7 @@ type AlertTokensProps = {
 
 export default function Alert({
   title,
+  icon,
   accentBorder = false,
   variant = "info",
   children,
@@ -82,7 +88,8 @@ export default function Alert({
     tokens.variant[variant].padding,
     { [tokens.variant[variant].color]: accentBorder },
     { [tokens.borderRadius]: !accentBorder },
-    tokens.variant[variant].backgroundColor
+    tokens.variant[variant].backgroundColor,
+    { [tokens.icon.container]: icon },
   );
 
   const titleClassName = cx(tokens.title.fontSize, tokens.title.fontWeight, tokens.title.color[variant]);
@@ -91,8 +98,11 @@ export default function Alert({
 
   return (
     <section className={alertClassName} {...props}>
-      {title && <p className={titleClassName}>{title}</p>}
-      <div className={textClassName}>{children}</div>
+      {icon}
+      <div>
+        {title && <p className={titleClassName}>{title}</p>}
+        <div className={textClassName}>{children}</div>
+      </div>
     </section>
   );
 }
