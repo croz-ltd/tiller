@@ -228,7 +228,9 @@ export default function DateTimeInput({
     const selectedDate = data.startDate ? data.startDate : new Date();
 
     if (selectedDate !== value && selectedDate !== minDate) {
-      props.onChange(createNewDate(selectedDate, currentHours, currentMinutes));
+      const newDate = createNewDate(selectedDate, currentHours, currentMinutes);
+      props.onChange(newDate);
+      setTypedValue(formatValue(newDate));
       setShowTimePickerMinutes(false);
       openSelectedPicker("time");
     }
@@ -287,13 +289,16 @@ export default function DateTimeInput({
   const formattedDateFormat = dateFormat?.replace(/m/g, "M");
   const finalDateFormat = formattedDateFormat || getDateFormatByLang(lang);
   const timeAddOn = " HH:mm"; // HH must be uppercase!
-  const formattedValue = value
-    ? `${dateFns.format(value, finalDateFormat)} ${addLeadingZerosToDigit(
-        isTwelveHours ? timePicker.hour : value.getHours(),
-      )}:${addLeadingZerosToDigit(isTwelveHours ? timePicker.minute : value.getMinutes())}${
-        isTwelveHours ? " " + timePicker.type : ""
-      }`
-    : "";
+
+  const formatValue = (value: Date) => {
+    return `${dateFns.format(value, finalDateFormat)} ${addLeadingZerosToDigit(
+      isTwelveHours ? timePicker.hour : value.getHours(),
+    )}:${addLeadingZerosToDigit(isTwelveHours ? timePicker.minute : value.getMinutes())}${
+      isTwelveHours ? " " + timePicker.type : ""
+    }`;
+  };
+
+  const formattedValue = value ? formatValue(value) : "";
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
   const mobile = (window.innerWidth < 768) as boolean;
