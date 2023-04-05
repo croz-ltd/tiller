@@ -49,6 +49,7 @@ export const defaultIconConfig: IconConfig = {
 ```
 
 Here you can specify your customized icons, for example:
+
 ```tsx
   openExpander: (props: Partial<IconProps>) => (
     <span className={props.className}>-</span>
@@ -57,9 +58,13 @@ Here you can specify your customized icons, for example:
     <span className={props.className}>+</span>
   ),
 ```
-This `defaultIconConfig` is passed in `ThemeProvider` inside `index.tsx` file.
+
+_Note: customizing the icon configuration will require you to change the extension of `tiller.config.ts` file to `tsx` from `ts`._
+
+This `defaultIconConfig` is passed to the `ThemeProvider` inside `index.tsx` file.
 
 Every icon is customizable. The list of icons **required** by the Tiller Design System is:
+
 ```tsx
   dismiss: (props: Partial<IconProps>) => <Icon type="x" variant="bold" {...props} />,
   breadcrumbs: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
@@ -109,16 +114,16 @@ using **controls**.
 To create your custom Icon: <br />
 
 - Switch to the `Canvas` section of the Storybook and navigate to `Icon Factory` story
-of the Icon.
+  of the Icon.
 - Modify props using controls.
 - When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
-navigated to your created Icon.
+  navigated to your created Icon.
 - After you click the `Show code` button below your custom Icon, the code of the Icon will be generated.
 
 ### Result:
 
 <Canvas>
-    <Story id="component-library-icons-icon--icon-factory" />
+  <Story id="component-library-icons-icon--icon-factory" />
 </Canvas>
 
 <Stories />
@@ -128,4 +133,5 @@ navigated to your created Icon.
 <ArgsTable of={Icon} />
 
 ## Icon Tokens:
-<ThemeTokens component="Icon"/>
+
+<ThemeTokens component="Icon" />

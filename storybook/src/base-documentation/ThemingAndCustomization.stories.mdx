@@ -1,5 +1,10 @@
 import { Meta } from "@storybook/addon-docs";
 
+import cover from "img/tiller_figma_cover.png";
+
+import tutorial_import_tokens from "img/tokens_tutorial/tokens_import.png";
+import tutorial_tokens from "./tutorial-tokens.mp4";
+
 <Meta
   title="Theming and Customization"
   parameters={{
@@ -16,25 +21,59 @@ import { Meta } from "@storybook/addon-docs";
   }}
 />
 
-# Theming and customization
+# 🎨 Theming and customization
 
-Customizations on theme level are implemented using design tokens which we call **Tiller tokens**.
+<br />
 
-Tiller tokens allow us to customize the general look and feel of the Tiller design system. Changing a token results in changing the look and feel of all the components that use that specific token.
+<div className="flex flex-col space-y-4 w-full justify-center items-center">
+  <img className="w-full shadow-md" src={cover} alt="Tiller Cover Image" />
+  <span className="text-xl text-center">
+    Customizations on theme level are implemented using design tokens which we call <b>Tiller tokens</b>. <br /> Tiller
+    tokens allow you to customize the general look and feel of the Tiller Design System.
+  </span>
+</div>
 
-## How tokens work
+<hr className="my-2" />
 
-Behind the scenes Tiller uses Tailwind CSS to style all the components. Every component uses the default Tiller theme which has different tokens set for all the components.
+### Inspiration
+
+The inspiration behind the implementation of Tiller tokens comes from our wish to have a design system that is **easy to customize**. We wanted to have a system that is flexible enough to be
+used in different contexts and different projects, without having to change a handful of code just to accommodate a different style.
+
+But, giving **too much control** over the design system **can lead to a design system that is not consistent and does not have a clear identity**. <br />
+We wanted to find a **balance between flexibility and consistency** with this concept.
+
+## What are Tiller tokens?
+
+Tiller tokens are the **building blocks of our design system**. They are the **visual design atoms** of the design system - **colors, spacing, sizes, etc**.
+
+Behind the scenes Tiller uses TailwindCSS to style all the components. Every component uses the default Tiller theme which has different tokens set for all the components.
 
 Tokens are seperated in three different categories:
 
-1. **Global tokens** - default tailwind color palettes, spacing settings and other (eg. `blue-400` = `#60a5fa`). Used to define possible values for other layers.
-2. **Decision tokens** - custom theme overrides, mostly for colors and text configurations (eg. `primary-400` = `blue-400`, `secondary` = `yellow-600`). Used to define global configuration for most of the design system.
-3. **Component specific tokens** - custom component configurations (eg. `Button.primary.backgroundColor` = `primary-400`). Used to fine tune specific components.
+1. **Option tokens** - default TailwindCSS color palettes, spacing settings and other (eg. `blue-400` = `#60a5fa`). Used to define possible values for other layers.
+2. **Decision tokens** - custom theme overrides, mostly for colors and text configurations. Used to define a global configuration for most of the design system.
+3. **Component tokens** - custom component configurations (eg. `Button.primary.backgroundColor` = `bg-primary-400`). Used to fine tune specific components.
 
-## Global tokens
+In the following chapters we will cover how to work with tokens in [code](#%EF%B8%8F-tiller-tokens-in-code) and in [Figma](#🎭-tiller-tokens-in-figma).
 
-Options tokens are all available values that you can use to set a certain decision token of a component. They are customized in `tailwind.config.js` file.
+# 🛠️ Tiller tokens in code
+
+In the following chapters you will get acquainted with the Tiller tokens and how to use them to customize the design system.
+We'll also cover our integration of tokens into our [Tiller Design System - Figma UI Kit](https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0) for fast and easy prototyping before diving
+into the actual code.
+
+We'll cover the following topics in the next chapters:
+
+- [Option Tokens](#option-tokens)
+- [Decision Tokens](#decision-tokens)
+- [Component Tokens](#component-tokens)
+- [Customizing the Icon Set](#customizing-the-icon-set)
+- [One-off Component Customizations](#one-off-component-customizations)
+
+## Option Tokens
+
+Option tokens are all available values that you can use to set a certain decision token of a component. They are customized in `tailwind.config.js` file.
 
 Since Tiller uses Tailwind CSS behind the scenes, option tokens are mostly Tailwind class names which are defined by tailwind default configuration and `tailwind.config.js` file in your project (which customizes the default Tailwind configuration).
 
@@ -47,54 +86,56 @@ Examples of options tokens:
 - `purple-200` color
 - `pl-2` class
 
-More on customizing tailwind configuration in their official [documentation](https://tailwindcss.com/docs/configuration)
+More on customizing the TailwindCSS configuration in their official [documentation](https://tailwindcss.com/docs/configuration)
 
-## Decision tokens
+## Decision Tokens
 
-Decision tokens define the look and feel of Tiller apps. Decision tokens use options tokens as values.
+Decision tokens define the look and feel of Tiller components. Decision tokens use option tokens as values.
 
-They are also defined inside `tailwind.config.js` file as custom aliases for colors.
+They are also defined inside the `tailwind.config.js` file as custom aliases for colors.
 
 ### Structure of theme decision tokens
 
-Under the hood they look something like this:
+Decision tokens are defined in the `theme` property of the `tailwind.config.js` file.
+
+Default shades of colors are the following:
+
+```json
+default: "600",
+light: "100",
+dark: "800",
+contrast: "white"
+```
+
+... and can be overridden in the `tailwind.config.js` file with the following syntax inside our `color` object imported from `@tiller-ds/theme`:
 
 ```json
 theme: {
   extend: {
     colors: {
       // brand
-      primary: {
-        ...colors.indigo,
-        DEFAULT: colors.indigo["600"],
-        light: colors.indigo["100"],
-        dark: colors.indigo["800"],
-        contrast: colors.white
-      },
+      primary: color("indigo", {default: "600", dark: "800", light: "100"}),
       ...
       // status
-      info: {
-        ...colors.blue,
-        DEFAULT: colors.blue["600"],
-        light: colors.blue["100"],
-        dark: colors.blue["900"],
-        contrast: colors.white
-      }
+      info: color("blue", {default: "600", dark: "900", light: "100"}),
     },
   },
 }
 ```
 
-For full list you can check `preset.ts`, which you should be using inside your tailwind config.
+### Our preset
 
-As you can see, all the tokens utilize tailwinds default color palette or default theme.
-You can also override that with your fixed hex values, or override global token layer for them to be usable for aliases.
-There are also utility methods in `@tiller-ds/theme` called `color` and `font` which enable you to shorthand define a whole color / font config.
+In order to apply defaults and have a fully set up initial configuration, you can use the `preset` object from `@tiller-ds/theme`.
+
+**The structure and content of our provided preset can be found [here](https://github.com/croz-ltd/tiller/blob/master/libs/theme/src/preset.ts).**
+
+All the tokens utilize TailwindCSS' default color palette or default theme.
+You can also override that with your custom hex values, or override option token layer for them to be usable for aliases.
 
 Here is an example of a `tailwind.config.js` which overrides the default color used in the application.
 
 ```js
-const { preset, color } = require('@tiller-ds/theme');
+const { preset, color } = require("@tiller-ds/theme");
 
 module.exports = {
   presets: [preset],
@@ -102,12 +143,7 @@ module.exports = {
     extend: {
       colors: {
         // brand
-        primary: color("blue", {
-          dark: "900",
-          light: "300",
-          default: "500",
-          contrast: "white",
-        }),
+        primary: color("blue", { dark: "900", light: "300", default: "500" }),
         secondary: color("yellow"),
         tertiary: color("teal"),
         // status
@@ -116,25 +152,22 @@ module.exports = {
         warning: color("orange", { dark: "900" }),
         info: color("blue", { dark: "900" }),
       },
-    }
-  }
+    },
+  },
 };
 ```
 
-*Note: if you override `content` or `safelist` attributes, please pay attention that those are not merged with Tiller's preset so additional configuration may be needed.*
+_Note: if you override the `content` attribute, please pay attention that those are not merged with Tiller's preset so additional configuration may be needed._
 
-## Customizing individual components
+## Component Tokens
 
-Besides customization of decision tokens of the theme, you can customize classes used on individual components.
-By changing individual components you can override specific attributes which you need, while preserving everything else from default theme.
+Besides customization of decision tokens of the theme, you can **customize classes used on individual components** using **component tokens**. By changing individual components you can override specific attributes which you need, while preserving everything else from the default theme.
 
-To customize component classes edit the `component` property of your component config object inside `tiller.config.ts` file.
-
-Each component has its own properties which apply certain tailwind classes to the component.
+To customize component classes edit the `component` property of your component config object inside `tiller.config.ts/tsx` file.
 
 Component tokens are listed in the `Docs` section of each component.
 
-Example:
+`tiller.config.ts/tsx` example:
 
 ```ts
 import { ThemeConfigFactory } from "@tiller-ds/theme";
@@ -159,14 +192,20 @@ export const defaultComponentConfig: ThemeConfigFactory = {
   },
 };
 ```
-and add this to your `ThemeProvider`.
 
-## One-off component customizations
+By providing your config object to `ThemeProvider` the styles will be applied to all components.
+
+## Customizing the Icon Set
+
+Tiller uses the [Phosphor icons](https://phosphoricons.com/) icon set by default, but you can easily change it to any other icon set you want
+by modifying the icon config inside the `tiller.config.ts/tsx` file.
+
+More information on this is available [here](/docs/component-library-icons-icon--icon-factory#using-custom-icon-library)
+
+## One-off Component Customizations
 
 You may find yourself in a situation where your global theme configuration is serving you well, but you really need that one button
-to be a bit different from everything else.
-
-One-off customizations can help you with that exact problem.
+to be a bit different from everything else. One-off customizations can help you with that exact problem.
 
 Every Tiller component has a `tokens` prop that can be used to send custom token list different from one used in your theme configuration.
 
@@ -174,15 +213,84 @@ A quick of example of the idea:
 
 ```tsx
 import { Button, ButtonProps } from "@tiller-ds/core";
+import { ComponentTokens } from "@tiller-ds/theme";
 
-const roundedButtonTokens = {
+const roundedButtonTokens: ComponentTokens<"Button"> = {
   base: {
-    borderRadius: "rounded"
-  }
+    borderRadius: "rounded",
+  },
 };
 
-const RoundedButton = ({ props }: ButtonProps) => <Button {...props} tokens={roundedButtonTokens}/>
+const RoundedButton = ({ props }: ButtonProps) => <Button {...props} tokens={roundedButtonTokens} />;
 export default RoundedButton;
 ```
 
 Tokens used this way are deeply merged with your theme configuration, so you can override only the attributes you need.
+
+# 🧩 Tiller tokens in Figma
+
+In the following chapters you will get acquainted with our Tiller tokens set specialized to use with our components
+from [Tiller Design System - Figma UI Kit](https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8627%3A11169&t=F3NI5LM7tIG1qSnq-0).
+
+We'll cover the following topics in the next chapters:
+
+- [Token Set Overview](#token-set-overview)
+- [Importing the Token Set](#importing-the-token-set)
+- [Duplicating and Overriding the Token Set](#duplicating-and-overriding-the-token-set)
+
+## Token Set Overview
+
+The token set is a collection of tokens that are used to style the components in the Figma UI Kit.
+It enables you to quickly change the look of the components in your design without having to manually change the styles of each component.
+
+The idea behind this is that this is **1:1 replication of the behaviour accomplished by changing the values via code**.
+The hierarchy of tokens in Figma is the same as in the code, so you can easily find the token you need to change.
+
+By opening the [Tokens Studio for Figma](https://docs.tokens.studio/) plugin you can see a lot of categorizes
+which support adding tokens to the token set (see the official page for best usage instructions).
+
+## Importing the Token Set
+
+To import our token set, you need to have the aforementioned [Tokens Studio for Figma](https://docs.tokens.studio/) plugin installed.
+
+**The token set can be downloaded from [here](https://shorturl.at/duvwN)**.
+
+Once you have the plugin installed and tokens downloaded, you can import the token set by following these steps:
+
+- Open the Tokens Studio for Figma plugin from the Plugins menu in Figma
+- Delete the default token set (if you have one)
+- Click on the `Tools` in the bottom left folder and select `Load from file/folder or preset`
+- Click on `Choose file` and select the [downloaded token set](https://shorturl.at/duvwN)
+- Right-click on the token set and check the `Treat as source` option
+
+<img className="w-full " src={tutorial_import_tokens} alt="Tiller Tokens Import Tutorial" />
+
+After these steps the token set should be successfully imported and automatically applied to Tiller components. You can check this by selecting any Tiller component and observing the tokens.
+
+For example, if you select the `Button` component, you will see the following style applied to it in the Tokens Studio for Figma plugin: `colors -> primary -> default`
+
+Furthermore, if you select the text inside the `Button` component, you will see the following styles applied to it in the Tokens Studio for Figma plugin: `Typography -> Button Text (md)`
+
+## Duplicating and Overriding the Token Set
+
+Now comes the fun part, actually working and modifying the token set to your preference in order to change the look of the components
+and create your own unique theme.
+
+🔁 To duplicate the default token set, right-click on the token set and select `Duplicate`.
+This will create a copy of the token set with an arbitrary name you choose for it.
+
+🟢🟣🟠 You can now modify the colors to create your custom theme.
+Most of the components use `primary` as the default color, so changing the `default`, `dark` and `light` values of
+`primary` set will change the look of most of the components. By clicking on an arbitrary color token with the right mouse button and selecting `Edit Token` you can change the color value
+to something else. We recommend using the default TailwindCSS color palette since those colors are already defined in the set, but you can use any color you want.
+
+🆎 You can also modify other tokens, like Typography.
+By clicking on an arbitrary typography token with the right mouse button and selecting `Edit Token` you can change the font size, font weight, line height, letter spacing, etc.
+
+You can see the modified tokens by **enabling your custom set**. To do this, **check the checkbox** next to the custom set's name.
+
+The following video shows how changing the values of the tokens in the token set changes the look of the components in the Figma UI Kit:
+
+<video src={tutorial_tokens} controls={false} autoPlay={true} muted={true} loop={true} title="Figma Tokens Showcase" />
+
+For more information on how to use the Tokens Studio for Figma plugin, please refer to the [official documentation](https://docs.tokens.studio/).
