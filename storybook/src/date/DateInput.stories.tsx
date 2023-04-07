@@ -194,3 +194,15 @@ export const WithMinAndMaxDateAndValue = () => (
     onBlur={() => {}}
   />
 );
+
+export const WithHighlightedCurrentDate = () => (
+  <DateInput
+    name={name}
+    value={null}
+    label={<Intl name="label" />}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
+    highlightToday={true}
+  />
+);

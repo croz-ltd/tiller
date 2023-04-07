@@ -149,3 +149,7 @@ export const WithMinAndMaxDateAndValue = () => {
     />
   );
 };
+
+export const WithHighlightedCurrentDate = () => (
+  <DateInputField name={name} label={<Intl name="label" />} highlightToday={true} />
+);

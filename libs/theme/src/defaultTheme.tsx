@@ -739,6 +739,7 @@ const defaultComponentConfig = {
         firstOrLast: "bg-primary text-primary-contrast",
         selected: "bg-primary-light text-primary-contrast",
         hovered: "bg-primary-light text-primary-contrast",
+        currentDate: "ring-2 ring-inset ring-white border border-primary-dark text-primary-dark",
         dateHovered: `hover:bg-primary hover:text-primary-contrast`,
         yearHovered: `hover:bg-primary hover:text-primary-contrast`,
         disabled: "opacity-50 text-slate-700 ",

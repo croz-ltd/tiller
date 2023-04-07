@@ -73,6 +73,8 @@ export const WithState = () => {
   );
 };
 
+export const WithLabel = () => <DateRangeInput label={<Intl name="label" />} name={name} onChange={() => {}} />;
+
 export const WithoutLabel = () => <DateRangeInput name={name} onChange={() => {}} />;
 
 export const WithValue = () => (
@@ -122,4 +124,8 @@ export const WithError = () => <DateRangeInput name={name} onChange={() => {}} e
 
 export const WithMinAndMaxDate = () => (
   <DateRangeInput name={name} minDate={new Date("2020-10-05")} maxDate={new Date("2020-11-20")} onChange={() => {}} />
+);
+
+export const WithHighlightedCurrentDate = () => (
+  <DateRangeInput label={<Intl name="label" />} name={name} onChange={() => {}} highlightToday={true} />
 );

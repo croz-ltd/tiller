@@ -71,8 +71,10 @@ export type TimeInputProps = {
   error?: React.ReactNode;
 
   /**
-   * On by default. If true, the popover for choosing a time is set to always have the same optimal width (370px),
+   * If true, the popover for choosing a time is set to always have the same optimal width (370px),
    * meaning it won't stretch with the field component. Only applies to desktop displays.
+   *
+   * On by default.
    */
   fixedPopoverWidth?: boolean;
 

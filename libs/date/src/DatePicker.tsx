@@ -31,6 +31,7 @@ type DatePickerProps = {
   isDateRange: boolean;
   maxYear?: number;
   minYear?: number;
+  highlightToday?: boolean;
 };
 
 type MonthPickerProps = {
@@ -93,6 +94,7 @@ type DatePickerContext = {
   onActiveMonthToggle: (value: ActiveMonth) => void;
   isDateRange: boolean;
   startDate: Date | null;
+  highlightToday?: boolean;
 };
 
 type DatePickerContextProps = {
@@ -103,6 +105,7 @@ type DatePickerContextProps = {
   startDate: Date | null;
   isDateRange: boolean;
   children: React.ReactNode;
+  highlightToday?: boolean;
 };
 
 const DatePickerContext = React.createContext<DatePickerContext | null>(null);
@@ -136,6 +139,7 @@ function DatePickerContextProvider({
   startDate,
   isDateRange,
   children,
+  highlightToday,
 }: DatePickerContextProps) {
   const [dayPicker, setDayPicker] = React.useState<boolean>(true);
   const [activeMonth, setActiveMonth] = React.useState<ActiveMonth>({ month: 0, year: 0 });
@@ -161,6 +165,7 @@ function DatePickerContextProvider({
         activeMonth,
         onActiveMonthToggle,
         isDateRange,
+        highlightToday,
       }}
     >
       {children}
@@ -177,6 +182,7 @@ export default function DatePicker({
   maxYear,
   isDateRange,
   className,
+  highlightToday,
 }: DatePickerProps) {
   return (
     <DatePickerContextProvider
@@ -186,6 +192,7 @@ export default function DatePicker({
       minYear={minYear}
       maxYear={maxYear}
       isDateRange={isDateRange}
+      highlightToday={highlightToday}
     >
       {!isDateRange && <DatePickerContainer className={className} fixedWidth={fixedWidth} />}
       {isDateRange && <DateRangePickerContainer className={className} fixedWidth={fixedWidth} />}
@@ -492,7 +499,7 @@ export function DaysPicker({ weekdayLabels, days, ...props }: DaysPickerProps) {
 
 function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
   const tokens = useTokens("DateInput", props.tokens);
-  const { startDate, datePicker, isDateRange } = useDatePickerContext();
+  const { startDate, datePicker, isDateRange, highlightToday } = useDatePickerContext();
 
   const { onClick, onKeyDown, onMouseEnter, tabIndex, disabledDate } = useDay({
     date,
@@ -510,7 +517,11 @@ function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
     { [tokens.DatePicker.Button.firstOrLast]: datePicker.isFirstOrLastSelectedDate(date) },
     { [tokens.DatePicker.Button.hovered]: datePicker.isDateHovered(date) && isDateRange },
     {
-      [tokens.DatePicker.Button.dateHovered]: !disabledDate && startDate?.getTime() !== date.getTime() && !isDateRange,
+      [tokens.DatePicker.Button.currentDate]: new Date().toDateString() === date.toDateString() && highlightToday,
+    },
+    {
+      [tokens.DatePicker.Button.dateHovered]:
+        !disabledDate && startDate?.getTime() !== date.getTime() && !datePicker.isDateSelected(date),
     },
     { [tokens.DatePicker.Button.disabled]: disabledDate },
   );
