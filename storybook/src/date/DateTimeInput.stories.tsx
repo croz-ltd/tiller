@@ -219,3 +219,15 @@ export const WithTwelveHoursAndValue = () => (
     type="use12Hours"
   />
 );
+
+export const WithHighlightedCurrentDate = () => (
+  <DateTimeInput
+    name={name}
+    label={<Intl name="label" />}
+    value={null}
+    onChange={() => {}}
+    onReset={() => {}}
+    onBlur={() => {}}
+    highlightToday={true}
+  />
+);

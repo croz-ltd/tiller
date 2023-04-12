@@ -145,3 +145,7 @@ export const WithTwelveHoursAndValue = () => {
   };
   return <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} type="use12Hours" />;
 };
+
+export const WithHighlightedCurrentDate = () => (
+  <DateTimeInputField name={name} label={<Intl name="label" />} highlightToday={true} />
+);

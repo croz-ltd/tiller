@@ -83,8 +83,10 @@ export type DateRangeInputProps = {
   error?: React.ReactNode;
 
   /**
-   * On by default. If true, the popover for choosing a date is set to always have the same optimal width (500px),
+   * If true, the popover for choosing a date is set to always have the same optimal width (500px),
    * meaning it won't stretch with the field component. Only applies to desktop displays.
+   *
+   * On by default.
    */
   fixedPopoverWidth?: boolean;
 
@@ -92,6 +94,13 @@ export type DateRangeInputProps = {
    * The help text displayed below the date input field.
    */
   help?: React.ReactNode;
+
+  /**
+   * If true, the current date is highlighted in the date picker for easier navigation.
+   *
+   * Off by default.
+   */
+  highlightToday?: boolean;
 
   /**
    * Represents the label above the date input field.
@@ -197,6 +206,7 @@ export default function DateRangeInput({
   closeAfterEntry,
   onBlur,
   dateFormat,
+  highlightToday,
   ...props
 }: DateRangeInputProps) {
   const { lang } = useIntlContext();
@@ -396,6 +406,7 @@ export default function DateRangeInput({
             maxYear={maxDate?.getFullYear()}
             isDateRange={true}
             fixedWidth={fixedPopoverWidth}
+            highlightToday={highlightToday}
           />
         )}
       </Popover>

@@ -157,3 +157,7 @@ export const WithEndError = () => <DateRangeInputField start={start} end={endWit
 export const WithMinAndMaxDate = () => (
   <DateRangeInputField start={start} end={end} minDate={new Date("2020-10-05")} maxDate={new Date("2025-01-01")} />
 );
+
+export const WithHighlightedCurrentDate = () => (
+  <DateRangeInputField start={start} end={end} label={<Intl name="label" />} highlightToday={true} />
+);
