@@ -243,6 +243,12 @@ export type AutocompleteProps<T extends {}> = {
    * The value(s) of the field sent on submit and/or retrieved on component render.
    */
   value?: T | T[] | null;
+
+  /**
+   * Function or a string that determines how the input value should be transformed when the user types into the input field.
+   * In case it's a function, it will be called every time the input value changes. The function can then modify the value as needed and return the modified value.
+   */
+  valueTransform?: "uppercase" | "lowercase" | "capitalize" | ((value: string) => string);
 } & AutocompleteTokensProps;
 
 type AutocompleteTokensProps = {
@@ -279,6 +285,7 @@ function Autocomplete<T extends {}>({
   className,
   children,
   onChange,
+  valueTransform,
   ...props
 }: AutocompleteProps<T>) {
   const autocompleteTokens = useTokens("Autocomplete", props.autocompleteTokens);
@@ -966,6 +973,20 @@ function Autocomplete<T extends {}>({
           onBlur: onBlur ? onBlur : undefined,
           onKeyDown,
           onClick,
+          onInput: (event) => {
+            const input = event.target as HTMLInputElement;
+            let transformedValue = input.value;
+            if (typeof valueTransform === "function") {
+              transformedValue = valueTransform(transformedValue);
+            } else if (valueTransform === "uppercase") {
+              transformedValue = transformedValue.toUpperCase();
+            } else if (valueTransform === "lowercase") {
+              transformedValue = transformedValue.toLowerCase();
+            } else if (valueTransform === "capitalize") {
+              transformedValue = transformedValue.charAt(0).toUpperCase() + transformedValue.slice(1);
+            }
+            input.value = transformedValue;
+          },
         })}
         {...getComboboxProps({}, { suppressRefError: true })}
       />

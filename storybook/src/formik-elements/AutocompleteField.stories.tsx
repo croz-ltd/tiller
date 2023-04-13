@@ -397,6 +397,7 @@ export const WithMultipleSelectionAndVisibleLabels = () => (
     allowMultiple={true}
     getMultipleSelectedLabel={(items: Item[]) => items.map((item) => `${item.name} ${item.surname}`).join(", ")}
     name={nameWithMultipleValues}
+    valueTransform="uppercase"
   />
 );
 
