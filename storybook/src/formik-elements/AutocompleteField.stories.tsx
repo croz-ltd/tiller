@@ -131,6 +131,11 @@ export default {
     useTokens: { name: "Use Tokens", control: "boolean" },
     autocompleteTokens: { name: "Autocomplete Tokens", control: "object" },
     selectTokens: { name: "Select Tokens", control: "object" },
+    valueTransform: {
+      name: "Transform Value",
+      options: ["uppercase", "lowercase", "capitalize"],
+      control: { type: "radio" },
+    },
   },
 };
 
@@ -238,6 +243,7 @@ export const AutocompleteFieldFactory = ({
   useTokens,
   autocompleteTokens,
   selectTokens,
+  valueTransform,
 }) => (
   <AutocompleteField
     name={name}
@@ -296,6 +302,7 @@ export const AutocompleteFieldFactory = ({
     className={className}
     autocompleteTokens={useTokens && autocompleteTokens}
     selectTokens={useTokens && selectTokens}
+    valueTransform={valueTransform}
     {...(fetchFrontend ? (tags ? frontendSimpleProps : frontendProps) : tags ? backendSimpleProps : backendProps)}
   />
 );
@@ -323,6 +330,7 @@ AutocompleteFieldFactory.args = {
   useTokens: false,
   autocompleteTokens: defaultThemeConfig.component["Autocomplete"],
   selectTokens: defaultThemeConfig.component["Select"],
+  valueTransform: "lowercase",
 };
 
 AutocompleteFieldFactory.parameters = {
@@ -339,6 +347,10 @@ export const WithoutLabel = () => <AutocompleteField {...backendProps} />;
 
 export const WithValue = () => (
   <AutocompleteField {...backendProps} label={<Intl name="label" />} name={nameWithValue} />
+);
+
+export const WithTransformedValue = () => (
+  <AutocompleteField {...backendProps} label={<Intl name="label" />} name={nameWithValue} valueTransform="uppercase" />
 );
 
 export const Disabled = () => (
@@ -397,6 +409,7 @@ export const WithMultipleSelectionAndVisibleLabels = () => (
     allowMultiple={true}
     getMultipleSelectedLabel={(items: Item[]) => items.map((item) => `${item.name} ${item.surname}`).join(", ")}
     name={nameWithMultipleValues}
+    valueTransform="uppercase"
   />
 );
 
@@ -504,11 +517,13 @@ const HideControls = {
   useTokens: { control: { disable: true } },
   autocompleteTokens: { control: { disable: true } },
   selectTokens: { control: { disable: true } },
+  valueTransform: { control: { disable: true } },
 };
 
 WithLabel.argTypes = HideControls;
 WithoutLabel.argTypes = HideControls;
 WithValue.argTypes = HideControls;
+WithTransformedValue.argTypes = HideControls;
 Disabled.argTypes = HideControls;
 WithPlaceholder.argTypes = HideControls;
 WithHelp.argTypes = HideControls;

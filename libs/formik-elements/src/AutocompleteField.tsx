@@ -22,6 +22,7 @@ import { isEqual } from "lodash";
 
 import { Autocomplete, AutocompleteProps } from "@tiller-ds/selectors";
 
+import { InputFieldProps } from "./InputField";
 import useShouldValidate from "./useShouldValidate";
 import useFormikBypass from "./useFormikBypass";
 
@@ -48,13 +49,15 @@ export type AutocompleteFieldProps<T> = {
    * On by default.
    */
   sendOptionValue?: boolean;
-} & Omit<AutocompleteProps<T>, AutocompleteOnlyPropsUnion>;
+} & Omit<AutocompleteProps<T>, AutocompleteOnlyPropsUnion> &
+  Pick<InputFieldProps, "valueTransform">;
 
 export default function AutocompleteField<T>({
   name,
   options,
   getOptionValue,
   sendOptionValue = true,
+  valueTransform,
   ...props
 }: AutocompleteFieldProps<T>) {
   const [field, meta, helpers] = useField(name);
@@ -149,6 +152,7 @@ export default function AutocompleteField<T>({
       onBlur={onBlur}
       onReset={onReset}
       error={meta.touched && (initialError.current ? initialError.current : meta.error)}
+      valueTransform={valueTransform}
     />
   );
 }
