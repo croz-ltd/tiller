@@ -101,6 +101,11 @@ export default {
     error: { control: false },
     tooltip: { control: false },
     value: { control: false },
+    valueTransform: {
+      name: "Transform Value",
+      options: ["uppercase", "lowercase", "capitalize"],
+      control: { type: "radio" },
+    },
   },
 };
 
@@ -219,6 +224,7 @@ export const AutocompleteFactory = ({
   useTokens,
   autocompleteTokens,
   selectTokens,
+  valueTransform,
 }) => (
   <Autocomplete
     name={name}
@@ -277,6 +283,7 @@ export const AutocompleteFactory = ({
     className={className}
     autocompleteTokens={useTokens && autocompleteTokens}
     selectTokens={useTokens && selectTokens}
+    valueTransform={valueTransform}
     {...(fetchFrontend ? (tags ? frontendSimpleProps : frontendProps) : tags ? backendSimpleProps : backendProps)}
   />
 );
@@ -304,6 +311,7 @@ AutocompleteFactory.args = {
   useTokens: false,
   autocompleteTokens: defaultThemeConfig.component["Autocomplete"],
   selectTokens: defaultThemeConfig.component["Select"],
+  valueTransform: "lowercase",
 };
 
 AutocompleteFactory.parameters = {
@@ -320,6 +328,10 @@ export const WithoutLabel = () => <Autocomplete {...backendProps} />;
 
 export const WithValue = () => (
   <Autocomplete {...backendProps} label={<Intl name="label" />} name={name} value={value} />
+);
+
+export const WithTransformedValue = () => (
+  <Autocomplete {...backendProps} label={<Intl name="label" />} name={name} value={value} valueTransform="uppercase" />
 );
 
 export const Disabled = () => (
@@ -479,11 +491,13 @@ const HideControls = {
   useTokens: { control: { disable: true } },
   autocompleteTokens: { control: { disable: true } },
   selectTokens: { control: { disable: true } },
+  valueTransform: { control: { disable: true } },
 };
 
 WithLabel.argTypes = HideControls;
 WithoutLabel.argTypes = HideControls;
 WithValue.argTypes = HideControls;
+WithTransformedValue.argTypes = HideControls;
 Disabled.argTypes = HideControls;
 WithPlaceholder.argTypes = HideControls;
 WithHelp.argTypes = HideControls;
