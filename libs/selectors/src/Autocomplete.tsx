@@ -850,7 +850,7 @@ function Autocomplete<T extends {}>({
             : getCustomItem &&
               contentWrapper(
                 <>
-                  {tags ? addTagText : addItemText}
+                  {`${tags ? addTagText : addItemText} `}
                   {tags ? (
                     <Badge color="secondary" dot={true} small={true}>
                       {safeItemToString(getCustomItem(inputValue))}

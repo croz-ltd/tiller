@@ -30,6 +30,7 @@ export type CommonKeys = {
   required?: string;
   autocompleteNoTags?: string;
   autocompleteAddTag?: string;
+  autocompleteAddItem?: string;
   autocompleteNoResults?: string;
   selectNoResults?: string;
   paginationSummary?: string;
@@ -86,6 +87,7 @@ const defaultKeyConfig: CommonKeys = {
   required: "required",
   autocompleteNoTags: "autocomplete.noTags",
   autocompleteAddTag: "autocomplete.addTag",
+  autocompleteAddItem: "autocomplete.addItem",
   autocompleteNoResults: "autocomplete.noResults",
   selectNoResults: "select.noResults",
   paginationSummary: "pagination.summary",
