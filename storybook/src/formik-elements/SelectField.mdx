@@ -4,7 +4,7 @@ import { SelectField } from "@tiller-ds/formik-elements";
 import { Select } from "@tiller-ds/selectors";
 import { ThemeTokens } from "../utils";
 
-<Meta title="Docs|SelectField" component={ SelectField } />
+<Meta title="Docs|SelectField" component={SelectField} />
 
 # Select Field
 
@@ -17,9 +17,6 @@ of the documentation.
 
 You can customize the `SelectField` component in the [SelectField Factory](#select-field-factory).
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
-
 ## Usage
 
 - Use `SelectField` in a form as a way to allow the user to choose option(s) s from the dropdown.
@@ -28,19 +25,19 @@ You can customize the `SelectField` component in the [SelectField Factory](#sele
 
 ## Accessibility
 
- - Ensure that your color/contrast ratios and typography are accessible.
+- Ensure that your color/contrast ratios and typography are accessible.
 
- - All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
+- All form inputs should have a related, unique label that either wraps it, or precedes it. The label for attribute should match its input’s id element, regardless of whether it wraps the element or not.
 
- - If you have required inputs, use JavaScript to visually and physically align validation messages with labels for certain input fields
+- If you have required inputs, use JavaScript to visually and physically align validation messages with labels for certain input fields
 
 ## Best Practices
 
 We recommend using [Autocomplete Field](/docs/component-library-formik-elements-autocompletefield--with-label) over this component in most cases.
 Use this component when:
- - it doesn't make sense for the user to have the ability to enter text alongside selecting items (ex. specific selection with few options)
- - you want to pass a more complex component (such as `Intl`) to show options (`AutocompleteField` cannot show values fetched by `Intl` component)
 
+- it doesn't make sense for the user to have the ability to enter text alongside selecting items (ex. specific selection with few options)
+- you want to pass a more complex component (such as `Intl`) to show options (`AutocompleteField` cannot show values fetched by `Intl` component)
 
 ## Select Field Factory
 
@@ -51,10 +48,10 @@ using **controls**.
 To create your custom Select Field component:
 
 - Switch to the `Canvas` section of the Storybook and navigate to `Select Field Factory` story
-of the Select Field.
+  of the Select Field.
 - Modify props using controls.
 - When you're happy with what you've created, switch back to the `Docs` section, and you will be automatically
-navigated to your created Select Field.
+  navigated to your created Select Field.
 - After you click the `Show code` button below your custom Select Field, the code of the Select Field will be generated.
 
 ## Important Note
@@ -109,10 +106,13 @@ const complexProps = {
 ## SelectField Props:
 
 ### Field-specific props:
+
 <ArgsTable of={SelectField} />
 
 ### Other props:
+
 <ArgsTable of={Select} />
 
 ## Select Tokens:
-<ThemeTokens component="Select"/>
+
+<ThemeTokens component="Select" />

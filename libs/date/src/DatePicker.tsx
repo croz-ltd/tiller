@@ -17,9 +17,10 @@
 
 import * as React from "react";
 
+import * as dateFns from "date-fns";
 import { useDatepicker, useDay, useMonth, UseMonthProps } from "@datepicker-react/hooks";
-import { useIntl } from "react-intl";
 
+import { useIntlContext } from "@tiller-ds/intl";
 import { cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 type DatePickerProps = {
@@ -354,13 +355,14 @@ function YearsPickerContainer({ ...props }) {
 
 function MonthPickerLabels({ month, year, ...props }: MonthPickerLabelsProps) {
   const tokens = useTokens("DateInput", props.tokens);
-  const intl = useIntl();
+  const intlContext = useIntlContext();
   const { onDayPickerToggle, dayPicker, onActiveMonthToggle } = useDatePickerContext();
 
   const { monthLabel } = useMonth({
     year,
     month,
-    monthLabelFormat: (date: Date) => intl.formatDate(date, { month: "long" }),
+    monthLabelFormat: (date: Date) =>
+      intlContext?.intl.formatDate(date, { month: "long" }) || dateFns.format(date, "MMMM"),
   });
 
   const onChevronDownClick = () => {
@@ -396,14 +398,16 @@ function MonthPickerLabels({ month, year, ...props }: MonthPickerLabelsProps) {
 }
 
 function MonthPicker({ year, month, firstDayOfWeek }: MonthPickerProps) {
-  const intl = useIntl();
+  const intlContext = useIntlContext();
 
   const { days, weekdayLabels } = useMonth({
     year,
     month,
     firstDayOfWeek,
-    monthLabelFormat: (date: Date) => intl.formatDate(date, { month: "long" }),
-    weekdayLabelFormat: (date: Date) => intl.formatDate(date, { weekday: "short" }),
+    monthLabelFormat: (date: Date) =>
+      intlContext?.intl.formatDate(date, { month: "long" }) || dateFns.format(date, "MMMM"),
+    weekdayLabelFormat: (date: Date) =>
+      intlContext?.intl.formatDate(date, { weekday: "short" }) || dateFns.format(date, "EEEEEE"),
   });
 
   return (

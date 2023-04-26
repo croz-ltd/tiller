@@ -19,9 +19,19 @@ For integration with Formik see docs [here](/docs/component-library-formik-eleme
 Props are described on the [Date Time Input Props section](/docs/component-library-date-datetimeinput--disabled#date-time-input-props)
 of the documentation.
 
-## **Prerequisites for functioning**:
+## **Recommended for optimal usage**:
 
 - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Usage alongside IntlProvider
+
+When rendering this component with `IntlProvider` as its wrapper in the component tree, the format will be
+automatically inferred from the `locale` prop of `IntlProvider`.
+
+## Usage without IntlProvider
+
+If using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
+otherwise the format is determined by the `dateFormat` prop.
 
 <Stories includePrimary={true} />
 

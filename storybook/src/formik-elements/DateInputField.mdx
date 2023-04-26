@@ -11,10 +11,11 @@ The `Date Input Field` component allows users to enter a date either through tex
 In case you have `DateInput` field on the right side of your form, use prop `popoverPosition="right"` to position calendar to the right.
 
 The component accepts the following types as initial values for **name** accessor prop:
-  - null
-  - undefined
-  - Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
-  - string type in format 'yyyy-mm-dd' - example: _"2024-01-01"_, example 2: _"2023-06-21"_
+
+- null
+- undefined
+- Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
+- string type in format 'yyyy-mm-dd' - example: _"2024-01-01"_, example 2: _"2023-06-21"_
 
 This is a **field** component, which means it is differs from [Date Input](/docs/component-library-date-dateinput--with-state#dateinput) by having an integrated logic for `onChange`, `onBlur` and `onReset`
 functions which `Date Input` possesses using Formik. There is no need for any custom logic, just wrap the component inside Formik for easier form creation.
@@ -22,8 +23,19 @@ functions which `Date Input` possesses using Formik. There is no need for any cu
 Props are described on the [Date Input Field Props section](/docs/component-library-formik-elements-dateinputfield--disabled#date-input-field-props)
 of the documentation.
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+## **Recommended for optimal usage**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Usage alongside IntlProvider
+
+When rendering this component with `IntlProvider` as its wrapper in the component tree, the format will be
+automatically inferred from the `locale` prop of `IntlProvider`.
+
+## Usage without IntlProvider
+
+If using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
+otherwise the format is determined by the `dateFormat` prop.
 
 <Stories includePrimary={true} />
 
@@ -36,4 +48,5 @@ of the documentation.
 <ArgsTable of={DateInput} />
 
 ## Date Input Tokens:
-<ThemeTokens component="DateInput"/>
+
+<ThemeTokens component="DateInput" />

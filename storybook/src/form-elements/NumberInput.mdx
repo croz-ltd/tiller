@@ -8,7 +8,6 @@ A `NumberInput` supports many of the same features as `Input`, but only accepts 
 
 The field uses third party library `react-number-format` for formatting field value.
 
-
 ## Best practices
 
 `NumberInput` should be used for actual number values, such as counts and measures.
@@ -16,6 +15,20 @@ The field uses third party library `react-number-format` for formatting field va
 Do not use it for other digit-based values, such as telephone, credit card, and social security numbers.
 
 When applicable, set the most common choice as the default value. For example, airline, bus, train and other travel companies typically default the number of passengers to 1.
+
+## **Recommended for optimal usage**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Usage alongside IntlProvider
+
+When rendering this component with `IntlProvider` as its wrapper in the component tree, the format will be
+automatically inferred from the `locale` prop of `IntlProvider`.
+
+## Usage without IntlProvider
+
+If you wish to use this component without `IntlProvider`, you can do so by passing `thousandSeparator` and `decimalSeparator` props
+to the component. This way, the format will be inferred from these props instead of the `locale` prop of `IntlProvider`.
 
 <Stories includePrimary={true} />
 

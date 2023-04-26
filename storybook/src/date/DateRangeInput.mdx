@@ -7,17 +7,29 @@ import { DateRangeInput } from "@tiller-ds/date";
 The `Date Range Input` lets the user select a range of dates from a popup calendar display or type in an arbitrary range.
 
 The component accepts the following as initial values for **start** and **end** accessor name props:
-  - null
-  - undefined
-  - Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
+
+- null
+- undefined
+- Date type - example: _new Date()_, example 2: _new Date("2023-01-20")_
 
 For integration with Formik see docs [here](/docs/component-library-formik-elements-daterangeinputfield--with-label#daterangeinputfield).
 
 Props are described on the [Date Range Input Props section](/docs/component-library-date-daterangeinput--disabled#date-range-input-props)
 of the documentation.
 
-## **Prerequisites for functioning**:
- - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+## **Recommended for optimal usage**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Usage alongside IntlProvider
+
+When rendering this component with `IntlProvider` as its wrapper in the component tree, the format will be
+automatically inferred from the `locale` prop of `IntlProvider`.
+
+## Usage without IntlProvider
+
+If using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
+otherwise the format is determined by the `dateFormat` prop.
 
 <Stories includePrimary={true} />
 

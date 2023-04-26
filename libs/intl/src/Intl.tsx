@@ -40,17 +40,22 @@ interface IntlProps {
 }
 
 export default function Intl({ name, params, children }: IntlProps) {
-  const { lang, dictionary, intlUtil } = useIntlContext();
+  const intlContext = useIntlContext();
 
-  if (!dictionary?.translations?.[lang]?.[name] && !dictionary?.messages?.[name]) {
-    return <>{name}</>;
+  if (intlContext) {
+    const { lang, dictionary, intlUtil } = intlContext;
+    if (!dictionary?.translations?.[lang]?.[name] && !dictionary?.messages?.[name]) {
+      return <>{name}</>;
+    }
+
+    return (
+      <>
+        {intlUtil.translate({ name, params, render: children }).map((it, i) => (
+          <React.Fragment key={i}>{it}</React.Fragment>
+        ))}
+      </>
+    );
   }
 
-  return (
-    <>
-      {intlUtil.translate({ name, params, render: children }).map((it, i) => (
-        <React.Fragment key={i}>{it}</React.Fragment>
-      ))}
-    </>
-  );
+  throw new Error("You can't use the Intl component unless it's wrapped with IntlProvider.");
 }

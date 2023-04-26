@@ -21,14 +21,19 @@ import defaultDictionary from "./intlDictionary";
 import { CommonKeys } from "./IntlProvider";
 import { useIntlContext } from "./useIntlContext";
 
-export function useLabel(name: keyof CommonKeys): string {
-  const { dictionary, lang, commonKeys } = useIntlContext();
+export function useLabel(name: keyof CommonKeys, fallbackValue: string): string {
+  const intlContext = useIntlContext();
 
-  const key = commonKeys[name] || name;
+  if (intlContext) {
+    const { lang, dictionary, commonKeys } = intlContext;
+    const key = commonKeys[name] || name;
 
-  if (!dictionary?.translations?.[lang]?.[key] && !dictionary?.messages?.[key]) {
-    return defaultDictionary.translations?.[lang]?.[key] || defaultDictionary.messages[name];
+    if (!dictionary?.translations?.[lang]?.[key] && !dictionary?.messages?.[key]) {
+      return defaultDictionary.translations?.[lang]?.[key] || defaultDictionary.messages[name];
+    }
+
+    return (dictionary?.translations?.[lang]?.[key] || dictionary?.messages?.[key]) as string;
   }
 
-  return (dictionary?.translations?.[lang]?.[key] || dictionary?.messages?.[key]) as string;
+  return fallbackValue;
 }

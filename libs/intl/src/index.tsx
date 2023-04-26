@@ -15,7 +15,7 @@
  *
  */
 
-import { CommonKeys as InternalCommonKeys } from "./IntlProvider";
+import { CommonKeys as InternalCommonKeys, IntlContextType as InternalIntlContextType } from "./IntlProvider";
 
 import {
   Messages as InternalMessages,
@@ -29,8 +29,9 @@ export type Translations = InternalTranslations;
 export type CommonKeys = InternalCommonKeys;
 export type Dictionary = InternalDictionary;
 export type LanguageTranslation = InternalLanguageTranslation;
+export type IntlContextType = InternalIntlContextType;
 
 export { default as Intl } from "./Intl";
-export { default as IntlProvider, useIntl, IntlContext } from "./IntlProvider";
+export { default as IntlProvider, useIntl } from "./IntlProvider";
 export { useIntlContext } from "./useIntlContext";
 export { useLabel } from "./useLabel";

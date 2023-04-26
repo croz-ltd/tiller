@@ -21,7 +21,7 @@ import { useSelect, UseSelectStateChangeTypes } from "downshift";
 import Popover, { positionMatchWidth } from "@reach/popover";
 
 import { Field } from "@tiller-ds/form-elements";
-import { Intl } from "@tiller-ds/intl";
+import { useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 export type SelectProps<T> = {
@@ -312,11 +312,11 @@ function Select<T>({
   const defaultIsItemDisabledFn = () => false;
   const optionLabelFn = getOptionLabel || children || defaultFn;
   const isItemDisabledFn = isItemDisabled || defaultIsItemDisabledFn;
+
+  const noResultsText = useLabel("selectNoResults", "No results");
   const placeholderElement = (
     <div className={tokens.placeholder}>
-      {options.length !== 0
-        ? placeholder || <>&nbsp;</>
-        : (noResultsPlaceholder || <Intl name="select.noResults" />) ?? <>&nbsp;</>}
+      {options.length !== 0 ? placeholder || <>&nbsp;</> : (noResultsPlaceholder || noResultsText) ?? <>&nbsp;</>}
     </div>
   );
   const singleOptionLabelFn = (singleValue?: T | null) =>

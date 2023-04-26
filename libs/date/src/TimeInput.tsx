@@ -21,7 +21,6 @@ import Popover, { positionMatchWidth } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
 import { defaultPlaceholderChar, InputProps, MaskedInput } from "@tiller-ds/form-elements";
-import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 import TimePicker, { ClockType, TimePickerProps } from "./TimePicker";
@@ -148,8 +147,6 @@ export default function TimeInput({
   showMaskOnEmpty,
   ...props
 }: TimeInputProps & TimeInputTokens) {
-  const { lang } = useIntlContext();
-
   const isTwelveHours = type === "use12Hours";
   const timeInputTokens = useTokens("TimeInput", props.timeInputTokens);
   const inputTokens = useTokens("Input", props.inputTokens);

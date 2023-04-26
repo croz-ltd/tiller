@@ -19,20 +19,42 @@ import * as React from "react";
 
 import { range, slice } from "lodash";
 
+import { Intl, useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
+import { useViewport } from "@tiller-ds/util";
 
 import ButtonGroups from "./ButtonGroups";
 
-import { useViewport } from "@tiller-ds/util";
-
 export type PaginationProps = {
   /**
-   * Complex values of types PageInfo and Components for formatting purposes.
+   * Enables you to handle the page summary text next to the pagination by using the provided values
+   * of types:
+   *  - **PageInfo** (number values _from_, _to_ and _totalElements_) and/or
+   *  - **Components** (React.ReactNode values _from_, _to_ and _totalElements_ with 'font-medium' class name applied).
+   *
+   * @example
+   *        <Pagination {...paginationState} {...paginationHook}>
+   *           {(_pageInfo, components) => (
+   *             <span>
+   *               {components.from}-{components.to} from {components.totalElements}
+   *             </span>
+   *           )}
+   *         </Pagination>
    */
   children?: (pageInfo: PageInfo, components: Components) => React.ReactNode;
 
   /**
-   * Custom function activated when the page changes (takes the current page as a parameter)
+   * Custom additional class name for the main component.
+   */
+  className?: string;
+
+  /**
+   * Custom icon for going to the next page.
+   */
+  nextIcon?: React.ReactElement;
+
+  /**
+   * Custom function activated when the page changes (takes the current page as a parameter).
    */
   onPageChange?: (page: number) => void;
 
@@ -42,28 +64,29 @@ export type PaginationProps = {
   pageNumber: number;
 
   /**
+   * Defines a calculator for displaying page numbers.
+   */
+  pagerCalculator?: (pageNumber: number, pageCount: number) => PagerPage[];
+
+  /**
+   * Enables or disables the page summary text next to the pagination.
+   */
+  pageSummary?: boolean;
+
+  /**
    * Defines the size of each page (number of shown elements on each page).
    */
   pageSize: number;
 
   /**
+   * Custom icon for going to the previous page.
+   */
+  previousIcon?: React.ReactElement;
+
+  /**
    * Defines the total number of elements on a source that the component is hooked up to.
    */
   totalElements: number;
-
-  /**
-   * Defines a calculator for displaying page numbers.
-   */
-  pagerCalculator?: (pageNumber: number, pageCount: number) => PagerPage[];
-
-  previousIcon?: React.ReactElement;
-
-  nextIcon?: React.ReactElement;
-
-  /**
-   * Custom additional class name for the main component.
-   */
-  className?: string;
 } & PaginationTokensProps;
 
 type PaginationTokensProps = {
@@ -130,7 +153,7 @@ export function useLocalPagination<T>(data: T[], pageSize = 10): [PaginationStat
 }
 
 export default function Pagination(props: PaginationProps) {
-  const { pageNumber, pageSize, totalElements } = props;
+  const { pageNumber, pageSize, totalElements, pageSummary = true } = props;
   const tokens = useTokens("Pagination", props.tokens);
 
   const calculatedProps: CalculatedProps = {
@@ -140,15 +163,17 @@ export default function Pagination(props: PaginationProps) {
 
   return (
     <section className={tokens.master}>
-      <PageSummary {...props} />
+      {pageSummary && <PageSummary {...props} />}
       <Pager {...props} {...calculatedProps} />
     </section>
   );
 }
 
 function PageSummary({ pageNumber, pageSize, totalElements, children, ...props }: PaginationProps) {
-  const calculatedFrom = pageNumber * pageSize;
+  const intl = useIntlContext();
   const tokens = useTokens("Pagination", props.tokens);
+
+  const calculatedFrom = pageNumber * pageSize;
   // user counting starts from 1
   const from = totalElements === 0 ? calculatedFrom : calculatedFrom + 1;
   const to = Math.min(totalElements, (pageNumber + 1) * pageSize);
@@ -162,13 +187,28 @@ function PageSummary({ pageNumber, pageSize, totalElements, children, ...props }
   if (children) {
     return children(
       { pageNumber, pageSize, totalElements, from, to },
-      { from: fromElement, to: toElement, totalElements: totalElement }
+      { from: fromElement, to: toElement, totalElements: totalElement },
     ) as React.ReactElement;
   }
 
   return (
     <p className={pageSummaryClassName}>
-      Showing {fromElement} to {toElement} of {totalElement} results
+      {intl ? (
+        <Intl
+          name={intl.commonKeys["paginationSummary"] as string}
+          params={{ from: fromElement, to: toElement, total: totalElement }}
+        >
+          {{
+            from: () => fromElement,
+            to: () => toElement,
+            total: () => totalElement,
+          }}
+        </Intl>
+      ) : (
+        <>
+          Showing {fromElement} to {toElement} of {totalElement} results
+        </>
+      )}
     </p>
   );
 }

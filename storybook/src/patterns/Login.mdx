@@ -2,19 +2,19 @@ import { Canvas, Story } from "@storybook/addon-docs";
 
 # Login
 
-The `Login` component has 8 possible variants - **`Simple, Basic, With Logo, With Validation, Forgotten Password,
-Email Confirmation, Reset Password and Success Password Change`**.
+The `Login` component has 8 possible variants - **`Simple, Basic, With Logo, With Validation, Forgotten Password, Email Confirmation, Reset Password and Success Password Change`**.
 
 Login is often the first interaction a user has with your product. This entry point requires user identification,
 regularly performed by entering user credentials. Login page has an important role in establishing your product’s brand
 and experience and sets the tone for their overall experience with the product.
 
 In order for the `Login` pattern to work you must wrap your `<App />` component within [IntlProvider](https://croz-ltd.github.io/tiller/?path=/docs/component-library-intl-intl--basic#intl-provider) and pass `patternsDictionary` as a `dictionary` prop.
-```
+
+```tsx
 <IntlProvider lang={"en"} loadDictionary={undefined} dictionary={patternsDictionary}>
-    <ThemeProvider themeConfig={defaultComponentConfig} iconConfig={defaultIconConfig}>
-        <App/>
-    </ThemeProvider>
+  <ThemeProvider themeConfig={defaultComponentConfig} iconConfig={defaultIconConfig}>
+    <App />
+  </ThemeProvider>
 </IntlProvider>
 ```
 
@@ -36,9 +36,9 @@ The `Login` is presented to users in the following scenarios:
 
 - When a user wants to gain access to an app.
 - When a user has logged out voluntarily. They will see a confirmation message after which they will be automatically
-redirected back to the login page.
+  redirected back to the login page.
 - When a user has been logged out due to inactivity. In this scenario, when the user logs back in they should be
-redirected to the last page they were on, before being logged out.
+  redirected to the last page they were on, before being logged out.
 
 ## Accessibility
 
@@ -54,6 +54,11 @@ Never disable a submit button, even if all the required fields aren't filled in.
 done using validation and error messages.
 
 <br />
+
+## **Prerequisites for functioning**:
+
+- Intl Provider (details [here](/docs/component-library-intl-intl--basic)) with imported patterns dictionary from
+  `@tiller-ds/patterns` (if using multiple dictionaries you can merge them and hand them over to the provider)
 
 ## With Logo Variant
 
@@ -88,7 +93,7 @@ done using validation and error messages.
 ## Best Practices
 
 - Autofocus on a field that should be filled in. Therefore, it comes without saying that the first field should have
-an autofocus by default.
+  an autofocus by default.
 - Let users see their password if they want to.
 - Tell users if Caps Lock is on.
 - Make it easy if users forget their password.

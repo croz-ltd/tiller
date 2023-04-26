@@ -125,3 +125,5 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
     inlineTrailingAddOn={inlineTrailingAddOn}
   />
 );
+
+export const WithoutIntlProvider = () => <NumberInput name={name} decimalSeparator="," thousandSeparator="." />;

@@ -75,10 +75,9 @@ export const Custom = () => {
       </div>
       <div className="flex mt-4 w-fit">
         <Pagination {...paginationState} {...paginationHook}>
-          {(pageInfo) => (
+          {(_pageInfo, components) => (
             <span>
-              <span className="font-medium">{pageInfo.from}</span>-<span className="font-medium">{pageInfo.to}</span>{" "}
-              from <span className="font-medium">{pageInfo.totalElements}</span>
+              {components.from}-{components.to} from {components.totalElements}
             </span>
           )}
         </Pagination>
