@@ -22,12 +22,9 @@ import { withDesign } from "storybook-addon-designs";
 
 import { AppPicker } from "@tiller-ds/menu";
 
-import mdx from "./AppPicker.mdx";
+import { beautifySource } from "../utils";
 
-const applications = [
-  { name: "Employee Boarding", path: "/employee-boarding" },
-  { name: "Invoice Request", path: "/invoice-request" },
-];
+import mdx from "./AppPicker.mdx";
 
 const logo = (
   <div className="h-8 w-8 rounded-full">
@@ -50,6 +47,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source: string) => beautifySource(source),
     },
     design: {
       type: "figma",
@@ -59,8 +58,20 @@ export default {
   },
 };
 
-export const Example = () => (
-  <BrowserRouter basename="/test">
-    <AppPicker applications={applications}>{logo}</AppPicker>
-  </BrowserRouter>
-);
+export const Example = () => {
+  // incl-code
+  const applications = [
+    { name: "App 1", path: "/app1" },
+    { name: "App 2", path: "/app2" },
+    { name: "App 3", path: "/app3" },
+  ];
+
+  const currentApplication = applications[0].path;
+  return (
+    <BrowserRouter basename="/">
+      <AppPicker applications={applications} currentApplication={currentApplication}>
+        {logo}
+      </AppPicker>
+    </BrowserRouter>
+  );
+};
