@@ -14,9 +14,6 @@ The component accepts the following types for **value** prop:
 - null
 - Date type - example: _new Date()_, example 2: _new Date("2019-01-20")_
 
-**Note**: if using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
-otherwise the format is determined by the `dateFormat` prop.
-
 For integration with Formik see docs [here](/docs/component-library-formik-elements-dateinputfield--with-label#dateinputfield).
 
 Props are described on the [Date Input Props section](/docs/component-library-date-dateinput--disabled#date-input-props)
@@ -25,6 +22,16 @@ of the documentation.
 ## **Recommended for optimal usage**:
 
 - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Usage alongside IntlProvider
+
+When rendering this component with `IntlProvider` as its wrapper in the component tree, the format will be
+automatically inferred from the `locale` prop of `IntlProvider`.
+
+## Usage without IntlProvider
+
+If using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
+otherwise the format is determined by the `dateFormat` prop.
 
 <Stories includePrimary={true} />
 

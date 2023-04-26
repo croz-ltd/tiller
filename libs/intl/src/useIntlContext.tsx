@@ -1,16 +1,12 @@
 import * as React from "react";
 
-import { IntlContext, IntlContextType } from "./IntlProvider";
+import { IntlContext } from "./IntlProvider";
 
-export function useIntlContext(returnDefault?: boolean) {
+export function useIntlContext() {
   const context = React.useContext(IntlContext);
 
-  if (!context && !returnDefault) {
+  if (!context) {
     return undefined;
-  }
-
-  if (!context && returnDefault) {
-    return { lang: "en" } as IntlContextType;
   }
 
   return context;

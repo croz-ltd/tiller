@@ -27,7 +27,19 @@ import ButtonGroups from "./ButtonGroups";
 
 export type PaginationProps = {
   /**
-   * Complex values of types PageInfo and Components for formatting purposes.
+   * Enables you to handle the page summary text next to the pagination by using the provided values
+   * of types:
+   *  - **PageInfo** (number values _from_, _to_ and _totalElements_) and/or
+   *  - **Components** (React.ReactNode values _from_, _to_ and _totalElements_ with 'font-medium' class name applied).
+   *
+   * @example
+   *        <Pagination {...paginationState} {...paginationHook}>
+   *           {(_pageInfo, components) => (
+   *             <span>
+   *               {components.from}-{components.to} from {components.totalElements}
+   *             </span>
+   *           )}
+   *         </Pagination>
    */
   children?: (pageInfo: PageInfo, components: Components) => React.ReactNode;
 

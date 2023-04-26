@@ -56,5 +56,6 @@ export default function Intl({ name, params, children }: IntlProps) {
       </>
     );
   }
-  return <></>;
+
+  throw new Error("You can't use the Intl component unless it's wrapped with IntlProvider.");
 }

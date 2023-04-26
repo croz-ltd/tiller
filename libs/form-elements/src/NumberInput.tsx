@@ -45,6 +45,13 @@ export type NumberInputProps = {
   className?: string;
 
   /**
+   * Custom decimal separator (e.g. "," or ".").
+   *
+   * If not provided, it will be inferred from the IntlProvider.
+   */
+  decimalSeparator?: string;
+
+  /**
    * Determines whether the component is disabled.
    */
   disabled?: boolean;
@@ -86,40 +93,73 @@ export type NumberInputProps = {
   required?: boolean;
 
   /**
+   * Custom thousand separator (e.g. "." or ",").
+   *
+   * If not provided, it will be inferred from the IntlProvider.
+   */
+  thousandSeparator?: string;
+
+  /**
    * The value of the field sent on submit and/or retrieved on component render.
    */
   value?: string;
 } & Omit<NumberFormatProps, NumberFormatOnlyPropsUnion>;
 
-export default function NumberInput({ name, onChange, onBlur, ...props }: NumberInputProps) {
+export default function NumberInput({
+  name,
+  onChange,
+  onBlur,
+  decimalSeparator,
+  thousandSeparator,
+  ...props
+}: NumberInputProps) {
   const intlContext = useIntlContext();
+  const id = `numberformat-${name}`;
 
-  if (intlContext) {
-    const { intl } = intlContext;
-    const decimalSeparator = getDecimalSeparator(intl);
-    const thousandSeparator = getThousandSeparator(intl);
-
-    const id = `numberformat-${name}`;
-
-    return (
-      <ReactNumberFormat
-        id={id}
-        data-testid={id}
-        name={name}
-        decimalSeparator={decimalSeparator}
-        thousandSeparator={thousandSeparator}
-        allowedDecimalSeparators={[decimalSeparator]}
-        onValueChange={(values) => {
-          if (onChange) {
-            onChange(values.floatValue);
-          }
-        }}
-        customInput={Input}
-        onBlur={onBlur}
-        {...props}
-      />
+  if (!intlContext && (!decimalSeparator || !thousandSeparator)) {
+    throw new Error(
+      "You must pass decimalSeparator and thousandSeparator props if you are using the NumberInput component without IntlProvider.",
     );
-  } else {
-    throw new Error("NumberInput component requires IntlProvider wrapper for functioning.");
   }
+  const getFinalDecimalSeparator = () => {
+    if (decimalSeparator && thousandSeparator) {
+      return decimalSeparator;
+    }
+    if (intlContext) {
+      const { intl } = intlContext;
+      return getDecimalSeparator(intl);
+    }
+  };
+
+  const getFinalThousandSeparator = () => {
+    if (decimalSeparator && thousandSeparator) {
+      return thousandSeparator;
+    }
+    if (intlContext) {
+      const { intl } = intlContext;
+      return getThousandSeparator(intl);
+    }
+  };
+
+  const finalDecimalSeparator = getFinalDecimalSeparator() as string;
+  const finalThousandSeparator = getFinalThousandSeparator() as string;
+
+  return (
+    <ReactNumberFormat
+      id={id}
+      data-testid={id}
+      name={name}
+      decimalSeparator={finalDecimalSeparator}
+      thousandSeparator={finalThousandSeparator}
+      allowedDecimalSeparators={[finalDecimalSeparator]}
+      onValueChange={(values) => {
+        if (onChange) {
+          onChange(values.floatValue);
+        }
+      }}
+      customInput={Input}
+      onBlur={onBlur}
+      {...props}
+    />
+  );
 }

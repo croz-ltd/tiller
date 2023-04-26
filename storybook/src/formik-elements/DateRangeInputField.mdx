@@ -16,9 +16,6 @@ The component accepts the following as initial values for **start** and **end** 
 
 If a string value is given, the component itself makes sure to convert the string into a Date format.
 
-**Note**: if using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
-otherwise the format is determined by the `dateFormat` prop.
-
 This is a **field** component, which means it is differs from [Date Range Input](/docs/component-library-date-daterangeinput--with-state#date-range-input)
 by having a provided logic for seamless wrapping of the component inside Formik for easier form creation.
 
@@ -28,6 +25,16 @@ of the documentation.
 ## **Recommended for optimal usage**:
 
 - Intl Provider (details [here](/docs/component-library-intl-intl--basic))
+
+## Usage alongside IntlProvider
+
+When rendering this component with `IntlProvider` as its wrapper in the component tree, the format will be
+automatically inferred from the `locale` prop of `IntlProvider`.
+
+## Usage without IntlProvider
+
+If using the component without the `IntlProvider` wrapper the date format defaults to _en_ if not specified,
+otherwise the format is determined by the `dateFormat` prop.
 
 <Stories includePrimary={true} />
 

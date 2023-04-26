@@ -151,3 +151,5 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
     inlineTrailingAddOn={inlineTrailingAddOn}
   />
 );
+
+export const WithoutIntlProvider = () => <NumberInputField name={name} decimalSeparator="," thousandSeparator="." />;
