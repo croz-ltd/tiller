@@ -18,7 +18,34 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.5.0 - latest** <span>_(Apr 5th 2023)_</span>
+## **1.6.0 - latest** <span>_(May 2nd 2023)_</span>
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- `SidebarNavigation`, `TopNavigation`: fixed inconsistent behavior of dropdown defined as the _topRightAction_ prop on mobile ([#73](https://github.com/croz-ltd/tiller/issues/73))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- `Autocomplete(Field)`: added optional _valueTransform_ prop that determines how the input value should be transformed when the user types into the input field ([#104](https://github.com/croz-ltd/tiller/issues/104))
+- `DateInput(Field)`, `DateRangeInput(Field)`, `DateTimeInput(Field)`: added possibility of highlighting current date
+  in date picker through _highlightToday_ prop ([#91](https://github.com/croz-ltd/tiller/issues/91))
+- `IntlProvider`: **drastically reduced the list of components which require `IntlProvider` for functioning** ([#65](https://github.com/croz-ltd/tiller/issues/65))
+
+  - `Date`: usage is possible without `IntlProvider` through newly added [_format_ prop](https://croz-ltd.github.io/tiller/?path=/docs/component-library-date-dateinput--with-state#usage-without-intlprovider)
+  - `DateInput(Field)`, `DateRangeInput(Field)`, `DateTimeInput(Field)`: usage is possible without `IntlProvider` and is customizable through the
+    [_dateFormat_ prop](https://croz-ltd.github.io/tiller/?path=/docs/component-library-date-dateinput--with-state#usage-without-intlprovider) (defaults to _'MM/dd/yyyy'_ if not defined)
+  - `NumberInput(Field)`: usage is possible without `IntlProvider` through [_thousandSeparator_ and _decimalSeparator_ props](https://croz-ltd.github.io/tiller/?path=/docs/component-library-form-elements-numberinput--with-label#usage-without-intlprovider)
+  - see the reduced list of components requiring `IntlProvider` in the [`Intl` docs](https://croz-ltd.github.io/tiller/?path=/docs/component-library-intl-intl--basic#intl-provider)
+
+**<h4>🚀 Storybook Improvements</h4>**
+
+- `AppPicker`: fixed component not being rendered inside Storybook, improved code output ([#106](https://github.com/croz-ltd/tiller/issues/106))
+- `DateInput(Field)`, `DateRangeInput(Field)`, `DateTimeInput(Field)`: added [_WithHighlightedCurrentDate_](https://croz-ltd.github.io/tiller/?path=/story/component-library-formik-elements-dateinputfield--with-highlighted-current-date)
+  stories to showcase the usage of newly added _highlightToday_ prop ([#91](https://github.com/croz-ltd/tiller/issues/91))
+- `NumberInput(Field)`: added [_WithoutIntlProvider_](https://croz-ltd.github.io/tiller/?path=/story/component-library-formik-elements-numberinputfield--without-intl-provider)
+  stories to showcase the usage of the component without `IntlProvider` ([#65](https://github.com/croz-ltd/tiller/issues/65))
+
+## 1.5.0 <span>_(Apr 5th 2023)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
