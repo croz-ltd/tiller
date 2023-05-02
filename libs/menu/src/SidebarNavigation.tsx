@@ -24,7 +24,7 @@ import { Button } from "@tiller-ds/core";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DropdownMenu, { DropdownMenuMenuProps } from "./DropdownMenu";
-import NavigationContextProvider, { NavigationDropdownContext } from "./NavigationContextProvider";
+import NavigationContextProvider, { NavigationContext } from "./NavigationContextProvider";
 
 type SidebarNavigationProps = {
   /**
@@ -250,7 +250,7 @@ function SidebarNavigation({
 
   return (
     <NavigationContextProvider menuOpened={isOpen} actionOpened={false}>
-      <NavigationDropdownContext.Consumer>
+      <NavigationContext.Consumer>
         {({ isActionOpened }) => (
           <div className={containerClassName}>
             <div className={tokens.topContainer}>
@@ -285,7 +285,7 @@ function SidebarNavigation({
             </div>
           </div>
         )}
-      </NavigationDropdownContext.Consumer>
+      </NavigationContext.Consumer>
     </NavigationContextProvider>
   );
 }
@@ -372,7 +372,7 @@ export function SidebarNavigationDropdown({
 }: SidebarNavigationDropdownProps) {
   const sidebarNavigationTokens = useTokens("SidebarNavigation", props.sidebarNavigationTokens);
   const dropdownMenuTokens = useTokens("DropdownMenu", props.dropdownMenuTokens);
-  const { isActionOpened, onActionOpenedToggle } = React.useContext(NavigationDropdownContext);
+  const { isActionOpened, onActionOpenedToggle } = React.useContext(NavigationContext);
 
   const mobileIconClassName = cx(
     { [dropdownMenuTokens.Icon.color.default]: iconColor === "default" },

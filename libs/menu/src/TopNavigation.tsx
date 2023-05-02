@@ -24,7 +24,7 @@ import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/
 import { findChild } from "@tiller-ds/util";
 
 import DropdownMenu, { DropdownMenuMenuProps } from "./DropdownMenu";
-import NavigationContextProvider, { NavigationDropdownContext } from "./NavigationContextProvider";
+import NavigationContextProvider, { NavigationContext } from "./NavigationContextProvider";
 
 export type TopNavigationProps = {
   /**
@@ -303,7 +303,7 @@ function TopNavigation({
 
   return (
     <NavigationContextProvider small={false} menuOpened={isOpen} actionOpened={false}>
-      <NavigationDropdownContext.Consumer>
+      <NavigationContext.Consumer>
         {({ isActionOpened }) => (
           <nav className={baseClassName}>
             <div className={containerClassName}>
@@ -364,7 +364,7 @@ function TopNavigation({
             </div>
           </nav>
         )}
-      </NavigationDropdownContext.Consumer>
+      </NavigationContext.Consumer>
     </NavigationContextProvider>
   );
 }
@@ -404,7 +404,7 @@ export function TopNavigationItem({
   ...props
 }: TopNavigationItemProps) {
   const [expanded, setExpanded] = React.useState(false);
-  const { isMenuOpened, onMenuOpenedToggle } = React.useContext(NavigationDropdownContext);
+  const { isMenuOpened, onMenuOpenedToggle } = React.useContext(NavigationContext);
 
   const tokens = useTokens("TopNavigation", props.tokens);
   const location = useLocation();
@@ -503,7 +503,7 @@ export function TopNavigationDropdown({
 }: TopNavigationDropdownProps) {
   const topNavigationTokens = useTokens("TopNavigation", props.tokens);
   const dropdownMenuTokens = useTokens("DropdownMenu", props.tokens);
-  const { isActionOpened, onActionOpenedToggle } = React.useContext(NavigationDropdownContext);
+  const { isActionOpened, onActionOpenedToggle } = React.useContext(NavigationContext);
 
   const mobileIconClassName = cx(
     { [dropdownMenuTokens.Icon.color.default]: iconColor === "default" },
@@ -561,7 +561,7 @@ export function TopNavigationDropdownItem({
   className,
   ...props
 }: TopNavigationDropdownItemProps) {
-  const { small } = React.useContext(NavigationDropdownContext);
+  const { small } = React.useContext(NavigationContext);
   const tokens = useTokens("TopNavigation", props.tokens);
   const location = useLocation();
 

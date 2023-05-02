@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { createNamedContext } from "@tiller-ds/util";
 
-type NavigationDropdownContextProps = {
+type NavigationContextProps = {
   small?: boolean;
   menuOpened: boolean;
   actionOpened: boolean;
   children: React.ReactNode;
 };
 
-type NavigationDropdownContext = {
+type NavigationContext = {
   small?: boolean;
   isMenuOpened: boolean;
   isActionOpened: boolean;
@@ -17,13 +17,13 @@ type NavigationDropdownContext = {
   onMenuOpenedToggle?: (opened: boolean) => void;
 };
 
-export const NavigationDropdownContext = createNamedContext<NavigationDropdownContext>("NavigationDropdownContext", {
+export const NavigationContext = createNamedContext<NavigationContext>("NavigationDropdownContext", {
   small: false,
   isMenuOpened: false,
   isActionOpened: false,
 });
 
-export default function NavigationContextProvider({ small, menuOpened, children }: NavigationDropdownContextProps) {
+export default function NavigationContextProvider({ small, menuOpened, children }: NavigationContextProps) {
   const [isActionOpened, setIsActionOpened] = React.useState<boolean>(menuOpened);
   const [isMenuOpened, setIsMenuOpened] = React.useState<boolean>(menuOpened);
   React.useEffect(() => {
@@ -39,10 +39,10 @@ export default function NavigationContextProvider({ small, menuOpened, children 
   };
 
   return (
-    <NavigationDropdownContext.Provider
+    <NavigationContext.Provider
       value={{ small, isMenuOpened, isActionOpened, onMenuOpenedToggle, onActionOpenedToggle }}
     >
       {children}
-    </NavigationDropdownContext.Provider>
+    </NavigationContext.Provider>
   );
 }

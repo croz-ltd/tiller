@@ -1457,7 +1457,7 @@ const defaultComponentConfig = {
       dark: "text-white bg-slate-800",
       light: "text-slate-700 bg-white border-b border-slate-200",
       default: "text-white bg-primary-dark",
-      padding: "p-4 md:py-4 md:px-3",
+      padding: "p-4 md:px-3",
     },
     topContainer: "w-full grid grid-cols-3 justify-center md:flex justify-between",
     base: {
