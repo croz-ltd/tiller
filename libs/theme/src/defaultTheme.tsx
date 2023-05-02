@@ -1457,9 +1457,9 @@ const defaultComponentConfig = {
       dark: "text-white bg-slate-800",
       light: "text-slate-700 bg-white border-b border-slate-200",
       default: "text-white bg-primary-dark",
-      padding: "py-4 px-3",
+      padding: "p-4 md:px-3",
     },
-    topContainer: "grid grid-cols-3 justify-center",
+    topContainer: "w-full grid grid-cols-3 justify-center md:flex justify-between",
     base: {
       master: "flex-col space-y-1 scrollbar overflow-y-auto",
       container: "h-96 flex-col flex-grow",
@@ -1568,7 +1568,7 @@ const defaultComponentConfig = {
       },
       active: {
         fontWeight: "font-semibold",
-        default: `text-slate-200 bg-primary-dark rounded-md justify-center
+        default: `text-slate-200 bg-primary rounded-md justify-center
         border-primary-light md:justify-start md:bg-transparent md:border-l-2 
         md:hover:text-slate-300 md:rounded-none`,
         dark: `text-slate-200 bg-slate-700 rounded-md justify-center 
@@ -1721,7 +1721,7 @@ const defaultComponentConfig = {
       default: "text-white bg-primary-dark",
     },
     logo: {
-      master: "ml-2 flex-shrink-0",
+      master: "ml-0 md:ml-2 shrink-0",
       withTopRightAction: {
         master: "md:justify-start md:col-span-2",
         margin: "md:ml-2",
@@ -1786,8 +1786,8 @@ const defaultComponentConfig = {
       space: "ml-4",
       transition: "transition duration-300 ease-in-out",
     },
-    fullWidth: "w-full px-4 grid grid-cols-3 justify-center justify-between",
-    container: " max-w-7xl mx-auto",
+    fullWidth: "w-full px-4 grid grid-cols-3 justify-center md:flex justify-between",
+    container: "max-w-7xl mx-auto",
     innerContainer: "flex justify-center items-center md:ml-2 md:justify-start md:col-span-2",
     menuContainer: "hidden md:block",
     innerMenuContainer: "flex items-baseline space-x-4",

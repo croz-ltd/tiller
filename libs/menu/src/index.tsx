@@ -26,4 +26,5 @@ export { default as StackedLayout } from "./StackedLayout";
 export { default as SidebarLayout } from "./SidebarLayout";
 export { default as TopNavigation, TopNavigationNavigation } from "./TopNavigation";
 export { default as SidebarNavigation, SidebarNavigationDropdown } from "./SidebarNavigation";
+export { default as NavigationContextProvider, NavigationContext } from "./NavigationContextProvider";
 export { default as Transition } from "./Transition";
