@@ -194,7 +194,7 @@ export default function DateTimeInput({
   const [isDatePicker, setIsDatePicker] = React.useState<boolean>(true);
   const [showTimePickerMinutes, setShowTimePickerMinutes] = React.useState(false);
 
-  const { opened, setOpened } = usePickerOpener(false, inputRef, dateTimePickerRef, onBlur);
+  const { opened, setOpened } = usePickerOpener(false, inputRef, dateTimePickerRef, undefined);
 
   const isTwelveHours = type === "use12Hours";
 

@@ -217,7 +217,7 @@ export default function DateInput({
     numberOfMonths: 1,
     onDatesChange,
   });
-  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, (onBlur = undefined));
+  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, undefined);
 
   const checkActiveMonthsValidity =
     value &&
