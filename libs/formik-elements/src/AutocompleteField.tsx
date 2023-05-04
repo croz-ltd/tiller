@@ -86,11 +86,12 @@ export default function AutocompleteField<T>({
     } else {
       helpers.setValue(value, shouldValidate);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const lastFieldValue = React.useRef<unknown>(null);
   React.useEffect(() => {
-    if (getOptionValue && field.value && !isEqual(lastFieldValue.current, field.value)) {
+    if (getOptionValue && field.value && !isEqual(lastFieldValue.current, field.value) && sendOptionValue) {
       if (Array.isArray(field.value)) {
         helpers.setValue(field.value.map(getOptionValue), shouldValidate);
         lastFieldValue.current = field.value.map(getOptionValue);
@@ -101,9 +102,13 @@ export default function AutocompleteField<T>({
       }
       setValue(field.value);
       initialError.current = undefined;
-    } else if (!field.value || (Array.isArray(field.value) && field.value.length === 0)) {
+    } else if ((!field.value || (Array.isArray(field.value) && field.value.length === 0)) && sendOptionValue) {
       lastFieldValue.current = undefined;
       setValue(undefined);
+    } else if (!sendOptionValue) {
+      helpers.setValue(field.value, shouldValidate);
+      lastFieldValue.current = field.value;
+      setValue(field.value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [field.value]);
