@@ -28,9 +28,19 @@ type TabsProps = {
   children: React.ReactNode;
 
   /**
-   * Sets a tab with the corresponding index as an active tab on component render.
+   * Sets a tab with the corresponding index as default selected tab on component render.
    */
   defaultIndex?: number;
+
+  /**
+   * Sets a tab with the corresponding index as an active tab on component render.
+   */
+  index?: number;
+
+  /**
+   * Callback function that is called on all tab changes
+   */
+  onTabChange?: (index: number) => void;
 
   /**
    * Determines the placement of the icon.
@@ -205,6 +215,8 @@ function Tabs({
   fullWidth,
   children,
   defaultIndex,
+  index,
+  onTabChange,
   className,
   iconPlacement = "leading",
   scrollButtons = false,
@@ -235,7 +247,7 @@ function Tabs({
           </CustomTab>
         );
       }),
-    [childrenArray]
+    [childrenArray],
   );
 
   const tabPanels = React.useMemo(
@@ -245,12 +257,12 @@ function Tabs({
           {child.props.children}
         </TabPanel>
       )),
-    [childrenArray]
+    [childrenArray],
   );
 
   return (
     <CustomTabsContext.Provider value={tabsContext}>
-      <ReachTabs defaultIndex={defaultIndex}>
+      <ReachTabs defaultIndex={defaultIndex} index={index} onChnage={onTabChange}>
         <WithScrollButtons shouldWrap={scrollButtons}>
           <TabList className={className}>
             <CustomTabs hasScrollButtons={scrollButtons} tokens={tokens}>
@@ -381,7 +393,7 @@ function CustomTab({
     "flex justify-center items-center h-full",
     { [tokens.Tab.withIcon.leading]: icon !== null && iconPlacement === "leading" },
     { [tokens.Tab.withIcon.trailing]: icon !== null && iconPlacement === "trailing" },
-    { "flex-row-reverse text-end": iconPlacement === "trailing" }
+    { "flex-row-reverse text-end": iconPlacement === "trailing" },
   );
 
   const tabClassName = cx(
@@ -398,14 +410,14 @@ function CustomTab({
     tokens.Tab.base.master,
     tokens.Tab.base.borderBottomWidth,
     tokens.Tab.base.fontWeight,
-    tokens.Tab.base.fontSize
+    tokens.Tab.base.fontSize,
   );
 
   const iconClassName = cx(
     { [tokens.Icon.base.leading]: iconPlacement === "leading" },
     { [tokens.Icon.base.trailing]: iconPlacement === "trailing" },
     { [tokens.Icon.active]: index === selectedIndex },
-    { [tokens.Icon.inactive]: index !== selectedIndex }
+    { [tokens.Icon.inactive]: index !== selectedIndex },
   );
 
   const handleClick = () => {
