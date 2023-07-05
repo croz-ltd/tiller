@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
-import { Tabs } from "@tiller-ds/core";
+import { Button, Tabs } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
@@ -202,6 +202,20 @@ export const ScrollButtons = () => (
     </Tabs>
   </div>
 );
+
+export const WithIndex = () => {
+  const [index, setIndex] = React.useState(0);
+
+  return (
+    <div className="flex flex-col gap-4 w-fit">
+      <Tabs index={index} onTabChange={setIndex}>
+        <Tabs.Tab label={myAccount}>{billingTab}</Tabs.Tab>
+        <Tabs.Tab label={company}>{companyTab}</Tabs.Tab>
+      </Tabs>
+      <Button onClick={() => setIndex((currentIndex) => (currentIndex + 1) % 2)}>Change tab</Button>
+    </div>
+  );
+};
 
 const HideControls = {
   children: { control: { disable: true } },
