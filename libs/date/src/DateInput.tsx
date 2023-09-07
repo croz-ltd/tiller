@@ -176,7 +176,7 @@ type DateInputInputProps = {
   onClick: () => void;
 
   value: string;
-} & Omit<DateInputProps, "onChange" | "value" | "inputRef"> &
+} & Omit<DateInputProps, "onChange" | "value" | "inputRef" | "onBlur"> &
   TokenProps<"DateInput">;
 
 export default function DateInput({
@@ -217,7 +217,7 @@ export default function DateInput({
     numberOfMonths: 1,
     onDatesChange,
   });
-  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, undefined);
+  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, onBlur);
 
   const checkActiveMonthsValidity =
     value &&
@@ -269,7 +269,6 @@ export default function DateInput({
         onFocus={onOpen}
         focusedDate={value || null}
         allowClear={allowClear}
-        onBlur={onBlur}
         value={formattedValue || typedValue}
         onChange={onChange}
         onReset={onReset}
@@ -346,7 +345,6 @@ function DateInputInput({
       placeholder={getPlaceholder()}
       name={props.name}
       onClick={onClick}
-      onBlur={props.onBlur}
       onChange={(e) => onChange(e.target.value)}
       onReset={props.onReset}
       allowClear={allowClear}
