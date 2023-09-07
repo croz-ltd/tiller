@@ -250,9 +250,12 @@ export const determineMonthInput = (value: string | null, position: number) => {
     if (value[position] === "0") {
       return /[1-9]/;
     }
+    if (value[position] === "1") {
+      return /[0-2]/;
+    }
   }
 
-  return /[0-2]/;
+  return /[0-9]/;
 };
 
 export const determineDayInput = (value: string | null, position: number) => {
