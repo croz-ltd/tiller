@@ -29,6 +29,7 @@ import { useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DatePicker from "./DatePicker";
+import { usePickerOpener } from "./usePickerOpener";
 import { checkDatesInterval, formatDate, getDateFormatByLang, getMaskFromFormat } from "./utils";
 
 type DateTimeFormatOptionsOnly = "localeMatcher" | "weekday" | "year" | "month" | "day";
@@ -184,7 +185,7 @@ type DateRangeInputInputProps = {
   onClick: () => void;
 
   value: string | null;
-} & Omit<DateRangeInputProps, "start" | "end" | "onChange" | "inputRef"> &
+} & Omit<DateRangeInputProps, "start" | "end" | "onChange" | "inputRef" | "onBlur"> &
   TokenProps<"DateInput">;
 
 type DatePickerState = {
@@ -229,7 +230,10 @@ export default function DateRangeInput({
     endDate: end ?? null,
     focusedInput: start && !end ? END_DATE : START_DATE,
   });
-  const [opened, setOpened] = React.useState(false);
+
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const datePickerRef = React.useRef<HTMLDivElement>(null);
+  const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, onBlur);
 
   const onDatesChange = (data: OnDatesChangeProps) => {
     if (data.startDate && !data.endDate) {
@@ -303,8 +307,6 @@ export default function DateRangeInput({
     setOpened(true);
     inputRef.current?.focus();
   };
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const datePickerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     function listener(event: MouseEvent) {
@@ -385,7 +387,6 @@ export default function DateRangeInput({
         onFocus={onOpen}
         onChange={onChange}
         onReset={onReset}
-        onBlur={onBlur}
         allowClear={allowClear}
         value={typedValue}
         mask={getDateRangeMask()}

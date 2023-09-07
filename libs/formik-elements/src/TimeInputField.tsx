@@ -53,6 +53,8 @@ export default function TimeInputField({ name, allowClear = true, ...props }: Ti
     helpers.setValue(null, shouldValidate);
   };
 
+  const onBlur = () => helpers.setTouched(true, shouldValidate);
+
   return (
     <TimeInput
       name={field.name}
@@ -60,6 +62,7 @@ export default function TimeInputField({ name, allowClear = true, ...props }: Ti
       error={meta.touched && (initialError.current ? initialError.current : meta.error)}
       onChange={onChange}
       onReset={onReset}
+      onBlur={onBlur}
       allowClear={allowClear}
       {...props}
     />

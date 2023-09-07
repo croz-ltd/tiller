@@ -153,7 +153,7 @@ export default function TimeInput({
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timePickerRef = React.useRef<HTMLDivElement>(null);
-  const { opened, setOpened } = usePickerOpener(false, inputRef, timePickerRef, undefined);
+  const { opened, setOpened } = usePickerOpener(false, inputRef, timePickerRef, onBlur);
   const [showTimePickerMinutes, setShowTimePickerMinutes] = React.useState(false);
 
   const onOpen = () => {
@@ -330,7 +330,6 @@ export default function TimeInput({
         name={props.name}
         onClick={onOpen}
         onFocus={onOpen}
-        onBlur={onBlur}
         onChange={(e) => onChange(e.target.value)}
         onReset={onReset}
         allowClear={allowClear}
