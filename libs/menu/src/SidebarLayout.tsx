@@ -48,24 +48,18 @@ type SidebarLayoutHeadingProps = {
 
 type SidebarLayoutContentProps = {
   children: React.ReactNode;
-};
+} & SidebarLayoutTokensProps;
 
-function SidebarLayout({ navigation, children, className, ...props }: SidebarLayoutProps) {
+function SidebarLayout({ navigation, children, ...props }: SidebarLayoutProps) {
   const tokens = useTokens("SidebarLayout", props.tokens);
 
-  const containerClassName = cx(
-    tokens.master,
-    "h-screen flex overflow-hidden flex-col md:flex-row",
-    tokens.backgroundColor,
-    className
-  );
-
-  const contentClassName = cx("flex-1 relative z-0 overflow-y-auto scrollbar", tokens.padding, "focus:outline-none");
+  const containerClassName = cx(tokens.container.master, tokens.container.backgroundColor, props.className);
+  const className = cx(tokens.master, tokens.padding);
 
   return (
     <div className={containerClassName}>
       {navigation}
-      <div className={contentClassName}>
+      <div className={className}>
         <main>
           <Container>{children}</Container>
         </main>
@@ -78,11 +72,15 @@ function SidebarLayoutHeading({ children }: SidebarLayoutHeadingProps) {
   return <Container>{children}</Container>;
 }
 
-function SidebarLayoutContent({ children }: SidebarLayoutContentProps) {
+function SidebarLayoutContent({ children, ...props }: SidebarLayoutContentProps) {
+  const tokens = useTokens("SidebarLayout", props.tokens);
+
+  const contentClassName = cx(tokens.content.master, tokens.content.padding);
+
   return (
     <main>
       <Container>
-        <div className="py-4">{children}</div>
+        <div className={contentClassName}>{children}</div>
       </Container>
     </main>
   );

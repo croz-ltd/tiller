@@ -1447,9 +1447,16 @@ const defaultComponentConfig = {
     placeholder: "text-slate-500 select-none",
   },
   SidebarLayout: {
-    master: "",
-    backgroundColor: "bg-slate-100",
+    container: {
+      master: "h-screen flex overflow-hidden flex-col md:flex-row",
+      backgroundColor: "bg-slate-100",
+    },
+    master: "flex-1 relative z-0 overflow-y-auto scrollbar focus:outline-none",
     padding: "py-6",
+    content: {
+      master: "",
+      padding: "py-4",
+    },
   },
   SidebarNavigation: {
     container: {
