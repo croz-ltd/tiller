@@ -145,8 +145,8 @@ export default function Login({
                         </div>
                         )
                       }
-                        {children}
-                        <h1 className={tokens.headerContainer}>{<Intl name={title || "login.labels.header"} />}</h1>
+                      {children}
+                      <h1 className={tokens.headerContainer}>{<Intl name={title || "login.labels.header"} />}</h1>
                       <InputField
                         className={tokens.inputSpacing}
                         name={useEmail ? "email" : "username"}
