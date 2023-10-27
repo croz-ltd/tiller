@@ -139,16 +139,14 @@ export default function Login({
                 <Form>
                   <FormLayout.Section>
                     <div className={tokens.master}>
-                      {logo ? (
+                      {logo && (
                         <div className={tokens.logoContainer}>
                           <img src={logo} alt="logo" className={tokens.logoSize} />
                         </div>
-                      ) : (
-                        <>
-                          {children}
-                          <h1 className={tokens.headerContainer}>{<Intl name={title || "login.labels.header"} />}</h1>
-                        </>
-                      )}
+                        )
+                      }
+                        {children}
+                        <h1 className={tokens.headerContainer}>{<Intl name={title || "login.labels.header"} />}</h1>
                       <InputField
                         className={tokens.inputSpacing}
                         name={useEmail ? "email" : "username"}
