@@ -61,6 +61,12 @@ type LoginProps = {
   forgotPassword?: boolean;
 
   /**
+   * Specifies the URL or navigation link to redirect the user when
+   * they click on a "Forgot Password" link.
+   */
+  forgotPasswordLink?: string;
+
+  /**
    * Function that handles values inputted into the component on submit.
    */
   handleSubmit: (values) => void;
@@ -115,6 +121,7 @@ export default function Login({
   rememberMe,
   buttonText,
   forgotPassword,
+  forgotPasswordLink,
   initialValues,
   handleSubmit,
   children,
@@ -179,7 +186,7 @@ export default function Login({
                       </Button>
                       {forgotPassword === true && (
                         <div className={tokens.link.container}>
-                          <Link className={tokens.link.master} to="/forgotten-password">
+                          <Link className={tokens.link.master} to={forgotPasswordLink ?? "/forgotten-password"}>
                             {<Intl name={"login.labels.forgotPassword"} />}
                           </Link>
                         </div>
