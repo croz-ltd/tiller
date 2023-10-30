@@ -201,6 +201,12 @@ export default function DateInput({
   const formattedValue = value ? dateFns.format(value, finalDateFormat) : "";
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
+  React.useEffect(() => {
+    if (inputRef.current !== document.activeElement) {
+      setTypedValue(formattedValue);
+    }
+  }, [formattedValue]);
+
   const onDatesChange = (data: OnDatesChangeProps) => {
     props.onChange(data.startDate);
     setTypedValue(dateFns.format(data.startDate as Date, finalDateFormat));
