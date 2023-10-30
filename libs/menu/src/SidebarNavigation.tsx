@@ -305,7 +305,7 @@ export function SidebarNavigationItem({
   const tokens = useTokens("SidebarNavigation", props.tokens);
   const location = useLocation();
 
-  const active = to !== undefined ? location.pathname === to : false;
+  const active = to !== undefined ? location.pathname.startsWith(to) : false;
   const cn = cx(
     className,
     tokens.item.master,
