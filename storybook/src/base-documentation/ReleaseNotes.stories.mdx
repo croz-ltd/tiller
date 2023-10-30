@@ -18,7 +18,26 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.7.0 - latest** <span>_(May 4th 2023)_</span>
+## **1.7.1 - latest** <span>_(Oct 30th 2023)_</span>
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- `DateInputField`, `DateTimeInputField`: fixed external value change consistency ([#137](https://github.com/croz-ltd/tiller/issues/137))
+- `DateInput`, `DateRangeInput`, `DateTimeInput`: fixed date mask accuracy for a number of use cases ([#118](https://github.com/croz-ltd/tiller/issues/118))
+- `DateInput`, `DateRangeInput`, `DateTimeInput`, `TimeInput`: fixed premature _onBlur_ detection ([#117](https://github.com/croz-ltd/tiller/issues/117))
+- `Login`: fixed children not displaying in the component when the _logo_ prop is defined ([#134](https://github.com/croz-ltd/tiller/issues/134))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- `Login`: added _forgotPasswordLink_ prop for defining a custom URL for `ForgottenPassword` component ([#132](https://github.com/croz-ltd/tiller/issues/132))
+- `SidebarLayout`: moved classes to tokens' configuration ([#120](https://github.com/croz-ltd/tiller/issues/120))
+- `SidebarNavigation`: improved active item state detection to align it with the `TopNavigation` component logic ([#131](https://github.com/croz-ltd/tiller/issues/131))
+
+**<h4>📚 Docs Improvements</h4>**
+
+- fixed Figma tokens download link referenced in the [Theming and Customization page](https://croz-ltd.github.io/tiller/?path=/docs/theming-and-customization--page#importing-the-token-set) ([#123](https://github.com/croz-ltd/tiller/issues/123))
+
+## 1.7.0 <span>_(Aug 29th 2023)_</span>
 
 **<h4>⚡ Component Improvements</h4>**
 
@@ -72,8 +91,8 @@ import { Meta } from "@storybook/addon-docs";
 
 **<h4>🚀 Storybook Improvements</h4>**
 
- - improved the `Theming and Customization` documentation page to resemble the `Introduction` page layout ([#92](https://github.com/croz-ltd/tiller/issues/92))
- - included a step-by-step guide on how to apply and modify tokens in Figma
+- improved the `Theming and Customization` documentation page to resemble the `Introduction` page layout ([#92](https://github.com/croz-ltd/tiller/issues/92))
+- included a step-by-step guide on how to apply and modify tokens in Figma
 
 ## 1.4.0 <span>_(Mar 20th 2023)_</span>
 
