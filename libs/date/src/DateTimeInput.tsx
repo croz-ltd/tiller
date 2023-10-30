@@ -311,6 +311,12 @@ export default function DateTimeInput({
   const formattedValue = value ? formatValue(value) : "";
   const [typedValue, setTypedValue] = React.useState<string>(formattedValue);
 
+  React.useEffect(() => {
+    if (inputRef.current !== document.activeElement) {
+      setTypedValue(formattedValue);
+    }
+  }, [formattedValue]);
+
   const mobile = (window.innerWidth < 768) as boolean;
 
   const dateIconClassName = cx({ [inputTokens.Icon.clickableTrailing]: !(props.disabled || props.readOnly) });
