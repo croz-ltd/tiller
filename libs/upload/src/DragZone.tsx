@@ -17,7 +17,7 @@
 
 import React from "react";
 
-import { UploadyContext, useItemFinishListener, useItemStartListener } from "@rpldy/uploady";
+import {UploadyContext, useItemErrorListener, useItemFinishListener, useItemStartListener} from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 
 import { Field, FieldProps } from "@tiller-ds/form-elements";
@@ -27,6 +27,7 @@ import UploadyWrapper, { UploadyWrapperProps } from "./UploadyWrapper";
 
 import { UseFileUpload, File, defaultUploadResponseMapper } from "./useFileUpload";
 import { BatchItem } from "@rpldy/shared";
+import {isObject} from "lodash";
 
 export type DragZoneProps<T extends File> = {
   /**
@@ -112,6 +113,11 @@ type CustomUploadDropZoneContainerProps<T extends File> = {
   uploadIcon?: React.ReactElement;
 
   /**
+   * `withCredentials` flag on fetch requests for uploading
+   */
+  withCredentials?: boolean
+
+  /**
    * Custom additional styling applied to the component.
    */
   className?: string;
@@ -140,6 +146,7 @@ export default function DragZone<T extends File>({
   title,
   url,
   uploadIcon,
+  withCredentials,
   className,
   ...props
 }: DragZoneProps<T>) {
@@ -156,6 +163,7 @@ export default function DragZone<T extends File>({
           listeners={listeners}
           destinationOptions={destinationOptions}
           allowMultiple={allowMultiple}
+          withCredentials={withCredentials}
         >
           <UploadDropZone className={tokens.uploadyDropZone} onDragOverClassName={onDragOverClassName}>
             <CustomUploadDropZoneContainer

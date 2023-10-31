@@ -57,6 +57,11 @@ export type UploadyWrapperProps = {
   allowMultiple?: boolean;
 
   /**
+   * `withCredentials` flag on fetch requests for uploading
+   */
+  withCredentials?: boolean
+
+  /**
    * UploadWrapper content
    */
   children?: JSX.Element[] | JSX.Element;
@@ -77,6 +82,7 @@ export default function UploadyWrapper({
   listeners,
   enhancer,
   destinationOptions,
+  withCredentials,
   children,
 }: UploadyWrapperProps) {
   const authorizedDestination: Destination = {
@@ -90,6 +96,7 @@ export default function UploadyWrapper({
       send={send}
       multiple={allowMultiple}
       listeners={listeners}
+      withCredentials={withCredentials}
       enhancer={enhancer}
     >
       {children}

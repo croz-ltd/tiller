@@ -30,8 +30,20 @@ import { BatchItem } from "@rpldy/shared";
 type Status = "idle" | "waiting" | "error" | "success";
 
 export type UploadButtonProps<T extends File> = {
+  /**
+   * Url on the backend which is called for saving files
+   */
   url: string;
+
+  /**
+   * Object return from {@link useFileUpload} hook, used internally for correct behaviour of the file
+   * upload
+   */
   hook: UseFileUpload<T>;
+
+  /**
+   * The color of the component.
+   */
   color?:
     | "primary"
     | "success"
@@ -51,10 +63,33 @@ export type UploadButtonProps<T extends File> = {
     | "teal"
     | "gray"
     | undefined;
+
+  /**
+   * Whether will user be able to upload multiple files at once
+   */
   allowMultiple?: boolean;
+
+  /**
+   * Is the UploadButton disabled
+   */
   disabled?: boolean;
+
+  /**
+   * Function which fired in case item upload failed.
+   */
   onError?: (message: string) => void;
+  /**
+   * Custom mapper for the backend response, used when a subclass of {@link File} is used to extend uploaded file data
+   * @param item file that is uploaded
+   * @param originalFileName original file name of the file (in case if the backend does a rename)
+   */
   mapUploadResponse?: (item: BatchItem, originalFileName: string) => T;
+
+  /**
+   * `withCredentials` flag on fetch requests for uploading
+   */
+  withCredentials?: boolean
+
   /**
    * UploadButton content
    */
@@ -128,6 +163,7 @@ export default function UploadButton<T extends File>({
   destinationOptions,
   allowMultiple = false,
   mapUploadResponse = defaultUploadResponseMapper as (item: BatchItem, originalFileName: string) => T,
+  withCredentials,
   listeners,
   ...props
 }: UploadButtonProps<T>) {
@@ -138,6 +174,7 @@ export default function UploadButton<T extends File>({
       enhancer={enhancer}
       destinationOptions={destinationOptions}
       allowMultiple={allowMultiple}
+      withCredentials={withCredentials}
       listeners={listeners}
     >
       <CustomUploadButton color={color} mapUploadResponse={mapUploadResponse} {...props} />
