@@ -23,11 +23,14 @@ import { IconButton } from "@tiller-ds/core";
 import { DragZoneField } from "@tiller-ds/formik-elements";
 import { Intl } from "@tiller-ds/intl";
 import { FileList, useFileUpload } from "@tiller-ds/upload";
+import { Icon } from "@tiller-ds/icons";
+
+import { UPLOADER_EVENTS } from "@rpldy/uploader";
+import { BatchItem } from "@rpldy/shared";
 
 import { FormikDecorator, useMockSender } from "../utils";
 
 import mdx from "./DragZoneField.mdx";
-import { Icon } from "@tiller-ds/icons";
 
 const name = "dragzonefield";
 const nameWithError = "nameWithError";
@@ -197,6 +200,30 @@ export const Disabled = () => {
       send={useMockSender.send}
       title={<Intl name="dragZoneTitle" />}
       disabled={true}
+    />
+  );
+};
+
+export const WithSizeLimit = () => {
+  const useFileUploadHook = useFileUpload();
+
+  const listeners = {
+    [UPLOADER_EVENTS.ITEM_START]: (item: BatchItem) => {
+      if (item.file.size > 2000000) {
+        // send notification / add error
+        return false;
+      }
+    }
+  };
+
+  return (
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      listeners={listeners}
     />
   );
 };

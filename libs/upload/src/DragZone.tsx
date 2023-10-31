@@ -135,6 +135,7 @@ export default function DragZone<T extends File>({
   send,
   enhancer,
   destinationOptions,
+  listeners,
   subtitle,
   title,
   url,
@@ -152,6 +153,7 @@ export default function DragZone<T extends File>({
           url={url}
           send={send}
           enhancer={enhancer}
+          listeners={listeners}
           destinationOptions={destinationOptions}
           allowMultiple={allowMultiple}
         >

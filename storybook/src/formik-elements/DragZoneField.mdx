@@ -115,6 +115,12 @@ function MyBetterUploaderComponent() {
 }
 ```
 
+## Using listeners
+
+Uploady exposes a `listeners` prop which could enable you to intercept any of the steps in the upload process and react to them.
+Returning `false` from the listeners will cancel the file upload.
+Currently, it could be mostly usable for max size checks which can be seen in [With size limit story](/docs/component-library-formik-elements-dragzonefield--with-size-limit)
+
 <Stories includePrimary={true} />
 
 ## Drag Zone Props:
