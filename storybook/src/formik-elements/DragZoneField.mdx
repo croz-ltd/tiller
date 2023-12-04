@@ -19,6 +19,10 @@ currently in the file list. `useFileUpload` hook also provides a list of the upl
 This is a **field** component, which means it is differs from `DragZone` by having a provided logic for seamless
 wrapping of the component inside Formik for easier form creation.
 
+The `singleFileUpload` property is a boolean attribute that can be used with the DragZoneField. When set to true, it enforces
+the behavior of allowing only a single file to be uploaded at a time. This is particularly useful in scenarios where you want
+to ensure that only a single file is associated with a specific field or action.
+
 ## useFileUpload details
 
 `useFileUpload` is used as an actual logic what is currently in the file list. It can be initialized with the file
