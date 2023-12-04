@@ -11,6 +11,10 @@ if you need more info about logic behind file upload, check that docs.
 This is a **field** component, which means it is differs from `UploadButton` by having an integrated logic for hooks you pass to the component
 and field props it inherits through Formik. There is no need for any custom logic, just wrap the component inside Formik and pass it a hook for easier form creation.
 
+The `singleFileUpload` property is a boolean attribute that can be used with the UploadButtonField. When set to true, it enforces
+the behavior of allowing only a single file to be uploaded at a time. This is particularly useful in scenarios where you want
+to ensure that only a single file is associated with a specific field or action.
+
 <Stories includePrimary={true} />
 
 ## Upload Button Field Props:
