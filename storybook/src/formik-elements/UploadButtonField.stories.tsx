@@ -73,3 +73,12 @@ export const Example = () => {
     </UploadButtonField>
   );
 };
+
+export const WithSingleFileUpload = () => {
+  const file = useFileUpload();
+  return (
+      <UploadButtonField hook={file} name={name} url={useMockSender.destination.url} send={useMockSender.send} singleFileUpload={true}>
+        Upload
+      </UploadButtonField>
+  );
+};
