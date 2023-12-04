@@ -26,6 +26,13 @@ export type DragZoneFieldProps<T extends File> = {
    * The accessor value for the component (for validation, fetching, etc.).
    */
   name: string;
+
+  /**
+   * Controls whether the file upload is restricted to a single file.
+   * If set to true, only one file can be uploaded at a time.
+   * @default false
+   */
+  singleFileUpload?: boolean;
 } & DragZoneProps<T>;
 
 export default function DragZoneField<T extends File>({ name, ...props }: DragZoneFieldProps<T>) {
@@ -40,7 +47,9 @@ export default function DragZoneField<T extends File>({ name, ...props }: DragZo
   React.useEffect(() => {
     props.hook.onUpdateCallback((added, deleted) => {
       if (added) {
-        helpers.setValue([...(fieldValue.current || []), ...(Array.isArray(added) ? added : [added])]);
+        const addedFiles = Array.isArray(added) ? added : [added];
+        const updatedFiles = props.singleFileUpload ? addedFiles : [...(fieldValue.current || []), ...addedFiles];
+        helpers.setValue(updatedFiles);
       } else if (deleted) {
         helpers.setValue(
           (fieldValue.current || []).filter((id) => (Array.isArray(deleted) ? !deleted.includes(id) : id !== deleted))

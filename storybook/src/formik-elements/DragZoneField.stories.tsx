@@ -144,6 +144,21 @@ export const AndFileList = () => {
   );
 };
 
+export const WithSingleFileUpload = () => {
+  const useFileUploadHook = useFileUpload();
+
+  return (
+      <DragZoneField
+          name={name}
+          hook={useFileUploadHook}
+          url={useMockSender.destination.url}
+          send={useMockSender.send}
+          title={<Intl name="dragZoneTitle" />}
+          singleFileUpload={true}
+      />
+  );
+};
+
 export const WithLabel = () => {
   const useFileUploadHook = useFileUpload();
 
