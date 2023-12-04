@@ -262,7 +262,7 @@ function Tabs({
 
   return (
     <CustomTabsContext.Provider value={tabsContext}>
-      <ReachTabs defaultIndex={defaultIndex} index={index} onChnage={onTabChange}>
+      <ReachTabs defaultIndex={defaultIndex} index={index} onChange={onTabChange}>
         <WithScrollButtons shouldWrap={scrollButtons}>
           <TabList className={className}>
             <CustomTabs hasScrollButtons={scrollButtons} tokens={tokens}>
