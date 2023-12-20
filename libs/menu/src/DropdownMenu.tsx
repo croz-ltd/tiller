@@ -16,6 +16,7 @@
  */
 
 import * as React from "react";
+import { useCallback, useContext, useMemo, useRef, useState } from "react";
 
 import { Button, ButtonProps } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
@@ -74,10 +75,15 @@ export type DropdownMenuMenuProps = {
   title?: React.ReactNode;
 
   /**
-   * Determines the height of the dropdown list which coincides with the number of shown items.
-   * For example, if this value is set to 5, after 5 items scrolling will occur.
-   * Note: if you are using a dropdown with a large number of items resort to setting this value
-   * for a better and cleaner UX experience, otherwise don't define it.
+   * Determines the height of the dropdown list based on the number of visible items.
+   * Scrolling will occur when the number of items exceeds the specified value.
+   *
+   * For example, setting this value to 5 will display 5 items before scrolling.
+   * Use this prop for better user experience with dropdowns containing a large number of items.
+   * If not defined or set to a value larger than the number of items, this prop is ignored.
+   *
+   * @type {number | undefined}
+   * @default undefined
    */
   visibleItemCount?: number;
 } & Omit<ButtonProps, "className" | "leadingIcon" | "trailingIcon" | "children" | "title"> &
@@ -118,7 +124,7 @@ function DropdownMenu({
   ...props
 }: DropdownMenuMenuProps) {
   const tokens = useTokens("DropdownMenu", props.tokens);
-  const [itemHeight, setItemHeight] = React.useState(0);
+  const [itemHeight, setItemHeight] = useState(0);
 
   const iconClassName = cx(
     { [tokens.Icon.color.default]: iconColor === "default" },
@@ -180,8 +186,8 @@ export function DropdownMenuItem({
   ...props
 }: DropdownMenuMenuItemProps) {
   const tokens = useTokens("DropdownMenu", props.tokens);
-  const itemRef = React.useRef<HTMLButtonElement>(null);
-  const { setItemHeight } = React.useContext(DropdownContext);
+  const itemRef = useRef<HTMLButtonElement>(null);
+  const { setItemHeight } = useContext(DropdownContext);
 
   React.useEffect(() => {
     if (setItemHeight && itemRef.current) {
@@ -215,8 +221,8 @@ function DropdownMenuContainer({
   ...props
 }: DropdownMenuContainerProps) {
   const tokens = useTokens("DropdownMenu", props.tokens);
-  const { itemHeight } = React.useContext(DropdownContext);
-  const childrenContainerRef = React.useRef<HTMLDivElement>(null);
+  const { itemHeight } = useContext(DropdownContext);
+  const childrenContainerRef = useRef<HTMLDivElement>(null);
 
   const menuContainerClassName = cx(
     tokens.MenuContainer.master,
@@ -240,7 +246,7 @@ function DropdownMenuContainer({
     tokens.MenuContainerChildren.textColor[backgroundColor],
   );
 
-  const containerPadding: number = React.useMemo(() => {
+  const containerPadding: number = useMemo(() => {
     if (childrenContainerRef !== null && childrenContainerRef.current !== null) {
       return parseInt(
         getComputedStyle(childrenContainerRef.current as Element)
@@ -252,17 +258,27 @@ function DropdownMenuContainer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childrenContainerRef.current]);
 
+  const getHeight = useCallback(() => {
+    if (itemHeight && visibleItemCount && Array.isArray(children) && children.length >= visibleItemCount) {
+      return itemHeight * visibleItemCount + containerPadding * 2;
+    }
+
+    if (itemHeight && Array.isArray(children)) {
+      return itemHeight * children.length + containerPadding * 2;
+    }
+  }, [children, containerPadding, itemHeight, visibleItemCount]);
+
   return (
     <div className={menuContainerClassName}>
       <div
         className={menuInnerContainerClassName}
         style={{
-          height: itemHeight && visibleItemCount ? `${itemHeight * visibleItemCount + containerPadding}px` : undefined,
+          height: `${getHeight()}px`,
         }}
       >
-        <div className={menuContainerChildrenClassName} ref={childrenContainerRef}>
+        <menu className={menuContainerChildrenClassName} ref={childrenContainerRef}>
           {children}
-        </div>
+        </menu>
       </div>
     </div>
   );
