@@ -184,8 +184,7 @@ function Modal<T = unknown>({ isOpen, onClose, state, icon, children, canDismiss
           <div className={tokens.Container.Overlay.outer}>
             <div className={overlayInnerClassName}>&nbsp;</div>
           </div>
-
-          <DialogContent className={contentContainerClassName}>
+          <DialogContent className={contentContainerClassName} aria-label="Dialog Content">
             {canDismiss && (
               <div className={tokens.Container.Content.dismiss}>
                 <ModalDismiss />
