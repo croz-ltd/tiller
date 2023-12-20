@@ -102,7 +102,7 @@ function DropdownContent({ children, isExpanded, className }: DropdownContentPro
 }
 
 function DropdownButton({ children }: DropdownButtonProps) {
-  return <MenuButton>{children}</MenuButton>;
+  return <MenuButton as="menu">{children}</MenuButton>;
 }
 
 function DropdownItem({ children, ...props }: DropdownItemProps) {
