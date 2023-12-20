@@ -15,8 +15,7 @@
  *
  */
 
-import * as React from "react";
-import { useCallback, useContext, useMemo, useRef, useState } from "react";
+import React, { useCallback, useContext, useMemo, useRef, useState } from "react";
 
 import { Button, ButtonProps } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
