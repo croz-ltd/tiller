@@ -15,7 +15,7 @@
  *
  */
 
-import React from "react";
+import React, { ForwardedRef } from "react";
 
 import { cx, TokenProps, useTokens, ComponentTokens, useIcon } from "@tiller-ds/theme";
 
@@ -82,6 +82,7 @@ export type InputProps = {
 
   /**
    * Optional ref property to pass onto the HTML input component.
+   * @deprecated Will be removed in next major version, use `ref` instead
    */
   inputRef?: React.Ref<HTMLInputElement>;
 
@@ -160,142 +161,147 @@ export type InputTokens = {
   tokens?: ComponentTokens<"Input">;
 };
 
-export default function Input({
-  className,
-  name,
-  inputRef,
-  label,
-  tooltip,
-  required,
-  help,
-  error,
-  disabled,
-  inlineLeadingIcon,
-  inlineTrailingIcon,
-  addOn,
-  inlineLeadingAddOn,
-  inlineTrailingAddOn,
-  onReset,
-  extend,
-  allowClear = false,
-  clearIcon,
-  warningIcon,
-  addonBelow,
-  ...props
-}: InputProps) {
-  const tokens = useTokens("Input", props.tokens);
+const Input = React.forwardRef(
+  (
+    {
+      className,
+      name,
+      inputRef,
+      label,
+      tooltip,
+      required,
+      help,
+      error,
+      disabled,
+      inlineLeadingIcon,
+      inlineTrailingIcon,
+      addOn,
+      inlineLeadingAddOn,
+      inlineTrailingAddOn,
+      onReset,
+      extend,
+      allowClear = false,
+      clearIcon,
+      warningIcon,
+      addonBelow,
+      ...props
+    }: InputProps,
+    ref: ForwardedRef<HTMLInputElement>,
+  ) => {
+    const tokens = useTokens("Input", props.tokens);
 
-  const inputClassName = cx(
-    tokens.master,
-    tokens.fontSize,
-    tokens.textColor,
-    tokens.lineHeight,
-    { [tokens.padding.input]: !props?.id?.includes("downshift") },
-    { [tokens.padding.autocomplete]: props?.id?.includes("downshift") },
-    { [tokens.borderRadius]: !addOn },
-    { [tokens.borderColor]: !extend && !error },
-    { [tokens.boxShadow]: !extend && !error },
-    { "focus:outline-none": extend },
-    { [tokens.error.borderColor]: error && !extend },
-    { [tokens.error.color]: error && !extend && !props?.id?.includes("downshift") },
-    { [tokens.error.placeholder]: error && !extend },
-    { [tokens.error.boxShadow]: error && !extend },
-    { [tokens.addOn.master]: addOn },
-    { [tokens.addOn.padding]: addOn },
-    { [tokens.addOn.borderRadius]: addOn },
-    { [tokens.inlineLeadingIcon]: inlineLeadingIcon },
-    { [tokens.inlineLeadingAddOn]: inlineLeadingAddOn },
-    { [tokens.inlineTrailingAddOn]: inlineTrailingAddOn },
-    { [tokens.disabled]: disabled },
-  );
+    const inputClassName = cx(
+      tokens.master,
+      tokens.fontSize,
+      tokens.textColor,
+      tokens.lineHeight,
+      { [tokens.padding.input]: !props?.id?.includes("downshift") },
+      { [tokens.padding.autocomplete]: props?.id?.includes("downshift") },
+      { [tokens.borderRadius]: !addOn },
+      { [tokens.borderColor]: !extend && !error },
+      { [tokens.boxShadow]: !extend && !error },
+      { "focus:outline-none": extend },
+      { [tokens.error.borderColor]: error && !extend },
+      { [tokens.error.color]: error && !extend && !props?.id?.includes("downshift") },
+      { [tokens.error.placeholder]: error && !extend },
+      { [tokens.error.boxShadow]: error && !extend },
+      { [tokens.addOn.master]: addOn },
+      { [tokens.addOn.padding]: addOn },
+      { [tokens.addOn.borderRadius]: addOn },
+      { [tokens.inlineLeadingIcon]: inlineLeadingIcon },
+      { [tokens.inlineLeadingAddOn]: inlineLeadingAddOn },
+      { [tokens.inlineTrailingAddOn]: inlineTrailingAddOn },
+      { [tokens.disabled]: disabled },
+    );
 
-  const extendedInputClassName = cx(
-    tokens.borderColor,
-    tokens.borderRadius,
-    tokens.boxShadow,
-    { [tokens.error.borderColor]: error },
-    { [tokens.error.color]: error },
-    { [tokens.error.placeholder]: error },
-    { [tokens.error.boxShadow]: error },
-    { [tokens.disabled]: disabled },
-  );
+    const extendedInputClassName = cx(
+      tokens.borderColor,
+      tokens.borderRadius,
+      tokens.boxShadow,
+      { [tokens.error.borderColor]: error },
+      { [tokens.error.color]: error },
+      { [tokens.error.placeholder]: error },
+      { [tokens.error.boxShadow]: error },
+      { [tokens.disabled]: disabled },
+    );
 
-  const inlineTrailingIconClass = cx({
-    "flex align-center": true,
-    [tokens.Icon.color]: true,
-  });
+    const inlineTrailingIconClass = cx({
+      "flex align-center": true,
+      [tokens.Icon.color]: true,
+    });
 
-  const extendClassName = cx({
-    "bg-white focus:outline-none rounded-md": true,
-    "opacity-50": disabled,
-  });
+    const extendClassName = cx({
+      "bg-white focus:outline-none rounded-md": true,
+      "opacity-50": disabled,
+    });
 
-  const inputContainerClassName = cx("relative", { flex: addOn }, tokens.container.base, {
-    [tokens.container.withLabel]: label,
-  });
+    const inputContainerClassName = cx("relative", { flex: addOn }, tokens.container.base, {
+      [tokens.container.withLabel]: label,
+    });
 
-  const inputClearClassName = cx(tokens.clear.base, tokens.clear.padding, tokens.clear.color, {
-    [tokens.clear.disabled]: disabled || props.readOnly,
-    [tokens.clear.clickableTrailing]: !disabled && !props.readOnly,
-  });
-  const finalClearIcon = useIcon("dismiss", clearIcon, { className: inputClearClassName, size: tokens.clear.size });
-  const finalWarningIcon = useIcon("inputError", warningIcon, { className: tokens.error.Icon.color, size: 5 });
+    const inputClearClassName = cx(tokens.clear.base, tokens.clear.padding, tokens.clear.color, {
+      [tokens.clear.disabled]: disabled || props.readOnly,
+      [tokens.clear.clickableTrailing]: !disabled && !props.readOnly,
+    });
+    const finalClearIcon = useIcon("dismiss", clearIcon, { className: inputClearClassName, size: tokens.clear.size });
+    const finalWarningIcon = useIcon("inputError", warningIcon, { className: tokens.error.Icon.color, size: 5 });
 
-  const id = `input-${name}`;
+    const id = `input-${name}`;
 
-  return (
-    <Field
-      id={id}
-      label={label}
-      tooltip={tooltip}
-      required={required}
-      help={help}
-      error={error}
-      containerClassName={className}
-      fieldClassName={inputContainerClassName}
-      addonBelow={addonBelow}
-      {...props}
-    >
-      {addOn && <InputAddOn addOn={addOn} />}
-      {inlineLeadingAddOn && <InputInlineAddOn inline={true}>{inlineLeadingAddOn}</InputInlineAddOn>}
-      <div className="absolute inset-y-0 flex items-center left-0 align-center">
-        {inlineLeadingIcon && <InputIcon icon={<div className={tokens.Icon.color}>{inlineLeadingIcon}</div>} />}
-      </div>
-      <div className={extend ? extendedInputClassName : addOn ? "w-full" : undefined}>
-        <input
-          ref={inputRef}
-          name={name}
-          id={id}
-          data-testid={id}
-          disabled={disabled}
-          className={inputClassName}
-          {...props}
-        />
-        {extend && (
-          <div className={extendClassName} tabIndex={0}>
-            {extend}
-          </div>
-        )}
-      </div>
-      <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
-        {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
-        {props.value && allowClear && finalClearIcon && (
-          <button type="button" onClick={onReset} disabled={disabled || props.readOnly}>
-            {finalClearIcon}
-          </button>
-        )}
-        {inlineTrailingIcon && (
-          <InputIcon icon={<div className={inlineTrailingIconClass}>{inlineTrailingIcon}</div>} trailing={true} />
-        )}
-        {inlineTrailingAddOn && (
-          <InputInlineAddOn inline={true} trailing={true}>
-            {inlineTrailingAddOn}
-          </InputInlineAddOn>
-        )}
-      </div>
-    </Field>
-  );
-}
+    return (
+      <Field
+        id={id}
+        label={label}
+        tooltip={tooltip}
+        required={required}
+        help={help}
+        error={error}
+        containerClassName={className}
+        fieldClassName={inputContainerClassName}
+        addonBelow={addonBelow}
+        {...props}
+      >
+        {addOn && <InputAddOn addOn={addOn} />}
+        {inlineLeadingAddOn && <InputInlineAddOn inline={true}>{inlineLeadingAddOn}</InputInlineAddOn>}
+        <div className="absolute inset-y-0 flex items-center left-0 align-center">
+          {inlineLeadingIcon && <InputIcon icon={<div className={tokens.Icon.color}>{inlineLeadingIcon}</div>} />}
+        </div>
+        <div className={extend ? extendedInputClassName : addOn ? "w-full" : undefined}>
+          <input
+            ref={inputRef || ref}
+            name={name}
+            id={id}
+            data-testid={id}
+            disabled={disabled}
+            className={inputClassName}
+            {...props}
+          />
+          {extend && (
+            <div className={extendClassName} tabIndex={0}>
+              {extend}
+            </div>
+          )}
+        </div>
+        <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
+          {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
+          {props.value && allowClear && finalClearIcon && (
+            <button type="button" onClick={onReset} disabled={disabled || props.readOnly}>
+              {finalClearIcon}
+            </button>
+          )}
+          {inlineTrailingIcon && (
+            <InputIcon icon={<div className={inlineTrailingIconClass}>{inlineTrailingIcon}</div>} trailing={true} />
+          )}
+          {inlineTrailingAddOn && (
+            <InputInlineAddOn inline={true} trailing={true}>
+              {inlineTrailingAddOn}
+            </InputInlineAddOn>
+          )}
+        </div>
+      </Field>
+    );
+  },
+);
 
 function InputIcon({ icon, trailing, inputId, ...props }: InputIconProps) {
   const tokens = useTokens("Input", props.tokens);
@@ -342,3 +348,5 @@ function InputInlineAddOn({ inline, trailing, children, ...props }: InputInlineA
     </div>
   );
 }
+
+export default Input;
