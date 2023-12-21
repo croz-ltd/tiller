@@ -123,7 +123,7 @@ function DropdownMenu({
   ...props
 }: DropdownMenuMenuProps) {
   const tokens = useTokens("DropdownMenu", props.tokens);
-  const [itemHeight, setItemHeight] = useState(0);
+  const [itemHeight, setItemHeight] = useState(40);
 
   const iconClassName = cx(
     { [tokens.Icon.color.default]: iconColor === "default" },
@@ -247,23 +247,23 @@ function DropdownMenuContainer({
 
   const containerPadding: number = useMemo(() => {
     if (childrenContainerRef !== null && childrenContainerRef.current !== null) {
-      return parseInt(
-        getComputedStyle(childrenContainerRef.current as Element)
-          .getPropertyValue("padding-top")
-          .match(/\d{1,3}/g)?.[0] || "2",
-      );
+      const computedStyles = getComputedStyle(childrenContainerRef.current as Element);
+      const paddingTop = parseInt(computedStyles.getPropertyValue("padding-top").match(/\d{1,3}/g)?.[0] || "2");
+      const paddingBottom = parseInt(computedStyles.getPropertyValue("padding-bottom").match(/\d{1,3}/g)?.[0] || "2");
+
+      return paddingTop + paddingBottom;
     }
-    return 2;
+    return 4;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childrenContainerRef.current]);
 
-  const getHeight = useCallback(() => {
+  const menuListHeight = useMemo(() => {
     if (itemHeight && visibleItemCount && Array.isArray(children) && children.length >= visibleItemCount) {
-      return itemHeight * visibleItemCount + containerPadding * 2;
+      return itemHeight * visibleItemCount + containerPadding;
     }
 
     if (itemHeight && Array.isArray(children)) {
-      return itemHeight * children.length + containerPadding * 2;
+      return itemHeight * children.length + containerPadding;
     }
   }, [children, containerPadding, itemHeight, visibleItemCount]);
 
@@ -272,7 +272,7 @@ function DropdownMenuContainer({
       <div
         className={menuInnerContainerClassName}
         style={{
-          height: `${getHeight()}px`,
+          height: `${menuListHeight}px`,
         }}
       >
         <menu className={menuContainerChildrenClassName} ref={childrenContainerRef}>

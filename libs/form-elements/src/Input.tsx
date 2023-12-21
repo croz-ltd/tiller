@@ -137,7 +137,7 @@ export type InputProps = {
    * Custom icon for warning on input
    */
   warningIcon?: React.ReactElement;
-} & Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "onReset"> &
+} & Omit<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "onReset" | "ref"> &
   InputTokens;
 
 export type InputIconProps = {
