@@ -95,7 +95,7 @@ export default function MaskedInput({
   return (
     <Input
       {...props}
-      inputRef={(props.inputRef as React.RefObject<HTMLInputElement>) || currentRef}
+      ref={props.inputRef || currentRef}
       name={name}
       id={id}
       data-testid={id}
