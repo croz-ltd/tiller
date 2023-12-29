@@ -21,7 +21,7 @@ import { range, slice } from "lodash";
 
 import { withDesign } from "storybook-addon-designs";
 
-import { Button, Card, IconButton, Link, Pagination, useLocalPagination } from "@tiller-ds/core";
+import { Button, Card, IconButton, Link, Pagination, Typography, useLocalPagination } from "@tiller-ds/core";
 import { DataTable, useDataTable, useLocalSummary } from "@tiller-ds/data-display";
 import { Icon } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
@@ -345,6 +345,26 @@ export const Simple = () => (
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" accessor="name" />
   </DataTable>
+);
+
+export const WithEmptyState = () => (
+  <div className="p-8 bg-gray-100 h-screen">
+    <Card>
+      <Card.Body removeSpacing={true}>
+        <DataTable data={[]} emptyState={
+          <div className="my-10 flex justify-center items-center flex-col gap-3">
+            <Icon type="warning" variant="regular" className="text-3xl"/>
+            <Typography variant="h6">No results found.</Typography>
+            <Typography variant="subtext" className="text-center">Try adjusting your search or filter to
+              find<br/> what you are looking for.</Typography>
+          </div>
+        }>
+          <DataTable.Column header="ID" accessor="id"/>
+          <DataTable.Column header="Name" accessor="name" title="name"/>
+        </DataTable>
+      </Card.Body>
+    </Card>
+  </div>
 );
 
 export const WithFooter = () => (
@@ -939,6 +959,7 @@ const HideControls = {
 KitchenSink.argTypes = HideControls;
 EmptyKitchenSink.argTypes = HideControls;
 Simple.argTypes = HideControls;
+WithEmptyState.argTypes = HideControls;
 WithFooter.argTypes = HideControls;
 WithFooterUsingLocalSummary.argTypes = HideControls;
 WithClickableRows.argTypes = HideControls;

@@ -121,6 +121,11 @@ export type DataTableProps<T extends object> = {
    * Custom additional class name for the main container.
    */
   className?: string;
+
+  /**
+   * Content to be displayed when the dataset is empty.
+   */
+  emptyState?: React.ReactNode;
 } & DataTableTokensProps;
 
 type DataTableTokensProps = {
@@ -620,7 +625,11 @@ function DataTable<T extends object>({
               </thead>
             )}
             <tbody {...getTableBodyProps()}>
-              {rows.map((row, rowKey) => {
+            {props.emptyState && !data.length ?
+              <tr>
+                <td colSpan={visibleColumns.length}>{props.emptyState}</td>
+              </tr> :
+              rows.map((row, rowKey) => {
                 prepareRow(row);
 
                 const primaryCells = _.slice(row.cells, 0, columnChildrenSize);
