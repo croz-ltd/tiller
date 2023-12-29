@@ -85,18 +85,25 @@ export default function Toggle({
     { [tokens.gray]: !checked },
     { [tokens.disabled]: disabled },
   );
+
   const toggleClassName = cx(
     tokens.toggle,
     { "translate-x-5": checked },
     { "translate-x-0": !checked },
     { [tokens.disabled]: disabled },
   );
+
+  const labelClassName = cx(tokens.label.fontSize, tokens.label.color, tokens.label.padding, {
+    [tokens.disabled]: disabled,
+  });
+
   const iconClassName = cx(tokens.icon.master, tokens.icon.margin);
 
   const finalCheckedIcon = useIcon("completed", checkedIcon, {
     className: iconClassName,
     size: tokens.icon.size,
   });
+
   const finalUncheckedIcon = useIcon("dismiss", uncheckedIcon, {
     className: iconClassName,
     size: tokens.icon.size,
@@ -106,11 +113,11 @@ export default function Toggle({
     <div className={divClassName}>
       <Field {...props}>
         <div className={tokens.master}>
-          {reverse && label}
+          {reverse && label && <label className={labelClassName}>{label}</label>}
           <span role="checkbox" aria-checked={checked} tabIndex={0} onClick={onClick} className={checkboxClassName}>
             <span className={toggleClassName}>{checked ? finalCheckedIcon : finalUncheckedIcon}</span>
           </span>
-          {!reverse && label}
+          {!reverse && label && <label className={labelClassName}>{label}</label>}
         </div>
       </Field>
     </div>
