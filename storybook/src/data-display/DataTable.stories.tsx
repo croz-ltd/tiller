@@ -348,7 +348,7 @@ export const Simple = () => (
 );
 
 export const WithEmptyState = () => (
-  <div className="p-8 bg-gray-100 h-screen">
+  <div className="p-8 bg-gray-100">
     <Card>
       <Card.Body removeSpacing={true}>
         <DataTable data={[]} emptyState={
