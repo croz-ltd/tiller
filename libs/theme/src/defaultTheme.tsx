@@ -1882,7 +1882,12 @@ const defaultComponentConfig = {
     base: "w-11 h-6 relative inline-flex rounded-full border-2 border-transparent shrink-0 cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring focus:ring-primary-light",
     backgroundColor: "bg-primary",
     gray: "bg-gray-200",
-    disabled: "bg-gray-100 pointer-events-none",
+    label: {
+      color: "text-body",
+      padding: "p-0",
+      fontSize: "text-label",
+    },
+    disabled: "opacity-70 pointer-events-none",
     toggle:
       "inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200 flex align-center",
     icon: {
