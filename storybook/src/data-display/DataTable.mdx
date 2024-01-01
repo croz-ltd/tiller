@@ -111,6 +111,45 @@ Here is an example utilizing the `useMemo` hook. This specific logic is applied 
 
 Now you have a DataTable component with sorting enabled for the specified column, and you can implement your own sorting logic based on your application requirements.
 
+### useSortableDataTable hook
+The `@tiller-ds/data-display` package provides a datatable sorting hook that allows you to implement custom sorting logic for your table columns. Here's an example of using the sorting hook in a DataTable:
+```tsx
+import { DataTable, useSortableDataTable } from '@tiller-ds/data-display';
+
+// Define column mapping for custom sorting
+const columnMapping = {
+  name: 'name',
+};
+
+const { dataTableHook, sortedData } = useSortableDataTable(smallData || [], columnMapping);
+
+<DataTable
+  data={sortedData}
+  hook={dataTableHook}
+  defaultSortBy={[
+    {
+      column: 'name',
+      sortDirection: 'ASCENDING',
+    },
+  ]}
+>
+  <DataTable.Column header="ID" accessor="id" canSort={false} />
+  <DataTable.Column header="Name" accessor="name" canSort={true} />
+</DataTable>;
+```
+
+The sorting hook, `useSortableDataTable`, enhances the DataTable component by providing a mechanism for sorting logic.
+It takes the table data and a column mapping as input and returns the necessary hook and sorted data.
+The column mapping is an object where keys represent column names and values represent their corresponding data keys.
+
+The hook returns an object with two properties:
+- `dataTableHook`: the hook that should be passed to the `hook` prop of the DataTable component
+- `sortedData`: the data array that has been sorted
+
+Ensure that the `canSort` prop is set to `true` for columns that should be sortable. <br/>
+Default sorting behavior can be configured using the `defaultSortBy` prop on the DataTable component. <br/>
+You can use this hook to implement sorting for specific columns according to your requirements.
+
 ## Best Practices
 
 Data Tables should:
