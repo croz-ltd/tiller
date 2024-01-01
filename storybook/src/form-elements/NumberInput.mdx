@@ -35,3 +35,18 @@ to the component. This way, the format will be inferred from these props instead
 ## Number Input Props:
 
 <ArgsTable of={NumberInput} />
+
+**Note**: The `NumberInput` component inherits properties from `NumberFormatProps` in addition to its own specific props. Refer to the [documentation of `NumberFormatProps`](https://s-yadav.github.io/react-number-format/docs/numeric_format) for details on the inherited properties.
+
+### Excluded Properties
+
+Some properties from `NumberFormatProps` are excluded in `NumberInput`:
+
+- allowedDecimalSeparators
+- any
+- customInput
+- onValueChange
+- step
+- type
+- max
+- min
