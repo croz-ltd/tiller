@@ -796,20 +796,30 @@ export const WithHorizontalScrollAndLastColumnFixed = () => (
   </DataTable>
 );
 
-export const WithDefaultAscendingSortByName = () => (
-  <DataTable
-    data={smallData}
-    defaultSortBy={[
+export const WithDefaultAscendingSortByName = () => {
+  const [dataTableState, dataTableHook] = useDataTable({
+    defaultSortBy: [
       {
         column: "name",
         sortDirection: "ASCENDING",
       },
-    ]}
-  >
-    <DataTable.Column header="ID" accessor="id" canSort={false} />
-    <DataTable.Column header="Name" accessor="name" canSort={true} />
-  </DataTable>
-);
+    ],
+  });
+
+  const sortedData = React.useMemo(() => {
+    return [...smallData].sort((a, b) => {
+      const result = a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      return dataTableState.sortBy[0]?.sortDirection === "DESCENDING" ? -result : result;
+    });
+  }, [dataTableState.sortBy]);
+
+  return (
+    <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy}>
+      <DataTable.Column header="ID" accessor="id" canSort={false}/>
+      <DataTable.Column header="Name" accessor="name" canSort={true}/>
+    </DataTable>
+  )
+};
 
 export const WithIconButtons = () => (
   <DataTable data={smallData}>

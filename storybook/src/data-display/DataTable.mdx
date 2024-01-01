@@ -63,6 +63,48 @@ const smallData = slice(allData, 0, 5);
   <Story id="component-library-data-display-datatable--simple" />
 </Canvas>
 
+## Custom Sorting in DataTable
+
+The `DataTable` component in `@tiller-ds` provides the flexibility to implement custom sorting for columns. <br/>
+The `useDataTable` hook is responsible for managing the state related to the DataTable, including the sorting information.<br/>
+The `useEffect` inside DataTable propagates internal sorting changes `(state.sortBy)` to the external world through the provided hook.
+
+This separation of concerns enables independent management of internal sorting state and ensures synchronization between internal and external representations. This design choice makes the DataTable component more flexible and adaptable to different use cases.
+
+To enable custom sorting, follow these steps:
+
+**1.** Ensure that the column for which you want to implement sorting has the `canSort` prop set to `true`:
+```tsx
+<DataTable.Column header="Name" accessor="name" canSort={true} />
+```
+
+**2.** Implement your custom sorting logic. You can use the `useEffect` hook to listen for changes in the sort state and trigger the sorting logic accordingly.
+Here is an example utilizing the `useMemo` hook. This specific logic is applied in the [With Default Ascending Sort By Name story](https://croz-ltd.github.io/tiller/?path=/story/component-library-data-display-datatable--with-default-ascending-sort-by-name).
+```ts
+  const [dataTableState, dataTableHook] = useDataTable({
+    defaultSortBy: [
+      {
+        column: "name",
+        sortDirection: "ASCENDING",
+      },
+    ],
+  });
+
+  const sortedData = React.useMemo(() => {
+    return [...smallData].sort((a, b) => {
+      const result = a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      return dataTableState.sortBy[0]?.sortDirection === "DESCENDING" ? -result : result;
+    });
+  }, [dataTableState.sortBy]);
+```
+
+**3.** To set a default sorting behavior, use the `defaultSortBy` prop in the DataTable component. The `defaultSortBy` prop is an array of SortInfo objects, specifying the initial sorting configuration for the DataTable.
+```tsx
+<DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy}>
+```
+
+Now you have a DataTable component with sorting enabled for the specified column, and you can implement your own sorting logic based on your application requirements.
+
 ## Best Practices
 
 Data Tables should:
