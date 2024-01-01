@@ -1,6 +1,6 @@
 import { ArgsTable, Stories } from "@storybook/addon-docs";
 
-import { NumberInputField } from "@tiller-ds/formik-elements";
+import { NumberInput } from "@tiller-ds/form-elements";
 
 # Number Input Field
 
@@ -37,4 +37,19 @@ to the component. This way, the format will be inferred from these props instead
 
 ## Number Input Field Props:
 
-<ArgsTable of={NumberInputField} />
+<ArgsTable of={NumberInput} include={["className", "decimalSeparator", "disabled", "help", "label", "name", "placeholder", "required", "thousandSeparator" ]} />
+
+**Note**: The `NumberInputField` component inherits properties from both `NumberInputProps` and `NumberFormatProps` in addition to its own specific props. Refer to the [documentation of `NumberFormatProps`](https://s-yadav.github.io/react-number-format/docs/numeric_format) for details on the inherited properties.
+
+### Excluded Properties
+
+Some properties from `NumberFormatProps` are excluded in `NumberInput`:
+
+- allowedDecimalSeparators
+- any
+- customInput
+- onValueChange
+- step
+- type
+- max
+- min
