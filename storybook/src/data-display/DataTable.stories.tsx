@@ -22,7 +22,7 @@ import { range, slice } from "lodash";
 import { withDesign } from "storybook-addon-designs";
 
 import { Button, Card, IconButton, Link, Pagination, Typography, useLocalPagination } from "@tiller-ds/core";
-import { DataTable, useDataTable, useLocalSummary } from "@tiller-ds/data-display";
+import { DataTable, useDataTable, useLocalSummary, useSortableDataTable } from "@tiller-ds/data-display";
 import { Icon } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
@@ -1235,6 +1235,31 @@ export const WithDefaultAscendingSortByName = (args) => {
   );
 };
 
+export const WithDefaultAscendingSortByNameUsingHook = () => {
+  // incl-code
+  const columnMapping = {
+    name: "name",
+  };
+
+  const { dataTableHook, sortedData } = useSortableDataTable(smallData || [], columnMapping);
+
+  return (
+    <DataTable
+      data={sortedData}
+      hook={dataTableHook}
+      defaultSortBy={[
+        {
+          column: "name",
+          sortDirection: "ASCENDING",
+        },
+      ]}
+    >
+      <DataTable.Column header="ID" accessor="id" canSort={false} />
+      <DataTable.Column header="Name" accessor="name" canSort={true} />
+    </DataTable>
+  )
+};
+
 export const WithIconButtons = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="ID" accessor="id" />
@@ -1440,6 +1465,7 @@ WithHorizontalScroll.argTypes = HideControls;
 WithHorizontalScrollAndFirstColumnFixed.argTypes = HideControls;
 WithHorizontalScrollAndLastColumnFixed.argTypes = HideControls;
 WithDefaultAscendingSortByName.argTypes = HideControls;
+WithDefaultAscendingSortByNameUsingHook.argTypes = HideControls;
 WithIconButtons.argTypes = HideControls;
 WithPrimaryAndSecondaryRows.argTypes = HideControls;
 WithPrimaryAndSecondaryRowsAndComplexValues.argTypes = HideControls;

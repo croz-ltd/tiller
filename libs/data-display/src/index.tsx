@@ -19,6 +19,8 @@ import { SortInfo as InternalSortInfo } from "./DataTable";
 
 export type SortInfo = InternalSortInfo;
 
+export { default as useSortableDataTable } from "./useSortableDataTable";
+
 export { default as Amount } from "./Amount";
 export { default as DataTable, useDataTable, useLocalSummary } from "./DataTable";
 export { default as DescriptionList } from "./DescriptionList";
