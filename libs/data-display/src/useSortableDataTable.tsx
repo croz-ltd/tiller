@@ -17,5 +17,5 @@ export default function useSortableDataTable<T, U extends keyof T>(initialData: 
     return sortInfo.sortDirection === "ASCENDING" ? sortedData : sortedData.reverse();
   };
 
-  return { sortedData: generateSortedData(), dataTableHook };
+  return { sortedData: generateSortedData(), dataTableState, dataTableHook };
 }
