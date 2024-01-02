@@ -92,8 +92,14 @@ Here is an example utilizing the `useMemo` hook. This specific logic is applied 
 
   const sortedData = React.useMemo(() => {
     return [...smallData].sort((a, b) => {
-      const result = a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
-      return dataTableState.sortBy[0]?.sortDirection === "DESCENDING" ? -result : result;
+      const sortInfo = dataTableState.sortBy[0] ?? { column: "", sortDirection: "ASCENDING" };
+
+      if (a[sortInfo.column] !== undefined && b[sortInfo.column] !== undefined) {
+        const result = a[sortInfo.column].localeCompare(b[sortInfo.column]);
+        return sortInfo.sortDirection === "DESCENDING" ? -result : result;
+      }
+
+      return 0;
     });
   }, [dataTableState.sortBy]);
 ```
