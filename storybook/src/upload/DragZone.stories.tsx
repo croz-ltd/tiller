@@ -24,7 +24,7 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { DragZone, FileList, useFileUpload, File } from "@tiller-ds/upload";
 
-import { useMockSender } from "../utils";
+import { beautifySource, useMockSender } from "../utils";
 
 import mdx from "./DragZone.mdx";
 
@@ -34,6 +34,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "DragZone"),
     },
     design: {
       type: "figma",
@@ -44,6 +46,8 @@ export default {
 };
 
 export const Simple = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -57,6 +61,8 @@ export const Simple = () => {
 };
 
 export const WithSubtitle = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -71,6 +77,8 @@ export const WithSubtitle = () => {
 };
 
 export const WithMultipleFiles = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -84,12 +92,15 @@ export const WithMultipleFiles = () => {
   );
 };
 
-const initialFiles: File[] = [
-  { id: "1", name: "test1.pdf", status: "finished" },
-  { id: "2", name: "test2.pdf", status: "finished" },
-];
+export const WithFileList = () => {
+  // incl-code
+  // files list
+  const initialFiles: File[] = [
+    { id: "1", name: "test1.pdf", status: "finished" },
+    { id: "2", name: "test2.pdf", status: "finished" },
+  ];
 
-export const AndFileList = () => {
+  // hook initialization
   const useFileUploadHook = useFileUpload(initialFiles);
 
   return (
@@ -122,6 +133,8 @@ export const AndFileList = () => {
 };
 
 export const WithLabel = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -136,6 +149,8 @@ export const WithLabel = () => {
 };
 
 export const WithHelp = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -150,6 +165,8 @@ export const WithHelp = () => {
 };
 
 export const WithError = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -164,6 +181,8 @@ export const WithError = () => {
 };
 
 export const Disabled = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (

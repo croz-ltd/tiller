@@ -140,7 +140,7 @@ export const Outlined = () => (
 
 export const AllColors = () => (
   <div className="flex flex-col space-y-2">
-    <div className="flex flex-row flex-wrap">
+    <div className="flex flex-row space-x-2 flex-wrap">
       <Badge color="primary" onClick={() => {}}>
         <Intl name="badgeContent" />
       </Badge>
@@ -166,7 +166,7 @@ export const AllColors = () => (
         <Intl name="badgeContent" />
       </Badge>
     </div>
-    <div className="flex flex-row flex-wrap">
+    <div className="flex flex-row space-x-2 flex-wrap">
       <Badge color="primary" variant="outlined" onClick={() => {}}>
         <Intl name="badgeContent" />
       </Badge>

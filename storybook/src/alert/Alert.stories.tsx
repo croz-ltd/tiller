@@ -23,7 +23,7 @@ import { Alert } from "@tiller-ds/alert";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 import mdx from "./Alert.mdx";
 
 export default {
@@ -32,9 +32,9 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
-        return getChangedTokensFromSource(source, "Alert");
+        return getChangedTokensFromSource(beautifySource(source, "Alert"), "Alert");
       },
     },
     design: {

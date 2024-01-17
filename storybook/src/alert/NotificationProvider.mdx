@@ -25,10 +25,10 @@ from the `Notification` component (**props are defined [here](/docs/component-li
 const notifications = useNotificationContext()
 
 notifications.push({
-  **title: "Example Notification",
+  title: "Example Notification",
   content: "Example notification description."
   icon: <Icon type="check-circle" size={6} className="text-success" />,
-  onDismiss: () => {},
+  onDismiss: () => {}, // custom dismiss function
 });
 ```
 

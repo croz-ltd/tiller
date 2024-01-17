@@ -1,4 +1,4 @@
-import { ArgsTable, Story, Canvas} from "@storybook/addon-docs";
+import { ArgsTable, Story, Canvas, Stories } from "@storybook/addon-docs";
 
 import { FileList } from "@tiller-ds/upload";
 import { ThemeTokens } from "../utils";
@@ -17,15 +17,18 @@ Basic usage is like this:
 You can also have actions on the `FileList`:
 
 <Canvas>
-    <Story id="component-library-upload-file-list--with-actions" />
+  <Story id="component-library-upload-file-list--with-actions" />
 </Canvas>
 
 Note that calling `helpers.deleteFile` only deletes file from the frontend list. If you want to remove it on the
 backend, you need to call appropriate endpoint yourself.
+
+<Stories includePrimary={true} />
 
 ## File List Props:
 
 <ArgsTable of={FileList} />
 
 ## File List Tokens:
-<ThemeTokens component="FileList"/>
+
+<ThemeTokens component="FileList" />

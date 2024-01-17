@@ -22,6 +22,7 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import mdx from "./MaskedInput.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/MaskedInput",
@@ -29,159 +30,289 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "MaskedInput"),
     },
   },
 };
 
 const name = "test";
-const mask = ["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/];
-const value = "(385)991-1346";
-const error = "Test error text";
-const addOn = "https://";
-const inlineLeadingAddOn = "$";
-const inlineTrailingAddOn = "USD";
 
-export const WithMask = () => <MaskedInput name={name} mask={mask} onChange={() => {}} />;
+export const WithMask = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithKeptCharsPositions = () => <MaskedInput name={name} mask={mask} keepCharPositions={true} />;
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
 
-export const WithMaskHidden = () => <MaskedInput name={name} mask={mask} showMask={false} />;
+export const WithKeptCharsPositions = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithCustomPlaceholder = () => (
-  <MaskedInput
-    name={name}
-    mask={[/[0-9]/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
-    placeholder={"MM/DD/YYYY"}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      keepCharPositions={true}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
 
-export const WithLabel = () => (
-  <MaskedInput name={name} label={<Intl name="label" />} mask={mask} onChange={() => {}} onBlur={() => {}} />
-);
+export const WithMaskHidden = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithValue = () => (
-  <MaskedInput
-    name={name}
-    label={<Intl name="label" />}
-    value={value}
-    mask={mask}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      showMask={false}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
 
-export const Disabled = () => (
-  <MaskedInput
-    name={name}
-    label={<Intl name="label" />}
-    disabled={true}
-    mask={mask}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithCustomPlaceholder = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithHelp = () => (
-  <MaskedInput
-    name={name}
-    label={<Intl name="label" />}
-    help={<Intl name="help" />}
-    mask={mask}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      mask={[/[0-9]/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      placeholder="MM/DD/YYYY"
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};
 
-export const WithError = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    error={error}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithLabel = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithLeadingIcon = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      label={<Intl name="label" />}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithTrailingIcon = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithValue = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("(385)991-1346");
 
-export const WithTrailingIconAndError = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-    error={error}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      label={<Intl name="label" />}
+      value={value}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithAddOn = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    addOn={addOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithInlineLeadingAddOn = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    inlineLeadingAddOn={inlineLeadingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      label={<Intl name="label" />}
+      disabled={true}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithInlineTrailingAddOn = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithHelp = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithInlineLeadingAndTrailingAddOn = () => (
-  <MaskedInput
-    name={name}
-    mask={mask}
-    label={<Intl name="label" />}
-    inlineLeadingAddOn={inlineLeadingAddOn}
-    inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <MaskedInput
+      name={name}
+      label={<Intl name="label" />}
+      help={<Intl name="help" />}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithError = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      error={<Intl name="error" />}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithLeadingIcon = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" />}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithTrailingIcon = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      inlineTrailingIcon={<Icon type="question" variant="fill" />}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithTrailingIconAndError = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      inlineTrailingIcon={<Icon type="question" variant="fill" />}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+      error={<Intl name="error" />}
+    />
+  );
+};
+
+export const WithAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      addOn="https://"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineLeadingAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      inlineLeadingAddOn="$"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineTrailingAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      inlineTrailingAddOn="USD"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineLeadingAndTrailingAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <MaskedInput
+      name={name}
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", " ", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+      inlineLeadingAddOn="$"
+      inlineTrailingAddOn="USD"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};

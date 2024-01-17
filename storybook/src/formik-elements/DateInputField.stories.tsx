@@ -31,21 +31,18 @@ import mdx from "./DateInputField.mdx";
 
 const translations = storybookDictionary.translations;
 const name = "date";
-const nameWithValue = "dateWithValue";
-const nameWithDateValue = "dateWithDateValue";
-const nameWithError = "dateWithError";
 
 const initialValues = {
-  [nameWithValue]: "2020-01-01",
-  [nameWithDateValue]: new Date(),
+  dateWithValue: "2020-01-01",
+  dateWithDateValue: new Date(),
 };
 
 const initialErrors = {
-  [nameWithError]: "Test error",
+  dateWithError: "Test error",
 };
 
 const initialTouched = {
-  [nameWithError]: true,
+  dateWithError: true,
 };
 
 export default {
@@ -55,7 +52,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source) => beautifySource(source),
+      transformSource: (source) => beautifySource(source, "DateInputField"),
     },
     design: {
       type: "figma",
@@ -81,23 +78,23 @@ export const WithValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithValue]: "2020-01-01",
+    dateWithValue: "2020-01-01",
   };
-  return <DateInputField name={nameWithValue} label={<Intl name="label" />} />;
+  return <DateInputField name="dateWithValue" label={<Intl name="label" />} />;
 };
 
 export const WithDateValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithDateValue]: new Date(),
+    dateWithDateValue: new Date(),
   };
-  return <DateInputField name={nameWithDateValue} label={<Intl name="label" />} />;
+  return <DateInputField name="dateWithDateValue" label={<Intl name="label" />} />;
 };
 
 export const Disabled = () => <DateInputField name={name} label={<Intl name="label" />} disabled={true} />;
 
-export const ReadOnly = () => <DateInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />;
+export const ReadOnly = () => <DateInputField name="dateWithValue" label={<Intl name="label" />} readOnly={true} />;
 
 export const WithoutClearButton = () => <DateInputField name={name} label={<Intl name="label" />} allowClear={false} />;
 
@@ -123,7 +120,7 @@ export const WithTooltip = () => (
   />
 );
 
-export const WithError = () => <DateInputField name={nameWithError} label={<Intl name="label" />} />;
+export const WithError = () => <DateInputField name="dateWithError" label={<Intl name="label" />} />;
 
 export const WithMinAndMaxDate = () => (
   <DateInputField
@@ -138,11 +135,11 @@ export const WithMinAndMaxDateAndValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithValue]: "2020-01-01",
+    dateWithValue: "2020-01-01",
   };
   return (
     <DateInputField
-      name={nameWithValue}
+      name="dateWithValue"
       label={<Intl name="label" />}
       minDate={new Date("2019-01-20")}
       maxDate={new Date("2020-02-25")}

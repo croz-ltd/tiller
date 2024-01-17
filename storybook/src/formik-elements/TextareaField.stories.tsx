@@ -18,7 +18,7 @@
 import * as React from "react";
 
 import { TextareaField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
@@ -49,7 +49,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "TextareaField"),
     },
   },
   decorators: [
@@ -68,7 +69,15 @@ export const WithLabel = () => <TextareaField name={name} label={<Intl name="lab
 
 export const WithoutLabel = () => <TextareaField name={name} />;
 
-export const WithValue = () => <TextareaField name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "test",
+  };
+
+  return <TextareaField name={nameWithValue} label={<Intl name="label" />} />;
+};
 
 export const Disabled = () => <TextareaField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 

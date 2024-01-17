@@ -18,13 +18,14 @@
 import * as React from "react";
 
 import { Tooltip } from "@tiller-ds/core";
-import { Textarea } from "@tiller-ds/form-elements";
+import { Input, Textarea } from "@tiller-ds/form-elements";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import storybookDictionary from "../intl/storybookDictionary";
 
 import mdx from "./Textarea.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/Textarea",
@@ -32,10 +33,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Textarea"),
     },
   },
 };
@@ -43,88 +42,164 @@ export default {
 const translations = storybookDictionary.translations;
 const name = "test";
 
-export const WithLabel = () => (
-  <Textarea name={name} value="" label={<Intl name="label" />} onChange={() => {}} onBlur={() => {}} />
-);
+export const WithLabel = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithoutLabel = () => <Textarea name={name} value="" onChange={() => {}} onBlur={() => {}} />;
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
 
-export const WithValue = (args, context) => (
-  <Textarea
-    name={name}
-    value={translations[context.globals.language]["value"]}
-    label={<Intl name="label" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithoutLabel = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const Disabled = (args, context) => (
-  <Textarea
-    name={name}
-    value={translations[context.globals.language]["value"]}
-    label={<Intl name="label" />}
-    disabled={true}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
 
-export const WithPlaceholder = (args, context) => (
-  <Textarea
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithValue = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("Test value");
 
-export const WithHelp = () => (
-  <Textarea
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    help={<Intl name="help" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
 
-export const WithTooltip = () => (
-  <Textarea
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" variant="regular" />
-      </Tooltip>
-    }
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("Test value");
 
-export const WithError = () => (
-  <Textarea
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    error={<Intl name="error" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      disabled={true}
+    />
+  );
+};
 
-export const WithCustomHeight = () => (
-  <Textarea
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    textareaClassName="h-40"
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithPlaceholder = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("Test value");
+
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      placeholder="Test placeholder"
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
+
+export const WithHelp = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      help={<Intl name="help" />}
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
+
+export const WithTooltip = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" variant="regular" />
+        </Tooltip>
+      }
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
+
+export const WithError = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      error={<Intl name="error" />}
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+    />
+  );
+};
+
+export const WithCustomHeight = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Textarea
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      textareaClassName="h-40"
+    />
+  );
+};

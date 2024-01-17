@@ -21,7 +21,7 @@ import { Tooltip } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { NumberInputField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import storybookDictionary from "../intl/storybookDictionary";
 
@@ -48,7 +48,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "NumberInputField"),
     },
   },
   decorators: [
@@ -67,13 +68,23 @@ const addOn = "https://";
 const inlineLeadingAddOn = "$";
 const inlineTrailingAddOn = "USD";
 
-export const WithLabel = () => <NumberInputField name={name} label={<Intl name="label" />} />;
+export const WithLabel = (args) => <NumberInputField name={name} label={<Intl name="label" />} />;
 
-export const WithoutLabel = () => <NumberInputField name={name} />;
+export const WithoutLabel = (args) => <NumberInputField name={name} />;
 
-export const WithValue = () => <NumberInputField name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "230000.45",
+  };
 
-export const Disabled = () => <NumberInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
+  return <NumberInputField name="nameWithValue" label={<Intl name="label" />} />;
+};
+
+export const Disabled = (args) => (
+  <NumberInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />
+);
 
 export const WithPlaceholder = (args, context) => (
   <NumberInputField
@@ -83,11 +94,11 @@ export const WithPlaceholder = (args, context) => (
   />
 );
 
-export const WithHelp = () => (
+export const WithHelp = (args) => (
   <NumberInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />
 );
 
-export const WithTooltip = () => (
+export const WithTooltip = (args) => (
   <NumberInputField
     name={name}
     label={<Intl name="label" />}
@@ -99,17 +110,19 @@ export const WithTooltip = () => (
   />
 );
 
-export const WithError = () => <NumberInputField name={nameWithError} label={<Intl name="label" />} />;
+export const WithError = (args) => <NumberInputField name={nameWithError} label={<Intl name="label" />} />;
 
-export const WithNegative = () => <NumberInputField name={name} allowNegative={true} />;
+export const WithNegative = (args) => <NumberInputField name={name} allowNegative={true} />;
 
-export const WithDecimalScale = () => <NumberInputField name={name} decimalScale={3} />;
+export const WithDecimalScale = (args) => <NumberInputField name={name} decimalScale={3} />;
 
-export const WithFixedDecimalScale = () => <NumberInputField name={name} decimalScale={3} fixedDecimalScale={true} />;
+export const WithFixedDecimalScale = (args) => (
+  <NumberInputField name={name} decimalScale={3} fixedDecimalScale={true} />
+);
 
-export const WithLeadingZeros = () => <NumberInputField name={name} allowLeadingZeros={true} />;
+export const WithLeadingZeros = (args) => <NumberInputField name={name} allowLeadingZeros={true} />;
 
-export const WithLeadingIcon = () => (
+export const WithLeadingIcon = (args) => (
   <NumberInputField
     name={name}
     label={<Intl name="label" />}
@@ -117,7 +130,7 @@ export const WithLeadingIcon = () => (
   />
 );
 
-export const WithTrailingIcon = () => (
+export const WithTrailingIcon = (args) => (
   <NumberInputField
     name={name}
     label={<Intl name="label" />}
@@ -125,7 +138,7 @@ export const WithTrailingIcon = () => (
   />
 );
 
-export const WithTrailingIconAndError = () => (
+export const WithTrailingIconAndError = (args) => (
   <NumberInputField
     name={nameWithError}
     label={<Intl name="label" />}
@@ -133,17 +146,17 @@ export const WithTrailingIconAndError = () => (
   />
 );
 
-export const WithWithAddOn = () => <NumberInputField name={name} label={<Intl name="label" />} addOn={addOn} />;
+export const WithWithAddOn = (args) => <NumberInputField name={name} label={<Intl name="label" />} addOn={addOn} />;
 
-export const WithInlineLeadingAddOn = () => (
+export const WithInlineLeadingAddOn = (args) => (
   <NumberInputField name={name} label={<Intl name="label" />} inlineLeadingAddOn={inlineLeadingAddOn} />
 );
 
-export const WithInlineTrailingAddOn = () => (
+export const WithInlineTrailingAddOn = (args) => (
   <NumberInputField name={name} label={<Intl name="label" />} inlineTrailingAddOn={inlineTrailingAddOn} />
 );
 
-export const WithInlineLeadingAndTrailingAddOn = () => (
+export const WithInlineLeadingAndTrailingAddOn = (args) => (
   <NumberInputField
     name={name}
     label={<Intl name="label" />}
@@ -152,4 +165,6 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
   />
 );
 
-export const WithoutIntlProvider = () => <NumberInputField name={name} decimalSeparator="," thousandSeparator="." />;
+export const WithoutIntlProvider = (args) => (
+  <NumberInputField name={name} decimalSeparator="," thousandSeparator="." />
+);

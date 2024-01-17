@@ -73,28 +73,28 @@ export default {
   ],
 };
 
-export const WithLabel = () => <DateTimeInputField name={name} label={<Intl name="label" />} />;
+export const WithLabel = (args) => <DateTimeInputField name={name} label={<Intl name="label" />} />;
 
-export const WithoutLabel = () => <DateTimeInputField name={name} />;
+export const WithoutLabel = (args) => <DateTimeInputField name={name} />;
 
 export const WithValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithValue]: "2020-11-20T21:21:28",
+    nameWithValue: "2020-11-20T21:21:28",
   };
-  return <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} />;
+  return <DateTimeInputField name="nameWithValue" label={<Intl name="label" />} />;
 };
 
-export const WithoutClearButton = () => <DateTimeInputField name={nameWithValue} allowClear={false} />;
+export const WithoutClearButton = (args) => <DateTimeInputField name={nameWithValue} allowClear={false} />;
 
-export const Disabled = () => <DateTimeInputField name={name} label={<Intl name="label" />} disabled={true} />;
+export const Disabled = (args) => <DateTimeInputField name={name} label={<Intl name="label" />} disabled={true} />;
 
-export const WithHelp = () => (
+export const WithHelp = (args) => (
   <DateTimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />
 );
 
-export const WithTooltip = () => (
+export const WithTooltip = (args) => (
   <DateTimeInputField
     name={name}
     label={<Intl name="label" />}
@@ -106,9 +106,11 @@ export const WithTooltip = () => (
   />
 );
 
-export const WithError = () => <DateTimeInputField name={nameWithError} label={<Intl name="label" />} />;
+export const WithError = (args) => <DateTimeInputField name={nameWithError} label={<Intl name="label" />} />;
 
-export const ReadOnly = () => <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />;
+export const ReadOnly = (args) => (
+  <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />
+);
 
 export const WithCustomPlaceholder = (args, context) => (
   <DateTimeInputField
@@ -118,7 +120,7 @@ export const WithCustomPlaceholder = (args, context) => (
   />
 );
 
-export const WithMinAndMaxDate = () => (
+export const WithMinAndMaxDate = (args) => (
   <DateTimeInputField
     name={name}
     label={<Intl name="label" />}
@@ -126,7 +128,7 @@ export const WithMinAndMaxDate = () => (
     maxDate={new Date("2021-01-10")}
   />
 );
-export const WithMinAndMaxDateAndValue = () => (
+export const WithMinAndMaxDateAndValue = (args) => (
   <DateTimeInputField
     name={nameWithValue}
     label={<Intl name="label" />}
@@ -135,17 +137,19 @@ export const WithMinAndMaxDateAndValue = () => (
   />
 );
 
-export const WithTwelveHours = () => <DateTimeInputField name={name} label={<Intl name="label" />} type="use12Hours" />;
+export const WithTwelveHours = (args) => (
+  <DateTimeInputField name={name} label={<Intl name="label" />} type="use12Hours" />
+);
 
 export const WithTwelveHoursAndValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithValue]: "2020-11-20T21:21:28",
+    nameWithValue: "2020-11-20T21:21:28",
   };
-  return <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} type="use12Hours" />;
+  return <DateTimeInputField name="nameWithValue" label={<Intl name="label" />} type="use12Hours" />;
 };
 
-export const WithHighlightedCurrentDate = () => (
+export const WithHighlightedCurrentDate = (args) => (
   <DateTimeInputField name={name} label={<Intl name="label" />} highlightToday={true} />
 );

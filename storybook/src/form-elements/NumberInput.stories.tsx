@@ -25,6 +25,7 @@ import { Intl } from "@tiller-ds/intl";
 import storybookDictionary from "../intl/storybookDictionary";
 
 import mdx from "./NumberInput.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/NumberInput",
@@ -32,98 +33,334 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "NumberInput"),
     },
   },
 };
 
-const translations = storybookDictionary.translations;
 const name = "test";
 const value = "2300000.123";
 const addOn = "https://";
 const inlineLeadingAddOn = "$";
 const inlineTrailingAddOn = "USD";
 
-export const WithLabel = () => <NumberInput name={name} label={<Intl name="label" />} />;
+export const WithLabel = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithoutLabel = () => <NumberInput name={name} />;
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithValue = () => <NumberInput name={name} value={value} label={<Intl name="label" />} />;
+export const WithoutLabel = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const Disabled = () => <NumberInput name={name} disabled={true} />;
+  return (
+    <NumberInput
+      name={name}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithPlaceholder = (args, context) => (
-  <NumberInput name={name} placeholder={translations[context.globals.language]["placeholder"]} />
-);
+export const WithValue = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>(2300000.123);
 
-export const WithHelp = () => <NumberInput name={name} help={<Intl name="help" />} />;
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithTooltip = () => (
-  <NumberInput
-    name={name}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" />
-      </Tooltip>
-    }
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithError = () => <NumberInput name={name} error={<Intl name="error" />} />;
+  return (
+    <NumberInput
+      name={name}
+      disabled={true}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithNegative = () => <NumberInput name={name} allowNegative={true} />;
+export const WithPlaceholder = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithDecimalScale = () => <NumberInput name={name} decimalScale={3} />;
+  return (
+    <NumberInput
+      name={name}
+      placeholder="Test placeholder"
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithFixedDecimalScale = () => <NumberInput name={name} decimalScale={3} fixedDecimalScale={true} />;
+export const WithHelp = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithLeadingZeros = () => <NumberInput name={name} allowLeadingZeros={true} />;
+  return (
+    <NumberInput
+      name={name}
+      help={<Intl name="help" />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithLeadingIcon = () => (
-  <NumberInput
-    name={name}
-    label={<Intl name="label" />}
-    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
-  />
-);
+export const WithTooltip = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithTrailingIcon = () => (
-  <NumberInput
-    name={name}
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
-  />
-);
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" />
+        </Tooltip>
+      }
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithTrailingIconAndError = () => (
-  <NumberInput
-    name={name}
-    error={<Intl name="error" />}
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" />}
-  />
-);
+export const WithError = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithWithAddOn = () => <NumberInput name={name} label={<Intl name="label" />} addOn={addOn} />;
+  return (
+    <NumberInput
+      name={name}
+      error={<Intl name="error" />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithInlineLeadingAddOn = () => (
-  <NumberInput name={name} label={<Intl name="label" />} inlineLeadingAddOn={inlineLeadingAddOn} />
-);
+export const WithNegative = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithInlineTrailingAddOn = () => (
-  <NumberInput name={name} label={<Intl name="label" />} inlineTrailingAddOn={inlineTrailingAddOn} />
-);
+  return (
+    <NumberInput
+      name={name}
+      allowNegative={true}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
 
-export const WithInlineLeadingAndTrailingAddOn = () => (
-  <NumberInput
-    name={name}
-    label={<Intl name="label" />}
-    inlineLeadingAddOn={inlineLeadingAddOn}
-    inlineTrailingAddOn={inlineTrailingAddOn}
-  />
-);
+export const WithDecimalScale = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
 
-export const WithoutIntlProvider = () => <NumberInput name={name} decimalSeparator="," thousandSeparator="." />;
+  return (
+    <NumberInput
+      name={name}
+      decimalScale={3}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithFixedDecimalScale = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+
+  return (
+    <NumberInput
+      name={name}
+      decimalScale={3}
+      fixedDecimalScale={true}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithLeadingZeros = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+
+  return (
+    <NumberInput
+      name={name}
+      allowLeadingZeros={true}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithLeadingIcon = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithTrailingIcon = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithTrailingIconAndError = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+
+  return (
+    <NumberInput
+      name={name}
+      error={<Intl name="error" />}
+      label={<Intl name="label" />}
+      inlineTrailingIcon={<Icon type="question" variant="fill" />}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithWithAddOn = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+  const addOn = "https://";
+
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      addOn={addOn}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithInlineLeadingAddOn = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+  const inlineLeadingAddOn = "$";
+
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      inlineLeadingAddOn={inlineLeadingAddOn}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithInlineTrailingAddOn = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+  const inlineTrailingAddOn = "USD";
+
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      inlineTrailingAddOn={inlineTrailingAddOn}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithInlineLeadingAndTrailingAddOn = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+  const inlineLeadingAddOn = "$";
+  const inlineTrailingAddOn = "USD";
+
+  return (
+    <NumberInput
+      name={name}
+      label={<Intl name="label" />}
+      inlineLeadingAddOn={inlineLeadingAddOn}
+      inlineTrailingAddOn={inlineTrailingAddOn}
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};
+
+export const WithoutIntlProvider = () => {
+  // incl-code
+  // state with stored number value
+  const [value, setValue] = React.useState<number | undefined>();
+
+  return (
+    <NumberInput
+      name={name}
+      decimalSeparator=","
+      thousandSeparator="."
+      value={value !== undefined ? String(value) : undefined}
+      onChange={(newValue) => setValue(newValue)}
+    />
+  );
+};

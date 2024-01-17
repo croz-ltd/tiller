@@ -26,7 +26,7 @@ import { Intl } from "@tiller-ds/intl";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
 import storybookDictionary from "../intl/storybookDictionary";
-import { FormikDecorator, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, FormikDecorator, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./InputField.mdx";
 
@@ -56,10 +56,9 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
-        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, "Input");
+        return getChangedTokensFromSource(beautifySource(source, "InputField"), "Input");
       },
     },
     design: {
@@ -175,19 +174,33 @@ InputFieldFactory.parameters = {
 
 InputFieldFactory.decorators = showFactoryDecorator();
 
-export const WithLabel = () => (
+export const WithLabel = (args) => (
   <InputField name={name} label={<Intl name="label" />} allowClear={true} required={true} />
 );
 
-export const WithoutLabel = () => <InputField name={name} />;
+export const WithoutLabel = (args) => <InputField name={name} />;
 
-export const WithValue = () => <InputField name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "test",
+  };
 
-export const WithTransformedValue = () => (
-  <InputField name={nameWithValue} label={<Intl name="label" />} valueTransform="uppercase" />
-);
+  return <InputField name="nameWithValue" label={<Intl name="label" />} />;
+};
 
-export const Disabled = () => <InputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
+export const WithTransformedValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "test",
+  };
+
+  return <InputField name="nameWithValue" label={<Intl name="label" />} valueTransform="uppercase" />;
+};
+
+export const Disabled = (args) => <InputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
 export const WithPlaceholder = (args, context) => (
   <InputField
@@ -197,9 +210,9 @@ export const WithPlaceholder = (args, context) => (
   />
 );
 
-export const WithHelp = () => <InputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
+export const WithHelp = (args) => <InputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
 
-export const WithTooltip = () => (
+export const WithTooltip = (args) => (
   <InputField
     name={name}
     label={<Intl name="label" />}
@@ -212,9 +225,9 @@ export const WithTooltip = () => (
   />
 );
 
-export const WithError = () => <InputField name={nameWithError} label={<Intl name="label" />} />;
+export const WithError = (args) => <InputField name={nameWithError} label={<Intl name="label" />} />;
 
-export const WithLeadingIcon = () => (
+export const WithLeadingIcon = (args) => (
   <InputField
     name={name}
     label={<Intl name="label" />}
@@ -222,7 +235,7 @@ export const WithLeadingIcon = () => (
   />
 );
 
-export const WithTrailingIcon = () => (
+export const WithTrailingIcon = (args) => (
   <InputField
     name={name}
     label={<Intl name="label" />}
@@ -230,7 +243,7 @@ export const WithTrailingIcon = () => (
   />
 );
 
-export const WithTrailingIconAndError = () => (
+export const WithTrailingIconAndError = (args) => (
   <InputField
     name={nameWithError}
     label={<Intl name="label" />}
@@ -238,17 +251,17 @@ export const WithTrailingIconAndError = () => (
   />
 );
 
-export const WithAddOn = () => <InputField name={name} label={<Intl name="label" />} addOn={addOn} />;
+export const WithAddOn = (args) => <InputField name={name} label={<Intl name="label" />} addOn={addOn} />;
 
-export const WithInlineLeadingAddOn = () => (
+export const WithInlineLeadingAddOn = (args) => (
   <InputField name={name} label={<Intl name="label" />} inlineLeadingAddOn={inlineLeadingAddOn} />
 );
 
-export const WithInlineTrailingAddOn = () => (
+export const WithInlineTrailingAddOn = (args) => (
   <InputField name={name} label={<Intl name="label" />} inlineTrailingAddOn={inlineTrailingAddOn} />
 );
 
-export const WithInlineLeadingAndTrailingAddOn = () => (
+export const WithInlineLeadingAndTrailingAddOn = (args) => (
   <InputField
     name={name}
     label={<Intl name="label" />}
@@ -257,7 +270,7 @@ export const WithInlineLeadingAndTrailingAddOn = () => (
   />
 );
 
-export const WithNumber = () => <InputField name={name} label={<Intl name="label" />} type="number" />;
+export const WithNumber = (args) => <InputField name={name} label={<Intl name="label" />} type="number" />;
 
 const HideControls = {
   name: { control: { disable: true } },

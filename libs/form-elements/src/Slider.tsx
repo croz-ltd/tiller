@@ -84,6 +84,11 @@ export type SliderProps = {
    * Custom additional styling applied to the component.
    */
   className?: string | string[];
+
+  /**
+   * Custom styling for marker(s).
+   */
+  markerClassName?: string | string[];
 } & SliderTokens;
 
 type SliderTokens = {
@@ -111,7 +116,7 @@ function useSliderEvents(
   from: number,
   to: number,
   step: number,
-  onChange?: (value: number) => void
+  onChange?: (value: number) => void,
 ) {
   const [active, setActive] = React.useState(false);
 
@@ -171,7 +176,7 @@ export default function Slider({ from, to, step, value, getOptionLabel, onChange
       tokens.Marker.master,
       tokens.Marker.backgroundColor,
       { [tokens.Marker.markerLabel]: markerLabel !== null },
-      { [tokens.Marker.markerNoLabel]: markerLabel === null }
+      { [tokens.Marker.markerNoLabel]: markerLabel === null },
     );
 
     const textClassName = cx("absolute transform -translate-x-1/2", tokens.Marker.text);
@@ -234,7 +239,7 @@ function SliderValues({
             valuePercentage={clamp(inner / (to - from), 0, 1)}
             className={markerClassName[stackedValues.length - key - 1]}
           />
-        )
+        ),
     );
 
     const markerValues = stackedValues.map(
@@ -245,7 +250,7 @@ function SliderValues({
             valuePercentage={clamp(inner / (to - from), 0, 1)}
             className={markerClassName[stackedValues.length - key - 1]}
           />
-        )
+        ),
     );
 
     return (

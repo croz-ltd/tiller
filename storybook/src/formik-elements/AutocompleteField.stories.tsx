@@ -73,8 +73,7 @@ export default {
       source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const tokensConfig = { Select: "selectTokens", Autocomplete: "autocompleteTokens" };
-        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(beautifySource(correctedSource), tokensConfig);
+        return getChangedTokensFromSource(beautifySource(source, "AutocompleteField"), tokensConfig);
       },
     },
     design: {
@@ -357,12 +356,8 @@ export const Disabled = () => (
   <AutocompleteField label={<Intl name="label" />} disabled={true} {...backendProps} name={nameWithValue} />
 );
 
-export const WithPlaceholder = (args, context) => (
-  <AutocompleteField
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-    {...backendProps}
-  />
+export const WithPlaceholder = () => (
+  <AutocompleteField label={<Intl name="label" />} placeholder="Test placeholder" {...backendProps} />
 );
 
 export const WithHelp = () => (
@@ -442,6 +437,7 @@ export const WithContainedTags = () => (
 
 export const WithAddingCustomTags = () => {
   // incl-code
+  // state with stored array of tags
   const [finalItems, setFinalItems] = React.useState<string[]>(simpleItems);
   return (
     <AutocompleteField
@@ -461,6 +457,7 @@ export const WithAddingCustomTags = () => {
 
 export const WithAddingCustomItems = () => {
   // incl-code
+  // state with stored array of items
   const [finalItems, setFinalItems] = React.useState<Item[]>(items);
   return (
     <AutocompleteField

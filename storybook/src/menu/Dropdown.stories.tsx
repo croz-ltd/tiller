@@ -22,6 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { Dropdown } from "@tiller-ds/menu";
 
 import mdx from "./Dropdown.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Menu/Dropdown",
@@ -31,10 +32,12 @@ export default {
       page: mdx,
       source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
-        return source
-          .replace(/DropdownButton/g, "Dropdown.Button")
-          .replace(/DropdownItem/g, "Dropdown.Item")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return beautifySource(
+          source
+            .replace(/DropdownButton/g, "Dropdown.Button")
+            .replace(/DropdownItem/g, "Dropdown.Item")
+            .replace(/DropdownMenu/g, "Dropdown.Menu"),
+        );
       },
     },
     design: {

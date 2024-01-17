@@ -22,7 +22,7 @@ import { PasswordInputField } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 import storybookDictionary from "../intl/storybookDictionary";
 
 import mdx from "./PasswordInputField.mdx";
@@ -50,7 +50,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "PasswordInputField"),
     },
   },
   decorators: [
@@ -63,13 +64,23 @@ export default {
   ],
 };
 
-export const WithLabel = () => <PasswordInputField name={name} label={<Intl name="label" />} />;
+export const WithLabel = (args) => <PasswordInputField name={name} label={<Intl name="label" />} />;
 
-export const WithoutLabel = () => <PasswordInputField name={name} />;
+export const WithoutLabel = (args) => <PasswordInputField name={name} />;
 
-export const WithValue = () => <PasswordInputField name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "Password123#",
+  };
 
-export const Disabled = () => <PasswordInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
+  return <PasswordInputField name="nameWithvalue" label={<Intl name="label" />} />;
+};
+
+export const Disabled = (args) => (
+  <PasswordInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />
+);
 
 export const WithPlaceholder = (args, context) => (
   <PasswordInputField
@@ -79,11 +90,11 @@ export const WithPlaceholder = (args, context) => (
   />
 );
 
-export const WithCustomCapsLockAlert = () => (
+export const WithCustomCapsLockAlert = (args) => (
   <PasswordInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />
 );
 
-export const WithTooltip = () => (
+export const WithTooltip = (args) => (
   <PasswordInputField
     name={name}
     label={<Intl name="label" />}
@@ -95,4 +106,4 @@ export const WithTooltip = () => (
   />
 );
 
-export const WithError = () => <PasswordInputField name={nameWithError} label={<Intl name="label" />} />;
+export const WithError = (args) => <PasswordInputField name={nameWithError} label={<Intl name="label" />} />;

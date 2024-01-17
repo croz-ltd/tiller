@@ -38,4 +38,4 @@ export default {
   },
 };
 
-export const Example = () => <LoadingIcon size={6} />;
+export const Example = (args) => <LoadingIcon size={6} />;

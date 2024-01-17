@@ -85,10 +85,10 @@ const withHistory = () => ({
   ],
 });
 
-export const Empty = () => <FetchDebugContent state={emptyState} />;
+export const Empty = (args) => <FetchDebugContent state={emptyState} />;
 
-export const WithWaiting = () => <FetchDebugContent state={withWaiting} />;
+export const WithWaiting = (args) => <FetchDebugContent state={withWaiting} />;
 
-export const WithActive = () => <FetchDebugContent state={withActive()} />;
+export const WithActive = (args) => <FetchDebugContent state={withActive()} />;
 
-export const WithHistory = () => <FetchDebugContent state={withHistory()} />;
+export const WithHistory = (args) => <FetchDebugContent state={withHistory()} />;

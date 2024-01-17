@@ -1,4 +1,4 @@
-import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+import { ArgsTable, Story, Canvas, Stories } from "@storybook/addon-docs";
 
 import { RadioGroup } from "@tiller-ds/form-elements";
 import { ThemeTokens } from "../utils";
@@ -14,34 +14,6 @@ Radio groups should:
 - Include at most 6 options. If there's a chance the Radio might later expand to include more than 6 options, use a Select instead.
 - List options in a rational order that makes logical sense.
 
-## With Help Text
-
-You can provide additional information about the group with the use of help text.
-
-Help text can appear after the group label but before the first option. Use the group label to explain the purpose of the group, not how to make the selection. For example, don't say "Select one of the following choices".
-
-<Canvas>
-  <Story id="component-library-form-elements-radiogroup--with-help" />
-</Canvas>
-
-## Vertical alignment
-
-Options are placed one below the other, in logical order, with appropriate spacing.
-
-If the label is longer than 3 words/20 characters, consider using this vertically stacked version.
-
-<Canvas>
-  <Story id="component-library-form-elements-radiogroup--with-vertical-alignment" />
-</Canvas>
-
-## Control
-
-You can control the radio with the `value` and `onChange` props:
-
-<Canvas>
-  <Story id="component-library-form-elements-radiogroup--with-value" />
-</Canvas>
-
 ## Best practices
 
 - Avoid nesting radio buttons within other radio buttons.
@@ -49,17 +21,7 @@ You can control the radio with the `value` and `onChange` props:
 - Use the same name attribute on all radio buttons in the group. This ensures that if there is more than one group in the form, each one stays associated with its own group.
 - If a radio group is “Optional”, users won't be able to unselect a selected radio. If you need to give users a way to unselect, consider using another type of form field.
 
-<Canvas>
-  <Story id="component-library-form-elements-radiogroup--simple" />
-</Canvas>
-
-<Canvas>
-  <Story id="component-library-form-elements-radiogroup--with-error" />
-</Canvas>
-
-<Canvas>
-  <Story id="component-library-form-elements-radiogroup--with-disabled-items" />
-</Canvas>
+<Stories includePrimary={true} />
 
 ## RadioGroup Props:
 

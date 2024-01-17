@@ -21,7 +21,7 @@ import { withDesign } from "storybook-addon-designs";
 
 import { ToggleField } from "@tiller-ds/formik-elements";
 
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import mdx from "./ToggleField.mdx";
 
@@ -53,7 +53,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "ToggleField"),
     },
     design: {
       type: "figma",
@@ -71,7 +72,15 @@ export default {
   ],
 };
 
-export const WithValue = () => <ToggleField name={nameWithValue} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: true,
+  };
+
+  return <ToggleField name="nameWithValue" />;
+};
 
 export const WithoutValue = () => <ToggleField name={name} />;
 
@@ -81,12 +90,12 @@ export const WithHelp = () => <ToggleField name={nameWithValue} />;
 
 export const WithHint = () => <ToggleField name={nameWithValue} />;
 
-export const WithLabel = () => <ToggleField name={name} label={label} />;
+export const WithLabel = (args) => <ToggleField name={name} label={label} />;
 
-export const WithCheckedIcon = () => <ToggleField name={name} label={label} />;
+export const WithCheckedIcon = (args) => <ToggleField name={name} label={label} />;
 
-export const WithUncheckedIcon = () => <ToggleField name={name} label={label} />;
+export const WithUncheckedIcon = (args) => <ToggleField name={name} label={label} />;
 
-export const WithBothIcons = () => <ToggleField name={name} label={label} />;
+export const WithBothIcons = (args) => <ToggleField name={name} label={label} />;
 
-export const Disabled = () => <ToggleField name={name} label={label} disabled={true} />;
+export const Disabled = (args) => <ToggleField name={name} label={label} disabled={true} />;

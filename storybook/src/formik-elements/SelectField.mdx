@@ -73,13 +73,6 @@ export type Item = {
 ## Used Props
 
 ```ts
-const commonProps = {
-  ...complexProps,
-  getOptionValue: (item: Item) => item.username,
-};
-```
-
-```ts
 const complexProps = {
   name,
   options: items,
@@ -92,6 +85,13 @@ const complexProps = {
     </div>
   ),
   sort: (items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name)),
+};
+```
+
+```ts
+const commonProps = {
+  ...complexProps,
+  getOptionValue: (item: Item) => item.username,
 };
 ```
 

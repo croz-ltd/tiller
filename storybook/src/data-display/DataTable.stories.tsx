@@ -37,7 +37,6 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
           .replace(/DataTableCardHeaderTitle/g, "DataTable.CardHeader.Title")
@@ -51,7 +50,7 @@ export default {
           .replace(/DataTableExpander/g, "DataTable.Expander")
           .replace(/DataTableSelector/g, "DataTable.Selector")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return beautifySource(getChangedTokensFromSource(correctedSource, "DataTable"));
+        return beautifySource(getChangedTokensFromSource(correctedSource, "DataTable"), "DataTable");
       },
     },
     design: {
@@ -287,6 +286,8 @@ DataTableFactory.parameters = {
 DataTableFactory.decorators = showFactoryDecorator();
 
 export const KitchenSink = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(allData);
 
@@ -317,6 +318,8 @@ export const KitchenSink = () => {
 };
 
 export const EmptyKitchenSink = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination([]);
 
@@ -327,7 +330,20 @@ export const EmptyKitchenSink = () => {
           <DataTable.CardHeader.Title>Items</DataTable.CardHeader.Title>
         </DataTable.CardHeader>
         <Card.Body removeSpacing={true}>
-          <DataTable data={paginationState.pageData} hook={dataTableHook}>
+          <DataTable
+            data={paginationState.pageData}
+            hook={dataTableHook}
+            emptyState={
+              <div className="my-10 flex justify-center items-center flex-col gap-3">
+                <Icon type="warning" variant="regular" className="text-3xl" />
+                <Typography variant="h6">No results found.</Typography>
+                <Typography variant="subtext" className="text-center">
+                  Try adjusting your search or filter to find
+                  <br /> what you are looking for.
+                </Typography>
+              </div>
+            }
+          >
             <DataTable.Column header="ID" accessor="id" />
             <DataTable.Column header="Name" accessor="name" title="name" />
           </DataTable>
@@ -340,104 +356,193 @@ export const EmptyKitchenSink = () => {
   );
 };
 
-export const Simple = () => (
+export const Simple = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" accessor="name" />
   </DataTable>
 );
 
-export const WithEmptyState = () => (
-  <div className="p-8 bg-gray-100">
-    <Card>
-      <Card.Body removeSpacing={true}>
-        <DataTable data={[]} emptyState={
-          <div className="my-10 flex justify-center items-center flex-col gap-3">
-            <Icon type="warning" variant="regular" className="text-3xl"/>
-            <Typography variant="h6">No results found.</Typography>
-            <Typography variant="subtext" className="text-center">Try adjusting your search or filter to
-              find<br/> what you are looking for.</Typography>
-          </div>
-        }>
-          <DataTable.Column header="ID" accessor="id"/>
-          <DataTable.Column header="Name" accessor="name" title="name"/>
-        </DataTable>
-      </Card.Body>
-    </Card>
-  </div>
+export const WithEmptyState = (args) => (
+  <DataTable
+    data={[]}
+    emptyState={
+      <div className="my-10 flex justify-center items-center flex-col gap-3">
+        <Icon type="warning" variant="regular" className="text-3xl" />
+        <Typography variant="h6">No results found.</Typography>
+        <Typography variant="subtext" className="text-center">
+          Try adjusting your search or filter to find
+          <br /> what you are looking for.
+        </Typography>
+      </div>
+    }
+  >
+    <DataTable.Column header="ID" accessor="id" />
+    <DataTable.Column header="Name" accessor="name" title="name" />
+  </DataTable>
 );
 
-export const WithFooter = () => (
+export const WithFooter = (args) => (
   <DataTable data={smallData} showFooter={true}>
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" footer="This is a footer" accessor="name" />
   </DataTable>
 );
 
-export function WithFooterUsingLocalSummary() {
+export const WithFooterUsingLocalSummary = () => {
+  // incl-code
+  // data for the table
   const data = [
     { id: 1, name: "John", age: 15 },
     { id: 2, name: "Mark", age: 25 },
     { id: 1, name: "Bill", age: 20 },
   ];
-  const summary = useLocalSummary(data, [{ key: "age", operation: "average" }]);
+
+  // using the provided "useLocalSummary" hook...
+  // ...select 'age' column by accessor value and average all the values from that column
+  const summary = useLocalSummary(data, [
+    { key: "age", operation: "average" },
+    { key: "age", operation: "sum" },
+  ]);
 
   return (
     <DataTable data={data} showFooter={true}>
       <DataTable.Column header="ID" accessor="id" />
       <DataTable.Column header="Name" accessor="name" />
-      <DataTable.Column header="Age" footer={`Average: ${summary.age.average}`} accessor="age" align="right" />
-    </DataTable>
-  );
-}
-
-export const WithClickableRows = () => {
-  return (
-    <DataTable data={smallData} onDoubleClick={() => {}}>
-      <DataTable.Column header="ID" accessor="id" />
-      <DataTable.Column header="Name" accessor="name" />
+      <DataTable.Column
+        header="Age"
+        footer={`Average: ${summary.age.average}, Sum: ${summary.age.sum}`}
+        accessor="age"
+        align="right"
+      />
     </DataTable>
   );
 };
 
-export const WithoutHeader = () => (
+export const WithClickableRows = (args) => (
+  <DataTable data={smallData} onDoubleClick={() => {}}>
+    <DataTable.Column header="ID" accessor="id" />
+    <DataTable.Column header="Name" accessor="name" />
+  </DataTable>
+);
+
+export const WithoutHeader = (args) => (
   <DataTable data={smallData} showHeader={false}>
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" accessor="name" />
   </DataTable>
 );
 
-export const WithExpanderAtBeginning = () => (
+export const WithExpanderAtBeginning = (args) => (
   <DataTable data={smallData}>
-    <DataTable.Expander>{ExpandedItem}</DataTable.Expander>
+    <DataTable.Expander>
+      {(item: Item) => (
+        <span>
+          <b>Age: </b>
+          {item.age}
+        </span>
+      )}
+    </DataTable.Expander>
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" accessor="name" />
   </DataTable>
 );
 
-export const WithExpanderAtEnd = () => (
+export const WithExpanderAtEnd = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" accessor="name" />
-    <DataTable.Expander>{ExpandedItem}</DataTable.Expander>
+    <DataTable.Expander>
+      {(item: Item) => (
+        <span>
+          <b>Age: </b>
+          {item.age}
+        </span>
+      )}
+    </DataTable.Expander>
   </DataTable>
 );
 
-export const WithCustomExpander = () => (
+export const WithCustomExpander = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="ID" id="id">
       {(item: Item, index, row) => <Link onClick={() => row.toggleRowExpanded(!row.isExpanded)}>{item.id}</Link>}
     </DataTable.Column>
     <DataTable.Column header="Name" accessor="name" />
-    <DataTable.Expander>{ExpandedItem}</DataTable.Expander>
+    <DataTable.Expander>
+      {(item: Item) => (
+        <span>
+          <b>Age: </b>
+          {item.age}
+        </span>
+      )}
+    </DataTable.Expander>
   </DataTable>
 );
 
 export const WithSelectorAtBeginning = () => {
+  // incl-code
+  // data table hook initialization
   const [, dataTableHook] = useDataTable();
 
   return (
-    <DataTable data={smallData} hook={dataTableHook}>
+    <DataTable
+      data={[
+        {
+          id: 1,
+          name: "Emily",
+          surname: "Moore",
+          age: 12,
+          appliedFor: "Nurse",
+          jobDescription:
+            "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+          salary: {
+            annual: 60000,
+            bonus: 1000,
+          },
+        },
+        {
+          id: 2,
+          name: "Michael",
+          surname: "Williams",
+          age: 25,
+          appliedFor: "Teacher",
+          jobDescription:
+            "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+          salary: {
+            annual: 72000,
+            bonus: 1200,
+          },
+        },
+        {
+          id: 3,
+          name: "Sarah",
+          surname: "Brown",
+          age: 38,
+          appliedFor: "Software developer",
+          jobDescription:
+            "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+          salary: {
+            annual: 84000,
+            bonus: 1400,
+          },
+        },
+        {
+          id: 4,
+          name: "Matthew",
+          surname: "Davis",
+          age: 1,
+          appliedFor: "Lawyer",
+          jobDescription:
+            "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+          salary: {
+            annual: 96000,
+            bonus: 1600,
+          },
+        },
+      ]}
+      hook={dataTableHook}
+    >
       <DataTable.Selector />
       <DataTable.Column header="ID" accessor="id" />
       <DataTable.Column header="Name" accessor="name" />
@@ -446,10 +551,68 @@ export const WithSelectorAtBeginning = () => {
 };
 
 export const WithSelectorAtEnd = () => {
+  // incl-code
+  // data table hook initialization
   const [, dataTableHook] = useDataTable();
 
   return (
-    <DataTable data={smallData} hook={dataTableHook}>
+    <DataTable
+      data={[
+        {
+          id: 1,
+          name: "Emily",
+          surname: "Moore",
+          age: 12,
+          appliedFor: "Nurse",
+          jobDescription:
+            "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+          salary: {
+            annual: 60000,
+            bonus: 1000,
+          },
+        },
+        {
+          id: 2,
+          name: "Michael",
+          surname: "Williams",
+          age: 25,
+          appliedFor: "Teacher",
+          jobDescription:
+            "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+          salary: {
+            annual: 72000,
+            bonus: 1200,
+          },
+        },
+        {
+          id: 3,
+          name: "Sarah",
+          surname: "Brown",
+          age: 38,
+          appliedFor: "Software developer",
+          jobDescription:
+            "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+          salary: {
+            annual: 84000,
+            bonus: 1400,
+          },
+        },
+        {
+          id: 4,
+          name: "Matthew",
+          surname: "Davis",
+          age: 1,
+          appliedFor: "Lawyer",
+          jobDescription:
+            "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+          salary: {
+            annual: 96000,
+            bonus: 1600,
+          },
+        },
+      ]}
+      hook={dataTableHook}
+    >
       <DataTable.Column header="ID" accessor="id" />
       <DataTable.Column header="Name" accessor="name" />
       <DataTable.Selector />
@@ -458,6 +621,8 @@ export const WithSelectorAtEnd = () => {
 };
 
 export const WithConditionalSelectorAtEnd = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
 
   return (
@@ -470,7 +635,63 @@ export const WithConditionalSelectorAtEnd = () => {
           <Button>Execute</Button>
         </DataTable.CardHeader.Actions>
       </DataTable.CardHeader>
-      <DataTable data={smallData} hook={dataTableHook}>
+      <DataTable
+        data={[
+          {
+            id: 1,
+            name: "Emily",
+            surname: "Moore",
+            age: 12,
+            appliedFor: "Nurse",
+            jobDescription:
+              "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+            salary: {
+              annual: 60000,
+              bonus: 1000,
+            },
+          },
+          {
+            id: 2,
+            name: "Michael",
+            surname: "Williams",
+            age: 25,
+            appliedFor: "Teacher",
+            jobDescription:
+              "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+            salary: {
+              annual: 72000,
+              bonus: 1200,
+            },
+          },
+          {
+            id: 3,
+            name: "Sarah",
+            surname: "Brown",
+            age: 38,
+            appliedFor: "Software developer",
+            jobDescription:
+              "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+            salary: {
+              annual: 84000,
+              bonus: 1400,
+            },
+          },
+          {
+            id: 4,
+            name: "Matthew",
+            surname: "Davis",
+            age: 1,
+            appliedFor: "Lawyer",
+            jobDescription:
+              "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+            salary: {
+              annual: 96000,
+              bonus: 1600,
+            },
+          },
+        ]}
+        hook={dataTableHook}
+      >
         <DataTable.Column header="ID" accessor="id" />
         <DataTable.Column header="Name" accessor="name" />
         <DataTable.Selector predicate={(item: Item, index: number) => index % 2 === 1}>
@@ -484,6 +705,8 @@ export const WithConditionalSelectorAtEnd = () => {
 };
 
 export const WithSelectorAndActions = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(smallData);
 
@@ -501,7 +724,63 @@ export const WithSelectorAndActions = () => {
             <Button>Delete</Button>
           </DataTable.CardHeader.Actions>
         </DataTable.CardHeader>
-        <DataTable data={smallData} hook={dataTableHook}>
+        <DataTable
+          data={[
+            {
+              id: 1,
+              name: "Emily",
+              surname: "Moore",
+              age: 12,
+              appliedFor: "Nurse",
+              jobDescription:
+                "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+              salary: {
+                annual: 60000,
+                bonus: 1000,
+              },
+            },
+            {
+              id: 2,
+              name: "Michael",
+              surname: "Williams",
+              age: 25,
+              appliedFor: "Teacher",
+              jobDescription:
+                "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+              salary: {
+                annual: 72000,
+                bonus: 1200,
+              },
+            },
+            {
+              id: 3,
+              name: "Sarah",
+              surname: "Brown",
+              age: 38,
+              appliedFor: "Software developer",
+              jobDescription:
+                "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+              salary: {
+                annual: 84000,
+                bonus: 1400,
+              },
+            },
+            {
+              id: 4,
+              name: "Matthew",
+              surname: "Davis",
+              age: 1,
+              appliedFor: "Lawyer",
+              jobDescription:
+                "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+              salary: {
+                annual: 96000,
+                bonus: 1600,
+              },
+            },
+          ]}
+          hook={dataTableHook}
+        >
           <DataTable.Column header="ID" accessor="id" />
           <DataTable.Column header="Name" accessor="name" />
           <DataTable.Selector />
@@ -515,6 +794,8 @@ export const WithSelectorAndActions = () => {
 };
 
 export const WithSelectorAndDropdownActions = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(smallData);
 
@@ -531,7 +812,63 @@ export const WithSelectorAndDropdownActions = () => {
             </DropdownMenu>
           </DataTable.CardHeader.Actions>
         </DataTable.CardHeader>
-        <DataTable data={smallData} hook={dataTableHook}>
+        <DataTable
+          data={[
+            {
+              id: 1,
+              name: "Emily",
+              surname: "Moore",
+              age: 12,
+              appliedFor: "Nurse",
+              jobDescription:
+                "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+              salary: {
+                annual: 60000,
+                bonus: 1000,
+              },
+            },
+            {
+              id: 2,
+              name: "Michael",
+              surname: "Williams",
+              age: 25,
+              appliedFor: "Teacher",
+              jobDescription:
+                "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+              salary: {
+                annual: 72000,
+                bonus: 1200,
+              },
+            },
+            {
+              id: 3,
+              name: "Sarah",
+              surname: "Brown",
+              age: 38,
+              appliedFor: "Software developer",
+              jobDescription:
+                "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+              salary: {
+                annual: 84000,
+                bonus: 1400,
+              },
+            },
+            {
+              id: 4,
+              name: "Matthew",
+              surname: "Davis",
+              age: 1,
+              appliedFor: "Lawyer",
+              jobDescription:
+                "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+              salary: {
+                annual: 96000,
+                bonus: 1600,
+              },
+            },
+          ]}
+          hook={dataTableHook}
+        >
           <DataTable.Column header="ID" accessor="id" />
           <DataTable.Column header="Name" accessor="name" />
           <DataTable.Selector />
@@ -545,6 +882,8 @@ export const WithSelectorAndDropdownActions = () => {
 };
 
 export const WithSelectorAndActionsHidden = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(smallData);
   const hidden = dataTableState.selectedCount === 0;
@@ -563,7 +902,63 @@ export const WithSelectorAndActionsHidden = () => {
             <Button hidden={hidden}>Delete</Button>
           </DataTable.CardHeader.Actions>
         </DataTable.CardHeader>
-        <DataTable data={smallData} hook={dataTableHook}>
+        <DataTable
+          data={[
+            {
+              id: 1,
+              name: "Emily",
+              surname: "Moore",
+              age: 12,
+              appliedFor: "Nurse",
+              jobDescription:
+                "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+              salary: {
+                annual: 60000,
+                bonus: 1000,
+              },
+            },
+            {
+              id: 2,
+              name: "Michael",
+              surname: "Williams",
+              age: 25,
+              appliedFor: "Teacher",
+              jobDescription:
+                "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+              salary: {
+                annual: 72000,
+                bonus: 1200,
+              },
+            },
+            {
+              id: 3,
+              name: "Sarah",
+              surname: "Brown",
+              age: 38,
+              appliedFor: "Software developer",
+              jobDescription:
+                "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+              salary: {
+                annual: 84000,
+                bonus: 1400,
+              },
+            },
+            {
+              id: 4,
+              name: "Matthew",
+              surname: "Davis",
+              age: 1,
+              appliedFor: "Lawyer",
+              jobDescription:
+                "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+              salary: {
+                annual: 96000,
+                bonus: 1600,
+              },
+            },
+          ]}
+          hook={dataTableHook}
+        >
           <DataTable.Column header="ID" accessor="id" />
           <DataTable.Column header="Name" accessor="name" />
           <DataTable.Selector />
@@ -576,7 +971,7 @@ export const WithSelectorAndActionsHidden = () => {
   );
 };
 
-export const WithCustomComponent = () => (
+export const WithCustomComponent = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="Index" id="index">
       {(_, index) => <>{index}.</>}
@@ -589,7 +984,7 @@ export const WithCustomComponent = () => (
   </DataTable>
 );
 
-export const WithTextWrapping = () => (
+export const WithTextWrapping = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="Name-01" id="name-01" className="whitespace-normal">
       {(item: Item) => (
@@ -621,7 +1016,7 @@ export const WithTextWrapping = () => (
   </DataTable>
 );
 
-export const WithHorizontalScroll = () => (
+export const WithHorizontalScroll = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="Name-01" id="name-01" className="max-w-md">
       {(item: Item) => <>{item.name}</>}
@@ -686,7 +1081,7 @@ export const WithHorizontalScroll = () => (
   </DataTable>
 );
 
-export const WithHorizontalScrollAndFirstColumnFixed = () => (
+export const WithHorizontalScrollAndFirstColumnFixed = (args) => (
   <DataTable data={smallData} firstColumnFixed>
     <DataTable.Column header="Name-01" id="name-01" className="max-w-md">
       {(item: Item) => <>{item.name}</>}
@@ -751,7 +1146,7 @@ export const WithHorizontalScrollAndFirstColumnFixed = () => (
   </DataTable>
 );
 
-export const WithHorizontalScrollAndLastColumnFixed = () => (
+export const WithHorizontalScrollAndLastColumnFixed = (args) => (
   <DataTable data={smallData} lastColumnFixed>
     <DataTable.Column header="Name-01" id="name-01" className="max-w-md">
       {(item: Item) => <>{item.name}</>}
@@ -816,7 +1211,9 @@ export const WithHorizontalScrollAndLastColumnFixed = () => (
   </DataTable>
 );
 
-export const WithDefaultAscendingSortByName = () => {
+export const WithDefaultAscendingSortByName = (args) => {
+  // incl-code
+  // data table hook initialization with default sorting defined
   const [dataTableState, dataTableHook] = useDataTable({
     defaultSortBy: [
       {
@@ -826,6 +1223,7 @@ export const WithDefaultAscendingSortByName = () => {
     ],
   });
 
+  // custom sorting logic triggered when changing the sorting (asc/desc/none)
   const sortedData = React.useMemo(() => {
     return [...smallData].sort((a, b) => {
       const sortInfo = dataTableState.sortBy[0] ?? { column: "", sortDirection: "ASCENDING" };
@@ -841,13 +1239,13 @@ export const WithDefaultAscendingSortByName = () => {
 
   return (
     <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy}>
-      <DataTable.Column header="ID" accessor="id" canSort={false}/>
-      <DataTable.Column header="Name" accessor="name" canSort={true}/>
+      <DataTable.Column header="ID" accessor="id" canSort={false} />
+      <DataTable.Column header="Name" accessor="name" canSort={true} />
     </DataTable>
-  )
+  );
 };
 
-export const WithIconButtons = () => (
+export const WithIconButtons = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="ID" accessor="id" />
     <DataTable.Column header="Name" accessor="name" />
@@ -865,7 +1263,7 @@ export const WithIconButtons = () => (
   </DataTable>
 );
 
-export const WithPrimaryAndSecondaryRows = () => (
+export const WithPrimaryAndSecondaryRows = (args) => (
   <DataTable data={smallData}>
     <DataTable.PrimaryRow>
       <DataTable.Column header="ID" accessor="id" />
@@ -880,7 +1278,7 @@ export const WithPrimaryAndSecondaryRows = () => (
   </DataTable>
 );
 
-export const WithPrimaryAndSecondaryRowsAndComplexValues = () => (
+export const WithPrimaryAndSecondaryRowsAndComplexValues = (args) => (
   <DataTable data={smallData}>
     <DataTable.PrimaryRow>
       <DataTable.Column header="Index" id="index">
@@ -903,7 +1301,7 @@ export const WithPrimaryAndSecondaryRowsAndComplexValues = () => (
   </DataTable>
 );
 
-export const WithPrimaryAndSecondaryRowsAndColSpan = () => (
+export const WithPrimaryAndSecondaryRowsAndColSpan = (args) => (
   <DataTable data={smallData}>
     <DataTable.PrimaryRow>
       <DataTable.Column header="ID" accessor="id" />
@@ -920,14 +1318,14 @@ export const WithPrimaryAndSecondaryRowsAndColSpan = () => (
   </DataTable>
 );
 
-export const WithContentAlignedRight = () => (
+export const WithContentAlignedRight = (args) => (
   <DataTable data={smallData} alignHeader="right">
     <DataTable.Column header="ID" accessor="id" align="right" />
     <DataTable.Column header="Name" accessor="name" align="right" />
   </DataTable>
 );
 
-export const WithContentCentered = () => (
+export const WithContentCentered = (args) => (
   <DataTable data={smallData} alignHeader="center">
     <DataTable.Column header="ID" accessor="id" align="center" />
     <DataTable.Column header="Name" accessor="name" align="center" />
@@ -935,6 +1333,8 @@ export const WithContentCentered = () => (
 );
 
 export const WithRowClassName = () => {
+  // incl-code
+  // conditional coloring of the column based on the id
   const getRowClassName = (item: Item) => {
     if (item.id % 2 === 0) {
       return "bg-pink-200";
@@ -944,7 +1344,63 @@ export const WithRowClassName = () => {
   };
 
   return (
-    <DataTable data={smallData} getRowClassName={getRowClassName}>
+    <DataTable
+      data={[
+        {
+          id: 1,
+          name: "Emily",
+          surname: "Moore",
+          age: 12,
+          appliedFor: "Nurse",
+          jobDescription:
+            "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+          salary: {
+            annual: 60000,
+            bonus: 1000,
+          },
+        },
+        {
+          id: 2,
+          name: "Michael",
+          surname: "Williams",
+          age: 25,
+          appliedFor: "Teacher",
+          jobDescription:
+            "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+          salary: {
+            annual: 72000,
+            bonus: 1200,
+          },
+        },
+        {
+          id: 3,
+          name: "Sarah",
+          surname: "Brown",
+          age: 38,
+          appliedFor: "Software developer",
+          jobDescription:
+            "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+          salary: {
+            annual: 84000,
+            bonus: 1400,
+          },
+        },
+        {
+          id: 4,
+          name: "Matthew",
+          surname: "Davis",
+          age: 1,
+          appliedFor: "Lawyer",
+          jobDescription:
+            "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+          salary: {
+            annual: 96000,
+            bonus: 1600,
+          },
+        },
+      ]}
+      getRowClassName={getRowClassName}
+    >
       <DataTable.Column header="ID" accessor="id" />
       <DataTable.Column header="Name" accessor="name" />
     </DataTable>

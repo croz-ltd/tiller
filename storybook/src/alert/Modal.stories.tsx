@@ -26,6 +26,7 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import mdx from "./Modal.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Alert/Modal",
@@ -33,6 +34,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Modal"),
     },
     design: {
       type: "figma",
@@ -43,6 +46,8 @@ export default {
 };
 
 export const Simple = () => {
+  // incl-code
+  // hook initialization
   const modal = useModal();
 
   return (
@@ -69,6 +74,8 @@ export const Simple = () => {
 };
 
 export const WithState = () => {
+  // incl-code
+  // parametrized hook initialization
   const modal = useModal<number>();
 
   const onOpen = () => {
@@ -112,6 +119,8 @@ export const WithState = () => {
 };
 
 export const WithStateRenderProp = () => {
+  // incl-code
+  // parametrized hook initialization
   const modal = useModal<number>();
 
   const onOpen = () => {
@@ -160,6 +169,8 @@ export const WithStateRenderProp = () => {
 };
 
 export const WithoutIcon = () => {
+  // incl-code
+  // hook initialization
   const modal = useModal();
 
   return (
@@ -186,6 +197,8 @@ export const WithoutIcon = () => {
 };
 
 export const WithScrollbar = () => {
+  // incl-code
+  // hook initialization
   const modal = useModal();
 
   return (
@@ -204,7 +217,11 @@ export const WithScrollbar = () => {
           <DescriptionList.Item label="Salary expectation">$120,000</DescriptionList.Item>
           <DescriptionList.Item label="About">
             Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui
-            ipsum
+            ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
+            Excepteur qui ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa
+            consequat. Excepteur qui ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum
+            culpa consequat. Excepteur qui ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt
+            cillum culpa consequat. Excepteur qui ipsum
           </DescriptionList.Item>
         </DescriptionList>
         <Modal.Footer>

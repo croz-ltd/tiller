@@ -20,7 +20,7 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { RadioGroupField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import mdx from "./RadioGroupField.mdx";
 
@@ -57,12 +57,9 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source
-          .replace(/RadioGroupFieldItem/g, "RadioGroupField.Item")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) =>
+        beautifySource(source.replace(/RadioGroupFieldItem/g, "RadioGroupField.Item"), "RadioGroupField"),
     },
     design: {
       type: "figma",
@@ -80,7 +77,7 @@ export default {
   ],
 };
 
-export const Simple = () => (
+export const Simple = (args) => (
   <RadioGroupField name={name} label={label} className="flex space-x-4">
     <RadioGroupField.Item label={commentsLabel} value={commentsValue} />
     <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} />
@@ -89,17 +86,34 @@ export const Simple = () => (
 );
 
 export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "comments",
+  };
+
   return (
-    <RadioGroupField name={nameWithValue} label={label} help={help}>
-      <RadioGroupField.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-      <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
-      <RadioGroupField.Item label={offersLabel} value={offersValue} help={offersHelp} />
-      <p>initialValue inside formik is set to "comments"</p>
+    <RadioGroupField name="nameWithValue" label="By Email">
+      <RadioGroupField.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <RadioGroupField.Item
+        label="Candidates"
+        value="candidates"
+        help="Get notified when a candidate applies for a job."
+      />
+      <RadioGroupField.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer."
+      />
     </RadioGroupField>
   );
 };
 
-export const WithHelp = () => (
+export const WithHelp = (args) => (
   <RadioGroupField name={name} label={label} help={help}>
     <RadioGroupField.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
@@ -107,7 +121,7 @@ export const WithHelp = () => (
   </RadioGroupField>
 );
 
-export const WithError = () => (
+export const WithError = (args) => (
   <RadioGroupField name={nameWithError} label={label} help={help}>
     <RadioGroupField.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
@@ -115,7 +129,7 @@ export const WithError = () => (
   </RadioGroupField>
 );
 
-export const WithDisabledItems = () => (
+export const WithDisabledItems = (args) => (
   <RadioGroupField name={name} label={label} help={help}>
     <RadioGroupField.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
     <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} disabled={true} />
@@ -123,7 +137,7 @@ export const WithDisabledItems = () => (
   </RadioGroupField>
 );
 
-export const WithVerticalAlignment = () => (
+export const WithVerticalAlignment = (args) => (
   <RadioGroupField name={name} label={label} vertical={true}>
     <RadioGroupField.Item label={commentsLabel} value={commentsValue} />
     <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} />
@@ -131,7 +145,7 @@ export const WithVerticalAlignment = () => (
   </RadioGroupField>
 );
 
-export const WithDifferentColor = () => (
+export const WithDifferentColor = (args) => (
   <RadioGroupField name={name} label={label}>
     <RadioGroupField.Item label={commentsLabel} value={commentsValue} color="secondary" />
     <RadioGroupField.Item label={candidatesLabel} value={candidatesValue} color="secondary" />

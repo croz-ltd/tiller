@@ -17,17 +17,16 @@
 
 import * as React from "react";
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { withDesign } from "storybook-addon-designs";
 
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { SidebarNavigation } from "@tiller-ds/menu";
 
-import storybookDictionary from "../intl/storybookDictionary";
-
 import logo from "./images/sample-logo.svg";
 import mdx from "./SidebarNavigation.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Menu/SidebarNavigation",
@@ -36,10 +35,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "code", excludeDecorators: true },
-      transformSource: (source) => {
-        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return correctedSource;
-      },
+      transformSource: (source) => beautifySource(source, "BrowserRouter"),
     },
     design: {
       type: "figma",
@@ -49,29 +45,19 @@ export default {
   },
 };
 
-const translations = storybookDictionary.translations;
-const messages = <Intl name="messages" />;
-const reports = <Intl name="reports" />;
-const dashboard = <Intl name="dashboard" />;
-const projects = <Intl name="projects" />;
-const calendar = <Intl name="calendar" />;
-const tasks = <Intl name="tasks" />;
-const reminders = <Intl name="reminders" />;
-const events = <Intl name="events" />;
-const team = <Intl name="team" />;
-const account = <Intl name="account" />;
-const support = <Intl name="support" />;
-const signOut = <Intl name="signOut" />;
-
-export const Default = (args, context) => {
+export const Default = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <SidebarNavigation
         logo={<img src={logo} alt="logo" />}
         bottomActions={
           <>
-            <SidebarNavigation.BottomAction to="/messages">{messages}</SidebarNavigation.BottomAction>
-            <SidebarNavigation.BottomAction to="/reports">{reports}</SidebarNavigation.BottomAction>
+            <SidebarNavigation.BottomAction to="/messages">
+              <Intl name="messages" />
+            </SidebarNavigation.BottomAction>
+            <SidebarNavigation.BottomAction to="/reports">
+              <Intl name="reports" />
+            </SidebarNavigation.BottomAction>
           </>
         }
         topRightAction={
@@ -84,48 +70,58 @@ export const Default = (args, context) => {
             buttonColor="primary"
             buttonVariant="text"
           >
-            <SidebarNavigation.Dropdown.Item to="/account">{account}</SidebarNavigation.Dropdown.Item>
+            <SidebarNavigation.Dropdown.Item to="/account">
+              <Intl name="account" />
+            </SidebarNavigation.Dropdown.Item>
             <SidebarNavigation.Dropdown.Item to="/support" color="default">
-              {support}
+              <Intl name="support" />
             </SidebarNavigation.Dropdown.Item>
             <SidebarNavigation.Dropdown.Item to="/logout" color="default">
-              {signOut}
+              <Intl name="signOut" />
             </SidebarNavigation.Dropdown.Item>
           </SidebarNavigation.Dropdown>
         }
       >
-        <SidebarNavigation.Item to="/dashboard">{dashboard}</SidebarNavigation.Item>
-        <SidebarNavigation.Item isExpandable={true} title={translations[context.globals.language]["planning"]}>
+        <SidebarNavigation.Item to="/dashboard">
+          <Intl name="dashboard" />
+        </SidebarNavigation.Item>
+        <SidebarNavigation.Item isExpandable={true} title="Planning">
           <SidebarNavigation.SubItem to="/tasks" icon={<Icon type="clipboard" />}>
-            {tasks}
+            <Intl name="tasks" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/reminders" icon={<Icon type="bell" />}>
-            {reminders}
+            <Intl name="reminders" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/events" icon={<Icon type="money" />}>
-            {events}
+            <Intl name="events" />
           </SidebarNavigation.SubItem>
         </SidebarNavigation.Item>
-        <SidebarNavigation.Item to="/projects">{projects}</SidebarNavigation.Item>
-        <SidebarNavigation.Item to="/calendar">{calendar}</SidebarNavigation.Item>
-        <SidebarNavigation.Item to="/reports">{reports}</SidebarNavigation.Item>
+        <SidebarNavigation.Item to="/projects">
+          <Intl name="projects" />
+        </SidebarNavigation.Item>
+        <SidebarNavigation.Item to="/calendar">
+          <Intl name="calendar" />
+        </SidebarNavigation.Item>
+        <SidebarNavigation.Item to="/reports">
+          <Intl name="reports" />
+        </SidebarNavigation.Item>
       </SidebarNavigation>
-    </Router>
+    </BrowserRouter>
   );
 };
 
-export const Dark = (args, context) => {
+export const Dark = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <SidebarNavigation
         logo={<img src={logo} alt="logo" />}
         bottomActions={
           <>
             <SidebarNavigation.BottomAction to="/messages" color="dark">
-              {messages}
+              <Intl name="messages" />
             </SidebarNavigation.BottomAction>
             <SidebarNavigation.BottomAction to="/reports" color="dark">
-              {reports}
+              <Intl name="reports" />
             </SidebarNavigation.BottomAction>
           </>
         }
@@ -140,62 +136,58 @@ export const Dark = (args, context) => {
             buttonVariant="text"
           >
             <SidebarNavigation.Dropdown.Item to="/account" color="dark">
-              {account}
+              <Intl name="account" />
             </SidebarNavigation.Dropdown.Item>
             <SidebarNavigation.Dropdown.Item to="/support" color="dark">
-              {support}
+              <Intl name="support" />
             </SidebarNavigation.Dropdown.Item>
             <SidebarNavigation.Dropdown.Item to="/logout" color="dark">
-              {signOut}
+              <Intl name="signOut" />
             </SidebarNavigation.Dropdown.Item>
           </SidebarNavigation.Dropdown>
         }
         color="dark"
       >
         <SidebarNavigation.Item to="/dashboard" color="dark">
-          Dashboard
+          <Intl name="dashboard" />
         </SidebarNavigation.Item>
-        <SidebarNavigation.Item
-          isExpandable={true}
-          title={translations[context.globals.language]["planning"]}
-          color="dark"
-        >
+        <SidebarNavigation.Item isExpandable={true} title="Planning" color="dark">
           <SidebarNavigation.SubItem to="/tasks" icon={<Icon type="clipboard" className="text-white" />} color="dark">
-            {tasks}
+            <Intl name="tasks" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/reminders" icon={<Icon type="bell" className="text-white" />} color="dark">
-            {reminders}
+            <Intl name="reminders" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/events" icon={<Icon type="money" className="text-white" />} color="dark">
-            {events}
+            <Intl name="events" />
           </SidebarNavigation.SubItem>
         </SidebarNavigation.Item>
         <SidebarNavigation.Item to="/projects" color="dark">
-          {projects}
+          <Intl name="projects" />
         </SidebarNavigation.Item>
         <SidebarNavigation.Item to="/calendar" color="dark">
-          {calendar}
+          <Intl name="calendar" />
         </SidebarNavigation.Item>
         <SidebarNavigation.Item to="/reports" color="dark">
-          {reports}
+          <Intl name="reports" />
         </SidebarNavigation.Item>
       </SidebarNavigation>
-    </Router>
+    </BrowserRouter>
   );
 };
 
-export const Light = (args, context) => {
+export const Light = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <SidebarNavigation
         logo={<img src={logo} alt="logo" />}
         bottomActions={
           <>
             <SidebarNavigation.BottomAction to="/messages" color="light">
-              {messages}
+              <Intl name="messages" />
             </SidebarNavigation.BottomAction>
             <SidebarNavigation.BottomAction to="/reports" color="light">
-              {reports}
+              <Intl name="reports" />
             </SidebarNavigation.BottomAction>
           </>
         }
@@ -211,87 +203,95 @@ export const Light = (args, context) => {
             buttonVariant="text"
           >
             <SidebarNavigation.Dropdown.Item to="/account" color="light">
-              {account}
+              <Intl name="account" />
             </SidebarNavigation.Dropdown.Item>
             <SidebarNavigation.Dropdown.Item to="/support" color="light">
-              {support}
+              <Intl name="support" />
             </SidebarNavigation.Dropdown.Item>
             <SidebarNavigation.Dropdown.Item to="/logout" color="light">
-              {signOut}
+              <Intl name="signOut" />
             </SidebarNavigation.Dropdown.Item>
           </SidebarNavigation.Dropdown>
         }
         color="light"
       >
         <SidebarNavigation.Item to="/dashboard" color="light">
-          {dashboard}
+          <Intl name="dashboard" />
         </SidebarNavigation.Item>
-        <SidebarNavigation.Item
-          isExpandable={true}
-          title={translations[context.globals.language]["planning"]}
-          color="light"
-        >
+        <SidebarNavigation.Item isExpandable={true} title="Planning" color="light">
           <SidebarNavigation.SubItem
             to="/tasks"
             icon={<Icon type="clipboard" className="text-gray-500" />}
             color="light"
           >
-            {tasks}
+            <Intl name="tasks" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem
             to="/reminders"
             icon={<Icon type="bell" className="text-gray-500" />}
             color="light"
           >
-            {reminders}
+            <Intl name="reminders" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/events" icon={<Icon type="money" className="text-gray-500" />} color="light">
-            {events}
+            <Intl name="events" />
           </SidebarNavigation.SubItem>
         </SidebarNavigation.Item>
         <SidebarNavigation.Item to="/projects" color="light">
-          {projects}
+          <Intl name="projects" />
         </SidebarNavigation.Item>
         <SidebarNavigation.Item to="/calendar" color="light">
-          {calendar}
+          <Intl name="calendar" />
         </SidebarNavigation.Item>
         <SidebarNavigation.Item to="/reports" color="light">
-          {reports}
+          <Intl name="reports" />
         </SidebarNavigation.Item>
       </SidebarNavigation>
-    </Router>
+    </BrowserRouter>
   );
 };
 
-export const WithoutTopRightAction = (args, context) => {
+export const WithoutTopRightAction = () => {
   return (
-    <Router>
+    <BrowserRouter>
       <SidebarNavigation
         logo={<img src={logo} alt="logo" />}
         bottomActions={
           <>
-            <SidebarNavigation.BottomAction to="/messages">{messages}</SidebarNavigation.BottomAction>
-            <SidebarNavigation.BottomAction to="/reports">{reports}</SidebarNavigation.BottomAction>
+            <SidebarNavigation.BottomAction to="/messages">
+              <Intl name="messages" />
+            </SidebarNavigation.BottomAction>
+            <SidebarNavigation.BottomAction to="/reports">
+              <Intl name="reports" />
+            </SidebarNavigation.BottomAction>
           </>
         }
       >
-        <SidebarNavigation.Item to="/dashboard">{dashboard}</SidebarNavigation.Item>
-        <SidebarNavigation.Item isExpandable={true} title={translations[context.globals.language]["planning"]}>
+        <SidebarNavigation.Item to="/dashboard">
+          <Intl name="dashboard" />
+        </SidebarNavigation.Item>
+        <SidebarNavigation.Item isExpandable={true} title="Planning">
           <SidebarNavigation.SubItem to="/tasks" icon={<Icon type="clipboard" />}>
-            {tasks}
+            <Intl name="tasks" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/reminders" icon={<Icon type="bell" />}>
-            {reminders}
+            <Intl name="reminders" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/events" icon={<Icon type="money" />}>
-            {events}
+            <Intl name="events" />
           </SidebarNavigation.SubItem>
         </SidebarNavigation.Item>
-        <SidebarNavigation.Item to="/projects">{projects}</SidebarNavigation.Item>
-        <SidebarNavigation.Item to="/calendar">{calendar}</SidebarNavigation.Item>
-        <SidebarNavigation.Item to="/reports">{reports}</SidebarNavigation.Item>
+        <SidebarNavigation.Item to="/projects">
+          <Intl name="projects" />
+        </SidebarNavigation.Item>
+        <SidebarNavigation.Item to="/calendar">
+          <Intl name="calendar" />
+        </SidebarNavigation.Item>
+        <SidebarNavigation.Item to="/reports">
+          <Intl name="reports" />
+        </SidebarNavigation.Item>
       </SidebarNavigation>
-    </Router>
+    </BrowserRouter>
   );
 };
 

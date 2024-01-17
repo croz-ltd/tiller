@@ -22,15 +22,16 @@ import { withDesign } from "storybook-addon-designs";
 import { PageResizer } from "@tiller-ds/selectors";
 import mdx from "./PageResizer.mdx";
 import { Pagination, useLocalPagination } from "@tiller-ds/core";
-import { items } from "../utils";
+import { beautifySource, items } from "../utils";
 
 export default {
   title: "Component Library/Selectors/PageResizer",
   component: PageResizer,
   parameters: {
     docs: {
-      source: { type: "code" },
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "PageResizer"),
     },
     design: {
       type: "figma",
@@ -53,6 +54,8 @@ export const Simple = () => (
 );
 
 export const WithItems = () => {
+  // incl-code
+  // state initialization
   const [pageSize, setPageSize] = React.useState(5);
 
   return (
@@ -71,6 +74,8 @@ export const WithItems = () => {
 };
 
 export const Custom = () => {
+  // incl-code
+  // state initialization
   const [pageSize, setPageSize] = React.useState(5);
 
   return (
@@ -93,7 +98,10 @@ export const Custom = () => {
 };
 
 export const WithPagination = () => {
+  // incl-code
+  // state initialization
   const [pageSize, setPageSize] = React.useState(5);
+  // pagination hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, pageSize);
 
   return (

@@ -23,17 +23,12 @@ import { withDesign } from "storybook-addon-designs";
 import { Alert } from "@tiller-ds/alert";
 import { Intl } from "@tiller-ds/intl";
 
-import {
-  Login,
-  ForgottenPassword,
-  EmailForm,
-  PasswordResetForm,
-  EmailValidationSchema,
-  PasswordValidationSchema,
-} from "@tiller-ds/patterns";
+import { Login, ForgottenPassword, EmailForm, PasswordResetForm } from "@tiller-ds/patterns";
 
 import logo from "../../../libs/patterns/src/img/logo.svg";
 import mdx from "./Login.mdx";
+import { beautifySource } from "../utils";
+import * as Yup from "yup";
 
 export default {
   title: "Patterns/Login",
@@ -41,6 +36,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source),
     },
     design: {
       type: "figma",
@@ -57,6 +54,8 @@ const title = "Welcome!";
 const buttonText = "Log Me In";
 
 export const Simple = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     username: "",
     password: "",
@@ -70,6 +69,8 @@ export const Simple = () => {
 };
 
 export const Basic = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     username: "",
     password: "",
@@ -87,6 +88,8 @@ export const Basic = () => {
 };
 
 export const WithEmail = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     username: "",
     password: "",
@@ -100,6 +103,8 @@ export const WithEmail = () => {
 };
 
 export const WithCustomText = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     username: "",
     password: "",
@@ -124,6 +129,8 @@ export const WithCustomText = () => {
 };
 
 export const WithLogo = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     username: "",
     password: "",
@@ -141,6 +148,8 @@ export const WithLogo = () => {
 };
 
 export const ForgotPassword = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     email: "",
   };
@@ -148,6 +157,13 @@ export const ForgotPassword = () => {
   const handleSubmit = (values) => {
     // alert("data", values);
   };
+
+  const EmailValidationSchema = Yup.object({
+    email: Yup.string()
+      .email("intl:login.validation.emailValidation.email.validity")
+      .max(255)
+      .required("intl:login.validation.emailValidation.email.required"),
+  });
 
   return (
     <BrowserRouter>
@@ -163,6 +179,8 @@ export const ForgotPassword = () => {
 };
 
 export const EmailConfirmation = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     email: "",
   };
@@ -170,6 +188,13 @@ export const EmailConfirmation = () => {
   const handleSubmit = (values) => {
     // alert("data", values);
   };
+
+  const EmailValidationSchema = Yup.object({
+    email: Yup.string()
+      .email("intl:login.validation.emailValidation.email.validity")
+      .max(255)
+      .required("intl:login.validation.emailValidation.email.required"),
+  });
 
   return (
     <BrowserRouter>
@@ -189,6 +214,8 @@ export const EmailConfirmation = () => {
 };
 
 export const ResetPassword = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     newPassword: "",
     repeatPassword: "",
@@ -198,10 +225,21 @@ export const ResetPassword = () => {
     // alert("data", values);
   };
 
+  const defaultPasswordValidationRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+
+  const PasswordValidationSchema = Yup.object({
+    newPassword: Yup.string()
+      .required("intl:login.validation.passwordValidation.newPassword.required")
+      .matches(defaultPasswordValidationRegex, "intl:login.validation.passwordValidation.newPassword.regex"),
+    repeatPassword: Yup.string()
+      .required("intl:login.validation.passwordValidation.repeatPassword.required")
+      .oneOf([Yup.ref("newPassword"), null], "intl:login.validation.passwordValidation.repeatPassword.oneOf"),
+  });
+
   return (
     <BrowserRouter>
       <ForgottenPassword
-        validationSchema={PasswordValidationSchema()}
+        validationSchema={PasswordValidationSchema}
         initialValues={initialValues}
         handleSubmit={handleSubmit}
       >
@@ -212,6 +250,8 @@ export const ResetPassword = () => {
 };
 
 export const SuccessPasswordChange = () => {
+  // incl-code
+  // initial form values
   const initialValues = {
     username: "",
     password: "",

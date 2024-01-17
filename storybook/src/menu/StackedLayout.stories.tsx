@@ -21,7 +21,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import { withDesign } from "storybook-addon-designs";
 
-import { useModal, Modal } from "@tiller-ds/alert";
+import { Modal, useModal } from "@tiller-ds/alert";
 import { Button, PageHeading, Placeholder } from "@tiller-ds/core";
 import { FormContainer } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
@@ -33,7 +33,7 @@ import { Simple } from "../data-display/DataTable.stories";
 import { Default } from "../data-display/DescriptionList.stories";
 import { SimpleType } from "../form-elements/FormLayout.stories";
 
-import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./StackedLayout.mdx";
 
@@ -43,7 +43,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
           .replace(/StackedLayoutHeading/g, "StackedLayout.Heading")
@@ -59,7 +59,7 @@ export default {
           .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
           .replace(/PageHeadingActions/g, "PageHeading.Actions")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, "StackedLayout");
+        return getChangedTokensFromSource(beautifySource(correctedSource), "StackedLayout");
       },
     },
     design: {
@@ -138,83 +138,6 @@ function getPageContent(pageContent: string) {
   return <Placeholder className="h-48" />;
 }
 
-const dashboardLink = "/dashboard";
-const teamLink = "/team";
-const projectsLink = "/projects";
-const project = "Project Nero";
-const calendarLink = "/calendar";
-
-const topNavigationContainer = (
-  <TopNavigation variant="contained">
-    <TopNavigation.Navigation>
-      <TopNavigation.Navigation.Item to={dashboardLink}>
-        <Intl name="dashboard" />
-      </TopNavigation.Navigation.Item>
-      <TopNavigation.Navigation.Item to={teamLink}>
-        <Intl name="team" />
-      </TopNavigation.Navigation.Item>
-      <TopNavigation.Navigation.Item to={projectsLink}>
-        <Intl name="projects" />
-      </TopNavigation.Navigation.Item>
-      <TopNavigation.Navigation.Item to={calendarLink}>
-        <Intl name="calendar" />
-      </TopNavigation.Navigation.Item>
-    </TopNavigation.Navigation>
-    <TopNavigation.Dropdown
-      title="User"
-      menuType="icon"
-      icon={<Icon type="user" className="text-white" />}
-      iconColor="default"
-      buttonColor="primary"
-      popupBackgroundColor="light"
-      buttonVariant="text"
-    >
-      <TopNavigation.Dropdown.Item to="/account" color="light">
-        <Intl name="account" />
-      </TopNavigation.Dropdown.Item>
-      <TopNavigation.Dropdown.Item to="/support" color="light">
-        <Intl name="support" />
-      </TopNavigation.Dropdown.Item>
-      <TopNavigation.Dropdown.Item to="/logout" color="light">
-        <Intl name="signOut" />
-      </TopNavigation.Dropdown.Item>
-    </TopNavigation.Dropdown>
-  </TopNavigation>
-);
-
-const PageHeadingContainer = ({ title, subtitle }: { title?: string; subtitle?: string }) => {
-  const modal = useModal();
-
-  return (
-    <PageHeading>
-      <PageHeading.Title>{title || project}</PageHeading.Title>
-      {subtitle && <PageHeading.Subtitle>{subtitle}</PageHeading.Subtitle>}
-      <PageHeading.Actions>
-        <Button variant="outlined">
-          <Intl name="edit" />
-        </Button>
-        <Button id="open-button" variant="filled" onClick={modal.onOpen}>
-          <Intl name="publish" />
-        </Button>
-        <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" className="text-white" />} />}>
-          <Modal.Content title={<Intl name="publish" />}>
-            <Intl name="publishConfirmation" />
-          </Modal.Content>
-
-          <Modal.Footer>
-            <Button variant="filled" onClick={modal.onClose}>
-              <Intl name="publish" />
-            </Button>
-            <Button variant="outlined" onClick={modal.onClose}>
-              <Intl name="cancel" />
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </PageHeading.Actions>
-    </PageHeading>
-  );
-};
-
 export const StackedLayoutFactory = ({
   pageTitle,
   pageSubtitle,
@@ -227,6 +150,46 @@ export const StackedLayoutFactory = ({
   containerVariant,
   isFixed,
 }) => {
+  // incl-code
+  // navigation handed over as a prop to StackedLayout
+  const topNavigationContainer = (
+    <TopNavigation variant="contained">
+      <TopNavigation.Navigation>
+        <TopNavigation.Navigation.Item to="/dashboard">
+          <Intl name="dashboard" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/team">
+          <Intl name="team" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/projects">
+          <Intl name="projects" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/calendar">
+          <Intl name="calendar" />
+        </TopNavigation.Navigation.Item>
+      </TopNavigation.Navigation>
+      <TopNavigation.Dropdown
+        title="User"
+        menuType="icon"
+        icon={<Icon type="user" className="text-white" />}
+        iconColor="default"
+        buttonColor="primary"
+        popupBackgroundColor="light"
+        buttonVariant="text"
+      >
+        <TopNavigation.Dropdown.Item to="/account" color="light">
+          <Intl name="account" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/support" color="light">
+          <Intl name="support" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/logout" color="light">
+          <Intl name="signOut" />
+        </TopNavigation.Dropdown.Item>
+      </TopNavigation.Dropdown>
+    </TopNavigation>
+  );
+
   return (
     <Router>
       <StackedLayout
@@ -283,45 +246,245 @@ StackedLayoutFactory.parameters = {
 
 StackedLayoutFactory.decorators = showFactoryDecorator();
 
-export const SimpleWithModal = () => (
-  <Router>
-    <StackedLayout navigation={topNavigationContainer} containerVariant="constrainedPadded">
-      <StackedLayout.Heading>
-        <PageHeadingContainer />
-      </StackedLayout.Heading>
-      <StackedLayout.Content>
-        <Placeholder className="h-48" />
-      </StackedLayout.Content>
-    </StackedLayout>
-  </Router>
-);
+export const SimpleWithModal = () => {
+  // incl-code
+  // navigation handed over as a prop to StackedLayout
+  const topNavigationContainer = (
+    <TopNavigation variant="contained">
+      <TopNavigation.Navigation>
+        <TopNavigation.Navigation.Item to="/dashboard">
+          <Intl name="dashboard" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/team">
+          <Intl name="team" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/projects">
+          <Intl name="projects" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/calendar">
+          <Intl name="calendar" />
+        </TopNavigation.Navigation.Item>
+      </TopNavigation.Navigation>
+      <TopNavigation.Dropdown
+        title="User"
+        menuType="icon"
+        icon={<Icon type="user" className="text-white" />}
+        iconColor="default"
+        buttonColor="primary"
+        popupBackgroundColor="light"
+        buttonVariant="text"
+      >
+        <TopNavigation.Dropdown.Item to="/account" color="light">
+          <Intl name="account" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/support" color="light">
+          <Intl name="support" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/logout" color="light">
+          <Intl name="signOut" />
+        </TopNavigation.Dropdown.Item>
+      </TopNavigation.Dropdown>
+    </TopNavigation>
+  );
+  const modal = useModal();
 
-export const WithContainerConfigWithModal = () => (
-  <Router>
-    <StackedLayout navigation={topNavigationContainer} containerVariant="max">
-      <StackedLayout.Heading>
-        <PageHeadingContainer />
-      </StackedLayout.Heading>
-      <StackedLayout.Content containerVariant="max">
-        <Placeholder className="h-48" />
-      </StackedLayout.Content>
-    </StackedLayout>
-  </Router>
-);
+  return (
+    <Router>
+      <StackedLayout navigation={topNavigationContainer} containerVariant="constrainedPadded">
+        <StackedLayout.Heading>
+          <PageHeading>
+            <PageHeading.Title>Project Nero</PageHeading.Title>
+            <PageHeading.Actions>
+              <Button variant="outlined">
+                <Intl name="edit" />
+              </Button>
+              <Button id="open-button" variant="filled" onClick={modal.onOpen}>
+                <Intl name="publish" />
+              </Button>
+              <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" className="text-white" />} />}>
+                <Modal.Content title={<Intl name="publish" />}>
+                  <Intl name="publishConfirmation" />
+                </Modal.Content>
 
-export const WithFixedHeadingWithModal = () => (
-  <Router>
-    <StackedLayout navigation={topNavigationContainer} containerVariant="constrainedPadded" isFixed={true}>
-      <StackedLayout.Heading>
-        <PageHeadingContainer />
-      </StackedLayout.Heading>
-      <StackedLayout.Content>
-        <Placeholder className="h-full w-full" />
-      </StackedLayout.Content>
-    </StackedLayout>
-  </Router>
-);
+                <Modal.Footer>
+                  <Button variant="filled" onClick={modal.onClose}>
+                    <Intl name="publish" />
+                  </Button>
+                  <Button variant="outlined" onClick={modal.onClose}>
+                    <Intl name="cancel" />
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </PageHeading.Actions>
+          </PageHeading>
+        </StackedLayout.Heading>
+        <StackedLayout.Content>
+          <Placeholder className="h-48" />
+        </StackedLayout.Content>
+      </StackedLayout>
+    </Router>
+  );
+};
 
+export const WithContainerConfigWithModal = () => {
+  // incl-code
+  // navigation handed over as a prop to StackedLayout
+  const topNavigationContainer = (
+    <TopNavigation variant="contained">
+      <TopNavigation.Navigation>
+        <TopNavigation.Navigation.Item to="/dashboard">
+          <Intl name="dashboard" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/team">
+          <Intl name="team" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/projects">
+          <Intl name="projects" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/calendar">
+          <Intl name="calendar" />
+        </TopNavigation.Navigation.Item>
+      </TopNavigation.Navigation>
+      <TopNavigation.Dropdown
+        title="User"
+        menuType="icon"
+        icon={<Icon type="user" className="text-white" />}
+        iconColor="default"
+        buttonColor="primary"
+        popupBackgroundColor="light"
+        buttonVariant="text"
+      >
+        <TopNavigation.Dropdown.Item to="/account" color="light">
+          <Intl name="account" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/support" color="light">
+          <Intl name="support" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/logout" color="light">
+          <Intl name="signOut" />
+        </TopNavigation.Dropdown.Item>
+      </TopNavigation.Dropdown>
+    </TopNavigation>
+  );
+  const modal = useModal();
+
+  return (
+    <Router>
+      <StackedLayout navigation={topNavigationContainer} containerVariant="max">
+        <StackedLayout.Heading>
+          <PageHeading>
+            <PageHeading.Title>Project Nero</PageHeading.Title>
+            <PageHeading.Actions>
+              <Button variant="outlined">
+                <Intl name="edit" />
+              </Button>
+              <Button id="open-button" variant="filled" onClick={modal.onOpen}>
+                <Intl name="publish" />
+              </Button>
+              <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" className="text-white" />} />}>
+                <Modal.Content title={<Intl name="publish" />}>
+                  <Intl name="publishConfirmation" />
+                </Modal.Content>
+
+                <Modal.Footer>
+                  <Button variant="filled" onClick={modal.onClose}>
+                    <Intl name="publish" />
+                  </Button>
+                  <Button variant="outlined" onClick={modal.onClose}>
+                    <Intl name="cancel" />
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </PageHeading.Actions>
+          </PageHeading>
+        </StackedLayout.Heading>
+        <StackedLayout.Content containerVariant="max">
+          <Placeholder className="h-48" />
+        </StackedLayout.Content>
+      </StackedLayout>
+    </Router>
+  );
+};
+
+export const WithFixedHeadingWithModal = () => {
+  // incl-code
+  // top navigation initialization
+  const topNavigationContainer = (
+    <TopNavigation variant="contained">
+      <TopNavigation.Navigation>
+        <TopNavigation.Navigation.Item to="/dashboard">
+          <Intl name="dashboard" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/team">
+          <Intl name="team" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/projects">
+          <Intl name="projects" />
+        </TopNavigation.Navigation.Item>
+        <TopNavigation.Navigation.Item to="/calendar">
+          <Intl name="calendar" />
+        </TopNavigation.Navigation.Item>
+      </TopNavigation.Navigation>
+      <TopNavigation.Dropdown
+        title="User"
+        menuType="icon"
+        icon={<Icon type="user" className="text-white" />}
+        iconColor="default"
+        buttonColor="primary"
+        popupBackgroundColor="light"
+        buttonVariant="text"
+      >
+        <TopNavigation.Dropdown.Item to="/account" color="light">
+          <Intl name="account" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/support" color="light">
+          <Intl name="support" />
+        </TopNavigation.Dropdown.Item>
+        <TopNavigation.Dropdown.Item to="/logout" color="light">
+          <Intl name="signOut" />
+        </TopNavigation.Dropdown.Item>
+      </TopNavigation.Dropdown>
+    </TopNavigation>
+  );
+  const modal = useModal();
+
+  return (
+    <Router>
+      <StackedLayout navigation={topNavigationContainer} containerVariant="constrainedPadded" isFixed={true}>
+        <StackedLayout.Heading>
+          <PageHeading>
+            <PageHeading.Title>Project Nero</PageHeading.Title>
+            <PageHeading.Actions>
+              <Button variant="outlined">
+                <Intl name="edit" />
+              </Button>
+              <Button id="open-button" variant="filled" onClick={modal.onOpen}>
+                <Intl name="publish" />
+              </Button>
+              <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" className="text-white" />} />}>
+                <Modal.Content title={<Intl name="publish" />}>
+                  <Intl name="publishConfirmation" />
+                </Modal.Content>
+
+                <Modal.Footer>
+                  <Button variant="filled" onClick={modal.onClose}>
+                    <Intl name="publish" />
+                  </Button>
+                  <Button variant="outlined" onClick={modal.onClose}>
+                    <Intl name="cancel" />
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </PageHeading.Actions>
+          </PageHeading>
+        </StackedLayout.Heading>
+        <StackedLayout.Content>
+          <Placeholder className="h-full w-full" />
+        </StackedLayout.Content>
+      </StackedLayout>
+    </Router>
+  );
+};
 const HideControls = {
   className: { control: { disable: true } },
   pageTitle: { control: { disable: true } },

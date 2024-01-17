@@ -19,22 +19,26 @@ import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
-import { Date } from "@tiller-ds/date";
+import { Date as TillerDate } from "@tiller-ds/date";
 
 import mdx from "./Date.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Date/Date",
-  component: Date,
+  component: TillerDate,
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => {
+        const correctedSource = source.replace(/<TillerDate/g, "<Date").replace(/<\/TillerDate>/g, "</Date>");
+        return beautifySource(correctedSource, "Date");
+      },
     },
     decorators: [withDesign],
   },
 };
 
-const date = "2020-02-25" as unknown as Date;
+export const Example = () => <TillerDate>{new Date("2020-02-25").getTime()}</TillerDate>;
 
-export const Example = () => <Date>{date}</Date>;
+export const WithoutIntlProvider = () => <TillerDate format="M/dd/yyyy">{new Date("2020-02-25").getTime()}</TillerDate>;

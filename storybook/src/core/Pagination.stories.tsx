@@ -20,7 +20,7 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { Pagination, useLocalPagination } from "@tiller-ds/core";
-import { items } from "../utils";
+import { beautifySource, items } from "../utils";
 
 import mdx from "./Pagination.mdx";
 
@@ -29,8 +29,9 @@ export default {
   component: Pagination,
   parameters: {
     docs: {
-      source: { type: "code" },
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Pagination"),
     },
     design: {
       type: "figma",
@@ -51,6 +52,8 @@ export default {
 export const Simple = () => <Pagination pageSize={5} pageNumber={0} totalElements={20} onPageChange={() => {}} />;
 
 export const WithItems = () => {
+  // incl-code
+  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, 5);
 
   return (
@@ -66,6 +69,8 @@ export const WithItems = () => {
 };
 
 export const Custom = () => {
+  // incl-code
+  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, 5);
 
   return (
@@ -87,6 +92,8 @@ export const Custom = () => {
 };
 
 export const TotalSameAsPageSize = () => {
+  // incl-code
+  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items.slice(0, 5), 5);
 
   return (
@@ -102,6 +109,8 @@ export const TotalSameAsPageSize = () => {
 };
 
 export const TwoPages = () => {
+  // incl-code
+  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items.slice(0, 10), 5);
 
   return (
@@ -117,6 +126,8 @@ export const TwoPages = () => {
 };
 
 export const MoreThanSixPages = () => {
+  // incl-code
+  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items.concat(items).concat(items), 5);
 
   return (
@@ -132,15 +143,19 @@ export const MoreThanSixPages = () => {
 };
 
 export const WithCustomPagerCalculator = () => {
+  // incl-code
+  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, 5);
 
   const customPagerCalculator = (pageNumber, pageCount) => {
-    return ["dots", pageNumber, "dots"];
+    return [pageNumber !== 1 && "dots", pageNumber, pageNumber !== pageCount && "dots"].filter(
+      (value) => value !== false,
+    );
   };
 
   return (
     <>
-      <div className={`flex space-x-2 p-2 rounded-md w-fit`}>
+      <div className="flex space-x-2 p-2 rounded-md w-fit">
         {paginationState.pageData.map((item) => `${item.name} ${item.surname}`).join(", ")}
       </div>
       <div className="flex mt-4 w-fit">

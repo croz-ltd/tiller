@@ -20,7 +20,7 @@ import * as React from "react";
 import { SliderField } from "@tiller-ds/formik-elements";
 import { Intl } from "@tiller-ds/intl";
 
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import mdx from "./SliderField.mdx";
 
@@ -52,6 +52,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "SliderField"),
     },
   },
   decorators: [
@@ -123,6 +125,8 @@ export const WithValue = () => (
 );
 
 export const WithMultipleValues = () => {
+  // incl-code
+  // state initialization
   const [index] = React.useState(0);
 
   return (
@@ -140,6 +144,8 @@ export const WithMultipleValues = () => {
 };
 
 export const WithMultipleValuesStacked = () => {
+  // incl-code
+  // state initialization
   const [index] = React.useState(0);
 
   return (
@@ -158,6 +164,8 @@ export const WithMultipleValuesStacked = () => {
 };
 
 export const WithMultipleValuesResetOtherValue = () => {
+  // incl-code
+  // state initialization
   const [index] = React.useState(0);
 
   return (

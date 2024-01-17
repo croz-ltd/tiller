@@ -24,6 +24,7 @@ import { Button, Link } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 
 import mdx from "./NotificationProvider.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Alert/NotificationProvider",
@@ -31,7 +32,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "div"),
     },
     design: {
       type: "figma",

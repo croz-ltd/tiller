@@ -28,7 +28,7 @@ import { Icon } from "@tiller-ds/icons";
 import { UPLOADER_EVENTS } from "@rpldy/uploader";
 import { BatchItem } from "@rpldy/shared";
 
-import { FormikDecorator, useMockSender } from "../utils";
+import { beautifySource, FormikDecorator, useMockSender } from "../utils";
 
 import mdx from "./DragZoneField.mdx";
 
@@ -48,8 +48,9 @@ export default {
   component: DragZoneField,
   parameters: {
     docs: {
-      source: { type: "code", excludeDecorators: true },
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "DragZoneField"),
     },
     design: {
       type: "figma",
@@ -68,6 +69,8 @@ export default {
 };
 
 export const Simple = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -82,6 +85,8 @@ export const Simple = () => {
 };
 
 export const WithSubtitle = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -97,6 +102,8 @@ export const WithSubtitle = () => {
 };
 
 export const WithMultipleFiles = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -111,7 +118,9 @@ export const WithMultipleFiles = () => {
   );
 };
 
-export const AndFileList = () => {
+export const WithFileList = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -145,21 +154,25 @@ export const AndFileList = () => {
 };
 
 export const WithSingleFileUpload = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
-      <DragZoneField
-          name={name}
-          hook={useFileUploadHook}
-          url={useMockSender.destination.url}
-          send={useMockSender.send}
-          title={<Intl name="dragZoneTitle" />}
-          singleFileUpload={true}
-      />
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      singleFileUpload={true}
+    />
   );
 };
 
 export const WithLabel = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -175,6 +188,8 @@ export const WithLabel = () => {
 };
 
 export const WithHelp = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -190,6 +205,8 @@ export const WithHelp = () => {
 };
 
 export const WithError = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -205,6 +222,8 @@ export const WithError = () => {
 };
 
 export const Disabled = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -220,6 +239,8 @@ export const Disabled = () => {
 };
 
 export const WithSizeLimit = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   const listeners = {
@@ -228,7 +249,7 @@ export const WithSizeLimit = () => {
         // send notification / add error
         return false;
       }
-    }
+    },
   };
 
   return (
