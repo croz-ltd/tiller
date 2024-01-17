@@ -50,184 +50,229 @@ export default {
   },
 };
 
-export const WithState = () => {
+export const WithLabel = () => {
   // incl-code
   // date state with stored Date or null value
   const [dateTime, setDateTime] = React.useState<Date | null>(null);
+
   return (
     <DateTimeInput
       name={name}
-      value={dateTime}
       label={<Intl name="label" />}
-      onChange={(newDate) => {
-        setDateTime(newDate);
-      }}
-      onReset={() => {
-        setDateTime(null);
-      }}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
     />
   );
 };
 
-export const WithLabel = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithoutLabel = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
 
-export const WithoutLabel = () => (
-  <DateTimeInput name={name} value={null} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+    />
+  );
+};
 
-export const WithValue = () => (
-  <DateTimeInput
-    name={name}
-    value={new Date("2020-11-20T11:21:28.635778")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithValue = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(new Date("2020-11-20T11:21:28.635778"));
 
-export const Disabled = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={new Date("2020-11-20T11:21:28.635778")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    disabled
-  />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+    />
+  );
+};
 
-export const WithHelp = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    help={<Intl name="help" />}
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(new Date("2020-11-20T11:21:28.635778"));
 
-export const WithTooltip = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" />
-      </Tooltip>
-    }
-  />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      disabled
+    />
+  );
+};
 
-export const WithError = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    error={error}
-  />
-);
+export const WithHelp = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
 
-export const ReadOnly = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={new Date("2020-11-20T11:21:28.635778")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    readOnly={true}
-  />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      help={<Intl name="help" />}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+    />
+  );
+};
 
-export const WithCustomPlaceholder = (args, context) => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    placeholder={translations[context.globals.language]["placeholder"]}
-  />
-);
+export const WithTooltip = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
 
-export const WithMinAndMaxDate = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    minDate={new Date("2019-01-20")}
-    maxDate={new Date("2021-01-10")}
-  />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" />
+        </Tooltip>
+      }
+    />
+  );
+};
 
-export const WithMinAndMaxDateAndValue = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={new Date("2020-11-20T11:21:28.635778")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    minDate={new Date("2019-01-20")}
-    maxDate={new Date("2021-01-10")}
-  />
-);
+export const WithError = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
 
-export const WithTwelveHours = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    type="use12Hours"
-  />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      error={error}
+    />
+  );
+};
 
-export const WithTwelveHoursAndValue = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={new Date("2020-11-20T11:21:28.635778")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    type="use12Hours"
-  />
-);
+export const ReadOnly = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(new Date("2020-11-20T11:21:28.635778"));
 
-export const WithHighlightedCurrentDate = () => (
-  <DateTimeInput
-    name={name}
-    label={<Intl name="label" />}
-    value={null}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    highlightToday={true}
-  />
-);
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      readOnly={true}
+    />
+  );
+};
+
+export const WithCustomPlaceholder = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
+
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      placeholder="Test placeholder"
+    />
+  );
+};
+
+export const WithMinAndMaxDate = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
+
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      minDate={new Date("2019-01-20")}
+      maxDate={new Date("2021-01-10")}
+    />
+  );
+};
+
+export const WithMinAndMaxDateAndValue = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(new Date("2020-11-20T11:21:28.635778"));
+
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      minDate={new Date("2019-01-20")}
+      maxDate={new Date("2021-01-10")}
+    />
+  );
+};
+
+export const WithTwelveHours = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
+
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      type="use12Hours"
+    />
+  );
+};
+
+export const WithTwelveHoursAndValue = () => {
+  // incl-code
+  // date state with stored Date or null value
+  const [dateTime, setDateTime] = React.useState<Date | null>(new Date("2020-11-20T11:21:28.635778"));
+
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      type="use12Hours"
+    />
+  );
+};
+
+export const WithHighlightedCurrentDate = () => {
+  const name = "example";
+  const [dateTime, setDateTime] = React.useState<Date | null>(null);
+
+  return (
+    <DateTimeInput
+      name={name}
+      value={dateTime}
+      onChange={(newDate) => setDateTime(newDate)}
+      onReset={() => setDateTime(null)}
+      highlightToday={true}
+    />
+  );
+};

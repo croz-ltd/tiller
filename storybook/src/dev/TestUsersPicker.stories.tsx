@@ -45,6 +45,6 @@ const defaultState = {
   onChoose: () => {},
 };
 
-export const DefaultState = () => <TestUsersPickerContent {...defaultState} />;
+export const DefaultState = (args) => <TestUsersPickerContent {...defaultState} />;
 
-export const WithChosenUser = () => <TestUsersPickerContent {...defaultState} chosenUsername="test2" />;
+export const WithChosenUser = (args) => <TestUsersPickerContent {...defaultState} chosenUsername="test2" />;

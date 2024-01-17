@@ -60,6 +60,7 @@ export default {
 
 export const Example = () => {
   // incl-code
+  // application list
   const applications = [
     { name: "App 1", path: "/app1" },
     { name: "App 2", path: "/app2" },

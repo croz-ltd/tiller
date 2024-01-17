@@ -24,9 +24,8 @@ import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { Tooltip } from "@tiller-ds/core";
 
-import storybookDictionary from "../intl/storybookDictionary";
-
 import mdx from "./Input.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/Input",
@@ -34,193 +33,316 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return correctedSource;
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Input"),
     },
-    design: {
-      type: "figma",
-      url: "https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8137%3A39201",
-    },
-    decorators: [withDesign],
   },
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/QVaavJ0ZFn1AOsBnTjr7F1/Tiller-Design-System---UI-KIT?node-id=8137%3A39201",
+  },
+  decorators: [withDesign],
 };
 
-const translations = storybookDictionary.translations;
 const name = "test";
-const addOn = "https://";
-const inlineLeadingAddOn = "$";
-const inlineTrailingAddOn = "USD";
 
-export const WithLabel = () => (
-  <Input name={name} value="" label={<Intl name="label" />} onChange={() => {}} onBlur={() => {}} />
-);
+export const WithLabel = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithoutLabel = () => <Input name={name} value="" onChange={() => {}} onBlur={() => {}} />;
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithValue = (args, context) => (
-  <Input
-    name={name}
-    value={translations[context.globals.language]["value"]}
-    label={<Intl name="label" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithoutLabel = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const Disabled = (args, context) => (
-  <Input
-    name={name}
-    value={translations[context.globals.language]["value"]}
-    label={<Intl name="label" />}
-    disabled={true}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return <Input name={name} value={value} onChange={(e) => setValue(e.target.value)} onBlur={() => {}} />;
+};
 
-export const WithPlaceholder = (args, context) => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithValue = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("Test value");
 
-export const WithHelp = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    help={<Intl name="help" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithTooltip = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" variant="regular" />
-      </Tooltip>
-    }
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("Test value");
 
-export const WithError = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    error={<Intl name="error" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+      disabled={true}
+    />
+  );
+};
 
-export const WithLeadingIcon = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithPlaceholder = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithTrailingIcon = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Input
+      name={name}
+      label={<Intl name="label" />}
+      placeholder="Test placeholder"
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithTrailingIconAndError = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" />}
-    onChange={() => {}}
-    onBlur={() => {}}
-    error={<Intl name="error" />}
-  />
-);
+export const WithHelp = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithAddOn = () => (
-  <Input name={name} value="" label={<Intl name="label" />} addOn={addOn} onChange={() => {}} onBlur={() => {}} />
-);
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      help={<Intl name="help" />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithInlineLeadingAddOn = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    inlineLeadingAddOn={inlineLeadingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithTooltip = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithInlineTrailingAddOn = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" variant="regular" />
+        </Tooltip>
+      }
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithInlineTrailingAddOnAndError = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    error={<Intl name="error" />}
-    inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithError = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithInlineLeadingAndTrailingAddOn = () => (
-  <Input
-    name={name}
-    value=""
-    label={<Intl name="label" />}
-    inlineLeadingAddOn={inlineLeadingAddOn}
-    inlineTrailingAddOn={inlineTrailingAddOn}
-    onChange={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      error={<Intl name="error" />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithClearButton = (args, context) => (
-  <Input
-    name={name}
-    value={translations[context.globals.language]["value"]}
-    label={<Intl name="label" />}
-    allowClear
-    onReset={() => {}}
-  />
-);
+export const WithLeadingIcon = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
 
-export const WithNumber = () => <Input name={name} type="number" />;
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      inlineLeadingIcon={<Icon type="envelope-simple" variant="fill" onClick={() => {}} />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithTrailingIcon = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      inlineTrailingIcon={<Icon type="question" variant="fill" onClick={() => {}} />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithTrailingIconAndError = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      inlineTrailingIcon={<Icon type="question" variant="fill" />}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+      error={<Intl name="error" />}
+    />
+  );
+};
+
+export const WithAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      addOn="https://"
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineLeadingAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      inlineLeadingAddOn="$"
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineTrailingAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      inlineTrailingAddOn="USD"
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineTrailingAddOnAndError = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      error={<Intl name="error" />}
+      inlineTrailingAddOn="USD"
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithInlineLeadingAndTrailingAddOn = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      inlineLeadingAddOn="$"
+      inlineTrailingAddOn="USD"
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={() => {}}
+    />
+  );
+};
+
+export const WithClearButton = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("Test value");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      onChange={(e) => setValue(e.target.value)}
+      onReset={() => setValue("")}
+      allowClear
+    />
+  );
+};
+
+export const WithNumber = () => {
+  // incl-code
+  // state with stored string value
+  const [value, setValue] = React.useState<string>("");
+
+  return (
+    <Input
+      name={name}
+      value={value}
+      label={<Intl name="label" />}
+      type="number"
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
+};

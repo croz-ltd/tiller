@@ -16,12 +16,14 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
 import { CheckboxGroup } from "@tiller-ds/form-elements";
 
 import mdx from "./CheckboxGroup.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/CheckboxGroup",
@@ -29,11 +31,10 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
-        return source
-          .replace(/CheckboxGroupItem/g, "CheckboxGroup.Item")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        const correctedSource = source.replace(/CheckboxGroupItem/g, "CheckboxGroup.Item");
+        return beautifySource(correctedSource, "CheckboxGroup");
       },
     },
     design: {
@@ -43,20 +44,6 @@ export default {
     decorators: [withDesign],
   },
 };
-
-const candidatesHelp = "Get notified when someones posts a comment on a posting.";
-const candidatesLabel = "Candidates";
-const candidatesValue = "candidates";
-const commentsHelp = "Get notified when someones posts a comment on a posting.";
-const commentsLabel = "Comments";
-const commentsValue = "comments";
-const emailHelp = "Email notifications";
-const emailLabel = "By Email";
-const emailName = "emailNotifications";
-const offersHelp = "Get notified when a candidate accepts or rejects an offer";
-const offersLabel = "Offers";
-const offersValue = "offers";
-const error = "Test error text";
 
 const valuesNone = {
   comments: false,
@@ -70,57 +57,177 @@ const values = {
   offers: true,
 };
 
-export const Simple = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} value={valuesNone} onChange={() => {}} className="flex space-x-4">
-    <CheckboxGroup.Item label={commentsLabel} value={commentsValue} />
-    <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} />
-    <CheckboxGroup.Item label={offersLabel} value={offersValue} />
-  </CheckboxGroup>
-);
+export const Simple = () => {
+  // incl-code
+  // defined state (dictionary of values)
+  const [value, setValue] = useState<Record<string, boolean>>(valuesNone);
 
-export const WithValue = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} value={values} onChange={() => {}}>
-    <CheckboxGroup.Item label={commentsLabel} value={commentsValue} />
-    <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} />
-    <CheckboxGroup.Item label={offersLabel} value={offersValue} />
-  </CheckboxGroup>
-);
+  return (
+    <CheckboxGroup
+      name="emailNotifications"
+      label="By Email"
+      value={value}
+      onChange={setValue}
+      className="flex space-x-4"
+    >
+      <CheckboxGroup.Item label="Comments" value="comments" />
+      <CheckboxGroup.Item label="Candidates" value="candidates" />
+      <CheckboxGroup.Item label="Offers" value="offers" />
+    </CheckboxGroup>
+  );
+};
 
-export const WithHelp = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={() => {}}>
-    <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-    <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
-    <CheckboxGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
-  </CheckboxGroup>
-);
+export const WithValue = () => {
+  // incl-code
+  // defined state (dictionary of values)
+  const [value, setValue] = useState<Record<string, boolean>>(values);
 
-export const WithError = () => (
-  <CheckboxGroup
-    name={emailName}
-    label={emailLabel}
-    help={emailHelp}
-    value={valuesNone}
-    error={error}
-    onChange={() => {}}
-  >
-    <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-    <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
-    <CheckboxGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
-  </CheckboxGroup>
-);
+  return (
+    <CheckboxGroup
+      name="emailNotifications"
+      label="By Email"
+      value={value}
+      onChange={setValue}
+      className="flex space-x-4"
+    >
+      <CheckboxGroup.Item label="Comments" value="comments" />
+      <CheckboxGroup.Item label="Candidates" value="candidates" />
+      <CheckboxGroup.Item label="Offers" value="offers" />
+    </CheckboxGroup>
+  );
+};
 
-export const WithDisabledItems = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} help={emailHelp} value={valuesNone} onChange={() => {}}>
-    <CheckboxGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-    <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} disabled={true} />
-    <CheckboxGroup.Item label={offersLabel} value={offersValue} help={offersHelp} disabled={true} />
-  </CheckboxGroup>
-);
+export const WithHelp = () => {
+  // incl-code
+  // defined state (dictionary of values)
+  const [value, setValue] = useState<Record<string, boolean>>(valuesNone);
 
-export const WithVerticalAlignment = () => (
-  <CheckboxGroup name={emailName} label={emailLabel} value={valuesNone} onChange={() => {}} vertical={true}>
-    <CheckboxGroup.Item label={commentsLabel} value={commentsValue} />
-    <CheckboxGroup.Item label={candidatesLabel} value={candidatesValue} />
-    <CheckboxGroup.Item label={offersLabel} value={offersValue} />
-  </CheckboxGroup>
-);
+  return (
+    <CheckboxGroup
+      name="emailNotifications"
+      label="By Email"
+      value={value}
+      help="Email notifications"
+      onChange={setValue}
+      className="flex space-x-4"
+    >
+      <CheckboxGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Candidates"
+        value="candidates"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer"
+      />
+    </CheckboxGroup>
+  );
+};
+
+export const WithError = () => {
+  // incl-code
+  // defined state (dictionary of values)
+  const [value, setValue] = useState<Record<string, boolean>>(valuesNone);
+
+  return (
+    <CheckboxGroup
+      name="emailNotifications"
+      label="By Email"
+      value={value}
+      help="Email notifications"
+      error="Test error text"
+      onChange={setValue}
+      className="flex space-x-4"
+    >
+      <CheckboxGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Candidates"
+        value="candidates"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer"
+      />
+    </CheckboxGroup>
+  );
+};
+
+export const WithDisabledItems = () => {
+  // incl-code
+  // defined state (dictionary of values)
+  const [value, setValue] = useState<Record<string, boolean>>(valuesNone);
+
+  return (
+    <CheckboxGroup
+      name="emailNotifications"
+      label="By Email"
+      value={value}
+      help="Email notifications"
+      onChange={setValue}
+      className="flex space-x-4"
+    >
+      <CheckboxGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Candidates"
+        value="candidates"
+        help="Get notified when someones posts a comment on a posting."
+        disabled={true}
+      />
+      <CheckboxGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer"
+        disabled={true}
+      />
+    </CheckboxGroup>
+  );
+};
+
+export const WithVerticalAlignment = () => {
+  // incl-code
+  // defined state (dictionary of values)
+  const [value, setValue] = useState<Record<string, boolean>>(valuesNone);
+
+  return (
+    <CheckboxGroup
+      name="emailNotifications"
+      label="By Email"
+      value={value}
+      help="Email notifications"
+      onChange={setValue}
+      vertical={true}
+    >
+      <CheckboxGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Candidates"
+        value="candidates"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <CheckboxGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer"
+      />
+    </CheckboxGroup>
+  );
+};

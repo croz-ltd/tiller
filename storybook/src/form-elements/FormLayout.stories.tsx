@@ -42,7 +42,7 @@ import {
   useDataTableField,
 } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
-import { FormikDecorator, useMockSender } from "../utils";
+import { beautifySource, FormikDecorator, useMockSender } from "../utils";
 import { useTokens } from "@tiller-ds/theme";
 import { File, FileList, useFileUpload } from "@tiller-ds/upload";
 
@@ -71,16 +71,6 @@ const ValidationSchema = Yup.object().shape({
   type: Yup.object().required("type validation error"),
 });
 
-const countries = [
-  { value: "BIH", label: "Bosnia and Herzegovina" },
-  { value: "HRV", label: "Croatia" },
-  { value: "SRB", label: "Serbia" },
-  { value: "SVN", label: "Slovenia" },
-  { value: "USA", label: "United States of America (the)" },
-];
-
-const cities = ["Zagreb", "Rijeka", "Osijek"];
-
 const defaultFiles: File[] = [
   { id: "1", name: "File 1", status: "finished" },
   { id: "2", name: "File 2", status: "finished" },
@@ -93,10 +83,6 @@ type Item = {
     surname: string;
   };
   age: number;
-};
-
-const fetchCities = (query: string) => {
-  return Promise.resolve(cities.filter((item) => item.toLowerCase().indexOf(query.toLowerCase()) !== -1));
 };
 
 function Body({ children }: React.PropsWithChildren<Record<string, unknown>>) {
@@ -127,6 +113,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "FormLayout"),
     },
     design: {
       type: "figma",
@@ -160,10 +148,25 @@ export const SimpleType = () => (
             getOptionValue={(country) => country.value}
             itemToString={(country) => country.label}
             filter={(name: string, option) => option.label.toLowerCase().includes(name.toLowerCase())}
-            options={countries}
+            options={[
+              { value: "BIH", label: "Bosnia and Herzegovina" },
+              { value: "HRV", label: "Croatia" },
+              { value: "SRB", label: "Serbia" },
+              { value: "SVN", label: "Slovenia" },
+              { value: "USA", label: "United States of America (the)" },
+            ]}
           />
           <InputField name="streetAddress" label="Street address" className="sm:col-span-6" />
-          <AutocompleteField name="city" label="City" options={fetchCities} className="sm:col-span-2" />
+          <AutocompleteField
+            name="city"
+            label="City"
+            options={async (query) =>
+              Promise.resolve(
+                ["Zagreb", "Rijeka", "Osijek"].filter((item) => item.toLowerCase().indexOf(query.toLowerCase()) !== -1),
+              )
+            }
+            className="sm:col-span-2"
+          />
           <InputField name="state" label="State / Province" className="sm:col-span-2" />
           <InputField name="zip" label="ZIP / Postal" className="sm:col-span-2" />
         </div>
@@ -218,7 +221,6 @@ export const CardType = () => (
     <FormLayout.Section title="Profile" subtitle="Profile info">
       <FormLayout.Section.Content>
         <InputField name="username" label="Username" />
-
         <TextareaField name="about" label="About" help="Write a few sentences about yourself." />
       </FormLayout.Section.Content>
     </FormLayout.Section>
@@ -238,10 +240,25 @@ export const CardType = () => (
             getOptionValue={(country) => country.value}
             itemToString={(country) => country.label}
             filter={(name: string, option) => option.label.toLowerCase().includes(name.toLowerCase())}
-            options={countries}
+            options={[
+              { value: "BIH", label: "Bosnia and Herzegovina" },
+              { value: "HRV", label: "Croatia" },
+              { value: "SRB", label: "Serbia" },
+              { value: "SVN", label: "Slovenia" },
+              { value: "USA", label: "United States of America (the)" },
+            ]}
           />
           <InputField name="streetAddress" label="Street address" className="sm:col-span-6" />
-          <AutocompleteField name="city" label="City" options={fetchCities} className="sm:col-span-2" />
+          <AutocompleteField
+            name="city"
+            label="City"
+            options={async (query) =>
+              Promise.resolve(
+                ["Zagreb", "Rijeka", "Osijek"].filter((item) => item.toLowerCase().indexOf(query.toLowerCase()) !== -1),
+              )
+            }
+            className="sm:col-span-2"
+          />
           <InputField name="state" label="State / Province" className="sm:col-span-2" />
           <InputField name="zip" label="ZIP / Postal" className="sm:col-span-2" />
           <NumberInputField name="salary" label="Salary" />
@@ -435,7 +452,13 @@ export const SeparateLabels = () => (
             getOptionValue={(country) => country.value}
             itemToString={(country) => country.label}
             filter={(name: string, option) => option.label.toLowerCase().includes(name.toLowerCase())}
-            options={countries}
+            options={[
+              { value: "BIH", label: "Bosnia and Herzegovina" },
+              { value: "HRV", label: "Croatia" },
+              { value: "SRB", label: "Serbia" },
+              { value: "SVN", label: "Slovenia" },
+              { value: "USA", label: "United States of America (the)" },
+            ]}
           />
         </FormLayout.Field>
 
@@ -492,7 +515,13 @@ export const NoTitleAndSubtitle = () => (
             className="sm:col-span-3"
             itemToString={(country) => country.label}
             filter={(name: string, option) => option.label.toLowerCase().includes(name.toLowerCase())}
-            options={countries}
+            options={[
+              { value: "BIH", label: "Bosnia and Herzegovina" },
+              { value: "HRV", label: "Croatia" },
+              { value: "SRB", label: "Serbia" },
+              { value: "SVN", label: "Slovenia" },
+              { value: "USA", label: "United States of America (the)" },
+            ]}
           />
           <InputField name="streetAddress" label="Street address" className="sm:col-span-6" />
           <InputField name="city" label="City" className="sm:col-span-2" />
@@ -517,7 +546,7 @@ export const WithFullValidation = () => (
   <FormLayout type="card">
     <FormLayout.Section title="Profile" subtitle="Profile info">
       <FormLayout.Section.Content>
-        <InputField name="name" required={true} label="Name" inlineTrailingAddOn={"USD"} />
+        <InputField name="name" required={true} label="Name" inlineTrailingAddOn="USD" />
         <InputField name="surname" required={true} label="Surname" />
         <TimeInputField name="time" required={true} label="Time of arrival" allowClear={true} />
         <AutocompleteField
@@ -528,7 +557,13 @@ export const WithFullValidation = () => (
           getOptionValue={(country) => country.value}
           itemToString={(country) => country.label}
           filter={(name: string, option) => option.label.toLowerCase().includes(name.toLowerCase())}
-          options={countries}
+          options={[
+            { value: "BIH", label: "Bosnia and Herzegovina" },
+            { value: "HRV", label: "Croatia" },
+            { value: "SRB", label: "Serbia" },
+            { value: "SVN", label: "Slovenia" },
+            { value: "USA", label: "United States of America (the)" },
+          ]}
         />
         <DateInputField name="date" required={true} allowClear={true} label="Birth date" />
         <DateTimeInputField name="datetime" required={true} label="Date time" />
@@ -551,13 +586,15 @@ export const WithFullValidation = () => (
 );
 
 export const WithUploadButtonField = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload(defaultFiles);
 
   return (
     <FormLayout type="card">
       <FormLayout.Section title="Profile" subtitle="Profile info">
         <FormLayout.Section.Content>
-          <InputField name="name" required={true} label="Name" inlineTrailingAddOn={"USD"} />
+          <InputField name="name" required={true} label="Name" inlineTrailingAddOn="USD" />
           <TextareaField name="surname" required={true} label="Surname" />
           <UploadButtonField
             url={useMockSender.destination.url}
@@ -600,13 +637,15 @@ export const WithUploadButtonField = () => {
 };
 
 export const WithDragZoneField = () => {
+  // incl-code
+  // hook initialization
   const useFileUploadHook = useFileUpload(defaultFiles);
 
   return (
     <FormLayout type="card">
       <FormLayout.Section title="Profile" subtitle="Profile info">
         <FormLayout.Section.Content>
-          <InputField name="name" required={true} label="Name" inlineTrailingAddOn={"USD"} />
+          <InputField name="name" required={true} label="Name" inlineTrailingAddOn="USD" />
           <TextareaField name="surname" required={true} label="Surname" />
           <DragZoneField
             label="Certifications"

@@ -32,28 +32,22 @@ import mdx from "./DateRangeInputField.mdx";
 const translations = storybookDictionary.translations;
 const start = "start";
 const end = "end";
-const startWithValue = "startDateWithValue";
-const startWithDateValue = "startDateWithDateValue";
-const startWithError = "startDateWithError";
-const endWithValue = "endDateWithValue";
-const endWithDateValue = "endDateWithDateValue";
-const endWithError = "endDateWithError";
 
 const initialValues = {
-  [startWithValue]: "2020-10-05",
-  [startWithDateValue]: new Date(),
-  [endWithValue]: "2020-10-10",
-  [endWithDateValue]: new Date("2025-01-01"),
+  startDateWithValue: "2020-10-05",
+  startDateWithDateValue: new Date(),
+  endDateWithValue: "2020-10-10",
+  endDateWithDateValue: new Date("2025-01-01"),
 };
 
 const initialErrors = {
-  [startWithError]: "start test error",
-  [endWithError]: "end test error",
+  startDateWithError: "start test error",
+  endDateWithError: "end test error",
 };
 
 const initialTouched = {
-  [startWithError]: true,
-  [endWithError]: true,
+  startDateWithError: true,
+  endDateWithError: true,
 };
 
 export default {
@@ -81,61 +75,74 @@ export default {
   ],
 };
 
-export const WithLabel = () => <DateRangeInputField start={start} end={end} label={<Intl name="label" />} />;
+export const WithLabel = (args) => <DateRangeInputField start={start} end={end} label={<Intl name="label" />} />;
 
-export const WithoutLabel = () => <DateRangeInputField start={start} end={end} />;
+export const WithoutLabel = (args) => <DateRangeInputField start={start} end={end} />;
 
 export const WithValue = () => {
   // incl-code
   // initial values passed as initialValues prop of Formik
   const initialValues = {
-    [startWithValue]: "2020-10-05",
-    [endWithValue]: "2020-10-10",
+    startDateWithValue: "2020-10-05",
+    endDateWithValue: "2020-10-10",
   };
-  return <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} />;
+  return <DateRangeInputField start="startDateWithValue" end="endDateWithValue" label={<Intl name="label" />} />;
 };
 
 export const WithDateValue = () => {
   // incl-code
   // initial Date values passed as initialValues prop of Formik
   const initialValues = {
-    [startWithDateValue]: new Date(),
-    [endWithDateValue]: new Date("2025-01-01"),
+    startDateWithDateValue: new Date(),
+    endDateWithDateValue: new Date("2025-01-01"),
   };
-  return <DateRangeInputField start={startWithDateValue} end={endWithDateValue} label={<Intl name="label" />} />;
+  return (
+    <DateRangeInputField start="startDateWithDateValue" end="endDateWithDateValue" label={<Intl name="label" />} />
+  );
 };
 
-export const WithoutClearButton = () => (
-  <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} allowClear={false} />
+export const WithoutClearButton = (args) => (
+  <DateRangeInputField
+    start="startDateWithValue"
+    end="endDateWithValue"
+    label={<Intl name="label" />}
+    allowClear={false}
+  />
 );
 
 export const WithStartValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [startWithValue]: "2020-10-05",
+    startDateWithValue: "2020-10-05",
   };
-  return <DateRangeInputField start={startWithValue} end={end} label={<Intl name="label" />} />;
+  return <DateRangeInputField start="startDateWithValue" end="endDateWithDateValue" label={<Intl name="label" />} />;
 };
 
-export const Disabled = () => (
+export const Disabled = (args) => (
   <DateRangeInputField start={start} end={end} label={<Intl name="label" />} disabled={true} />
 );
 
-export const ReadOnly = () => (
-  <DateRangeInputField start={startWithValue} end={endWithValue} label={<Intl name="label" />} readOnly={true} />
+export const ReadOnly = (args) => (
+  <DateRangeInputField
+    start="startDateWithValue"
+    end="endDateWithValue"
+    label={<Intl name="label" />}
+    readOnly={true}
+  />
 );
 
 export const WithCustomPlaceholder = (args, context) => (
   <DateRangeInputField start={start} end={end} placeholder={translations[context.globals.language]["placeholder"]} />
 );
 
-export const WithHelp = () => <DateRangeInputField start={start} end={end} help={<Intl name="help" />} />;
+export const WithHelp = (args) => <DateRangeInputField start={start} end={end} help={<Intl name="help" />} />;
 
-export const WithTooltip = () => (
+export const WithTooltip = (args) => (
   <DateRangeInputField
     start={start}
     end={end}
+    label={<Intl name="label" />}
     tooltip={
       <Tooltip label={<Intl name="tooltip" />}>
         <Icon type="info" />
@@ -144,20 +151,20 @@ export const WithTooltip = () => (
   />
 );
 
-export const WithDifferentPopoverPosition = () => (
+export const WithDifferentPopoverPosition = (args) => (
   <DateRangeInputField start={start} end={end} label={<Intl name="label" />} popoverPosition="right" />
 );
 
-export const WithError = () => <DateRangeInputField start={startWithError} end={endWithError} />;
+export const WithError = (args) => <DateRangeInputField start="startDateWithError" end="endDateWithError" />;
 
-export const WithStartError = () => <DateRangeInputField start={startWithError} end={end} />;
+export const WithStartError = (args) => <DateRangeInputField start="startDateWithError" end={end} />;
 
-export const WithEndError = () => <DateRangeInputField start={start} end={endWithError} />;
+export const WithEndError = (args) => <DateRangeInputField start={start} end="endDateWithError" />;
 
-export const WithMinAndMaxDate = () => (
+export const WithMinAndMaxDate = (args) => (
   <DateRangeInputField start={start} end={end} minDate={new Date("2020-10-05")} maxDate={new Date("2025-01-01")} />
 );
 
-export const WithHighlightedCurrentDate = () => (
+export const WithHighlightedCurrentDate = (args) => (
   <DateRangeInputField start={start} end={end} label={<Intl name="label" />} highlightToday={true} />
 );

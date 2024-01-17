@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
-import { useMockSender } from "../utils";
+import { beautifySource, useMockSender } from "../utils";
 import { UploadButton, useFileUpload } from "@tiller-ds/upload";
 import { setAuthenticationBearer } from "@tiller-ds/util";
 
@@ -31,6 +31,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "UploadButton"),
     },
     design: {
       type: "figma",
@@ -41,8 +43,10 @@ export default {
 };
 
 export const Success = () => {
-  setAuthenticationBearer(useMockSender.destination.url, "newToken");
+  // incl-code
+  // hook initialization
   const file = useFileUpload();
+  setAuthenticationBearer(useMockSender.destination.url, "newToken");
 
   return (
     <UploadButton hook={file} url={useMockSender.destination.url} send={useMockSender.send}>
@@ -52,8 +56,10 @@ export const Success = () => {
 };
 
 export const WithMultipleFilesUpload = () => {
-  setAuthenticationBearer(useMockSender.destination.url, "newToken");
+  // incl-code
+  // hook initialization
   const file = useFileUpload();
+  setAuthenticationBearer(useMockSender.destination.url, "newToken");
 
   return (
     <UploadButton hook={file} url={useMockSender.destination.url} send={useMockSender.send} allowMultiple={true}>

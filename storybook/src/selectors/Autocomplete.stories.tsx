@@ -51,8 +51,7 @@ export default {
       source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const tokensConfig = { Select: "selectTokens", Autocomplete: "autocompleteTokens" };
-        const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(beautifySource(correctedSource), tokensConfig);
+        return getChangedTokensFromSource(beautifySource(source, "Autocomplete"), tokensConfig);
       },
     },
     design: {
@@ -338,12 +337,8 @@ export const Disabled = () => (
   <Autocomplete label={<Intl name="label" />} disabled={true} {...backendProps} name={name} />
 );
 
-export const WithPlaceholder = (args, context) => (
-  <Autocomplete
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-    {...backendProps}
-  />
+export const WithPlaceholder = () => (
+  <Autocomplete label={<Intl name="label" />} placeholder="Test placeholder" {...backendProps} />
 );
 
 export const WithHelp = () => (
@@ -352,13 +347,13 @@ export const WithHelp = () => (
 
 export const WithTooltip = () => (
   <Autocomplete
+    {...backendProps}
     tooltip={
       <Tooltip label={<Intl name="label" />}>
         <Icon type="info" />
       </Tooltip>
     }
     label={<Intl name="label" />}
-    {...backendProps}
   />
 );
 

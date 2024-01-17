@@ -23,6 +23,7 @@ import { Icon } from "@tiller-ds/icons";
 import { File, FileList, useFileUpload } from "@tiller-ds/upload";
 
 import mdx from "./FileList.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Upload/File list",
@@ -30,6 +31,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "FileList"),
     },
     design: {
       type: "figma",
@@ -39,19 +42,16 @@ export default {
   },
 };
 
-const defaultFiles: File[] = [
-  { id: "1", name: "File 1", status: "finished" },
-  { id: "2", name: "File 2", status: "finished" },
-  { id: "3", name: "File 3", status: "finished" },
-];
-
-const versionFiles: File[] = [
-  { id: "1", name: "Version 3", status: "finished" },
-  { id: "2", name: "Version 2", status: "finished" },
-  { id: "3", name: "Version 1", status: "finished" },
-];
-
 export const Simple = () => {
+  // incl-code
+  // files list
+  const defaultFiles: File[] = [
+    { id: "1", name: "File 1", status: "finished" },
+    { id: "2", name: "File 2", status: "finished" },
+    { id: "3", name: "File 3", status: "finished" },
+  ];
+
+  // hook initialization
   const useFiles = useFileUpload(defaultFiles);
 
   return (
@@ -66,7 +66,23 @@ export const Simple = () => {
 };
 
 export const WithActions = () => {
+  // incl-code
+  // files list
+  const defaultFiles: File[] = [
+    { id: "1", name: "File 1", status: "finished" },
+    { id: "2", name: "File 2", status: "finished" },
+    { id: "3", name: "File 3", status: "finished" },
+  ];
+  // hook initialization
   const useFiles = useFileUpload(defaultFiles);
+
+  // version files list
+  const versionFiles: File[] = [
+    { id: "1", name: "Version 3", status: "finished" },
+    { id: "2", name: "Version 2", status: "finished" },
+    { id: "3", name: "Version 1", status: "finished" },
+  ];
+  // hook initialization
   const useVersionFiles = useFileUpload(versionFiles);
 
   return (
@@ -108,6 +124,15 @@ export const WithActions = () => {
 };
 
 export const WithActionInNewTab = () => {
+  // incl-code
+  // files list
+  const defaultFiles: File[] = [
+    { id: "1", name: "File 1", status: "finished" },
+    { id: "2", name: "File 2", status: "finished" },
+    { id: "3", name: "File 3", status: "finished" },
+  ];
+
+  // hook initialization
   const useFiles = useFileUpload(defaultFiles);
 
   return (

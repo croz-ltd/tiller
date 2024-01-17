@@ -38,9 +38,11 @@ import {
 } from "@tiller-ds/formik-elements";
 import { Item, items, promiseTimeout } from "../utils";
 
+/*
 export default {
   title: "Component Library/Dev/Form Behaviour Testing",
 };
+*/
 
 type TestFormValues = {
   autocompleteMultiple: string[];
@@ -134,7 +136,6 @@ function WrapInFormContainer({
     number: "Initial number input is required.",
   });
 
-  console.log(customInitialErrors);
   return (
     <FormContainer
       initialValues={{}}

@@ -26,6 +26,7 @@ import { AsyncButton, Card } from "@tiller-ds/core";
 import { InputField } from "@tiller-ds/formik-elements";
 
 import mdx from "./AsyncButton.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Core/AsyncButton",
@@ -33,6 +34,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      transformSource: beautifySource,
     },
     design: {
       type: "figma",
@@ -43,6 +45,8 @@ export default {
 };
 
 export const Success = () => {
+  // incl-code
+  // on click event
   const successOnClick = () => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(), 2000);
@@ -53,6 +57,8 @@ export const Success = () => {
 };
 
 export const Error = () => {
+  // incl-code
+  // on click event
   const errorOnClick = () => {
     return new Promise((_, reject) => {
       setTimeout(() => reject(), 2000);
@@ -63,9 +69,12 @@ export const Error = () => {
 };
 
 export const FormExample = () => {
+  // incl-code
+  // field validation
   const validationSchema = Yup.object({
     test: Yup.string().required("Some text is required for the button to have a success state."),
   });
+
   const validateOnClick = (values: FormikValues) => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(validationSchema.validate(values)), 2000);
@@ -75,7 +84,7 @@ export const FormExample = () => {
   return (
     <Card>
       <Card.Body>
-        <Formik initialValues={{ test: "" }} validationSchema={validationSchema} onSubmit={() => undefined}>
+        <Formik initialValues={{ test: "" }} validationSchema={validationSchema} onSubmit={console.log}>
           {({ handleSubmit, handleReset, values }) => (
             <form onSubmit={handleSubmit} onReset={handleReset} className="space-y-4">
               <InputField

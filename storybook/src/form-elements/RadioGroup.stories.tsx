@@ -16,39 +16,25 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
 import { RadioGroup } from "@tiller-ds/form-elements";
 
 import mdx from "./RadioGroup.mdx";
+import { beautifySource } from "../utils";
 
-const candidatesHelp = "Get notified when a candidate applies for a job.";
-const candidatesLabel = "Candidates";
-const candidatesValue = "candidates";
-const commentsHelp = "Get notified when someones posts a comment on a posting.";
-const commentsLabel = "Comments";
-const commentsValue = "comments";
-const help = "Email notification";
-const error = "Test error text";
-const label = "By Email";
 const name = "emailNotifications";
-const offersHelp = "Get notified when a candidate accepts or rejects an offer.";
-const offersLabel = "Offers";
-const offersValue = "offers";
-const value = "comments";
-
 export default {
   title: "Component Library/Form-elements/RadioGroup",
   component: RadioGroup,
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
-        return source
-          .replace(/RadioGroupItem/g, "RadioGroup.Item")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+        return beautifySource(source.replace(/RadioGroupItem/g, "RadioGroup.Item"), "RadioGroup");
       },
     },
     design: {
@@ -59,50 +45,130 @@ export default {
   },
 };
 
-export const Simple = () => (
-  <RadioGroup name={name} label={label} onChange={() => {}} value={""}>
-    <RadioGroup.Item label={commentsLabel} value={commentsValue} />
-    <RadioGroup.Item label={candidatesLabel} value={candidatesValue} />
-    <RadioGroup.Item label={offersLabel} value={offersValue} />
-  </RadioGroup>
-);
+export const Simple = () => {
+  // incl-code
+  // defined state (one value)
+  const [state, setState] = useState<string | boolean | null>(null);
 
-export const WithValue = () => (
-  <RadioGroup name={name} label={label} onChange={() => {}} value={value}>
-    <RadioGroup.Item label={commentsLabel} value={commentsValue} />
-    <RadioGroup.Item label={candidatesLabel} value={candidatesValue} />
-    <RadioGroup.Item label={offersLabel} value={offersValue} />
-  </RadioGroup>
-);
+  return (
+    <RadioGroup name={name} label="By Email" onChange={setState} value={state}>
+      <RadioGroup.Item label="Comments" value="comments" />
+      <RadioGroup.Item label="Candidates" value="candidates" />
+      <RadioGroup.Item label="Offers" value="offers" />
+    </RadioGroup>
+  );
+};
 
-export const WithHelp = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""}>
-    <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-    <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
-    <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
-  </RadioGroup>
-);
+export const WithValue = () => {
+  // incl-code
+  // defined state (one value)
+  const [state, setState] = useState<string | boolean | null>("comments");
 
-export const WithError = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""} error={error}>
-    <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-    <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} />
-    <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} />
-  </RadioGroup>
-);
+  return (
+    <RadioGroup name={name} label="By Email" onChange={setState} value={state}>
+      <RadioGroup.Item label="Comments" value="comments" />
+      <RadioGroup.Item label="Candidates" value="candidates" />
+      <RadioGroup.Item label="Offers" value="offers" />
+    </RadioGroup>
+  );
+};
 
-export const WithDisabledItems = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""}>
-    <RadioGroup.Item label={commentsLabel} value={commentsValue} help={commentsHelp} />
-    <RadioGroup.Item label={candidatesLabel} value={candidatesValue} help={candidatesHelp} disabled={true} />
-    <RadioGroup.Item label={offersLabel} value={offersValue} help={offersHelp} disabled={true} />
-  </RadioGroup>
-);
+export const WithHelp = () => {
+  // incl-code
+  // defined state (one value)
+  const [state, setState] = useState<string | boolean | null>("");
 
-export const WithVerticalAlignment = () => (
-  <RadioGroup name={name} label={label} help={help} onChange={() => {}} value={""} vertical={true}>
-    <RadioGroup.Item label={commentsLabel} value={commentsValue} />
-    <RadioGroup.Item label={candidatesLabel} value={candidatesValue} />
-    <RadioGroup.Item label={offersLabel} value={offersValue} />
-  </RadioGroup>
-);
+  return (
+    <RadioGroup name={name} label="By Email" help="Email notification" onChange={setState} value={state}>
+      <RadioGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <RadioGroup.Item label="Candidates" value="candidates" help="Get notified when a candidate applies for a job." />
+      <RadioGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer."
+      />
+    </RadioGroup>
+  );
+};
+
+export const WithError = () => {
+  // incl-code
+  // defined state (one value)
+  const [state, setState] = useState<string | boolean | null>("");
+
+  return (
+    <RadioGroup
+      name={name}
+      label="By Email"
+      help="Email notification"
+      onChange={setState}
+      value={state}
+      error="Test error text"
+    >
+      <RadioGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <RadioGroup.Item label="Candidates" value="candidates" help="Get notified when a candidate applies for a job." />
+      <RadioGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer."
+      />
+    </RadioGroup>
+  );
+};
+
+export const WithDisabledItems = () => {
+  // incl-code
+  // defined state (one value)
+  const [state, setState] = useState<string | boolean | null>("");
+
+  return (
+    <RadioGroup name={name} label="By Email" help="Email notification" onChange={setState} value={state}>
+      <RadioGroup.Item
+        label="Comments"
+        value="comments"
+        help="Get notified when someones posts a comment on a posting."
+      />
+      <RadioGroup.Item
+        label="Candidates"
+        value="candidates"
+        help="Get notified when a candidate applies for a job."
+        disabled={true}
+      />
+      <RadioGroup.Item
+        label="Offers"
+        value="offers"
+        help="Get notified when a candidate accepts or rejects an offer."
+        disabled={true}
+      />
+    </RadioGroup>
+  );
+};
+
+export const WithVerticalAlignment = () => {
+  // incl-code
+  // defined state (one value)
+  const [state, setState] = useState<string | boolean | null>("");
+
+  return (
+    <RadioGroup
+      name={name}
+      label="By Email"
+      help="Email notification"
+      onChange={setState}
+      value={state}
+      vertical={true}
+    >
+      <RadioGroup.Item label="Comments" value="comments" />
+      <RadioGroup.Item label="Candidates" value="candidates" />
+      <RadioGroup.Item label="Offers" value="offers" />
+    </RadioGroup>
+  );
+};

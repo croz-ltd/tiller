@@ -22,7 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { UploadButtonField } from "@tiller-ds/formik-elements";
 import { useFileUpload } from "@tiller-ds/upload";
 
-import { FormikDecorator, useMockSender } from "../utils";
+import { beautifySource, FormikDecorator, useMockSender } from "../utils";
 
 import mdx from "./UploadButtonField.mdx";
 
@@ -48,6 +48,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "UploadButtonField"),
     },
     design: {
       type: "figma",
@@ -66,7 +68,10 @@ export default {
 };
 
 export const Example = () => {
+  // incl-code
+  // hook initialization
   const file = useFileUpload();
+
   return (
     <UploadButtonField hook={file} name={name} url={useMockSender.destination.url} send={useMockSender.send}>
       Upload
@@ -75,10 +80,19 @@ export const Example = () => {
 };
 
 export const WithSingleFileUpload = () => {
+  // incl-code
+  // hook initialization
   const file = useFileUpload();
+
   return (
-      <UploadButtonField hook={file} name={name} url={useMockSender.destination.url} send={useMockSender.send} singleFileUpload={true}>
-        Upload
-      </UploadButtonField>
+    <UploadButtonField
+      hook={file}
+      name={name}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      singleFileUpload={true}
+    >
+      Upload
+    </UploadButtonField>
   );
 };

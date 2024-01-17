@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import { withDesign } from "storybook-addon-designs";
 
@@ -28,13 +28,11 @@ import { Intl } from "@tiller-ds/intl";
 import { SidebarNavigation, SidebarLayout } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import storybookDictionary from "../intl/storybookDictionary";
-
 import { Simple } from "../data-display/DataTable.stories";
 import { Default } from "../data-display/DescriptionList.stories";
 import { SimpleType } from "../form-elements/FormLayout.stories";
 
-import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import logo from "./images/sample-logo.svg";
 
@@ -46,7 +44,7 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
           .replace(/SidebarLayoutHeading/g, "SidebarLayout.Heading")
@@ -57,9 +55,8 @@ export default {
           .replace(/SidebarNavigationBottomAction/g, "SidebarNavigation.BottomAction")
           .replace(/SidebarNavigationSubItem/g, "SidebarNavigation.SubItem")
           .replace(/PageHeadingTitle/g, "PageHeading.Title")
-          .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle")
-          .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, "SidebarLayout");
+          .replace(/PageHeadingSubtitle/g, "PageHeading.Subtitle");
+        return getChangedTokensFromSource(beautifySource(correctedSource, "BrowserRouter"), "SidebarLayout");
       },
     },
     design: {
@@ -87,7 +84,6 @@ export default {
   },
 };
 
-const translations = storybookDictionary.translations;
 function getPageContent(pageContent: string) {
   if (pageContent === "Data Table") {
     return (
@@ -97,6 +93,7 @@ function getPageContent(pageContent: string) {
           className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
           href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-datatable--simple#simple"
           target="_blank"
+          rel="noreferrer"
         >
           See Data Table Story Code
         </a>
@@ -111,6 +108,7 @@ function getPageContent(pageContent: string) {
           className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
           href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-data-display-descriptionlist--default#default"
           target="_blank"
+          rel="noreferrer"
         >
           See Description List Story Code
         </a>
@@ -126,6 +124,7 @@ function getPageContent(pageContent: string) {
             className="flex w-full text-sm justify-center text-primary-dark hover:text-primary p-2"
             href="https://croz-ltd.github.io/tiller/?path=/docs/component-library-core-formlayout--simple-type#simple-type"
             target="_blank"
+            rel="noreferrer"
           >
             See Form Layout Story Code
           </a>
@@ -218,17 +217,15 @@ export const SidebarLayoutFactory = ({
   useTokens,
   tokens,
 }) => {
-  const pageHeading = (
-    <PageHeading>
-      <PageHeading.Title>{pageTitle}</PageHeading.Title>
-      <PageHeading.Subtitle>{pageSubtitle}</PageHeading.Subtitle>
-    </PageHeading>
-  );
-
   return (
-    <Router>
+    <BrowserRouter>
       <SidebarLayout navigation={defaultNavigation} tokens={useTokens && tokens} className={className}>
-        <SidebarLayout.Heading>{pageHeading}</SidebarLayout.Heading>
+        <SidebarLayout.Heading>
+          <PageHeading>
+            <PageHeading.Title>{pageTitle}</PageHeading.Title>
+            <PageHeading.Subtitle>{pageSubtitle}</PageHeading.Subtitle>
+          </PageHeading>
+        </SidebarLayout.Heading>
         <SidebarLayout.Content>
           <div className="flex flex-col space-y-4">
             {getPageContent(pageContent)}
@@ -236,7 +233,7 @@ export const SidebarLayoutFactory = ({
           </div>
         </SidebarLayout.Content>
       </SidebarLayout>
-    </Router>
+    </BrowserRouter>
   );
 };
 
@@ -258,7 +255,9 @@ SidebarLayoutFactory.parameters = {
 
 SidebarLayoutFactory.decorators = showFactoryDecorator();
 
-export const Example = (args, context) => {
+export const Example = () => {
+  // incl-code
+  // navigation handed over as a prop to SidebarLayout
   const navigation = (
     <SidebarNavigation
       logo={<img src={logo} alt="logo" />}
@@ -297,7 +296,7 @@ export const Example = (args, context) => {
       <SidebarNavigation.Item to="/dashboard">
         <Intl name="dashboard" />
       </SidebarNavigation.Item>
-      <SidebarNavigation.Item isExpandable={true} title={translations[context.globals.language]["planning"]}>
+      <SidebarNavigation.Item isExpandable={true} title="Planning">
         <SidebarNavigation.SubItem to="/tasks" icon={<Icon type="clipboard" />}>
           <Intl name="tasks" />
         </SidebarNavigation.SubItem>
@@ -329,14 +328,14 @@ export const Example = (args, context) => {
   );
 
   return (
-    <Router>
+    <BrowserRouter>
       <SidebarLayout navigation={navigation}>
         <SidebarLayout.Heading>{pageHeading}</SidebarLayout.Heading>
         <SidebarLayout.Content>
           <Placeholder className="h-48" />
         </SidebarLayout.Content>
       </SidebarLayout>
-    </Router>
+    </BrowserRouter>
   );
 };
 

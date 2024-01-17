@@ -25,7 +25,7 @@ import { Icon, iconTypes } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { FormikDecorator, getChangedTokensFromSource, Item, items } from "../utils";
+import { beautifySource, FormikDecorator, getChangedTokensFromSource, Item, items } from "../utils";
 
 import mdx from "./SelectField.mdx";
 
@@ -60,11 +60,11 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const tokensConfig = { Input: "inputTokens", Select: "selectTokens" };
         const correctedSource = source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, tokensConfig);
+        return getChangedTokensFromSource(beautifySource(correctedSource, "SelectField"), tokensConfig);
       },
     },
     design: {
@@ -208,7 +208,15 @@ export const WithLabel = () => <SelectField {...commonProps} label={<Intl name="
 
 export const WithoutLabel = () => <SelectField {...commonProps} />;
 
-export const WithValue = () => <SelectField {...commonProps} name={nameWithValue} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "dgarcia",
+  };
+
+  return <SelectField {...commonProps} name="nameWithValue" label={<Intl name="label" />} />;
+};
 
 export const Disabled = () => (
   <SelectField {...commonProps} name={nameWithValue} label={<Intl name="label" />} disabled={true} />

@@ -272,7 +272,7 @@ function DropdownMenuContainer({
       <div
         className={menuInnerContainerClassName}
         style={{
-          height: `${menuListHeight}px`,
+          height: visibleItemCount ? `${menuListHeight}px` : undefined,
         }}
       >
         <menu className={menuContainerChildrenClassName} ref={childrenContainerRef}>

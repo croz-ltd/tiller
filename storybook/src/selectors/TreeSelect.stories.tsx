@@ -20,7 +20,7 @@ import * as React from "react";
 import { TreeSelect } from "@tiller-ds/selectors";
 import { Intl } from "@tiller-ds/intl";
 
-import { TreeItem, treeItems } from "../utils";
+import { beautifySource, TreeItem, treeItems } from "../utils";
 
 import mdx from "./TreeSelect.mdx";
 
@@ -30,6 +30,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "TreeSelect"),
     },
   },
 };

@@ -25,7 +25,7 @@ import { DataTable, useDataTable } from "@tiller-ds/data-display";
 import { CheckboxGroupField, FieldError, InputField } from "@tiller-ds/formik-elements";
 import { Intl } from "@tiller-ds/intl";
 import { DropdownMenu } from "@tiller-ds/menu";
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import mdx from "./Intl.mdx";
 
@@ -55,6 +55,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Intl"),
     },
     design: {
       type: "figma",
@@ -77,7 +79,7 @@ export default {
 
 export const Basic = () => <Intl name="greeting" params={{ name: "Anna" }} />;
 
-export const WithNumber = () => (
+export const WithNumber = (args) => (
   <React.Fragment>
     <div>
       <Intl name="example" params={{ messageCount: 0 }} />
@@ -106,7 +108,7 @@ export const WithChildren = () => (
 );
 */
 
-export const WithSimpleDataTable = () => {
+export const WithSimpleDataTable = (args) => {
   return (
     <DataTable data={data}>
       <DataTable.Column header="ID" accessor="id" />
@@ -116,6 +118,8 @@ export const WithSimpleDataTable = () => {
 };
 
 export const WithDataTableAndSelector = () => {
+  // incl-code
+  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(data);
 
@@ -153,7 +157,7 @@ export const WithDataTableAndSelector = () => {
   );
 };
 
-export const WithSimpleCheckbox = () => (
+export const WithSimpleCheckbox = (args) => (
   <CheckboxGroupField
     name="emailNotifications"
     label={<Intl name="emailNotifications" />}
@@ -164,11 +168,11 @@ export const WithSimpleCheckbox = () => (
   </CheckboxGroupField>
 );
 
-export const WithFieldError = () => <FieldError name={nameWithError} />;
+export const WithFieldError = (args) => <FieldError name={nameWithError} />;
 
-export const InputFieldWithIntlError = () => <InputField name={nameWithError} label={<Intl name="label" />} />;
+export const InputFieldWithIntlError = (args) => <InputField name={nameWithError} label={<Intl name="label" />} />;
 
-export const WithDropdownMenu = () => {
+export const WithDropdownMenu = (args) => {
   return (
     <DropdownMenu title={<Intl name="user" />}>
       <DropdownMenu.Item onSelect={() => {}}>
@@ -181,6 +185,6 @@ export const WithDropdownMenu = () => {
   );
 };
 
-export const WithAlert = () => (
+export const WithAlert = (args) => (
   <Alert title={<Intl name="attention" />}>A new software update is available. See what’s new in version 2.0.4.</Alert>
 );

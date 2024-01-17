@@ -73,18 +73,27 @@ export function showFactoryDecorator(flex = false) {
   ];
 }
 
-export function beautifySource(source) {
+export function beautifySource(source: string, element?: "<>" | "div" | "span" | string) {
   const correctedSource = source
     .replace(/{name}/g, '"test"')
-    .replace(/{<Intl name="label" \/>}/g, '"Test label"')
-    .replace(/{<Intl name="help" \/>}/g, '"Test help content"')
-    .replace(/{<Intl name="tooltip" \/>}/g, '"Test tooltip content"')
+    .replace(/{nameWithValue}/g, '"nameWithValue"')
+    .replace(/{nameWithError}/g, '"nameWithError"')
     .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
+
   if (correctedSource.indexOf("incl-code") === -1) {
-    return correctedSource.substring(correctedSource.indexOf("<"), correctedSource.lastIndexOf(">") + 1);
+    return beautifyDefault(correctedSource, element);
   }
-  return correctedSource.substring(
-    correctedSource.indexOf("incl-code") + "incl-code".length,
-    correctedSource.lastIndexOf(";") + 1,
-  );
+
+  return beautifyIncludeCode(correctedSource);
+}
+
+function beautifyDefault(source: string, element?: "<>" | "div" | "span" | string) {
+  return source
+    .substring(source.indexOf("<" + element || "<>"), source.lastIndexOf(">") + 1)
+    .replace(`  </${element}>`, `</${element}>`)
+    .replace("  />", `/>`);
+}
+
+function beautifyIncludeCode(source: string) {
+  return source.substring(source.indexOf("incl-code") + "incl-code".length, source.lastIndexOf(";") + 1);
 }

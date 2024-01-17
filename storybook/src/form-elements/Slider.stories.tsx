@@ -20,6 +20,8 @@ import * as React from "react";
 import { Slider } from "@tiller-ds/form-elements";
 
 import mdx from "./Slider.mdx";
+import { useState } from "react";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/Slider",
@@ -31,66 +33,103 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: beautifySource,
     },
   },
 };
 
-export const Simple = () => (
-  <Slider
-    name="slider"
-    from={0}
-    to={600}
-    step={30}
-    value={90}
-    getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
-  />
-);
+export const Simple = () => {
+  // incl-code
+  // slider value state initialization
+  const [value, setValue] = useState<number | undefined>(90);
 
-export const WithHelp = () => (
-  <Slider
-    name="slider"
-    from={0}
-    to={600}
-    step={30}
-    value={90}
-    getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
-    help="Default: Help!"
-  />
-);
+  return (
+    <Slider
+      name="slider"
+      from={0}
+      to={600}
+      step={30}
+      value={value}
+      getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
+      onChange={setValue}
+    />
+  );
+};
 
-export const MarkerColor = () => (
-  <Slider
-    name="slider"
-    from={0}
-    to={600}
-    step={30}
-    value={90}
-    getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
-    markerClassName="border-red-500 bg-red-400"
-  />
-);
+export const WithHelp = () => {
+  // incl-code
+  // slider value state initialization
+  const [value, setValue] = useState<number | undefined>(90);
 
-export const MultipleValues = () => (
-  <Slider
-    name="slider"
-    from={0}
-    to={600}
-    step={30}
-    value={[240, 270]}
-    getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
-    markerClassName={["border-red-500 bg-red-400", "border-green-500 bg-green-400"]}
-  />
-);
+  return (
+    <Slider
+      name="slider"
+      from={0}
+      to={600}
+      step={30}
+      value={value}
+      getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
+      onChange={setValue}
+      help="Default: Help!"
+    />
+  );
+};
 
-export const MultipleValuesStacked = () => (
-  <Slider
-    name="slider"
-    from={0}
-    to={600}
-    step={30}
-    value={[240, 30]}
-    stacked={true}
-    getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
-    markerClassName={["border-red-500 bg-red-400", "border-green-500 bg-green-400"]}
-  />
-);
+export const MarkerColor = () => {
+  // incl-code
+  // slider value state initialization
+  const [value, setValue] = useState<number | undefined>(90);
+
+  return (
+    <Slider
+      name="slider"
+      from={0}
+      to={600}
+      step={30}
+      value={value}
+      getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
+      onChange={setValue}
+      markerClassName="border-red-500 bg-red-400"
+    />
+  );
+};
+
+export const MultipleValues = () => {
+  // incl-code
+  // slider value state initialization
+  const [value, setValue] = useState<number | number[] | undefined>([240, 270]);
+
+  return (
+    <Slider
+      name="slider"
+      from={0}
+      to={600}
+      step={30}
+      value={value}
+      getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
+      onChange={setValue}
+      markerClassName={["border-red-500 bg-red-400", "border-green-500 bg-green-400"]}
+    />
+  );
+};
+
+export const MultipleValuesStacked = () => {
+  // incl-code
+  // slider value state initialization
+  const [value, setValue] = useState<number | number[] | undefined>([240, 30]);
+
+  return (
+    <Slider
+      name="slider"
+      from={0}
+      to={600}
+      step={30}
+      value={value}
+      getOptionLabel={(value) => (value % 60 === 0 ? value / 60 : null)}
+      onChange={setValue}
+      markerClassName={["border-red-500 bg-red-400", "border-green-500 bg-green-400"]}
+      stacked={true}
+    />
+  );
+};

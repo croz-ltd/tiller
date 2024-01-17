@@ -20,7 +20,7 @@ import * as React from "react";
 import { TreeSelectField } from "@tiller-ds/formik-elements";
 import { Intl } from "@tiller-ds/intl";
 
-import { FormikDecorator, TreeItem, treeItems } from "../utils";
+import { beautifySource, FormikDecorator, TreeItem, treeItems } from "../utils";
 
 import mdx from "./TreeSelectField.mdx";
 
@@ -46,7 +46,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "TreeSelectField"),
     },
   },
   decorators: [
@@ -79,12 +80,18 @@ export const WithLabel = () => <TreeSelectField {...commonProps} label={<Intl na
 
 export const WithoutLabel = () => <TreeSelectField {...commonProps} />;
 
-export const WithValue = () => (
-  <TreeSelectField label={<Intl name="label" />} {...commonProps} name={nameWithTreeItem} />
-);
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithTreeItem: { name: "TM 2", code: "U010105" },
+  };
+
+  return <TreeSelectField label={<Intl name="label" />} {...commonProps} name="nameWithTreeItem" />;
+};
 
 export const Disabled = () => (
-  <TreeSelectField label={<Intl name="label" />} disabled={true} {...commonProps} name={nameWithTreeItem} />
+  <TreeSelectField label={<Intl name="label" />} disabled={true} {...commonProps} name="nameWithTreeItem" />
 );
 
 export const WithPlaceholder = () => (
@@ -102,7 +109,7 @@ export const WithOptionValue = () => <TreeSelectField {...complexProps} />;
 export const WithValueLabel = () => (
   <TreeSelectField
     {...commonProps}
-    name={nameWithTreeItem}
+    name="nameWithTreeItem"
     getValueLabel={(item) => (
       <>
         {item.code} {item.name}

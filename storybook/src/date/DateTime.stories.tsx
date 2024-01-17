@@ -22,19 +22,19 @@ import { withDesign } from "storybook-addon-designs";
 import { DateTime } from "@tiller-ds/date";
 
 import mdx from "./DateTime.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Date/DateTime",
   component: DateTime,
   parameters: {
     docs: {
-      source: { type: "dynamic" },
+      source: { type: "code" },
       page: mdx,
+      transformSource: (source) => beautifySource(source, "DateTime"),
     },
     decorators: [withDesign],
   },
 };
 
-const date = window.Date.parse("2020-08-17T14:41:54.365582Z") as unknown as Date;
-
-export const Example = () => <DateTime>{date}</DateTime>;
+export const Example = () => <DateTime>{Date.parse("2020-08-17T14:41:54.365582Z")}</DateTime>;

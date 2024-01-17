@@ -20,7 +20,7 @@ import * as React from "react";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 import { MaskedInputField } from "@tiller-ds/formik-elements";
-import { FormikDecorator } from "../utils";
+import { beautifySource, FormikDecorator } from "../utils";
 
 import storybookDictionary from "../intl/storybookDictionary";
 
@@ -53,7 +53,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "MaskedInputField"),
     },
   },
   decorators: [
@@ -66,25 +67,39 @@ export default {
   ],
 };
 
-export const WithMask = () => <MaskedInputField name={name} mask={mask} />;
+export const WithMask = (args) => <MaskedInputField name={name} mask={mask} />;
 
-export const WithKeptCharsPositions = () => <MaskedInputField name={name} mask={mask} keepCharPositions={true} />;
+export const WithKeptCharsPositions = (args) => <MaskedInputField name={name} mask={mask} keepCharPositions={true} />;
 
-export const WithMaskHidden = () => <MaskedInputField name={name} mask={mask} showMask={false} />;
+export const WithMaskHidden = (args) => <MaskedInputField name={name} mask={mask} showMask={false} />;
 
-export const WithCustomPlaceholder = () => (
+export const WithCustomPlaceholder = (args) => (
   <MaskedInputField
     name={name}
     mask={[/[0-9]/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
-    placeholder={"MM/DD/YYYY"}
+    placeholder="MM/DD/YYYY"
   />
 );
 
-export const WithLabel = () => <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} />;
+export const WithLabel = (args) => <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} />;
 
-export const WithValue = () => <MaskedInputField name={nameWithValue} mask={mask} label={<Intl name="label" />} />;
+export const WithValue = () => {
+  // incl-code
+  // initial value passed as initialValues prop of Formik
+  const initialValues = {
+    nameWithValue: "(385)991-1346",
+  };
 
-export const Disabled = () => (
+  return (
+    <MaskedInputField
+      name="nameWithValue"
+      mask={["(", /[1-9]/, /\d/, /\d/, ")", /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/, /\d/]}
+      label={<Intl name="label" />}
+    />
+  );
+};
+
+export const Disabled = (args) => (
   <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} disabled={true} />
 );
 
@@ -97,13 +112,13 @@ export const WithPlaceholder = (args, context) => (
   />
 );
 
-export const WithHelp = () => (
+export const WithHelp = (args) => (
   <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} help={<Intl name="help" />} />
 );
 
-export const WithError = () => <MaskedInputField name={nameWithError} mask={mask} label={<Intl name="label" />} />;
+export const WithError = (args) => <MaskedInputField name={nameWithError} mask={mask} label={<Intl name="label" />} />;
 
-export const WithLeadingIcon = () => (
+export const WithLeadingIcon = (args) => (
   <MaskedInputField
     name={name}
     mask={mask}
@@ -112,7 +127,7 @@ export const WithLeadingIcon = () => (
   />
 );
 
-export const WithTrailingIcon = () => (
+export const WithTrailingIcon = (args) => (
   <MaskedInputField
     name={name}
     mask={mask}
@@ -121,7 +136,7 @@ export const WithTrailingIcon = () => (
   />
 );
 
-export const WithTrailingIconAndError = () => (
+export const WithTrailingIconAndError = (args) => (
   <MaskedInputField
     name={nameWithError}
     mask={mask}
@@ -130,17 +145,19 @@ export const WithTrailingIconAndError = () => (
   />
 );
 
-export const WithAddOn = () => <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} addOn={addOn} />;
+export const WithAddOn = (args) => (
+  <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} addOn={addOn} />
+);
 
-export const WithInlineLeadingAddOn = () => (
+export const WithInlineLeadingAddOn = (args) => (
   <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} inlineLeadingAddOn={inlineLeadingAddOn} />
 );
 
-export const WithInlineTrailingAddOn = () => (
+export const WithInlineTrailingAddOn = (args) => (
   <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} inlineTrailingAddOn={inlineTrailingAddOn} />
 );
 
-export const WithInlineLeadingAndTrailingAddOn = () => (
+export const WithInlineLeadingAndTrailingAddOn = (args) => (
   <MaskedInputField
     name={name}
     mask={mask}

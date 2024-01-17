@@ -24,7 +24,6 @@ import { DateInput } from "@tiller-ds/date";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
-import storybookDictionary from "../intl/storybookDictionary";
 import { beautifySource } from "../utils";
 
 import mdx from "./DateInput.mdx";
@@ -36,7 +35,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source: string) => beautifySource(source),
+      transformSource: beautifySource,
     },
     design: {
       type: "figma",
@@ -46,13 +45,13 @@ export default {
   },
 };
 
-const translations = storybookDictionary.translations;
 const name = "test";
 
-export const WithState = () => {
+export const WithLabel = () => {
   // incl-code
   // state with stored Date or null value
   const [date, setDate] = React.useState<Date | null>(null);
+
   return (
     <DateInput
       name={name}
@@ -68,141 +67,236 @@ export const WithState = () => {
   );
 };
 
-export const WithLabel = () => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithoutLabel = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
 
-export const WithoutLabel = () => (
-  <DateInput name={name} value={null} onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
-);
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
 
-export const WithValue = () => (
-  <DateInput
-    name={name}
-    value={new Date("2020-01-01")}
-    label={<Intl name="label" />}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithValue = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(new Date("2020-01-01"));
 
-export const Disabled = () => (
-  <DateInput
-    name={name}
-    value={new Date("2020-01-01")}
-    label={<Intl name="label" />}
-    disabled={true}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
 
-export const ReadOnly = () => (
-  <DateInput
-    name={name}
-    value={new Date("2020-01-01")}
-    label={<Intl name="label" />}
-    readOnly={true}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(new Date("2020-01-01"));
 
-export const WithCustomPlaceholder = (args, context) => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+      disabled={true}
+    />
+  );
+};
 
-export const WithHelp = () => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    help={<Intl name="help" />}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const ReadOnly = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(new Date("2020-01-01"));
 
-export const WithTooltip = () => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" />
-      </Tooltip>
-    }
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+      readOnly={true}
+    />
+  );
+};
 
-export const WithError = () => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    error={"Test error text"}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithCustomPlaceholder = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
 
-export const WithMinAndMaxDate = () => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    minDate={new Date("2019-01-20")}
-    maxDate={new Date("2020-02-25")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
-export const WithMinAndMaxDateAndValue = () => (
-  <DateInput
-    name={name}
-    value={new Date("2020-01-01")}
-    label={<Intl name="label" />}
-    minDate={new Date("2019-01-20")}
-    maxDate={new Date("2020-02-25")}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      placeholder="Text placeholder"
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
 
-export const WithHighlightedCurrentDate = () => (
-  <DateInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    highlightToday={true}
-  />
-);
+export const WithHelp = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      help={<Intl name="help" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
+
+export const WithTooltip = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" />
+        </Tooltip>
+      }
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
+
+export const WithError = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      error="Test error text"
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+    />
+  );
+};
+
+export const WithMinAndMaxDate = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+      minDate={new Date("2019-01-20")}
+      maxDate={new Date("2020-02-25")}
+    />
+  );
+};
+
+export const WithMinAndMaxDateAndValue = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(new Date("2020-01-01"));
+
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+      minDate={new Date("2019-01-20")}
+      maxDate={new Date("2020-02-25")}
+    />
+  );
+};
+
+export const WithHighlightedCurrentDate = () => {
+  // incl-code
+  // state with stored Date or null value
+  const [date, setDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateInput
+      name={name}
+      value={date}
+      label={<Intl name="label" />}
+      onChange={(newDate) => {
+        setDate(newDate);
+      }}
+      onReset={() => {
+        setDate(null);
+      }}
+      highlightToday={true}
+    />
+  );
+};

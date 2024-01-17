@@ -33,7 +33,7 @@ export type DateProps = {
    *
    * Other props come from Intl.DateTimeFormatOptions (https://bit.ly/3urm8s5)
    */
-  children: Date;
+  children: number | Date;
 
   /**
    * Format of formatted date (e.g. 'dd. MM. yyyy.' or 'MM/dd/yyyy').

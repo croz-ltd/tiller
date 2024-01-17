@@ -2015,7 +2015,7 @@ export const defaultIconConfig = {
   openExpander: (props: Partial<IconProps>) => <span className={props.className}>-</span>,
   closeExpander: (props: Partial<IconProps>) => <span className={props.className}>+</span>,
   paginatorPrevious: (props: Partial<IconProps>) => <span className={props.className}>&lt;</span>,
-  paginatorNext: (props: Partial<IconProps>) => <span className={props.className}>&gt'</span>,
+  paginatorNext: (props: Partial<IconProps>) => <span className={props.className}>&gt;</span>,
   completed: (props: Partial<IconProps>) => <span className={props.className}>✓</span>,
   warning: (props: Partial<IconProps>) => <span className={props.className}>!</span>,
   sortDesc: (props: Partial<IconProps>) => <span className={props.className}>↓</span>,

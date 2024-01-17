@@ -40,7 +40,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source: string) => beautifySource(source),
+      transformSource: beautifySource,
     },
     design: {
       type: "figma",
@@ -50,11 +50,12 @@ export default {
   },
 };
 
-export const WithState = () => {
+export const WithLabel = () => {
   // incl-code
   // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
+
   return (
     <DateRangeInput
       name={name}
@@ -65,67 +66,214 @@ export const WithState = () => {
         setStartDate(firstDate);
         setEndDate(secondDate);
       }}
-      onReset={() => {
-        setStartDate(null);
-        setEndDate(null);
+    />
+  );
+};
+
+export const WithoutLabel = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
       }}
     />
   );
 };
 
-export const WithLabel = () => <DateRangeInput label={<Intl name="label" />} name={name} onChange={() => {}} />;
+export const WithValue = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(new Date("2020-01-01"));
+  const [endDate, setEndDate] = React.useState<Date | null>(new Date("2020-01-15"));
 
-export const WithoutLabel = () => <DateRangeInput name={name} onChange={() => {}} />;
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      label={<Intl name="label" />}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
 
-export const WithValue = () => (
-  <DateRangeInput
-    name={name}
-    start={new Date("2020-01-01")}
-    end={new Date("2020-01-15")}
-    label={<Intl name="label" />}
-    onChange={() => {}}
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
 
-export const Disabled = () => (
-  <DateRangeInput name={name} label={<Intl name="label" />} disabled={true} onChange={() => {}} />
-);
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      label={<Intl name="label" />}
+      disabled={true}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
 
-export const ReadOnly = () => (
-  <DateRangeInput
-    name={name}
-    start={new Date("2020-01-01")}
-    end={new Date("2020-01-15")}
-    label={<Intl name="label" />}
-    readOnly={true}
-    onChange={() => {}}
-  />
-);
+export const ReadOnly = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(new Date("2020-01-01"));
+  const [endDate, setEndDate] = React.useState<Date | null>(new Date("2020-01-15"));
 
-export const WithCustomPlaceholder = (args, context) => (
-  <DateRangeInput name={name} placeholder={translations[context.globals.language]["placeholder"]} onChange={() => {}} />
-);
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      label={<Intl name="label" />}
+      readOnly={true}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
 
-export const WithHelp = () => <DateRangeInput name={name} help={<Intl name="help" />} onChange={() => {}} />;
+export const WithCustomPlaceholder = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
 
-export const WithTooltip = () => (
-  <DateRangeInput
-    name={name}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" />
-      </Tooltip>
-    }
-    onChange={() => {}}
-  />
-);
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      placeholder="Test placeholder"
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
 
-export const WithError = () => <DateRangeInput name={name} onChange={() => {}} error={error} />;
+export const WithHelp = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
 
-export const WithMinAndMaxDate = () => (
-  <DateRangeInput name={name} minDate={new Date("2020-10-05")} maxDate={new Date("2020-11-20")} onChange={() => {}} />
-);
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      label={<Intl name="label" />}
+      help={<Intl name="help" />}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
 
-export const WithHighlightedCurrentDate = () => (
-  <DateRangeInput label={<Intl name="label" />} name={name} onChange={() => {}} highlightToday={true} />
-);
+export const WithTooltip = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" />
+        </Tooltip>
+      }
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
+
+export const WithError = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+      error={error}
+    />
+  );
+};
+
+export const WithMinAndMaxDate = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      minDate={new Date("2020-10-05")}
+      maxDate={new Date("2020-11-20")}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+    />
+  );
+};
+
+export const WithHighlightedCurrentDate = () => {
+  // incl-code
+  // start date and end date states with stored Date or null values
+  const [startDate, setStartDate] = React.useState<Date | null>(null);
+  const [endDate, setEndDate] = React.useState<Date | null>(null);
+
+  return (
+    <DateRangeInput
+      name={name}
+      start={startDate}
+      end={endDate}
+      label={<Intl name="label" />}
+      onChange={(firstDate, secondDate) => {
+        setStartDate(firstDate);
+        setEndDate(secondDate);
+      }}
+      highlightToday={true}
+    />
+  );
+};

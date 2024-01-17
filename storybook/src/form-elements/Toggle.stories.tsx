@@ -16,12 +16,14 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
 import { Toggle } from "@tiller-ds/form-elements";
 
 import mdx from "./Toggle.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements/Toggle",
@@ -29,10 +31,8 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
-      transformSource: (source) => {
-        return source.replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-      },
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Toggle"),
     },
     design: {
       type: "figma",
@@ -42,43 +42,63 @@ export default {
   },
 };
 
-const checked = true;
+export const Withlabel = () => {
+  // incl-code
+  // state with stored boolean value
+  const [toggled, setToggled] = useState<boolean>(false);
 
-const error = "Test error";
-
-export const WithLabel = () => (
-  <Toggle
-    checked={checked}
-    onClick={() => {}}
-    label={<span className="text-sm leading-5 font-medium text-gray-900">Annual billing</span>}
-  />
-);
-
-export const WithLabelReversed = () => (
-  <Toggle
-    checked={checked}
-    onClick={() => {}}
-    label={<span className="text-sm leading-5 font-medium text-gray-900">Annual billing</span>}
-    reverse={true}
-  />
-);
-
-export const WithoutLabel = () => <Toggle checked={checked} onClick={() => {}} />;
-
-export const WithError = () => <Toggle checked={checked} onClick={() => {}} error={error} />;
-
-export const WithCheckedIcon = () => <Toggle checked={checked} onClick={() => {}} />;
-
-export const WithUncheckedIcon = () => <Toggle checked={!checked} onClick={() => {}} />;
-
-export const WithCheckedAndUncheckedIcons = () => {
-  const [checked, setChecked] = React.useState(false);
-
-  const onClick = () => {
-    setChecked(!checked);
-  };
-
-  return <Toggle checked={checked} onClick={onClick} />;
+  return (
+    <Toggle
+      checked={toggled}
+      onClick={() => setToggled(!toggled)}
+      label={<span className="text-sm leading-5 font-medium text-gray-900">Annual billing</span>}
+    />
+  );
 };
 
-export const Disabled = () => <Toggle checked={!checked} disabled={true} />;
+export const WithLabelReversed = () => {
+  // incl-code
+  // state with stored boolean value
+  const [toggled, setToggled] = useState<boolean>(false);
+
+  return (
+    <Toggle
+      checked={toggled}
+      onClick={() => setToggled(!toggled)}
+      label={<span className="text-sm leading-5 font-medium text-gray-900">Annual billing</span>}
+      reverse={true}
+    />
+  );
+};
+
+export const WithoutLabel = () => {
+  // incl-code
+  // state with stored boolean value
+  const [toggled, setToggled] = useState<boolean>(false);
+
+  return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} />;
+};
+
+export const WithError = () => {
+  // incl-code
+  // state with stored boolean value
+  const [toggled, setToggled] = useState<boolean>(false);
+
+  return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} error="Test error" />;
+};
+
+export const WithInitialCheckedIcon = () => {
+  // incl-code
+  // state with stored boolean value
+  const [toggled, setToggled] = useState<boolean>(true);
+
+  return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} />;
+};
+
+export const Disabled = () => {
+  // incl-code
+  // state with stored boolean value
+  const [toggled, setToggled] = useState<boolean>(false);
+
+  return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} disabled={true} />;
+};

@@ -23,6 +23,7 @@ import { Amount } from "@tiller-ds/data-display";
 import { useIntlContext } from "@tiller-ds/intl";
 
 import mdx from "./Amount.mdx";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Data-display/Amount",
@@ -30,53 +31,50 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "Amount"),
     },
     decorators: [withDesign],
   },
 };
 
-const currency = "hrk";
-
 export const AmountWithCurrency = () => (
-  <Amount amountStyle="currency" currency={currency}>
+  <Amount amountStyle="currency" currency="hrk">
     12
   </Amount>
 );
 export const WithDecimal = () => <Amount amountStyle="decimal">1452</Amount>;
 export const WithPercent = () => <Amount amountStyle="percent">0.03</Amount>;
 export const WithUnit = () => <Amount amountStyle="unit">12</Amount>;
-export const WithZero = () => <Amount currency={currency}>0</Amount>;
-export const WithLessThanThousand = () => <Amount currency={currency}>123</Amount>;
-export const WithLessThanMillion = () => <Amount currency={currency}>34500</Amount>;
-export const WithMoreThanMillion = () => <Amount currency={currency}>34500000 </Amount>;
+export const WithZero = () => <Amount currency="hrk">0</Amount>;
+export const WithLessThanThousand = () => <Amount currency="hrk">123</Amount>;
+export const WithLessThanMillion = () => <Amount currency="hrk">34500</Amount>;
+export const WithMoreThanMillion = () => <Amount currency="hrk">34500000 </Amount>;
 export const WithMinOneFractionDigit = () => (
-  <Amount currency={currency} minimumFractionDigits={1}>
+  <Amount currency="hrk" minimumFractionDigits={1}>
     3
   </Amount>
 );
 export const WithMinTwoFractionDigits = () => (
-  <Amount currency={currency} minimumFractionDigits={2}>
+  <Amount currency="hrk" minimumFractionDigits={2}>
     3.1
   </Amount>
 );
 export const WithMinThreeFractionDigits = () => (
-  <Amount currency={currency} minimumFractionDigits={3}>
+  <Amount currency="hrk" minimumFractionDigits={3}>
     3.1
   </Amount>
 );
 export const WithMaxTwoFractionDigits = () => (
-  <Amount currency={currency} maximumFractionDigits={2}>
+  <Amount currency="hrk" maximumFractionDigits={2}>
     3.1234
   </Amount>
 );
 
 export const WithTranslation = () => {
-  function AmountWithTranslationHelper() {
-    const { intl } = useIntlContext();
-    const price = 1000.12;
-    return <>{intl.formatNumber(price, { style: "currency" })}</>;
-  }
+  // incl-code
+  //requires IntlProvider wrapper!
+  const intlContext = useIntlContext();
+  const price = 1000.12;
 
-  return <AmountWithTranslationHelper />;
+  return <span>{intlContext?.intl.formatNumber(price, { style: "currency" })}</span>;
 };

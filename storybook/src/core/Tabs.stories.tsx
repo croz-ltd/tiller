@@ -23,22 +23,9 @@ import { Button, Tabs } from "@tiller-ds/core";
 import { Icon } from "@tiller-ds/icons";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./Tabs.mdx";
-
-const billing = "Billing";
-const billingTab = "Billing Tab";
-const company = "Company";
-const companyTab = "Company Tab";
-const myAccount = "My account";
-const myAccountTab = "My account Tab";
-const teamMembers = "Team Members";
-const teamMembersTab = "Team Members Tab";
-const settings = "Settings";
-const settingsTab = "Settings tab";
-const contact = "Contact";
-const contactTab = "Contact Tab";
 
 export default {
   title: "Component Library/Core/Tabs",
@@ -46,12 +33,11 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
           .replace(/TabsTab/g, "Tabs.Tab")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, "Tabs");
+        return getChangedTokensFromSource(beautifySource(correctedSource, "Tabs"), "Tabs");
       },
     },
     design: {
@@ -110,107 +96,108 @@ TabsFactory.decorators = showFactoryDecorator();
 
 export const Simple = () => (
   <Tabs>
-    <Tabs.Tab label={myAccount}>{myAccountTab}</Tabs.Tab>
-    <Tabs.Tab label={company}>{companyTab}</Tabs.Tab>
-    <Tabs.Tab label={teamMembers}>{teamMembersTab}</Tabs.Tab>
-    <Tabs.Tab label={billingTab}>{billingTab}</Tabs.Tab>
+    <Tabs.Tab label="My Account">My account tab</Tabs.Tab>
+    <Tabs.Tab label="Company">Company tab</Tabs.Tab>
+    <Tabs.Tab label="Team Members">Team members tab</Tabs.Tab>
+    <Tabs.Tab label="Billing">Billing tab</Tabs.Tab>
   </Tabs>
 );
 
 export const WithLeadingIcons = () => (
   <Tabs>
-    <Tabs.Tab label={myAccount} icon={<Icon type="user" variant="fill" />}>
-      {myAccountTab}
+    <Tabs.Tab label="My Account" icon={<Icon type="user" variant="fill" />}>
+      My account tab
     </Tabs.Tab>
-    <Tabs.Tab label={company} icon={<Icon type="buildings" variant="fill" />}>
-      {companyTab}
+    <Tabs.Tab label="Company" icon={<Icon type="buildings" variant="fill" />}>
+      Company tab
     </Tabs.Tab>
-    <Tabs.Tab label={teamMembers} icon={<Icon type="users-three" variant="fill" />}>
-      {teamMembersTab}
+    <Tabs.Tab label="Team Members" icon={<Icon type="users-three" variant="fill" />}>
+      Team members tab
     </Tabs.Tab>
-    <Tabs.Tab label={billing} icon={<Icon type="credit-card" variant="fill" />}>
-      {billingTab}
+    <Tabs.Tab label="Billing" icon={<Icon type="credit-card" variant="fill" />}>
+      Billing tab
     </Tabs.Tab>
   </Tabs>
 );
 
 export const WithTrailingIcons = () => (
   <Tabs iconPlacement="trailing">
-    <Tabs.Tab label={myAccount} icon={<Icon type="user" variant="fill" />}>
-      {myAccountTab}
+    <Tabs.Tab label="My Account" icon={<Icon type="user" variant="fill" />}>
+      My account tab
     </Tabs.Tab>
-    <Tabs.Tab label={company} icon={<Icon type="buildings" variant="fill" />}>
-      {companyTab}
+    <Tabs.Tab label="Company" icon={<Icon type="buildings" variant="fill" />}>
+      Company tab
     </Tabs.Tab>
-    <Tabs.Tab label={teamMembers} icon={<Icon type="users-three" variant="fill" />}>
-      {teamMembersTab}
+    <Tabs.Tab label="Team Members" icon={<Icon type="users-three" variant="fill" />}>
+      Team members tab
     </Tabs.Tab>
-    <Tabs.Tab label={billing} icon={<Icon type="credit-card" variant="fill" />}>
-      {billingTab}
+    <Tabs.Tab label="Billing" icon={<Icon type="credit-card" variant="fill" />}>
+      Billing tab
     </Tabs.Tab>
   </Tabs>
 );
 
 export const WithDifferentDefaultTab = () => (
   <Tabs defaultIndex={2}>
-    <Tabs.Tab label={myAccount}>{myAccountTab}</Tabs.Tab>
-    <Tabs.Tab label={company}>{companyTab}</Tabs.Tab>
-    <Tabs.Tab label={teamMembers}>{teamMembersTab}</Tabs.Tab>
-    <Tabs.Tab label={billingTab}>{billingTab}</Tabs.Tab>
+    <Tabs.Tab label="My Account">My account tab</Tabs.Tab>
+    <Tabs.Tab label="Company">Company tab</Tabs.Tab>
+    <Tabs.Tab label="Team Members">Team members tab</Tabs.Tab>
+    <Tabs.Tab label="Billing">Billing tab</Tabs.Tab>
   </Tabs>
 );
 
 export const WithActionOnTabClick = () => {
+  // incl-code
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   return (
     <Tabs>
-      <Tabs.Tab label={myAccount} onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
-        {myAccountTab} (on tab index no. <b>{currentIndex}</b>)
+      <Tabs.Tab label="My Account" onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
+        My account tab (on tab index no. <b>{currentIndex}</b>)
       </Tabs.Tab>
-      <Tabs.Tab label={company} onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
-        {companyTab} (on tab index no. <b>{currentIndex}</b>)
+      <Tabs.Tab label="Company" onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
+        Company tab (on tab index no. <b>{currentIndex}</b>)
       </Tabs.Tab>
-      <Tabs.Tab label={teamMembers} onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
-        {teamMembersTab} (on tab index no. <b>{currentIndex}</b>)
+      <Tabs.Tab label="Team Members" onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
+        Team members tab (on tab index no. <b>{currentIndex}</b>)
       </Tabs.Tab>
-      <Tabs.Tab label={billingTab} onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
-        {billingTab} (on tab index no. <b>{currentIndex}</b>)
+      <Tabs.Tab label="Billing" onClick={(selectedIndex) => setCurrentIndex(selectedIndex)}>
+        Billing tab (on tab index no. <b>{currentIndex}</b>)
       </Tabs.Tab>
     </Tabs>
   );
 };
 
 export const FullWidth = () => (
-  <Tabs fullWidth={true}>
-    <Tabs.Tab label={myAccount}>{myAccountTab}</Tabs.Tab>
-    <Tabs.Tab label={company}>{companyTab}</Tabs.Tab>
-    <Tabs.Tab label={teamMembers}>{teamMembersTab}</Tabs.Tab>
-    <Tabs.Tab label={billingTab}>{billingTab}</Tabs.Tab>
+  <Tabs fullWidth={true} className="w-full">
+    <Tabs.Tab label="My Account">My account tab</Tabs.Tab>
+    <Tabs.Tab label="Company">Company tab</Tabs.Tab>
+    <Tabs.Tab label="Team Members">Team members tab</Tabs.Tab>
+    <Tabs.Tab label="Billing">Billing tab</Tabs.Tab>
   </Tabs>
 );
 
 export const ScrollButtons = () => (
-  <div className="max-w-sm">
-    <Tabs fullWidth={true} scrollButtons>
-      <Tabs.Tab label={myAccount}>{billingTab}</Tabs.Tab>
-      <Tabs.Tab label={company}>{companyTab}</Tabs.Tab>
-      <Tabs.Tab label={myAccount}>{myAccountTab}</Tabs.Tab>
-      <Tabs.Tab label={teamMembers}>{teamMembersTab}</Tabs.Tab>
-      <Tabs.Tab label={contact}>{contactTab}</Tabs.Tab>
-      <Tabs.Tab label={settings}>{settingsTab}</Tabs.Tab>
-    </Tabs>
-  </div>
+  <Tabs fullWidth={true} scrollButtons className="max-w-sm">
+    <Tabs.Tab label="My Account">My account tab</Tabs.Tab>
+    <Tabs.Tab label="Company">Company tab</Tabs.Tab>
+    <Tabs.Tab label="Billing">Billing tab</Tabs.Tab>
+    <Tabs.Tab label="Team Members">Team members tab</Tabs.Tab>
+    <Tabs.Tab label="Contact">Contact tab</Tabs.Tab>
+    <Tabs.Tab label="Settings">Settings tab</Tabs.Tab>
+  </Tabs>
 );
 
 export const WithIndex = () => {
+  // incl-code
+  // tab index state initialization
   const [index, setIndex] = React.useState(0);
 
   return (
     <div className="flex flex-col gap-4 w-fit">
       <Tabs index={index} onTabChange={setIndex}>
-        <Tabs.Tab label={myAccount}>{billingTab}</Tabs.Tab>
-        <Tabs.Tab label={company}>{companyTab}</Tabs.Tab>
+        <Tabs.Tab label="My Account">Billing tab</Tabs.Tab>
+        <Tabs.Tab label="Company">Company tab</Tabs.Tab>
       </Tabs>
       <Button onClick={() => setIndex((currentIndex) => (currentIndex + 1) % 2)}>Change tab</Button>
     </div>

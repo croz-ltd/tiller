@@ -1,4 +1,4 @@
-import { ArgsTable, Story, Canvas } from "@storybook/addon-docs";
+import { ArgsTable, Story, Canvas, Stories } from "@storybook/addon-docs";
 
 import { DragZone } from "@tiller-ds/upload";
 import { ThemeTokens } from "../utils";
@@ -34,7 +34,7 @@ purposes only._
 `DragZone` is commonly used with the `FileList` component, which renders current file list in a simple table.
 
 <Canvas>
-  <Story id="component-library-upload-dragzone--and-file-list" />
+  <Story id="component-library-upload-dragzone--with-file-list" />
 </Canvas>
 
 If you want to have a file upload inside a form which already uses Formik, see `DragZoneField`.
@@ -134,6 +134,8 @@ function MyBetterUploaderComponent() {
   );
 }
 ```
+
+<Stories includePrimary={true} />
 
 ## Drag Zone Props:
 

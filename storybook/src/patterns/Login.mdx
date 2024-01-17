@@ -1,4 +1,4 @@
-import { Canvas, Story } from "@storybook/addon-docs";
+import { Canvas, Stories, Story } from "@storybook/addon-docs";
 
 # Login
 
@@ -60,35 +60,7 @@ done using validation and error messages.
 - Intl Provider (details [here](/docs/component-library-intl-intl--basic)) with imported patterns dictionary from
   `@tiller-ds/patterns` (if using multiple dictionaries you can merge them and hand them over to the provider)
 
-## With Logo Variant
-
-<Canvas>
-  <Story id="patterns-login--with-logo" />
-</Canvas>
-
-## Forgotten Password
-
-<Canvas>
-  <Story id="patterns-login--forgot-password" />
-</Canvas>
-
-## Email Confirmation
-
-<Canvas>
-  <Story id="patterns-login--email-confirmation" />
-</Canvas>
-
-## Reset Password
-
-<Canvas>
-  <Story id="patterns-login--reset-password" />
-</Canvas>
-
-## Success Password Change
-
-<Canvas>
-  <Story id="patterns-login--success-password-change" />
-</Canvas>
+<Stories includePrimary={true} />
 
 ## Best Practices
 

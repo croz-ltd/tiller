@@ -64,7 +64,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source) => beautifySource(source),
+      transformSource: (source) => beautifySource(source, "TimeInputField"),
     },
     design: {
       type: "figma",
@@ -90,14 +90,13 @@ export const WithValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithValue]: "21:21",
+    nameWithValue: "21:21",
   };
-  return <TimeInputField name={nameWithValue} label={<Intl name="label" />} />;
+
+  return <TimeInputField name="nameWithValue" label={<Intl name="label" />} />;
 };
 
-export const WithoutClearButton = () => (
-  <TimeInputField name={nameWithValue} label={<Intl name="label" />} allowClear={false} />
-);
+export const WithoutClearButton = () => <TimeInputField name={name} label={<Intl name="label" />} allowClear={false} />;
 
 export const Disabled = () => <TimeInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
@@ -129,45 +128,45 @@ export const WithLocalDateTime = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [localDateTime]: "2020-11-20T11:21:28.635778",
+    localDateTime: "2020-11-20T11:21:28.635778",
   };
-  return <TimeInputField name={localDateTime} />;
+  return <TimeInputField name="localDateTime" />;
 };
 
 export const WithLocalTime = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [localTime]: "11:21:28.635803",
+    localTime: "11:21:28.635803",
   };
-  return <TimeInputField name={localTime} />;
+  return <TimeInputField name="localTime" />;
 };
 
 export const WithOffsetTime = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [offsetTime]: "11:21:28.635970+05:00",
+    offsetTime: "11:21:28.635970+05:00",
   };
-  return <TimeInputField name={offsetTime} withTimeZone={true} />;
+  return <TimeInputField name="offsetTime" withTimeZone={true} />;
 };
 
 export const WithOffsetDateTime = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [offsetDateTime]: "2020-11-20T11:21:28.63602+05:00",
+    offsetDateTime: "2020-11-20T11:21:28.63602+05:00",
   };
-  return <TimeInputField name={offsetDateTime} withTimeZone={true} />;
+  return <TimeInputField name="offsetDateTime" withTimeZone={true} />;
 };
 
 export const WithZonedDateTime = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [zonedDateTime]: "2020-11-20T11:21:28.636042+01:00",
+    zonedDateTime: "2020-11-20T11:21:28.636042+01:00",
   };
-  return <TimeInputField name={zonedDateTime} withTimeZone={true} />;
+  return <TimeInputField name="zonedDateTime" withTimeZone={true} />;
 };
 
 export const WithTwelveHour = () => <TimeInputField name={name} type="use12Hours" />;
@@ -176,7 +175,7 @@ export const WithTwelveHourAndValue = () => {
   // incl-code
   // initial value passed as initialValues prop of Formik
   const initialValues = {
-    [nameWithValue]: "21:21",
+    nameWithValue: "21:21",
   };
-  return <TimeInputField name={nameWithValue} type="use12Hours" />;
+  return <TimeInputField name="nameWithValue" type="use12Hours" />;
 };

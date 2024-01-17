@@ -20,6 +20,17 @@ a format inferred by locale.
 If you wish to use this component without `IntlProvider`, you can do so by passing the `format` prop
 to the component. This way, the format will be inferred from this prop instead of the `locale` prop of `IntlProvider`.
 
+<br />
+
+### Important Note
+
+Be careful when importing the component because it shares the name with **React's Date interface**.
+Consider importing it the following way to avoid it being mistaken by the Date interface:
+
+```tsx
+import { Date as TillerDate } from "@tiller-ds/date";
+```
+
 <Stories includePrimary={true} />
 
 ## Date Props:

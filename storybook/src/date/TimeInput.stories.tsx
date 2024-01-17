@@ -36,7 +36,7 @@ export default {
     docs: {
       page: mdx,
       source: { type: "auto", excludeDecorators: true },
-      transformSource: (source: string) => beautifySource(source),
+      transformSource: beautifySource,
     },
     design: {
       type: "figma",
@@ -67,118 +67,220 @@ export const WithState = () => {
     />
   );
 };
-export const WithLabel = () => (
-  <TimeInput name={name} label={<Intl name="label" />} value="" onChange={() => {}} onBlur={() => {}} />
-);
+export const WithLabel = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
 
-export const WithoutLabel = () => <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} />;
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      label={<Intl name="label" />}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      onBlur={() => {}}
+    />
+  );
+};
 
-export const WithValue = () => <TimeInput name={name} value="21:30" onChange={() => {}} onBlur={() => {}} />;
+export const WithoutLabel = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
 
-export const Disabled = () => <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} disabled={true} />;
+  return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} />;
+};
 
-export const WithCustomPlaceholder = (args, context) => (
-  <TimeInput
-    name={name}
-    value={null}
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-  />
-);
+export const WithValue = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("21:30");
 
-export const WithHelp = () => (
-  <TimeInput name={name} value="" onChange={() => {}} onBlur={() => {}} help={<Intl name="help" />} />
-);
+  return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} />;
+};
 
-export const WithTooltip = () => (
-  <TimeInput
-    name={name}
-    value=""
-    onChange={() => {}}
-    onBlur={() => {}}
-    tooltip={
-      <Tooltip label={<Intl name="tooltip" />}>
-        <Icon type="info" />
-      </Tooltip>
-    }
-  />
-);
+export const Disabled = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
 
-export const WithError = () => (
-  <TimeInput
-    name={name}
-    value=""
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    error={<Intl name="error" />}
-  />
-);
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      disabled={true}
+    />
+  );
+};
 
-export const WithLocalDateTime = () => (
-  <TimeInput name={name} value="2020-11-20T11:21:28.635778" onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
-);
+export const WithCustomPlaceholder = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
 
-export const WithLocalTime = () => (
-  <TimeInput name={name} value="11:21:28.635803" onChange={() => {}} onReset={() => {}} onBlur={() => {}} />
-);
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      label={<Intl name="label" />}
+      placeholder="Test placeholder"
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+    />
+  );
+};
 
-export const WithOffsetTime = () => (
-  <TimeInput
-    name={name}
-    value="11:21:28.635970+05:00"
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    withTimeZone={true}
-  />
-);
+export const WithHelp = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
 
-export const WithOffsetDateTime = () => (
-  <TimeInput
-    name={name}
-    value="2020-11-20T11:21:28.63602+05:00"
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    withTimeZone={true}
-  />
-);
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      help={<Intl name="help" />}
+    />
+  );
+};
 
-export const WithZonedDateTime = () => (
-  <TimeInput
-    name={name}
-    value="2020-11-20T11:21:28.636042+01:00"
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    withTimeZone={true}
-  />
-);
+export const WithTooltip = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
 
-export const WithTwelveHour = () => (
-  <TimeInput
-    name={name}
-    value={""}
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    withTimeZone={true}
-    type="use12Hours"
-  />
-);
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      tooltip={
+        <Tooltip label={<Intl name="tooltip" />}>
+          <Icon type="info" />
+        </Tooltip>
+      }
+    />
+  );
+};
 
-export const WithTwelveHourAndValue = () => (
-  <TimeInput
-    name={name}
-    value="11:21:28.635970+05:00"
-    onChange={() => {}}
-    onReset={() => {}}
-    onBlur={() => {}}
-    withTimeZone={true}
-    type="use12Hours"
-  />
-);
+export const WithError = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
+
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      error={<Intl name="error" />}
+    />
+  );
+};
+
+export const WithLocalDateTime = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("2020-11-20T11:21:28.635778");
+
+  return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} />;
+};
+
+export const WithLocalTime = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("11:21:28.635803");
+
+  return (
+    <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => {}} onBlur={() => {}} />
+  );
+};
+
+export const WithOffsetTime = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("11:21:28.635970+01:00");
+
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      withTimeZone={true}
+    />
+  );
+};
+
+export const WithOffsetDateTime = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("2020-11-20T11:21:28.63602+05:00");
+
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      withTimeZone={true}
+    />
+  );
+};
+
+export const WithZonedDateTime = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("2020-11-20T11:21:28.636042+01:00");
+
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      withTimeZone={true}
+    />
+  );
+};
+
+export const WithTwelveHour = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>(null);
+
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      withTimeZone={true}
+      type="use12Hours"
+    />
+  );
+};
+
+export const WithTwelveHourAndValue = () => {
+  // incl-code
+  // state with stored string or null value
+  const [time, setTime] = React.useState<string | null>("11:21:28.635970+05:00");
+
+  return (
+    <TimeInput
+      name={name}
+      value={time}
+      onChange={(newTime) => setTime(newTime)}
+      onReset={() => setTime(null)}
+      withTimeZone={true}
+      type="use12Hours"
+    />
+  );
+};
