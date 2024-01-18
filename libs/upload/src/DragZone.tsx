@@ -17,17 +17,17 @@
 
 import React from "react";
 
-import {UploadyContext, useItemErrorListener, useItemFinishListener, useItemStartListener} from "@rpldy/uploady";
+import { UploadyContext, useItemProgressListener, useItemFinishListener, useItemStartListener } from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
 
 import { Field, FieldProps } from "@tiller-ds/form-elements";
+import { LoadingIcon } from "@tiller-ds/icons";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 
 import UploadyWrapper, { UploadyWrapperProps } from "./UploadyWrapper";
 
 import { UseFileUpload, File, defaultUploadResponseMapper } from "./useFileUpload";
 import { BatchItem } from "@rpldy/shared";
-import {isObject} from "lodash";
 
 export type DragZoneProps<T extends File> = {
   /**
@@ -77,7 +77,18 @@ export type DragZoneProps<T extends File> = {
    * Function fired when the component is clicked.
    */
   onClick?: () => void;
+  /**
+   * Custom upload icon that overrides the default icon.
+   */
   uploadIcon?: React.ReactElement;
+  /**
+   * Enables loading via a custom loader.
+   *
+   * If set to `null` no loader will be displayed on file upload.
+   *
+   * @param   {number}  uploadPercentage  Percentage retrieved from the loader on file upload.
+   */
+  loader?: ((uploadPercentage: number) => React.ReactNode) | null;
 } & Omit<UploadyWrapperProps, "children"> &
   Omit<FieldProps, "children"> &
   DragZoneTokensProps;
@@ -115,12 +126,20 @@ type CustomUploadDropZoneContainerProps<T extends File> = {
   /**
    * `withCredentials` flag on fetch requests for uploading
    */
-  withCredentials?: boolean
+  withCredentials?: boolean;
 
   /**
    * Custom additional styling applied to the component.
    */
   className?: string;
+  /**
+   * Enables loading via a custom loader.
+   *
+   * If set to `null` no loader will be displayed on file upload.
+   *
+   * @param   {number}  uploadPercentage  Percentage retrieved from the loader on file upload.
+   */
+  loader?: ((uploadPercentage: number) => React.ReactNode) | null;
 };
 
 type CustomUploadDropZoneProps = {
@@ -131,6 +150,8 @@ type CustomUploadDropZoneProps = {
   uploadActive?: boolean;
   uploadIcon?: React.ReactElement;
   className?: string;
+  uploadPercentage?: number;
+  loader?: ((uploadPercentage: number) => React.ReactNode) | null;
 } & TokenProps<"DragZone">;
 
 export default function DragZone<T extends File>({
@@ -148,6 +169,7 @@ export default function DragZone<T extends File>({
   uploadIcon,
   withCredentials,
   className,
+  loader = (uploadPercentage: number) => <DragZoneLoader uploadPercentage={uploadPercentage} />,
   ...props
 }: DragZoneProps<T>) {
   const tokens = useTokens("DragZone", props.tokens);
@@ -173,6 +195,7 @@ export default function DragZone<T extends File>({
               mapUploadResponse={mapUploadResponse}
               uploadIcon={uploadIcon}
               className={className}
+              loader={loader}
             />
           </UploadDropZone>
         </UploadyWrapper>
@@ -183,31 +206,45 @@ export default function DragZone<T extends File>({
   );
 }
 
-function CustomUploadDropZoneContainer<T extends File>({ hook, ...props }: CustomUploadDropZoneContainerProps<T>) {
+function CustomUploadDropZoneContainer<T extends File>({
+  hook,
+  loader,
+  ...props
+}: CustomUploadDropZoneContainerProps<T>) {
   const uploady = React.useContext(UploadyContext);
   const [originalFileName, setOriginalFileName] = React.useState<string>("");
   const [uploadActive, setUploadActive] = React.useState<boolean>(false);
+  const [uploadPercentage, setUploadPercentage] = React.useState<number>(0);
 
   const onClick = React.useCallback(async () => {
     uploady.showFileUpload();
   }, [uploady]);
 
   useItemStartListener((item) => {
+    setUploadActive(true);
+    setUploadPercentage(0);
     setOriginalFileName(item.file.name);
+  });
+
+  useItemProgressListener((item) => {
+    setUploadPercentage(item.completed);
   });
 
   useItemFinishListener((item) => {
     const file: T = props.mapUploadResponse(item, originalFileName);
-    setUploadActive(true);
     hook?.onUploadedFiles(file);
+    setUploadActive(false);
   });
 
-  React.useEffect(() => {
-    if (hook?.uploadedFiles.length === 0) setUploadActive(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hook.uploadedFiles]);
-
-  return <CustomUploadDropZone onClick={onClick} uploadActive={uploadActive} {...props} />;
+  return (
+    <CustomUploadDropZone
+      onClick={onClick}
+      uploadActive={uploadActive}
+      uploadPercentage={uploadPercentage}
+      loader={loader}
+      {...props}
+    />
+  );
 }
 
 function CustomUploadDropZone({
@@ -218,6 +255,8 @@ function CustomUploadDropZone({
   onClick,
   uploadIcon,
   className,
+  loader,
+  uploadPercentage,
   ...props
 }: CustomUploadDropZoneProps) {
   const tokens = useTokens("DragZone", props.tokens);
@@ -239,25 +278,53 @@ function CustomUploadDropZone({
     tokens.customUploadDropZoneTitle.master,
     tokens.customUploadDropZoneTitle.fontSize,
     tokens.customUploadDropZoneTitle.fontWeight,
-    tokens.customUploadDropZoneTitle.color
+    tokens.customUploadDropZoneTitle.color,
   );
 
   const customUploadDropZoneSubtitleClassName = cx(
     tokens.customUploadDropZoneSubtitle.fontSize,
-    tokens.customUploadDropZoneSubtitle.color
+    tokens.customUploadDropZoneSubtitle.color,
   );
 
-  const uploadZoneIcon = useIcon("file", uploadIcon, { size: tokens.iconSize, className: `mx-auto ${tokens.iconColor}`})
+  const uploadZoneIcon = useIcon("file", uploadIcon, {
+    size: tokens.iconSize,
+    className: `mx-auto ${tokens.iconColor}`,
+  });
 
   return (
     <div className={customUploadDropZoneContainerClassName} onClick={onClick}>
       <div className={tokens.customUploadDropZoneDescriptionContainer}>
-        {uploadZoneIcon}
-        <div className={customUploadDropZoneTitleClassName}>
-          <label>{title}</label>
-        </div>
+        {!uploadActive || !loader
+          ? uploadZoneIcon
+          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            loader(uploadPercentage!)}
+        <label className={customUploadDropZoneTitleClassName}>{title}</label>
         <p className={customUploadDropZoneSubtitleClassName}>{subtitle}</p>
       </div>
+    </div>
+  );
+}
+
+type DragZoneLoaderProps = {
+  uploadPercentage?: number;
+  spinner?: boolean;
+  percentage?: boolean;
+} & TokenProps<"DragZone">;
+
+export function DragZoneLoader({ uploadPercentage, spinner = true, percentage = true, ...props }: DragZoneLoaderProps) {
+  const tokens = useTokens("DragZone", props.tokens);
+
+  if (!spinner && !percentage) {
+    console.warn(
+      "DragZoneLoader is not configured to show spinner and/or percentage. " +
+        "At least one of these props needs to be enabled in order for the component to display something.",
+    );
+  }
+
+  return (
+    <div className={tokens.loading.master}>
+      {spinner && <LoadingIcon size={tokens.iconSize} />}
+      {percentage && <span className={tokens.loading.percentage}>{uploadPercentage}%</span>}
     </div>
   );
 }

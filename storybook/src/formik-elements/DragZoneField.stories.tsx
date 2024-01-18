@@ -22,7 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import { IconButton } from "@tiller-ds/core";
 import { DragZoneField } from "@tiller-ds/formik-elements";
 import { Intl } from "@tiller-ds/intl";
-import { FileList, useFileUpload } from "@tiller-ds/upload";
+import { DragZoneLoader, FileList, useFileUpload } from "@tiller-ds/upload";
 import { Icon } from "@tiller-ds/icons";
 
 import { UPLOADER_EVENTS } from "@rpldy/uploader";
@@ -83,6 +83,40 @@ export const Simple = () => {
   );
 };
 
+export const WithSpinnerOnly = () => {
+  // incl-code
+  // hook initialization
+  const useFileUploadHook = useFileUpload();
+
+  return (
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      loader={() => <DragZoneLoader percentage={false} />}
+    />
+  );
+};
+
+export const WithNoLoader = () => {
+  // incl-code
+  // hook initialization
+  const useFileUploadHook = useFileUpload();
+
+  return (
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      loader={null}
+    />
+  );
+};
+
 export const WithSubtitle = () => {
   // incl-code
   const useFileUploadHook = useFileUpload();
@@ -128,6 +162,44 @@ export const WithFileList = () => {
         send={useMockSender.send}
         allowMultiple={true}
         title={<Intl name="dragZoneTitle" />}
+      />
+      <FileList hook={useFileUploadHook}>
+        {(file, helpers) => (
+          <FileList.Header>
+            <FileList.Header.Name>{file.name}</FileList.Header.Name>
+            <FileList.Header.Action>
+              <IconButton
+                icon={<Icon type="trash" />}
+                label={<Intl name="delete" />}
+                onClick={() => {
+                  return helpers.deleteFile(file);
+                }}
+              />
+            </FileList.Header.Action>
+          </FileList.Header>
+        )}
+      </FileList>
+    </div>
+  );
+};
+
+export const WithFileListAndCustomLoader = () => {
+  // incl-code
+  // hook initialization
+  const useFileUploadHook = useFileUpload();
+
+  return (
+    <div>
+      <DragZoneField
+        name={name}
+        hook={useFileUploadHook}
+        url={useMockSender.destination.url}
+        send={useMockSender.send}
+        allowMultiple={true}
+        title={<Intl name="dragZoneTitle" />}
+        loader={(percentage) => (
+          <span className="animate-pulse text-body-light h-7 my-px ">Uploading... {percentage}%</span>
+        )}
       />
       <FileList hook={useFileUploadHook}>
         {(file, helpers) => (
