@@ -27,6 +27,6 @@ export type File = InternalFile;
 
 export { default as useFileUpload } from "./useFileUpload";
 
-export { default as DragZone } from "./DragZone";
+export { default as DragZone, DragZoneLoader } from "./DragZone";
 export { default as FileList } from "./FileList";
 export { default as UploadButton } from "./UploadButton";
