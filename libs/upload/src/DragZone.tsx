@@ -321,10 +321,12 @@ export function DragZoneLoader({ uploadPercentage, spinner = true, percentage = 
     );
   }
 
+  const loaderClassName = cx(tokens.loader.master, `h-${tokens.iconSize}`);
+
   return (
-    <div className={tokens.loading.master}>
+    <div className={loaderClassName}>
       {spinner && <LoadingIcon size={tokens.iconSize} />}
-      {percentage && <span className={tokens.loading.percentage}>{uploadPercentage}%</span>}
+      {percentage && <span className={tokens.loader.percentage}>{uploadPercentage}%</span>}
     </div>
   );
 }
