@@ -863,7 +863,7 @@ const defaultComponentConfig = {
     iconSize: 7,
     iconColor: `text-slate-400 group-hover:text-primary`,
     customUploadDropZoneDescriptionContainer: "flex flex-col text-center items-center space-y-1",
-    loading: {
+    loader: {
       master: "relative flex justify-center items-center text-slate-600 mx-auto my-px",
       percentage: "absolute top-1.5 text-body text-xs",
     },

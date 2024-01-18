@@ -92,7 +92,7 @@ export const WithPercentageOnly = () => {
         url={useMockSender.destination.url}
         send={useMockSender.send}
         title={<Intl name="dragZoneTitle" />}
-        loader={() => <DragZoneLoader spinner={false} />}
+        loader={(uploadPercentage) => <DragZoneLoader spinner={false} uploadPercentage={uploadPercentage} />}
       />
       Uploaded: {useFileUploadHook.uploadedFiles.map((file) => file.originalFileName).join(", ") || "None"}
     </>

@@ -100,6 +100,23 @@ export const WithSpinnerOnly = () => {
   );
 };
 
+export const WithPercentageOnly = () => {
+  // incl-code
+  // hook initialization
+  const useFileUploadHook = useFileUpload();
+
+  return (
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      loader={(uploadPercentage) => <DragZoneLoader spinner={false} uploadPercentage={uploadPercentage} />}
+    />
+  );
+};
+
 export const WithNoLoader = () => {
   // incl-code
   // hook initialization
