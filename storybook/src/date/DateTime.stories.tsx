@@ -37,4 +37,6 @@ export default {
   },
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 export const Example = () => <DateTime>{Date.parse("2020-08-17T14:41:54.365582Z")}</DateTime>;

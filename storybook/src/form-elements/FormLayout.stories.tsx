@@ -587,7 +587,6 @@ export const WithFullValidation = () => (
 
 export const WithUploadButtonField = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload(defaultFiles);
 
   return (
@@ -638,7 +637,6 @@ export const WithUploadButtonField = () => {
 
 export const WithDragZoneField = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload(defaultFiles);
 
   return (

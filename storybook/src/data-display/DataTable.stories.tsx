@@ -287,7 +287,6 @@ DataTableFactory.decorators = showFactoryDecorator();
 
 export const KitchenSink = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(allData);
 
@@ -319,7 +318,6 @@ export const KitchenSink = () => {
 
 export const EmptyKitchenSink = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination([]);
 
@@ -391,7 +389,6 @@ export const WithFooter = (args) => (
 
 export const WithFooterUsingLocalSummary = () => {
   // incl-code
-  // data for the table
   const data = [
     { id: 1, name: "John", age: 15 },
     { id: 2, name: "Mark", age: 25 },
@@ -482,7 +479,6 @@ export const WithCustomExpander = (args) => (
 
 export const WithSelectorAtBeginning = () => {
   // incl-code
-  // data table hook initialization
   const [, dataTableHook] = useDataTable();
 
   return (
@@ -552,7 +548,6 @@ export const WithSelectorAtBeginning = () => {
 
 export const WithSelectorAtEnd = () => {
   // incl-code
-  // data table hook initialization
   const [, dataTableHook] = useDataTable();
 
   return (
@@ -622,7 +617,6 @@ export const WithSelectorAtEnd = () => {
 
 export const WithConditionalSelectorAtEnd = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
 
   return (
@@ -706,7 +700,6 @@ export const WithConditionalSelectorAtEnd = () => {
 
 export const WithSelectorAndActions = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(smallData);
 
@@ -795,7 +788,6 @@ export const WithSelectorAndActions = () => {
 
 export const WithSelectorAndDropdownActions = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(smallData);
 
@@ -883,7 +875,6 @@ export const WithSelectorAndDropdownActions = () => {
 
 export const WithSelectorAndActionsHidden = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(smallData);
   const hidden = dataTableState.selectedCount === 0;
@@ -1213,7 +1204,6 @@ export const WithHorizontalScrollAndLastColumnFixed = (args) => (
 
 export const WithDefaultAscendingSortByName = (args) => {
   // incl-code
-  // data table hook initialization with default sorting defined
   const [dataTableState, dataTableHook] = useDataTable({
     defaultSortBy: [
       {
@@ -1334,7 +1324,6 @@ export const WithContentCentered = (args) => (
 
 export const WithRowClassName = () => {
   // incl-code
-  // conditional coloring of the column based on the id
   const getRowClassName = (item: Item) => {
     if (item.id % 2 === 0) {
       return "bg-pink-200";

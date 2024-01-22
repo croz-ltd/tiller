@@ -82,7 +82,6 @@ export const WithoutLabel = () => <TreeSelectField {...commonProps} />;
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithTreeItem: { name: "TM 2", code: "U010105" },
   };

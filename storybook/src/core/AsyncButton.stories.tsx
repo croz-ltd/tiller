@@ -46,7 +46,6 @@ export default {
 
 export const Success = () => {
   // incl-code
-  // on click event
   const successOnClick = () => {
     return new Promise((resolve) => {
       setTimeout(() => resolve(), 2000);
@@ -58,7 +57,6 @@ export const Success = () => {
 
 export const Error = () => {
   // incl-code
-  // on click event
   const errorOnClick = () => {
     return new Promise((_, reject) => {
       setTimeout(() => reject(), 2000);
@@ -70,7 +68,6 @@ export const Error = () => {
 
 export const FormExample = () => {
   // incl-code
-  // field validation
   const validationSchema = Yup.object({
     test: Yup.string().required("Some text is required for the button to have a success state."),
   });

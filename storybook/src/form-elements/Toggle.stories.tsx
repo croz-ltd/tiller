@@ -44,7 +44,6 @@ export default {
 
 export const Withlabel = () => {
   // incl-code
-  // state with stored boolean value
   const [toggled, setToggled] = useState<boolean>(false);
 
   return (
@@ -58,7 +57,6 @@ export const Withlabel = () => {
 
 export const WithLabelReversed = () => {
   // incl-code
-  // state with stored boolean value
   const [toggled, setToggled] = useState<boolean>(false);
 
   return (
@@ -73,7 +71,6 @@ export const WithLabelReversed = () => {
 
 export const WithoutLabel = () => {
   // incl-code
-  // state with stored boolean value
   const [toggled, setToggled] = useState<boolean>(false);
 
   return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} />;
@@ -81,7 +78,6 @@ export const WithoutLabel = () => {
 
 export const WithError = () => {
   // incl-code
-  // state with stored boolean value
   const [toggled, setToggled] = useState<boolean>(false);
 
   return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} error="Test error" />;
@@ -89,7 +85,6 @@ export const WithError = () => {
 
 export const WithInitialCheckedIcon = () => {
   // incl-code
-  // state with stored boolean value
   const [toggled, setToggled] = useState<boolean>(true);
 
   return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} />;
@@ -97,7 +92,6 @@ export const WithInitialCheckedIcon = () => {
 
 export const Disabled = () => {
   // incl-code
-  // state with stored boolean value
   const [toggled, setToggled] = useState<boolean>(false);
 
   return <Toggle checked={toggled} onClick={() => setToggled(!toggled)} disabled={true} />;

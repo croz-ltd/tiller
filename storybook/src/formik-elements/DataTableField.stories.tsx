@@ -74,11 +74,8 @@ export default {
 
 export const WithNewRow = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
-  // data table field hook initialization
   const [dataTableFieldState, dataTableFieldHook] = useDataTableField<Item[]>("customers");
-  // pagination hook initialization
   const [paginationState] = useLocalPagination(dataTableFieldState.data);
 
   return (
@@ -130,11 +127,8 @@ export const WithNewRow = () => {
 
 export const WithNewRowAndInitialValues = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
-  // data table field hook initialization
   const [dataTableFieldState, dataTableFieldHook] = useDataTableField<Item[]>("items");
-  // pagination hook initialization
   const [paginationState] = useLocalPagination(dataTableFieldState.data);
 
   return (
@@ -186,11 +180,8 @@ export const WithNewRowAndInitialValues = () => {
 
 export const WithInlineEdit = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
-  // data table field hook initialization
   const [dataTableFieldState, dataTableFieldHook] = useDataTableField<Item[]>("items", InlineEditValidationSchema);
-  // pagination hook initialization
   const [paginationState] = useLocalPagination(dataTableFieldState.data);
 
   return (
@@ -276,11 +267,8 @@ export const WithInlineEdit = () => {
 
 export const WithInlineEditAndInstantValidation = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
-  // data table field hook initialization
   const [dataTableFieldState, dataTableFieldHook] = useDataTableField<Item[]>("items", InlineEditValidationSchema);
-  // pagination hook initializations
   const [paginationState] = useLocalPagination(dataTableFieldState.data);
 
   return (
@@ -377,11 +365,8 @@ export const WithInlineEditAndInstantValidation = () => {
 
 export const WithNewRowAndInlineEdit = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
-  // data table field hook initialization
   const [dataTableFieldState, dataTableFieldHook] = useDataTableField<Item[]>("items");
-  // pagination hook initialization
   const [paginationState] = useLocalPagination(dataTableFieldState.data);
 
   return (

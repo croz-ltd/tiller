@@ -126,7 +126,6 @@ export const WithValue = () => (
 
 export const WithMultipleValues = () => {
   // incl-code
-  // state initialization
   const [index] = React.useState(0);
 
   return (
@@ -145,7 +144,6 @@ export const WithMultipleValues = () => {
 
 export const WithMultipleValuesStacked = () => {
   // incl-code
-  // state initialization
   const [index] = React.useState(0);
 
   return (
@@ -165,7 +163,6 @@ export const WithMultipleValuesStacked = () => {
 
 export const WithMultipleValuesResetOtherValue = () => {
   // incl-code
-  // state initialization
   const [index] = React.useState(0);
 
   return (

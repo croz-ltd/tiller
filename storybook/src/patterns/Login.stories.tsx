@@ -55,7 +55,6 @@ const buttonText = "Log Me In";
 
 export const Simple = () => {
   // incl-code
-  // initial form values
   const initialValues = {
     username: "",
     password: "",

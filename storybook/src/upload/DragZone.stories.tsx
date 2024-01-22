@@ -47,7 +47,6 @@ export default {
 
 export const Simple = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -62,7 +61,6 @@ export const Simple = () => {
 
 export const WithSubtitle = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -78,7 +76,6 @@ export const WithSubtitle = () => {
 
 export const WithMultipleFiles = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -94,13 +91,11 @@ export const WithMultipleFiles = () => {
 
 export const WithFileList = () => {
   // incl-code
-  // files list
   const initialFiles: File[] = [
     { id: "1", name: "test1.pdf", status: "finished" },
     { id: "2", name: "test2.pdf", status: "finished" },
   ];
 
-  // hook initialization
   const useFileUploadHook = useFileUpload(initialFiles);
 
   return (
@@ -134,7 +129,6 @@ export const WithFileList = () => {
 
 export const WithLabel = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -150,7 +144,6 @@ export const WithLabel = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -166,7 +159,6 @@ export const WithHelp = () => {
 
 export const WithError = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -182,7 +174,6 @@ export const WithError = () => {
 
 export const Disabled = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (

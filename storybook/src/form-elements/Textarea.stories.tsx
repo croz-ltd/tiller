@@ -44,7 +44,6 @@ const name = "test";
 
 export const WithLabel = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -61,7 +60,6 @@ export const WithLabel = () => {
 
 export const WithoutLabel = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -77,7 +75,6 @@ export const WithoutLabel = () => {
 
 export const WithValue = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
@@ -94,7 +91,6 @@ export const WithValue = () => {
 
 export const Disabled = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
@@ -112,7 +108,6 @@ export const Disabled = () => {
 
 export const WithPlaceholder = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
@@ -130,7 +125,6 @@ export const WithPlaceholder = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -148,7 +142,6 @@ export const WithHelp = () => {
 
 export const WithTooltip = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -170,7 +163,6 @@ export const WithTooltip = () => {
 
 export const WithError = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -188,7 +180,6 @@ export const WithError = () => {
 
 export const WithCustomHeight = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (

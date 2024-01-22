@@ -88,7 +88,6 @@ export const WithoutLabel = () => <TimeInputField name={name} />;
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "21:21",
   };
@@ -126,7 +125,6 @@ export const WithError = () => <TimeInputField name={nameWithError} label={<Intl
 
 export const WithLocalDateTime = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     localDateTime: "2020-11-20T11:21:28.635778",
   };
@@ -135,7 +133,6 @@ export const WithLocalDateTime = () => {
 
 export const WithLocalTime = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     localTime: "11:21:28.635803",
   };
@@ -144,7 +141,6 @@ export const WithLocalTime = () => {
 
 export const WithOffsetTime = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     offsetTime: "11:21:28.635970+05:00",
   };
@@ -153,7 +149,6 @@ export const WithOffsetTime = () => {
 
 export const WithOffsetDateTime = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     offsetDateTime: "2020-11-20T11:21:28.63602+05:00",
   };
@@ -162,7 +157,6 @@ export const WithOffsetDateTime = () => {
 
 export const WithZonedDateTime = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     zonedDateTime: "2020-11-20T11:21:28.636042+01:00",
   };
@@ -173,7 +167,6 @@ export const WithTwelveHour = () => <TimeInputField name={name} type="use12Hours
 
 export const WithTwelveHourAndValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "21:21",
   };

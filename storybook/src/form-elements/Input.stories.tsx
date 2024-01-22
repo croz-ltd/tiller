@@ -48,7 +48,6 @@ const name = "test";
 
 export const WithLabel = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -64,7 +63,6 @@ export const WithLabel = () => {
 
 export const WithoutLabel = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return <Input name={name} value={value} onChange={(e) => setValue(e.target.value)} onBlur={() => {}} />;
@@ -72,7 +70,6 @@ export const WithoutLabel = () => {
 
 export const WithValue = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
@@ -88,7 +85,6 @@ export const WithValue = () => {
 
 export const Disabled = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
@@ -105,7 +101,6 @@ export const Disabled = () => {
 
 export const WithPlaceholder = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -122,7 +117,6 @@ export const WithPlaceholder = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -139,7 +133,6 @@ export const WithHelp = () => {
 
 export const WithTooltip = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -160,7 +153,6 @@ export const WithTooltip = () => {
 
 export const WithError = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -177,7 +169,6 @@ export const WithError = () => {
 
 export const WithLeadingIcon = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -194,7 +185,6 @@ export const WithLeadingIcon = () => {
 
 export const WithTrailingIcon = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -211,7 +201,6 @@ export const WithTrailingIcon = () => {
 
 export const WithTrailingIconAndError = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -229,7 +218,6 @@ export const WithTrailingIconAndError = () => {
 
 export const WithAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -246,7 +234,6 @@ export const WithAddOn = () => {
 
 export const WithInlineLeadingAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -263,7 +250,6 @@ export const WithInlineLeadingAddOn = () => {
 
 export const WithInlineTrailingAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -280,7 +266,6 @@ export const WithInlineTrailingAddOn = () => {
 
 export const WithInlineTrailingAddOnAndError = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -298,7 +283,6 @@ export const WithInlineTrailingAddOnAndError = () => {
 
 export const WithInlineLeadingAndTrailingAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -316,7 +300,6 @@ export const WithInlineLeadingAndTrailingAddOn = () => {
 
 export const WithClearButton = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
@@ -333,7 +316,6 @@ export const WithClearButton = () => {
 
 export const WithNumber = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (

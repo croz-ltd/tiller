@@ -40,7 +40,6 @@ const name = "test";
 
 export const WithMask = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -55,7 +54,6 @@ export const WithMask = () => {
 
 export const WithKeptCharsPositions = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -71,7 +69,6 @@ export const WithKeptCharsPositions = () => {
 
 export const WithMaskHidden = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -87,7 +84,6 @@ export const WithMaskHidden = () => {
 
 export const WithCustomPlaceholder = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -103,7 +99,6 @@ export const WithCustomPlaceholder = () => {
 
 export const WithLabel = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -120,7 +115,6 @@ export const WithLabel = () => {
 
 export const WithValue = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("(385)991-1346");
 
   return (
@@ -137,7 +131,6 @@ export const WithValue = () => {
 
 export const Disabled = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -155,7 +148,6 @@ export const Disabled = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -173,7 +165,6 @@ export const WithHelp = () => {
 
 export const WithError = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -191,7 +182,6 @@ export const WithError = () => {
 
 export const WithLeadingIcon = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -209,7 +199,6 @@ export const WithLeadingIcon = () => {
 
 export const WithTrailingIcon = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -227,7 +216,6 @@ export const WithTrailingIcon = () => {
 
 export const WithTrailingIconAndError = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -246,7 +234,6 @@ export const WithTrailingIconAndError = () => {
 
 export const WithAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -264,7 +251,6 @@ export const WithAddOn = () => {
 
 export const WithInlineLeadingAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -282,7 +268,6 @@ export const WithInlineLeadingAddOn = () => {
 
 export const WithInlineTrailingAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (
@@ -300,7 +285,6 @@ export const WithInlineTrailingAddOn = () => {
 
 export const WithInlineLeadingAndTrailingAddOn = () => {
   // incl-code
-  // state with stored string value
   const [value, setValue] = React.useState<string>("");
 
   return (

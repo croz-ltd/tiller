@@ -47,7 +47,6 @@ export default {
 
 export const Simple = () => {
   // incl-code
-  // defined state (one value)
   const [state, setState] = useState<string | boolean | null>(null);
 
   return (
@@ -61,7 +60,6 @@ export const Simple = () => {
 
 export const WithValue = () => {
   // incl-code
-  // defined state (one value)
   const [state, setState] = useState<string | boolean | null>("comments");
 
   return (
@@ -75,7 +73,6 @@ export const WithValue = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // defined state (one value)
   const [state, setState] = useState<string | boolean | null>("");
 
   return (
@@ -97,7 +94,6 @@ export const WithHelp = () => {
 
 export const WithError = () => {
   // incl-code
-  // defined state (one value)
   const [state, setState] = useState<string | boolean | null>("");
 
   return (
@@ -126,7 +122,6 @@ export const WithError = () => {
 
 export const WithDisabledItems = () => {
   // incl-code
-  // defined state (one value)
   const [state, setState] = useState<string | boolean | null>("");
 
   return (
@@ -154,7 +149,6 @@ export const WithDisabledItems = () => {
 
 export const WithVerticalAlignment = () => {
   // incl-code
-  // defined state (one value)
   const [state, setState] = useState<string | boolean | null>("");
 
   return (

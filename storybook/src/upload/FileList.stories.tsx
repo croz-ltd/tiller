@@ -44,14 +44,12 @@ export default {
 
 export const Simple = () => {
   // incl-code
-  // files list
   const defaultFiles: File[] = [
     { id: "1", name: "File 1", status: "finished" },
     { id: "2", name: "File 2", status: "finished" },
     { id: "3", name: "File 3", status: "finished" },
   ];
 
-  // hook initialization
   const useFiles = useFileUpload(defaultFiles);
 
   return (
@@ -67,13 +65,11 @@ export const Simple = () => {
 
 export const WithActions = () => {
   // incl-code
-  // files list
   const defaultFiles: File[] = [
     { id: "1", name: "File 1", status: "finished" },
     { id: "2", name: "File 2", status: "finished" },
     { id: "3", name: "File 3", status: "finished" },
   ];
-  // hook initialization
   const useFiles = useFileUpload(defaultFiles);
 
   // version files list
@@ -82,7 +78,6 @@ export const WithActions = () => {
     { id: "2", name: "Version 2", status: "finished" },
     { id: "3", name: "Version 1", status: "finished" },
   ];
-  // hook initialization
   const useVersionFiles = useFileUpload(versionFiles);
 
   return (
@@ -125,14 +120,12 @@ export const WithActions = () => {
 
 export const WithActionInNewTab = () => {
   // incl-code
-  // files list
   const defaultFiles: File[] = [
     { id: "1", name: "File 1", status: "finished" },
     { id: "2", name: "File 2", status: "finished" },
     { id: "3", name: "File 3", status: "finished" },
   ];
 
-  // hook initialization
   const useFiles = useFileUpload(defaultFiles);
 
   return (

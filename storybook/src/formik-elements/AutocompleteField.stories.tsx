@@ -437,7 +437,6 @@ export const WithContainedTags = () => (
 
 export const WithAddingCustomTags = () => {
   // incl-code
-  // state with stored array of tags
   const [finalItems, setFinalItems] = React.useState<string[]>(simpleItems);
   return (
     <AutocompleteField
@@ -457,7 +456,6 @@ export const WithAddingCustomTags = () => {
 
 export const WithAddingCustomItems = () => {
   // incl-code
-  // state with stored array of items
   const [finalItems, setFinalItems] = React.useState<Item[]>(items);
   return (
     <AutocompleteField

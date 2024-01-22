@@ -182,7 +182,6 @@ export const WithoutLabel = (args) => <InputField name={name} />;
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "test",
   };
@@ -192,7 +191,6 @@ export const WithValue = () => {
 
 export const WithTransformedValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "test",
   };

@@ -41,7 +41,6 @@ export default {
 
 export const Simple = () => {
   // incl-code
-  // slider value state initialization
   const [value, setValue] = useState<number | undefined>(90);
 
   return (
@@ -59,7 +58,6 @@ export const Simple = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // slider value state initialization
   const [value, setValue] = useState<number | undefined>(90);
 
   return (
@@ -78,7 +76,6 @@ export const WithHelp = () => {
 
 export const MarkerColor = () => {
   // incl-code
-  // slider value state initialization
   const [value, setValue] = useState<number | undefined>(90);
 
   return (
@@ -97,7 +94,6 @@ export const MarkerColor = () => {
 
 export const MultipleValues = () => {
   // incl-code
-  // slider value state initialization
   const [value, setValue] = useState<number | number[] | undefined>([240, 270]);
 
   return (
@@ -116,7 +112,6 @@ export const MultipleValues = () => {
 
 export const MultipleValuesStacked = () => {
   // incl-code
-  // slider value state initialization
   const [value, setValue] = useState<number | number[] | undefined>([240, 30]);
 
   return (

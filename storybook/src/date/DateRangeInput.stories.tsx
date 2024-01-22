@@ -52,7 +52,6 @@ export default {
 
 export const WithLabel = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -72,7 +71,6 @@ export const WithLabel = () => {
 
 export const WithoutLabel = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -91,7 +89,6 @@ export const WithoutLabel = () => {
 
 export const WithValue = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(new Date("2020-01-01"));
   const [endDate, setEndDate] = React.useState<Date | null>(new Date("2020-01-15"));
 
@@ -111,7 +108,6 @@ export const WithValue = () => {
 
 export const Disabled = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -132,7 +128,6 @@ export const Disabled = () => {
 
 export const ReadOnly = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(new Date("2020-01-01"));
   const [endDate, setEndDate] = React.useState<Date | null>(new Date("2020-01-15"));
 
@@ -153,7 +148,6 @@ export const ReadOnly = () => {
 
 export const WithCustomPlaceholder = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -173,7 +167,6 @@ export const WithCustomPlaceholder = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -194,7 +187,6 @@ export const WithHelp = () => {
 
 export const WithTooltip = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -218,7 +210,6 @@ export const WithTooltip = () => {
 
 export const WithError = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -238,7 +229,6 @@ export const WithError = () => {
 
 export const WithMinAndMaxDate = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 
@@ -259,7 +249,6 @@ export const WithMinAndMaxDate = () => {
 
 export const WithHighlightedCurrentDate = () => {
   // incl-code
-  // start date and end date states with stored Date or null values
   const [startDate, setStartDate] = React.useState<Date | null>(null);
   const [endDate, setEndDate] = React.useState<Date | null>(null);
 

@@ -55,7 +55,6 @@ export const Simple = () => (
 
 export const WithItems = () => {
   // incl-code
-  // state initialization
   const [pageSize, setPageSize] = React.useState(5);
 
   return (
@@ -75,7 +74,6 @@ export const WithItems = () => {
 
 export const Custom = () => {
   // incl-code
-  // state initialization
   const [pageSize, setPageSize] = React.useState(5);
 
   return (
@@ -99,9 +97,7 @@ export const Custom = () => {
 
 export const WithPagination = () => {
   // incl-code
-  // state initialization
   const [pageSize, setPageSize] = React.useState(5);
-  // pagination hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, pageSize);
 
   return (
