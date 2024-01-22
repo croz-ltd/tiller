@@ -81,7 +81,6 @@ export const WithoutLabel = (args) => <DateRangeInputField start={start} end={en
 
 export const WithValue = () => {
   // incl-code
-  // initial values passed as initialValues prop of Formik
   const initialValues = {
     startDateWithValue: "2020-10-05",
     endDateWithValue: "2020-10-10",
@@ -112,7 +111,6 @@ export const WithoutClearButton = (args) => (
 
 export const WithStartValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     startDateWithValue: "2020-10-05",
   };

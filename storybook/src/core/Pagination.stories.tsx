@@ -53,7 +53,6 @@ export const Simple = () => <Pagination pageSize={5} pageNumber={0} totalElement
 
 export const WithItems = () => {
   // incl-code
-  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, 5);
 
   return (
@@ -70,7 +69,6 @@ export const WithItems = () => {
 
 export const Custom = () => {
   // incl-code
-  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, 5);
 
   return (
@@ -93,7 +91,6 @@ export const Custom = () => {
 
 export const TotalSameAsPageSize = () => {
   // incl-code
-  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items.slice(0, 5), 5);
 
   return (
@@ -110,7 +107,6 @@ export const TotalSameAsPageSize = () => {
 
 export const TwoPages = () => {
   // incl-code
-  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items.slice(0, 10), 5);
 
   return (
@@ -127,7 +123,6 @@ export const TwoPages = () => {
 
 export const MoreThanSixPages = () => {
   // incl-code
-  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items.concat(items).concat(items), 5);
 
   return (
@@ -144,7 +139,6 @@ export const MoreThanSixPages = () => {
 
 export const WithCustomPagerCalculator = () => {
   // incl-code
-  // hook initialization
   const [paginationState, paginationHook] = useLocalPagination(items, 5);
 
   const customPagerCalculator = (pageNumber, pageCount) => {

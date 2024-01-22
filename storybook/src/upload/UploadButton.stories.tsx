@@ -44,7 +44,6 @@ export default {
 
 export const Success = () => {
   // incl-code
-  // hook initialization
   const file = useFileUpload();
   setAuthenticationBearer(useMockSender.destination.url, "newToken");
 
@@ -57,7 +56,6 @@ export const Success = () => {
 
 export const WithMultipleFilesUpload = () => {
   // incl-code
-  // hook initialization
   const file = useFileUpload();
   setAuthenticationBearer(useMockSender.destination.url, "newToken");
 

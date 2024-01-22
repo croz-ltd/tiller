@@ -71,7 +71,6 @@ export const WithoutLabel = () => <TextareaField name={name} />;
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "test",
   };

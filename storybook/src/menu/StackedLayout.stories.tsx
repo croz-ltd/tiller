@@ -151,7 +151,6 @@ export const StackedLayoutFactory = ({
   isFixed,
 }) => {
   // incl-code
-  // navigation handed over as a prop to StackedLayout
   const topNavigationContainer = (
     <TopNavigation variant="contained">
       <TopNavigation.Navigation>
@@ -248,7 +247,6 @@ StackedLayoutFactory.decorators = showFactoryDecorator();
 
 export const SimpleWithModal = () => {
   // incl-code
-  // navigation handed over as a prop to StackedLayout
   const topNavigationContainer = (
     <TopNavigation variant="contained">
       <TopNavigation.Navigation>
@@ -328,7 +326,6 @@ export const SimpleWithModal = () => {
 
 export const WithContainerConfigWithModal = () => {
   // incl-code
-  // navigation handed over as a prop to StackedLayout
   const topNavigationContainer = (
     <TopNavigation variant="contained">
       <TopNavigation.Navigation>
@@ -408,7 +405,6 @@ export const WithContainerConfigWithModal = () => {
 
 export const WithFixedHeadingWithModal = () => {
   // incl-code
-  // top navigation initialization
   const topNavigationContainer = (
     <TopNavigation variant="contained">
       <TopNavigation.Navigation>

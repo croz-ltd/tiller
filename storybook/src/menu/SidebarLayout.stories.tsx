@@ -257,7 +257,6 @@ SidebarLayoutFactory.decorators = showFactoryDecorator();
 
 export const Example = () => {
   // incl-code
-  // navigation handed over as a prop to SidebarLayout
   const navigation = (
     <SidebarNavigation
       logo={<img src={logo} alt="logo" />}

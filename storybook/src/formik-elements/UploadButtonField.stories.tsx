@@ -69,7 +69,6 @@ export default {
 
 export const Example = () => {
   // incl-code
-  // hook initialization
   const file = useFileUpload();
 
   return (
@@ -81,7 +80,6 @@ export const Example = () => {
 
 export const WithSingleFileUpload = () => {
   // incl-code
-  // hook initialization
   const file = useFileUpload();
 
   return (

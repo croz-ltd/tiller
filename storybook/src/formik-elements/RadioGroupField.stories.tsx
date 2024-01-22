@@ -87,7 +87,6 @@ export const Simple = (args) => (
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "comments",
   };

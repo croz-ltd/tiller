@@ -85,7 +85,6 @@ export const WithLabel = (args) => <MaskedInputField name={name} mask={mask} lab
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     nameWithValue: "(385)991-1346",
   };

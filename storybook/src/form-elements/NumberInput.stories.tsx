@@ -47,7 +47,6 @@ const inlineTrailingAddOn = "USD";
 
 export const WithLabel = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -62,7 +61,6 @@ export const WithLabel = () => {
 
 export const WithoutLabel = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -76,7 +74,6 @@ export const WithoutLabel = () => {
 
 export const WithValue = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>(2300000.123);
 
   return (
@@ -91,7 +88,6 @@ export const WithValue = () => {
 
 export const Disabled = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -106,7 +102,6 @@ export const Disabled = () => {
 
 export const WithPlaceholder = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -121,7 +116,6 @@ export const WithPlaceholder = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -136,7 +130,6 @@ export const WithHelp = () => {
 
 export const WithTooltip = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -156,7 +149,6 @@ export const WithTooltip = () => {
 
 export const WithError = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -171,7 +163,6 @@ export const WithError = () => {
 
 export const WithNegative = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -186,7 +177,6 @@ export const WithNegative = () => {
 
 export const WithDecimalScale = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -201,7 +191,6 @@ export const WithDecimalScale = () => {
 
 export const WithFixedDecimalScale = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -217,7 +206,6 @@ export const WithFixedDecimalScale = () => {
 
 export const WithLeadingZeros = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -232,7 +220,6 @@ export const WithLeadingZeros = () => {
 
 export const WithLeadingIcon = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -248,7 +235,6 @@ export const WithLeadingIcon = () => {
 
 export const WithTrailingIcon = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -264,7 +250,6 @@ export const WithTrailingIcon = () => {
 
 export const WithTrailingIconAndError = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (
@@ -281,7 +266,6 @@ export const WithTrailingIconAndError = () => {
 
 export const WithWithAddOn = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
   const addOn = "https://";
 
@@ -298,7 +282,6 @@ export const WithWithAddOn = () => {
 
 export const WithInlineLeadingAddOn = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
   const inlineLeadingAddOn = "$";
 
@@ -315,7 +298,6 @@ export const WithInlineLeadingAddOn = () => {
 
 export const WithInlineTrailingAddOn = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
   const inlineTrailingAddOn = "USD";
 
@@ -332,7 +314,6 @@ export const WithInlineTrailingAddOn = () => {
 
 export const WithInlineLeadingAndTrailingAddOn = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
   const inlineLeadingAddOn = "$";
   const inlineTrailingAddOn = "USD";
@@ -351,7 +332,6 @@ export const WithInlineLeadingAndTrailingAddOn = () => {
 
 export const WithoutIntlProvider = () => {
   // incl-code
-  // state with stored number value
   const [value, setValue] = React.useState<number | undefined>();
 
   return (

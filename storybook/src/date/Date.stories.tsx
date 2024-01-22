@@ -39,6 +39,6 @@ export default {
   },
 };
 
-export const Example = () => <TillerDate>{new Date("2020-02-25").getTime()}</TillerDate>;
-
-export const WithoutIntlProvider = () => <TillerDate format="M/dd/yyyy">{new Date("2020-02-25").getTime()}</TillerDate>;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+export const Example = () => <TillerDate>2020-02-25</TillerDate>;

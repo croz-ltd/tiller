@@ -47,7 +47,6 @@ export default {
 
 export const Simple = () => {
   // incl-code
-  // hook initialization
   const modal = useModal();
 
   return (
@@ -75,7 +74,6 @@ export const Simple = () => {
 
 export const WithState = () => {
   // incl-code
-  // parametrized hook initialization
   const modal = useModal<number>();
 
   const onOpen = () => {
@@ -120,7 +118,6 @@ export const WithState = () => {
 
 export const WithStateRenderProp = () => {
   // incl-code
-  // parametrized hook initialization
   const modal = useModal<number>();
 
   const onOpen = () => {
@@ -170,7 +167,6 @@ export const WithStateRenderProp = () => {
 
 export const WithoutIcon = () => {
   // incl-code
-  // hook initialization
   const modal = useModal();
 
   return (
@@ -198,7 +194,6 @@ export const WithoutIcon = () => {
 
 export const WithScrollbar = () => {
   // incl-code
-  // hook initialization
   const modal = useModal();
 
   return (

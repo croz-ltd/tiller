@@ -70,7 +70,6 @@ export default {
 
 export const Simple = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -86,7 +85,6 @@ export const Simple = () => {
 
 export const WithSubtitle = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -103,7 +101,6 @@ export const WithSubtitle = () => {
 
 export const WithMultipleFiles = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -120,7 +117,6 @@ export const WithMultipleFiles = () => {
 
 export const WithFileList = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -155,7 +151,6 @@ export const WithFileList = () => {
 
 export const WithSingleFileUpload = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -172,7 +167,6 @@ export const WithSingleFileUpload = () => {
 
 export const WithLabel = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -189,7 +183,6 @@ export const WithLabel = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -206,7 +199,6 @@ export const WithHelp = () => {
 
 export const WithError = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -223,7 +215,6 @@ export const WithError = () => {
 
 export const Disabled = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -240,7 +231,6 @@ export const Disabled = () => {
 
 export const WithSizeLimit = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   const listeners = {

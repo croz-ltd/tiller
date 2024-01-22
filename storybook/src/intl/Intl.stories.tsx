@@ -119,7 +119,6 @@ export const WithSimpleDataTable = (args) => {
 
 export const WithDataTableAndSelector = () => {
   // incl-code
-  // data table hook initialization
   const [dataTableState, dataTableHook] = useDataTable();
   const [paginationState, paginationHook] = useLocalPagination(data);
 

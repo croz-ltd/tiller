@@ -76,7 +76,6 @@ export const WithoutLabel = () => <DateInputField name={name} />;
 
 export const WithValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     dateWithValue: "2020-01-01",
   };
@@ -85,7 +84,6 @@ export const WithValue = () => {
 
 export const WithDateValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     dateWithDateValue: new Date(),
   };
@@ -133,7 +131,6 @@ export const WithMinAndMaxDate = () => (
 
 export const WithMinAndMaxDateAndValue = () => {
   // incl-code
-  // initial value passed as initialValues prop of Formik
   const initialValues = {
     dateWithValue: "2020-01-01",
   };

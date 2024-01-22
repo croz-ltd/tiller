@@ -51,7 +51,6 @@ const name = "test";
 
 export const WithState = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
   return (
     <TimeInput
@@ -69,7 +68,6 @@ export const WithState = () => {
 };
 export const WithLabel = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -86,7 +84,6 @@ export const WithLabel = () => {
 
 export const WithoutLabel = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} />;
@@ -94,7 +91,6 @@ export const WithoutLabel = () => {
 
 export const WithValue = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("21:30");
 
   return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} />;
@@ -102,7 +98,6 @@ export const WithValue = () => {
 
 export const Disabled = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -118,7 +113,6 @@ export const Disabled = () => {
 
 export const WithCustomPlaceholder = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -135,7 +129,6 @@ export const WithCustomPlaceholder = () => {
 
 export const WithHelp = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -151,7 +144,6 @@ export const WithHelp = () => {
 
 export const WithTooltip = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -171,7 +163,6 @@ export const WithTooltip = () => {
 
 export const WithError = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -187,7 +178,6 @@ export const WithError = () => {
 
 export const WithLocalDateTime = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("2020-11-20T11:21:28.635778");
 
   return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} />;
@@ -195,7 +185,6 @@ export const WithLocalDateTime = () => {
 
 export const WithLocalTime = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("11:21:28.635803");
 
   return (
@@ -205,7 +194,6 @@ export const WithLocalTime = () => {
 
 export const WithOffsetTime = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("11:21:28.635970+01:00");
 
   return (
@@ -221,7 +209,6 @@ export const WithOffsetTime = () => {
 
 export const WithOffsetDateTime = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("2020-11-20T11:21:28.63602+05:00");
 
   return (
@@ -237,7 +224,6 @@ export const WithOffsetDateTime = () => {
 
 export const WithZonedDateTime = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("2020-11-20T11:21:28.636042+01:00");
 
   return (
@@ -253,7 +239,6 @@ export const WithZonedDateTime = () => {
 
 export const WithTwelveHour = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
@@ -270,7 +255,6 @@ export const WithTwelveHour = () => {
 
 export const WithTwelveHourAndValue = () => {
   // incl-code
-  // state with stored string or null value
   const [time, setTime] = React.useState<string | null>("11:21:28.635970+05:00");
 
   return (

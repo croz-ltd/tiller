@@ -190,7 +190,6 @@ export const ScrollButtons = () => (
 
 export const WithIndex = () => {
   // incl-code
-  // tab index state initialization
   const [index, setIndex] = React.useState(0);
 
   return (

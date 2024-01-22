@@ -21,10 +21,10 @@ import { FormattedDate } from "react-intl";
 
 export type DateProps = {
   /**
-   * Data handed to the component in a valid format.
+   * Data handed to the component in a valid date format.
    * Other props come from Intl.DateTimeFormatOptions (https://bit.ly/3urm8s5)
    */
-  children: string | number | Date | undefined;
+  children: Date;
 } & Intl.DateTimeFormatOptions;
 
 export default function DateTime({ children, ...props }: DateProps) {
