@@ -126,6 +126,12 @@ export type DataTableProps<T extends object> = {
    * Content to be displayed when the dataset is empty.
    */
   emptyState?: React.ReactNode;
+
+  /**
+   * Enable or disable multi-column sorting.
+   * When set to true, users can sort by multiple columns simultaneously.
+   */
+  enableMultiSort?: boolean;
 } & DataTableTokensProps;
 
 type DataTableTokensProps = {
@@ -463,6 +469,7 @@ function DataTable<T extends object>({
   firstColumnFixed,
   lastColumnFixed,
   className,
+  enableMultiSort = false,
   ...props
 }: DataTableProps<T>) {
   const primaryRow = findChild("DataTablePrimaryRow", children);
@@ -500,7 +507,7 @@ function DataTable<T extends object>({
     [getItemId]
   );
   const tokens = useTokens("DataTable", props.tokens);
-  const { getTableProps, getTableBodyProps, headerGroups, footerGroups, rows, prepareRow, visibleColumns, state } =
+  const { getTableProps, getTableBodyProps, headerGroups, footerGroups, rows, prepareRow, visibleColumns, state, toggleSortBy } =
     useTable(
       {
         columns,
@@ -614,6 +621,9 @@ function DataTable<T extends object>({
                         {...column.getHeaderProps(column.getSortByToggleProps())}
                         className={tableHeaderClassName}
                         title={column.title}
+                        onClick={() => {
+                         toggleSortBy(column.id, undefined, enableMultiSort);
+                        }}
                       >
                         <DataTableHeader alignHeader={alignHeader} {...column}>
                           {column.render("Header")}

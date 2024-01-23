@@ -160,6 +160,67 @@ You can use this hook to implement sorting for specific columns according to you
 When using this hook, be aware that it is designed for **client-side sorting**. While it provides flexibility, it may **not be optimal** for handling **larger datasets**. <br/>
 Client-side sorting can lead to performance issues with larger amounts of data. It is recommended to consider server-side sorting for improved performance in such cases.
 
+## Multi-column Sorting in DataTable
+
+The `DataTable` component in `@tiller-ds` empowers you to implement **multi-column sorting**, allowing users to sort data across multiple columns simultaneously.
+This enhanced functionality is achieved through the `toggleSortBy` method provided by the `useTable` hook.
+
+To enable multi-column sorting, follow these steps:
+
+**1.** Ensure that the columns for which you want to implement sorting have the `canSort` prop set to `true`:
+```tsx
+<DataTable.Column header="Name" accessor="name" canSort={true} />
+<DataTable.Column header="Surname" accessor="surname" canSort={true} />
+```
+
+**2.** For multi-column sorting, apply sorting logic based on the priority of columns specified in the sort state:
+```tsx
+  const [dataTableState, dataTableHook] = useDataTable({
+    defaultSortBy: [
+      {
+        column: "name",
+        sortDirection: "ASCENDING",
+      },
+    ],
+  });
+
+  const columnMapping = {
+    name: "name",
+    surname: "surname",
+  };
+
+  const sortedData = React.useMemo(() => {
+    const sortInstructions = dataTableState.sortBy;
+
+    if (!sortInstructions || sortInstructions.length === 0) {
+      return [...allData];
+    }
+
+    return [...allData].sort((a, b) =>
+      sortInstructions.reduce((result, sortInfo) => {
+        const columnKey = columnMapping[sortInfo.column];
+
+        if (result === 0 && a[columnKey] !== undefined && b[columnKey] !== undefined) {
+          const result = a[columnKey].localeCompare(b[columnKey]);
+          return sortInfo.sortDirection === "DESCENDING" ? -result : result;
+        }
+
+        return result;
+      }, 0)
+    );
+  }, [dataTableState.sortBy]);
+```
+
+**3.** Set the `enableMultiSort` prop to `true` in the DataTable component to enable multi-column sorting:
+```tsx
+<DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy} enableMultiSort>
+  <DataTable.Column header="ID" accessor="id" canSort={false} />
+  <DataTable.Column header="Name" accessor="name" canSort={true} />
+  <DataTable.Column header="Surname" accessor="surname" canSort={true} />
+</DataTable>
+
+```
+
 ## Best Practices
 
 Data Tables should:

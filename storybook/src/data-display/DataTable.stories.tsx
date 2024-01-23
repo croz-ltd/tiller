@@ -1266,6 +1266,55 @@ export const WithDefaultAscendingSortUsingHook = () => {
   )
 };
 
+export const WithDefaultAscendingMultiSort = () => {
+  const [dataTableState, dataTableHook] = useDataTable({
+    defaultSortBy: [
+      {
+        column: "name",
+        sortDirection: "ASCENDING",
+      },
+      {
+        column: "surname",
+        sortDirection: "ASCENDING",
+      },
+    ],
+  });
+
+  const columnMapping = {
+    name: "name",
+    surname: "surname",
+  };
+
+  const sortedData = React.useMemo(() => {
+    const sortInstructions = dataTableState.sortBy;
+
+    if (!sortInstructions || sortInstructions.length === 0) {
+      return [...allData];
+    }
+
+    return [...allData].sort((a, b) =>
+      sortInstructions.reduce((result, sortInfo) => {
+        const columnKey = columnMapping[sortInfo.column];
+
+        if (result === 0 && a[columnKey] !== undefined && b[columnKey] !== undefined) {
+          const result = a[columnKey].localeCompare(b[columnKey]);
+          return sortInfo.sortDirection === "DESCENDING" ? -result : result;
+        }
+
+        return result;
+      }, 0)
+    );
+  }, [dataTableState.sortBy]);
+
+  return (
+    <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy} multiSort>
+      <DataTable.Column header="ID" accessor="id" canSort={false}/>
+      <DataTable.Column header="Name" accessor="name" canSort={true}/>
+      <DataTable.Column header="Surname" accessor="surname" canSort={true}/>
+    </DataTable>
+  )
+};
+
 export const WithIconButtons = (args) => (
   <DataTable data={smallData}>
     <DataTable.Column header="ID" accessor="id" />
@@ -1472,6 +1521,7 @@ WithHorizontalScrollAndFirstColumnFixed.argTypes = HideControls;
 WithHorizontalScrollAndLastColumnFixed.argTypes = HideControls;
 WithDefaultAscendingSortByName.argTypes = HideControls;
 WithDefaultAscendingSortUsingHook.argTypes = HideControls;
+WithDefaultAscendingMultiSort.argTypes = HideControls;
 WithIconButtons.argTypes = HideControls;
 WithPrimaryAndSecondaryRows.argTypes = HideControls;
 WithPrimaryAndSecondaryRowsAndComplexValues.argTypes = HideControls;
