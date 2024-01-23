@@ -1235,7 +1235,7 @@ export const WithDefaultAscendingSortByName = (args) => {
   );
 };
 
-export const WithDefaultAscendingSortByNameUsingHook = () => {
+export const WithDefaultAscendingSortUsingHook = () => {
   // incl-code
   const columnMapping = {
     name: "name",
@@ -1471,7 +1471,7 @@ WithHorizontalScroll.argTypes = HideControls;
 WithHorizontalScrollAndFirstColumnFixed.argTypes = HideControls;
 WithHorizontalScrollAndLastColumnFixed.argTypes = HideControls;
 WithDefaultAscendingSortByName.argTypes = HideControls;
-WithDefaultAscendingSortByNameUsingHook.argTypes = HideControls;
+WithDefaultAscendingSortUsingHook.argTypes = HideControls;
 WithIconButtons.argTypes = HideControls;
 WithPrimaryAndSecondaryRows.argTypes = HideControls;
 WithPrimaryAndSecondaryRowsAndComplexValues.argTypes = HideControls;
