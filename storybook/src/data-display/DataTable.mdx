@@ -119,9 +119,10 @@ import { DataTable, useSortableDataTable } from '@tiller-ds/data-display';
 // Define column mapping for custom sorting
 const columnMapping = {
   name: 'name',
+  surname: "surname",
 };
 
-const { dataTableHook, sortedData } = useSortableDataTable(smallData || [], columnMapping);
+const { dataTableHook, sortedData } = useSortableDataTable(allData || [], columnMapping);
 
 <DataTable
   data={sortedData}
@@ -131,10 +132,15 @@ const { dataTableHook, sortedData } = useSortableDataTable(smallData || [], colu
       column: 'name',
       sortDirection: 'ASCENDING',
     },
+    {
+      column: "surname",
+      sortDirection: "ASCENDING",
+    },
   ]}
 >
   <DataTable.Column header="ID" accessor="id" canSort={false} />
   <DataTable.Column header="Name" accessor="name" canSort={true} />
+  <DataTable.Column header="Surname" accessor="surname" canSort={true} />
 </DataTable>;
 ```
 

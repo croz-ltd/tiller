@@ -1,20 +1,29 @@
-import _ from "lodash";
-
 import { useDataTable } from "./index";
 
 export default function useSortableDataTable<T, U extends keyof T>(initialData: T[], columnMapping: Record<U, string>) {
   const [dataTableState, dataTableHook] = useDataTable();
 
   const generateSortedData = () => {
-    const sortInfo = dataTableState.sortBy[0];
+    const sortInstructions = dataTableState.sortBy;
 
-    if (!sortInfo) {
+    if (!sortInstructions || sortInstructions.length === 0) {
       return initialData;
     }
 
-    const sortedData = _.sortBy(initialData, columnMapping[sortInfo.column as U]);
+    return [...initialData].sort((a, b) => {
+      for (const sortInfo of sortInstructions) {
+        const columnKey = columnMapping[sortInfo.column];
+        const compareResult = sortInfo.sortDirection === "ASCENDING" ? -1 : 1;
+        const aValue = a[columnKey];
+        const bValue = b[columnKey];
 
-    return sortInfo.sortDirection === "ASCENDING" ? sortedData : sortedData.reverse();
+        if (aValue !== bValue) {
+          return (aValue < bValue ? -1 : 1) * compareResult;
+        }
+      }
+
+      return 0;
+    })
   };
 
   return { sortedData: generateSortedData(), dataTableState, dataTableHook };

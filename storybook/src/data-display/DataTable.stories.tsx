@@ -95,7 +95,7 @@ type Item = {
 };
 
 const names = ["Emily", "Michael", "Sarah", "Matthew"];
-const surname = ["Moore", "Williams", "Brown", "Davis"];
+const surname = ["Moore", "Williams", "Brown", "Davis", "Aron"];
 const jobs = ["Nurse", "Teacher", "Software developer", "Lawyer"];
 const jobDescription = [
   "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
@@ -1239,9 +1239,10 @@ export const WithDefaultAscendingSortByNameUsingHook = () => {
   // incl-code
   const columnMapping = {
     name: "name",
+    surname: "surname",
   };
 
-  const { dataTableHook, sortedData } = useSortableDataTable(smallData || [], columnMapping);
+  const { dataTableHook, sortedData } = useSortableDataTable(allData || [], columnMapping);
 
   return (
     <DataTable
@@ -1252,10 +1253,15 @@ export const WithDefaultAscendingSortByNameUsingHook = () => {
           column: "name",
           sortDirection: "ASCENDING",
         },
+        {
+          column: "surname",
+          sortDirection: "ASCENDING",
+        },
       ]}
     >
       <DataTable.Column header="ID" accessor="id" canSort={false} />
       <DataTable.Column header="Name" accessor="name" canSort={true} />
+      <DataTable.Column header="Surname" accessor="surname" canSort={true} />
     </DataTable>
   )
 };
