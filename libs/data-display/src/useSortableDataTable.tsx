@@ -1,9 +1,11 @@
+import { useMemo } from "react";
+
 import { useDataTable } from "./index";
 
 export default function useSortableDataTable<T, U extends keyof T>(initialData: T[], columnMapping: Record<U, string>) {
   const [dataTableState, dataTableHook] = useDataTable();
 
-  const generateSortedData = () => {
+  const generateSortedData = useMemo(() => {
     const sortInstructions = dataTableState.sortBy;
 
     if (!sortInstructions || sortInstructions.length === 0) {
@@ -23,8 +25,10 @@ export default function useSortableDataTable<T, U extends keyof T>(initialData: 
       }
 
       return 0;
-    })
-  };
+    });
+  }, [dataTableState.sortBy]);
 
-  return { sortedData: generateSortedData(), dataTableState, dataTableHook };
+  return useMemo(() => {
+    return { sortedData: generateSortedData, dataTableState, dataTableHook };
+  }, [generateSortedData]);
 }
