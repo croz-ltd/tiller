@@ -85,7 +85,6 @@ export const Simple = () => {
 
 export const WithSpinnerOnly = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -102,7 +101,6 @@ export const WithSpinnerOnly = () => {
 
 export const WithPercentageOnly = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -119,7 +117,6 @@ export const WithPercentageOnly = () => {
 
 export const WithNoLoader = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
@@ -202,7 +199,6 @@ export const WithFileList = () => {
 
 export const WithFileListAndCustomLoader = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload();
 
   return (
