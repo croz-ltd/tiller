@@ -294,6 +294,15 @@ export default function DateRangeInput({
     } else if (!start && !end) {
       setDatePickerState({ startDate: null, endDate: null, focusedInput: START_DATE });
     }
+
+    if (
+      datePickerState.startDate === null &&
+      datePickerState.endDate === null &&
+      datePickerState.focusedInput === START_DATE &&
+      (start || end)
+    ) {
+      inputRef.current?.focus();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [start, end]);
 
@@ -384,7 +393,6 @@ export default function DateRangeInput({
         name={name}
         inputRef={inputRef}
         onClick={onOpen}
-        onFocus={onOpen}
         onChange={onChange}
         onReset={onReset}
         allowClear={allowClear}

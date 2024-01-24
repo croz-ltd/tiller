@@ -416,7 +416,6 @@ export default function DateTimeInput({
         value={formattedValue || typedValue}
         name={props.name}
         onClick={onOpen}
-        onFocus={onOpen}
         onChange={(e) => onChange(e.target.value)}
         onReset={onReset}
         allowClear={allowClear}
