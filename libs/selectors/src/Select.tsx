@@ -185,7 +185,7 @@ function Select<T>({
   const isDisabled = disabled || loading;
   const hasOptions = options.length !== 0;
 
-  const toggleRef = React.useRef(null);
+  const toggleRef = React.useRef<HTMLButtonElement>(null);
   //used only for form submit on enter
   const inputRef = React.useRef<HTMLInputElement>(null);
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -222,47 +222,47 @@ function Select<T>({
         setIsMenuOpen(allowMultiple);
       }
 
-        if (selectionTypes.indexOf(type) !== -1 || type === useSelect.stateChangeTypes.FunctionReset) {
-          if (allowMultiple) {
-            const currentValue = value && Array.isArray(value) ? [...value] : [];
+      if (selectionTypes.indexOf(type) !== -1 || type === useSelect.stateChangeTypes.FunctionReset) {
+        if (allowMultiple) {
+          const currentValue = value && Array.isArray(value) ? [...value] : [];
 
-            if (selectedItem) {
-              const index = currentValue.indexOf(selectedItem);
+          if (selectedItem) {
+            const index = currentValue.indexOf(selectedItem);
 
-              if (index === -1) {
-                currentValue.push(selectedItem);
-              } else {
-                currentValue.splice(index, 1);
-              }
-
-              onChange(currentValue);
+            if (index === -1) {
+              currentValue.push(selectedItem);
             } else {
-              onChange([]);
-            }
-          } else if (selectedItem) {
-            onChange(selectedItem);
-          }
-        } else if (type === useSelect.stateChangeTypes.MenuBlur) {
-          setIsMenuOpen(false);
-          if (onBlur) {
-            onBlur();
-          }
-          if (Array.isArray(value)) {
-            let unselectedArray;
-            if (sort) {
-              unselectedArray = Array.of(...filteredOptions.filter((item) => !value.includes(item)));
-              sort(unselectedArray);
-              unselectedArray.unshift(...sort(value));
-            } else {
-              unselectedArray = Array.of(...options.filter((item) => !value.includes(item)));
-              unselectedArray.unshift(...value);
+              currentValue.splice(index, 1);
             }
 
-            setFilteredOptions(unselectedArray);
+            onChange(currentValue);
+          } else {
+            onChange([]);
           }
+        } else if (selectedItem) {
+          onChange(selectedItem);
         }
-      },
-    });
+      } else if (type === useSelect.stateChangeTypes.MenuBlur) {
+        setIsMenuOpen(false);
+        if (onBlur) {
+          onBlur();
+        }
+        if (Array.isArray(value)) {
+          let unselectedArray;
+          if (sort) {
+            unselectedArray = Array.of(...filteredOptions.filter((item) => !value.includes(item)));
+            sort(unselectedArray);
+            unselectedArray.unshift(...sort(value));
+          } else {
+            unselectedArray = Array.of(...options.filter((item) => !value.includes(item)));
+            unselectedArray.unshift(...value);
+          }
+
+          setFilteredOptions(unselectedArray);
+        }
+      }
+    },
+  });
 
   const selectClassName = cx(
     { [tokens.Select.error]: error },
@@ -303,7 +303,7 @@ function Select<T>({
   const oldIsOpen = React.useRef<boolean>(isOpen);
   React.useEffect(() => {
     if (oldIsOpen.current && !isOpen) {
-      inputRef.current?.focus();
+      toggleRef.current?.focus();
     }
     oldIsOpen.current = isOpen;
   }, [isOpen]);
@@ -409,14 +409,14 @@ function Select<T>({
         >
           <div className={tokens.Button.container}>
             <div className={tokens.Button.value}>{valueLabel}</div>
-            <input className={tokens.Button.input} ref={inputRef} />
+            <input className={tokens.Button.input} ref={inputRef} tabIndex={-1} />
             <div className={tokens.Loading.container}>
               {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
               {error && warningIcon}
               {value && !hideClearButton && !error && (
-                <div className={clearClassName} onClick={clear}>
+                <button className={clearClassName} onClick={clear}>
                   {removeIcon}
-                </div>
+                </button>
               )}
               <div className={value || error || loading ? tokens.Separator.container : undefined}>
                 {(value || error || loading) && <div className={tokens.Separator.inner}>&nbsp;</div>}

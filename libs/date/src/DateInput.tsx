@@ -211,6 +211,7 @@ export default function DateInput({
     props.onChange(data.startDate);
     setTypedValue(dateFns.format(data.startDate as Date, finalDateFormat));
     setOpened(false);
+    inputRef.current?.focus();
   };
 
   const datePicker = useDatepicker({
@@ -272,7 +273,6 @@ export default function DateInput({
         {...props}
         inputRef={inputRef}
         onClick={onOpen}
-        onFocus={onOpen}
         focusedDate={value || null}
         allowClear={allowClear}
         value={formattedValue || typedValue}
