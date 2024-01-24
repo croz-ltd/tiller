@@ -64,7 +64,6 @@ export const Simple = () => {
 
 export const WithSpinnerOnly = () => {
   // incl-code
-  // hook initialization
   const useFileUploadHook = useFileUpload([], true);
 
   return (
@@ -192,13 +191,11 @@ export const WithFileList = () => {
 
 export const WithFileListAndCustomLoader = () => {
   // incl-code
-  // files list
   const initialFiles: File[] = [
     { id: "1", name: "test1.pdf", status: "finished" },
     { id: "2", name: "test2.pdf", status: "finished" },
   ];
 
-  // hook initialization
   const useFileUploadHook = useFileUpload(initialFiles, true);
 
   return (
@@ -304,7 +301,6 @@ export const Disabled = () => {
 
 export const WithManualFileTracking = () => {
   // incl-code
-  // hook initialization
   const fileUploadHookValue = useFileUpload();
   const [uploadedFileIds, setUploadedFileIds] = React.useState<string[]>([]);
 
