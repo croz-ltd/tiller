@@ -131,7 +131,7 @@ export type DataTableProps<T extends object> = {
    * Enable or disable multi-column sorting.
    * When set to true, users can sort by multiple columns simultaneously.
    */
-  enableMultiSort?: boolean;
+  multiSort?: boolean;
 } & DataTableTokensProps;
 
 type DataTableTokensProps = {
@@ -469,7 +469,7 @@ function DataTable<T extends object>({
   firstColumnFixed,
   lastColumnFixed,
   className,
-  enableMultiSort = false,
+  multiSort = false,
   ...props
 }: DataTableProps<T>) {
   const primaryRow = findChild("DataTablePrimaryRow", children);
@@ -622,7 +622,7 @@ function DataTable<T extends object>({
                         className={tableHeaderClassName}
                         title={column.title}
                         onClick={() => {
-                         toggleSortBy(column.id, undefined, enableMultiSort);
+                         toggleSortBy(column.id, undefined, multiSort);
                         }}
                       >
                         <DataTableHeader alignHeader={alignHeader} {...column}>

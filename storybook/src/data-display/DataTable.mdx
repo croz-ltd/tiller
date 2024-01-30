@@ -211,9 +211,9 @@ To enable multi-column sorting, follow these steps:
   }, [dataTableState.sortBy]);
 ```
 
-**3.** Set the `enableMultiSort` prop to `true` in the DataTable component to enable multi-column sorting:
+**3.** Set the `multiSort` prop to `true` in the DataTable component to enable multi-column sorting:
 ```tsx
-<DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy} enableMultiSort>
+<DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy} multiSort>
   <DataTable.Column header="ID" accessor="id" canSort={false} />
   <DataTable.Column header="Name" accessor="name" canSort={true} />
   <DataTable.Column header="Surname" accessor="surname" canSort={true} />
