@@ -156,6 +156,10 @@ Ensure that the `canSort` prop is set to `true` for columns that should be sorta
 Default sorting behavior can be configured using the `defaultSortBy` prop on the DataTable component. <br/>
 You can use this hook to implement sorting for specific columns according to your requirements.
 
+**Note:**
+When using this hook, be aware that it is designed for **client-side sorting**. While it provides flexibility, it may **not be optimal** for handling **larger datasets**. <br/>
+Client-side sorting can lead to performance issues with larger amounts of data. It is recommended to consider server-side sorting for improved performance in such cases.
+
 ## Best Practices
 
 Data Tables should:
