@@ -34,6 +34,9 @@ export default {
   },
 };
 
+const initialHtml =
+  "<h3>Lorem ipsum dolor sit amet, </h3><p>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>";
+
 export const Default = () => {
-  return <RichTextEditor />;
+  return <RichTextEditor initialHtml={initialHtml} onHtmlChange={(html) => console.log(html)} />;
 };

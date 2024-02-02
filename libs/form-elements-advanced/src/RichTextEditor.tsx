@@ -15,7 +15,7 @@
  *
  */
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { Modal, useModal } from "@tiller-ds/alert";
 import { Button, IconButton } from "@tiller-ds/core";
@@ -30,8 +30,10 @@ import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { DOMConversionMap, DOMConversionOutput, SerializedTextNode } from "lexical";
 
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $generateNodesFromDOM, $generateHtmlFromNodes } from "@lexical/html";
 
 import {
   $isListNode,
@@ -69,6 +71,9 @@ import {
   ElementNode,
   ElementFormatType,
   $isElementNode,
+  LexicalEditor,
+  $getRoot,
+  $insertNodes,
 } from "lexical";
 
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary.prod";
@@ -288,7 +293,7 @@ function RichTextEditorToolbar(): JSX.Element {
         setActiveEditor(newEditor);
         return false;
       },
-      COMMAND_PRIORITY_CRITICAL
+      COMMAND_PRIORITY_CRITICAL,
     );
   }, [editor, updateToolbar]);
 
@@ -305,7 +310,7 @@ function RichTextEditorToolbar(): JSX.Element {
           setCanUndo(payload);
           return false;
         },
-        COMMAND_PRIORITY_CRITICAL
+        COMMAND_PRIORITY_CRITICAL,
       ),
       activeEditor.registerCommand(
         CAN_REDO_COMMAND,
@@ -313,8 +318,8 @@ function RichTextEditorToolbar(): JSX.Element {
           setCanRedo(payload);
           return false;
         },
-        COMMAND_PRIORITY_CRITICAL
-      )
+        COMMAND_PRIORITY_CRITICAL,
+      ),
     );
   }, [editor, activeEditor, updateToolbar]);
 
@@ -524,7 +529,20 @@ function RichTextEditorToolbar(): JSX.Element {
   );
 }
 
-export default function RichTextEditor() {
+type RichTextEditorProps = {
+  /**
+   * Initial html content to be set.
+   */
+  initialHtml?: string;
+
+  /**
+   * Function is called on html changes.
+   * @param html
+   */
+  onHtmlChange?: (html: string) => void;
+};
+
+export default function RichTextEditor({ initialHtml, onHtmlChange }: RichTextEditorProps) {
   const linkTokens = useTokens("Link");
   const typographyTokens = useTokens("Typography");
 
@@ -577,7 +595,17 @@ export default function RichTextEditor() {
   const initialConfig = {
     namespace: "TillerEditor",
     theme: tillerLexicalTheme,
-    nodes: [ListNode, ListItemNode, HeadingNode, TableNode, TableCellNode, TableRowNode, LinkNode],
+    nodes: [
+      ExtendedTextNode,
+      { replace: TextNode, with: (node: TextNode) => new ExtendedTextNode(node.__text) },
+      ListNode,
+      ListItemNode,
+      HeadingNode,
+      TableNode,
+      TableCellNode,
+      TableRowNode,
+      LinkNode,
+    ],
     onError,
   };
 
@@ -598,6 +626,118 @@ export default function RichTextEditor() {
           ErrorBoundary={LexicalErrorBoundary}
         />
       </div>
+      <InitEditor initialHtml={initialHtml} />
+      <OnChange onHtmlChange={onHtmlChange} />
     </LexicalComposer>
   );
+}
+
+type OnChangeProps = {
+  onHtmlChange?: (html: string) => void;
+};
+
+function OnChange({ onHtmlChange }: OnChangeProps) {
+  const [editor] = useLexicalComposerContext();
+  const lastHtml = useRef<string | undefined>();
+
+  useEffect(() => {
+    editor.registerUpdateListener(({ editorState }) => {
+      editorState.read(() => {
+        if (onHtmlChange) {
+          const html = getHtmlOfEditor(editor);
+          if (lastHtml.current !== html) {
+            onHtmlChange(html);
+            lastHtml.current = html;
+          }
+        }
+      });
+    });
+  }, [editor, onHtmlChange]);
+
+  return null;
+}
+
+function getHtmlOfEditor(editor: LexicalEditor): string {
+  const htmlString = $generateHtmlFromNodes(editor);
+  const htmlObject = document.createElement("div");
+  htmlObject.innerHTML = htmlString;
+
+  //cleanup
+  for (const pElem of htmlObject.getElementsByTagName("p")) {
+    pElem.removeAttribute("dir");
+  }
+
+  return htmlObject.innerHTML;
+}
+
+type InitEditorProps = {
+  initialHtml?: string;
+};
+
+function InitEditor({ initialHtml }: InitEditorProps) {
+  const [editor] = useLexicalComposerContext();
+
+  useEffect(() => {
+    initialHtml &&
+      editor.update(() => {
+        const parser = new DOMParser();
+        const dom = parser.parseFromString(initialHtml, "text/html");
+        const nodes = $generateNodesFromDOM(editor, dom);
+        const root = $getRoot();
+        root.selectEnd();
+        $insertNodes(nodes);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor]);
+
+  return null;
+}
+
+export class ExtendedTextNode extends TextNode {
+  static getType(): string {
+    return "extended-text";
+  }
+
+  static clone(node: ExtendedTextNode): ExtendedTextNode {
+    return new ExtendedTextNode(node.__text, node.__key);
+  }
+
+  static importDOM(): DOMConversionMap | null {
+    const importers = TextNode.importDOM();
+    return {
+      ...importers,
+      p: () => ({
+        conversion: convertParagraphElement,
+        priority: 1,
+      }),
+    };
+  }
+
+  static importJSON(serializedNode: SerializedTextNode): TextNode {
+    return TextNode.importJSON(serializedNode);
+  }
+
+  isSimpleText() {
+    return (this.__type === "text" || this.__type === "extended-text") && this.__mode === 0;
+  }
+
+  exportJSON(): SerializedTextNode {
+    return {
+      ...super.exportJSON(),
+      type: "extended-text",
+      version: 1,
+    };
+  }
+}
+
+function convertParagraphElement(element: HTMLElement): DOMConversionOutput {
+  const node = $createParagraphNode();
+  if (element.style) {
+    node.setFormat(element.style.textAlign as ElementFormatType);
+    const indent = parseInt(element.style.textIndent, 10) / 20;
+    if (indent > 0) {
+      node.setIndent(indent);
+    }
+  }
+  return { node };
 }
