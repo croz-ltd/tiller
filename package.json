@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@datepicker-react/hooks": "2.3.1",
-    "@lexical/react": "^0.6.0",
+    "@lexical/react": "^0.11.0",
     "@reach/dialog": "^0.10.1",
     "@reach/menu-button": "^0.10.1",
     "@reach/popover": "^0.10.2",
@@ -44,7 +44,7 @@
     "immer": "9.0.17",
     "intl-messageformat": "^9.3.6",
     "intl-messageformat-parser": "^6.0.5",
-    "lexical": "^0.6.0",
+    "lexical": "^0.11.0",
     "linkifyjs": "2.1.9",
     "lodash": "4.17.21",
     "phosphor-icons": "1.4.2",
