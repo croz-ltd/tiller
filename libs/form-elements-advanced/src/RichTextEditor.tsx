@@ -531,13 +531,28 @@ function RichTextEditorToolbar(): JSX.Element {
 
 type RichTextEditorProps = {
   /**
-   * Initial html content to be set.
+   * Initial HTML content to be set.
+   *
+   * When adding styles in `initialHtml` follow these rules:
+   * <ul>
+   *     <li>Italic - use <code>strong</code> tag</li>
+   *     <li>Bold - use <code>strong</code> tag</li>
+   *     <li>Underline - use <code>u</code> tag</li>
+   *     <li>Strikethrough - use <code>s</code> tag</li>
+   *     <li>Headers - use <code>h1-h6</code> tags</li>
+   *     <li>Unordered list - use <code>ul</code> and <code>li</code> tags</li>
+   *     <li>Ordered list - use <code>ol</code> and <code>li</code> tags</li>
+   *     <li>Text align - use <code>style="text-align: left|center|right|justify;"</code> on <code>p</code> tag</li>
+   *     <li>Link - use <code>a</code> tag</li>
+   *     <li>Text indentation - use <code>style="text-indent: (20|40|60|...)px;"</code> on <code>p</code> tag</li>
+   *     <li>Table - use standard table tags: <code>table</code>, <code>thead</code>, <code>tbody</code>, <code>th</code>, <code>td</code></li>
+   * </ul>
    */
   initialHtml?: string;
 
   /**
-   * Function is called on html changes.
-   * @param html
+   * Callback function invoked when the HTML content changes.
+   * @param html The updated HTML content.
    */
   onHtmlChange?: (html: string) => void;
 };

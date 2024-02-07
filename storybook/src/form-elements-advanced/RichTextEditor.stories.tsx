@@ -22,6 +22,7 @@ import { withDesign } from "storybook-addon-designs";
 import mdx from "./RichTextEditor.mdx";
 
 import { RichTextEditor } from "@tiller-ds/form-elements-advanced";
+import { beautifySource } from "../utils";
 
 export default {
   title: "Component Library/Form-elements-advanced/RichTextEditor",
@@ -29,14 +30,17 @@ export default {
   parameters: {
     docs: {
       page: mdx,
+      source: { type: "auto", excludeDecorators: true },
+      transformSource: (source) => beautifySource(source, "RichTextEditor"),
     },
     decorators: [withDesign],
   },
 };
 
-const initialHtml =
-  "<h3>Lorem ipsum dolor sit amet, </h3><p>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>";
-
 export const Default = () => {
+  // incl-code
+  const initialHtml =
+    "<h3>Lorem ipsum dolor sit amet, </h3><p>consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>";
+
   return <RichTextEditor initialHtml={initialHtml} onHtmlChange={(html) => console.log(html)} />;
 };
