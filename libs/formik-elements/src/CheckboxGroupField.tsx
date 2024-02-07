@@ -22,6 +22,7 @@ import { useField } from "formik";
 import { CheckboxGroup, CheckboxGroupItemProps, CheckboxGroupProps } from "@tiller-ds/form-elements";
 
 import useShouldValidate from "./useShouldValidate";
+import useFormikBypass from "./useFormikBypass";
 
 type CheckboxGroupFieldProps = Omit<CheckboxGroupProps, "value" | "onChange">;
 type CheckboxGroupFieldItemProps = CheckboxGroupItemProps;
@@ -29,14 +30,27 @@ type CheckboxGroupFieldItemProps = CheckboxGroupItemProps;
 function CheckboxGroupField({ name, children, ...props }: CheckboxGroupFieldProps) {
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
+  const initialError = useFormikBypass(name);
+
+  const onChange = (value: Record<string, boolean>) => {
+    helpers.setValue(value, shouldValidate);
+    initialError.current = undefined;
+  };
+
+  const onBlur = () => {
+    helpers.setTouched(true, shouldValidate);
+  };
+
+  const isChecked = () => field.value && Object.values(field.value).some((value) => value === true);
 
   return (
     <CheckboxGroup
       {...props}
       name={name}
       value={field.value || {}}
-      onChange={(v) => helpers.setValue(v, shouldValidate)}
-      error={!field.value ? meta.error : undefined}
+      onChange={onChange}
+      onBlur={onBlur}
+      error={meta.touched && !isChecked() ? initialError.current || meta.error : undefined}
     >
       {children}
     </CheckboxGroup>

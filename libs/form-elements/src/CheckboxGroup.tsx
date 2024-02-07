@@ -46,6 +46,11 @@ export type CheckboxGroupProps = {
   onChange: (value: Value) => void;
 
   /**
+   * Defines the behaviour of the component once the focus shifts away from the component.
+   */
+  onBlur?: () => void;
+
+  /**
    * Turns this field into a required field in the form. Only applies visual representation (* next to label),
    * still requires validation on frontend or backend to accompany this value if set to true.
    */
@@ -78,6 +83,8 @@ type CheckboxGroupContext = {
   checked: Value;
 
   onChange: (value: string) => () => void;
+
+  onBlur?: () => void;
 };
 
 const CheckboxGroupContext = React.createContext<CheckboxGroupContext>({
@@ -86,9 +93,11 @@ const CheckboxGroupContext = React.createContext<CheckboxGroupContext>({
   checked: {},
 
   onChange: () => () => null,
+
+  onBlur: () => null,
 });
 
-function CheckboxGroup({ name, children, value, className = "", onChange, ...props }: CheckboxGroupProps) {
+function CheckboxGroup({ name, children, value, className = "", onChange, onBlur, ...props }: CheckboxGroupProps) {
   const tokens = useTokens("CheckboxGroup", props.tokens);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -101,7 +110,7 @@ function CheckboxGroup({ name, children, value, className = "", onChange, ...pro
 
   return (
     <FieldGroup className={className} {...props}>
-      <CheckboxGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange }}>
+      <CheckboxGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange, onBlur }}>
         {children}
         <input className={tokens.input} ref={inputRef} />
       </CheckboxGroupContext.Provider>
@@ -110,7 +119,7 @@ function CheckboxGroup({ name, children, value, className = "", onChange, ...pro
 }
 
 function CheckboxGroupItem({ value, color, disabled, ...props }: CheckboxGroupItemProps) {
-  const { name, checked, onChange } = React.useContext(CheckboxGroupContext);
+  const { name, checked, onChange, onBlur } = React.useContext(CheckboxGroupContext);
 
   const id = `${name}-${value}`;
   return (
@@ -122,6 +131,7 @@ function CheckboxGroupItem({ value, color, disabled, ...props }: CheckboxGroupIt
         color={color}
         checked={Object.values(checked)[Object.keys(checked).indexOf(value)]}
         onChange={onChange(value)}
+        onBlur={onBlur}
         disabled={disabled}
       />
     </FieldGroup.Item>

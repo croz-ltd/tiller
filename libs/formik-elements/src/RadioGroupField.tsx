@@ -22,6 +22,7 @@ import { useField } from "formik";
 import { RadioGroup, RadioGroupItemProps, RadioGroupProps } from "@tiller-ds/form-elements";
 
 import useShouldValidate from "./useShouldValidate";
+import useFormikBypass from "./useFormikBypass";
 
 type RadioGroupFieldProps = Omit<RadioGroupProps, "value" | "onChange" | "error">;
 
@@ -30,14 +31,25 @@ type RadioGroupFieldItemProps = RadioGroupItemProps;
 function RadioGroupField({ name, children, ...props }: RadioGroupFieldProps) {
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
+  const initialError = useFormikBypass(name);
+
+  const onChange = (value: string | boolean | null) => {
+    helpers.setValue(value, shouldValidate);
+    initialError.current = undefined;
+  };
+
+  const onBlur = () => {
+    helpers.setTouched(true, shouldValidate);
+  };
 
   return (
     <RadioGroup
       {...props}
       name={name}
       value={field.value || {}}
-      onChange={(v) => helpers.setValue(v, shouldValidate)}
-      error={!field.value ? meta.error : undefined}
+      onChange={onChange}
+      onBlur={onBlur}
+      error={meta.touched && !field.value ? initialError.current || meta.error : undefined}
     >
       {children}
     </RadioGroup>
