@@ -409,7 +409,7 @@ function Select<T>({
         >
           <div className={tokens.Button.container}>
             <div className={tokens.Button.value}>{valueLabel}</div>
-            <input className={tokens.Button.input} ref={inputRef} tabIndex={-1} />
+            <input name={name} className={tokens.Button.input} ref={inputRef} tabIndex={-1} />
             <div className={tokens.Loading.container}>
               {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
               {error && warningIcon}

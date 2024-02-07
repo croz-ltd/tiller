@@ -20,9 +20,26 @@ import * as React from "react";
 import { Formik, FormikConfig, FormikHelpers } from "formik";
 
 import { createNamedContext, ValidationError } from "@tiller-ds/util";
+import ScrollToError from "./ScrollToError";
 
 type FormikProps<V = any> = {
+  /**
+   * Specifies whether validation should occur after form submission.
+   * @type {boolean}
+   * @default false
+   */
   validateAfterSubmit?: boolean;
+  /**
+   * Specifies whether the form should automatically scroll to the first validation error encountered.
+   *
+   * **Note**: Enabling this feature will cause the form to scroll to the first validation error found
+   * in your validation schema. It's important to ensure that the validationSchema prop defines
+   * validations in the same order as your form fields are rendered to ensure accurate scrolling.
+   *
+   * @type {boolean}
+   * @default false
+   */
+  scrollToError?: boolean;
 };
 
 export type Status = "idle" | "waiting" | "error" | "success";
@@ -57,8 +74,10 @@ function formReducer(state: FormContainerState, action: Action): FormContainerCo
 export default function FormContainer<Values, ExtraProps>({
   onSubmit: originalOnSubmit,
   validateAfterSubmit,
+  scrollToError,
   initialErrors,
   enableReinitialize = true,
+  children,
   ...rest
 }: FormikConfig<Values> & ExtraProps & FormikProps) {
   const [state, dispatch] = React.useReducer(formReducer, initialContext);
@@ -83,7 +102,14 @@ export default function FormContainer<Values, ExtraProps>({
 
   return (
     <FormContainerContext.Provider value={value}>
-      <Formik {...rest} onSubmit={onSubmit} enableReinitialize={enableReinitialize} initialErrors={formikErrors} />
+      <Formik {...rest} onSubmit={onSubmit} enableReinitialize={enableReinitialize} initialErrors={formikErrors}>
+        {(props) => (
+          <>
+            {typeof children === "function" ? children(props) : children}
+            {scrollToError && <ScrollToError />}
+          </>
+        )}
+      </Formik>
     </FormContainerContext.Provider>
   );
 }
