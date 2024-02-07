@@ -52,6 +52,11 @@ export type RadioGroupProps = {
   onChange: (value: Value) => void;
 
   /**
+   * Defines the behaviour of the component once the focus shifts away from the component.
+   */
+  onBlur?: () => void;
+
+  /**
    * Turns this field into a required field in the form. Only applies visual representation (* next to label),
    * still requires validation on frontend or backend to accompany this value if set to true.
    */
@@ -87,6 +92,8 @@ type RadioGroupContext = {
   checked: Value;
 
   onChange: (value: string) => () => void;
+
+  onBlur?: () => void;
 };
 
 const RadioGroupContext = React.createContext<RadioGroupContext>({
@@ -95,9 +102,11 @@ const RadioGroupContext = React.createContext<RadioGroupContext>({
   checked: null,
 
   onChange: () => () => null,
+
+  onBlur: () => null,
 });
 
-function RadioGroup({ name, children, value, className = "", onChange, ...props }: RadioGroupProps) {
+function RadioGroup({ name, children, value, className = "", onChange, onBlur, ...props }: RadioGroupProps) {
   const tokens = useTokens("RadioGroup", props.tokens);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const contextOnChange = (itemValue: string) => () => {
@@ -107,7 +116,7 @@ function RadioGroup({ name, children, value, className = "", onChange, ...props 
 
   return (
     <FieldGroup {...props} className={className}>
-      <RadioGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange }}>
+      <RadioGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange, onBlur }}>
         {children}
         <input className={tokens.input} ref={inputRef} />
       </RadioGroupContext.Provider>
@@ -117,7 +126,7 @@ function RadioGroup({ name, children, value, className = "", onChange, ...props 
 
 function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioGroupItemProps) {
   const tokens = useTokens("RadioGroup", props.tokens);
-  const { name, checked, onChange } = React.useContext(RadioGroupContext);
+  const { name, checked, onChange, onBlur } = React.useContext(RadioGroupContext);
 
   const radioGroupItemInputClassName = cx(
     [tokens.master],
@@ -127,7 +136,7 @@ function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioG
     [tokens.base.borderRadius],
     [tokens.base.boxShadow],
     [tokens.base.backgroundColor],
-    [tokens.base.color[color]]
+    [tokens.base.color[color]],
   );
 
   const fieldGroupItemClassName = cx({ [tokens.Item.disabled]: disabled });
@@ -143,6 +152,7 @@ function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioG
         value={value}
         checked={value === checked}
         onChange={onChange(value)}
+        onBlur={onBlur}
         disabled={disabled}
         style={{
           backgroundImage: `url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e")`,
