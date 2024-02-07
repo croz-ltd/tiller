@@ -41,7 +41,7 @@ function CheckboxGroupField({ name, children, ...props }: CheckboxGroupFieldProp
     helpers.setTouched(true, shouldValidate);
   };
 
-  const isChecked = () => field.value && Object.values(field.value).some((value) => value === true);
+  const isChecked = field.value && Object.values(field.value).some((value) => value === true);
 
   return (
     <CheckboxGroup
@@ -50,7 +50,7 @@ function CheckboxGroupField({ name, children, ...props }: CheckboxGroupFieldProp
       value={field.value || {}}
       onChange={onChange}
       onBlur={onBlur}
-      error={meta.touched && !isChecked() ? initialError.current || meta.error : undefined}
+      error={meta.touched && !isChecked ? initialError.current || meta.error : undefined}
     >
       {children}
     </CheckboxGroup>
