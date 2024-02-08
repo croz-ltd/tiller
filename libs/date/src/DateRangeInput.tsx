@@ -234,6 +234,7 @@ export default function DateRangeInput({
   const inputRef = React.useRef<HTMLInputElement>(null);
   const datePickerRef = React.useRef<HTMLDivElement>(null);
   const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, onBlur);
+  const previousOpened = React.useRef(false);
 
   const onDatesChange = (data: OnDatesChangeProps) => {
     if (data.startDate && !data.endDate) {
@@ -248,6 +249,7 @@ export default function DateRangeInput({
       setDatePickerState({ startDate: null, endDate: null, focusedInput: START_DATE });
       props.onChange(data.startDate, data.endDate);
       setOpened(false);
+      previousOpened.current = true;
     }
   };
 
@@ -299,9 +301,10 @@ export default function DateRangeInput({
       datePickerState.startDate === null &&
       datePickerState.endDate === null &&
       datePickerState.focusedInput === START_DATE &&
-      (start || end)
+      previousOpened.current
     ) {
       inputRef.current?.focus();
+      previousOpened.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [start, end]);
@@ -314,6 +317,7 @@ export default function DateRangeInput({
       datePicker.onDateFocus(start || minDate || (null as unknown as Date));
     }
     setOpened(true);
+    previousOpened.current = false;
     inputRef.current?.focus();
   };
 
@@ -327,6 +331,7 @@ export default function DateRangeInput({
 
       if (opened && isOutsideInput && isOutsideDatePicker) {
         setOpened(false);
+        previousOpened.current = true;
       }
     }
 
@@ -353,6 +358,7 @@ export default function DateRangeInput({
       } else if (startingDate && endingDate) {
         if (closeAfterEntry) {
           setOpened(false);
+          previousOpened.current = true;
         }
         datePicker.onDateFocus(endingDate);
         props.onChange(startingDate, endingDate);
@@ -372,6 +378,7 @@ export default function DateRangeInput({
     inputRef.current?.focus();
     setTypedValue("");
     setOpened(false);
+    previousOpened.current = true;
   };
 
   const getDateRangeMask = () => {
