@@ -20,21 +20,17 @@ import * as React from "react";
 import { Formik, FormikConfig, FormikHelpers } from "formik";
 
 import { createNamedContext, ValidationError } from "@tiller-ds/util";
-import ScrollToError from "./ScrollToError";
+import useScrollToError from "./useScrollToError";
 
 type FormikProps<V = any> = {
   /**
-   * Specifies whether validation should occur after form submission.
+   * Specifies whether validation should occur after form submission (as opposed to the default on blur validation behavior).
    * @type {boolean}
    * @default false
    */
   validateAfterSubmit?: boolean;
   /**
-   * Specifies whether the form should automatically scroll to the first validation error encountered.
-   *
-   * **Note**: Enabling this feature will cause the form to scroll to the first validation error found
-   * in your validation schema. It's important to ensure that the validationSchema prop defines
-   * validations in the same order as your form fields are rendered to ensure accurate scrolling.
+   * Specifies whether the form should automatically scroll to the first encountered validation error.
    *
    * @type {boolean}
    * @default false
@@ -116,4 +112,9 @@ export default function FormContainer<Values, ExtraProps>({
 
 export function useFormContainerContext() {
   return React.useContext(FormContainerContext);
+}
+
+function ScrollToError() {
+  useScrollToError();
+  return null;
 }
