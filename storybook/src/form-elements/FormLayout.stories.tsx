@@ -40,6 +40,7 @@ import {
   TimeInputField,
   UploadButtonField,
   useDataTableField,
+  useScrollToError,
 } from "@tiller-ds/formik-elements";
 import { Icon } from "@tiller-ds/icons";
 import { beautifySource, FormikDecorator, useMockSender } from "../utils";
@@ -71,6 +72,12 @@ const ValidationSchema = Yup.object().shape({
   type: Yup.object().required("type validation error"),
 });
 
+const ScrollToErrorValidationSchema = Yup.object().shape({
+  name: Yup.string().required("name validation error"),
+  surname: Yup.string().required("surname validation error"),
+  country: Yup.string().required("country validation error").nullable(),
+});
+
 const defaultFiles: File[] = [
   { id: "1", name: "File 1", status: "finished" },
   { id: "2", name: "File 2", status: "finished" },
@@ -96,17 +103,6 @@ export default {
   component: FormLayout,
 
   decorators: [
-    // eslint-disable-next-line react/display-name
-    (StoryFn: any) => (
-      <FormikDecorator
-        validationSchema={ValidationSchema}
-        initialValues={{
-          upload: defaultFiles.map((file) => file.id),
-        }}
-      >
-        <StoryFn />
-      </FormikDecorator>
-    ),
     // eslint-disable-next-line react/display-name
     (storyFn: () => React.ReactNode) => <Body>{storyFn()}</Body>,
   ],
@@ -674,3 +670,134 @@ export const WithDragZoneField = () => {
     </FormLayout>
   );
 };
+
+export const WithScrollToError = () => {
+  // incl-code
+  // Hook imported from formik-elements module (also accessible via a boolean prop of FormContainer)
+  useScrollToError();
+
+  return (
+    <FormLayout>
+      <FormLayout.Section title="Profile" subtitle="Profile info">
+        <FormLayout.Section.Content>
+          <InputField name="name" label="Name" required={true} />
+          <InputField name="surname" label="Surname" required={true} />
+          <AutocompleteField
+            name="country"
+            required={true}
+            label="Country / Region"
+            className="sm:col-span-3"
+            getOptionValue={(country) => country.value}
+            itemToString={(country) => country.label}
+            filter={(name: string, option) => option.label.toLowerCase().includes(name.toLowerCase())}
+            options={[
+              { value: "BIH", label: "Bosnia and Herzegovina" },
+              { value: "HRV", label: "Croatia" },
+              { value: "SRB", label: "Serbia" },
+              { value: "SVN", label: "Slovenia" },
+              { value: "USA", label: "United States of America (the)" },
+            ]}
+          />
+          <TextareaField name="about" label="About" help="Write a few sentences about yourself." />
+        </FormLayout.Section.Content>
+      </FormLayout.Section>
+      <FormLayout.Section title="Personal Information">
+        <FormLayout.Section.Content>
+          <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+            <InputField name="firstName" label="First Name" className="sm:col-span-3" />
+            <InputField name="lastName" label="Last Name" className="sm:col-span-3" />
+            <InputField name="email" label="Email address" className="sm:col-span-3" />
+            <InputField name="streetAddress" label="Street address" className="sm:col-span-6" />
+            <AutocompleteField
+              name="city"
+              label="City"
+              options={async (query) =>
+                Promise.resolve(
+                  ["Zagreb", "Rijeka", "Osijek"].filter(
+                    (item) => item.toLowerCase().indexOf(query.toLowerCase()) !== -1,
+                  ),
+                )
+              }
+              className="sm:col-span-2"
+            />
+            <InputField name="state" label="State / Province" className="sm:col-span-2" />
+            <InputField name="zip" label="ZIP / Postal" className="sm:col-span-2" />
+          </div>
+        </FormLayout.Section.Content>
+      </FormLayout.Section>
+
+      <FormLayout.Section title="Notifications">
+        <FormLayout.Section.Content>
+          <CheckboxGroupField name="emailNotifications" label="By Email">
+            <CheckboxGroupField.Item
+              label="Comments"
+              value="comments"
+              help="Get notified when someones posts a comment on a posting."
+            />
+            <CheckboxGroupField.Item
+              label="Candidates"
+              value="candidates"
+              help="Get notified when a candidate applies for a job."
+            />
+            <CheckboxGroupField.Item
+              label="Offers"
+              value="offers"
+              help="Get notified when a candidate accepts or rejects an offer."
+            />
+          </CheckboxGroupField>
+
+          <RadioGroupField
+            name="pushNotifications"
+            label="Push Notifications"
+            help="These are delivered via SMS to your mobile phone."
+          >
+            <RadioGroupField.Item label="Everything" value="everything" />
+            <RadioGroupField.Item label="Same as email" value="same-as-email" />
+            <RadioGroupField.Item label="No push notifications" value="disabled" />
+          </RadioGroupField>
+        </FormLayout.Section.Content>
+
+        <FormLayout.Section.Actions>
+          <Button variant="outlined" type="reset" className="ml-2">
+            Reset
+          </Button>
+          <Button variant="filled" className="ml-2">
+            Save
+          </Button>
+        </FormLayout.Section.Actions>
+      </FormLayout.Section>
+    </FormLayout>
+  );
+};
+
+const defaultDecorators = [
+  // eslint-disable-next-line react/display-name
+  (StoryFn: any) => (
+    <FormikDecorator
+      validationSchema={ValidationSchema}
+      initialValues={{
+        upload: defaultFiles.map((file) => file.id),
+      }}
+    >
+      <StoryFn />
+    </FormikDecorator>
+  ),
+];
+
+SimpleType.decorators = defaultDecorators;
+CardType.decorators = defaultDecorators;
+FullWidthTypeWithDataTableField.decorators = defaultDecorators;
+SeparateLabels.decorators = defaultDecorators;
+NoTitleAndSubtitle.decorators = defaultDecorators;
+WithFullValidation.decorators = defaultDecorators;
+WithUploadButtonField.decorators = defaultDecorators;
+WithDragZoneField.decorators = defaultDecorators;
+
+WithScrollToError.decorators = [
+  // eslint-disable-next-line react/display-name
+  (StoryFn: any) => (
+    <FormikDecorator validationSchema={ScrollToErrorValidationSchema} initialValues={{}}>
+      <StoryFn />
+    </FormikDecorator>
+  ),
+];

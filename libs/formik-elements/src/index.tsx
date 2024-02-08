@@ -40,4 +40,4 @@ export { default as TimeInputField } from "./TimeInputField";
 export { default as ToggleField } from "./ToggleField";
 export { default as TreeSelectField } from "./TreeSelectField";
 export { default as UploadButtonField } from "./UploadButtonField";
-export { default as ScrollToError } from "./ScrollToError";
+export { default as useScrollToError } from "./useScrollToError";

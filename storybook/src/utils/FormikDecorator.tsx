@@ -28,6 +28,7 @@ export type FormikDecoratorProps<T extends {}> = {
   initialTouched?: FormikTouched<T>;
   validationSchema?: React.ReactNode;
   children?: React.ReactNode;
+  scrollToError?: boolean;
 };
 
 export default function FormikDecorator<T extends {}>({
@@ -37,6 +38,7 @@ export default function FormikDecorator<T extends {}>({
   validationSchema,
   children,
   showFieldValues = true,
+  scrollToError,
 }: FormikDecoratorProps<T>) {
   return (
     <FormContainer
@@ -45,6 +47,7 @@ export default function FormikDecorator<T extends {}>({
       onSubmit={() => {}}
       initialErrors={initialErrors}
       initialTouched={initialTouched}
+      scrollToError={scrollToError}
     >
       {({ values }) => {
         return (

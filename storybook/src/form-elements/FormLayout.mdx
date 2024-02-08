@@ -14,7 +14,7 @@ The component has a couple of types to choose from, with each being unique in it
 - **Card** - provides a layout with titles and/or subtitles on the left side and section's content on the right side with **only** section's content wrapped in a Card component.
 - **Full Width** - provides a layout with titles and/or subtitles on the left side and section's content on the right side, **both** wrapped in a Card component.
 
-**NOTE**: `FormLayout` gives you a template for making forms, you still need to wrap the component in Formik or other form-handling libraries.
+**NOTE**: `FormLayout` gives you a template for making forms, you still need to wrap the component in `Formik`, Tiller's `FormContainer` or other form-handling libraries.
 
 ## Usage
 
@@ -37,6 +37,16 @@ If you wish to **change the background** of the Form Layout components, you can 
 
 All props are described in detail on the [Form Layout Props section](#form-layout-props)
 of the documentation.
+
+## Form Container
+
+Tiller DS offers an upgraded Formik wrapper called `FormContainer` which can be imported from the `formik-elements` module
+and offers a few additional props:
+
+- `validateAfterSubmit` - specifies whether validation should occur after form submission (as opposed to the default on blur validation behavior)
+- `scrollToError` - specifies whether the form should automatically scroll to the first encountered validation error (also accessible via `useScrollToError` hook imported from the `formik-elements` module)
+
+The [WithScrollToError](#with-scroll-to-error) story showcases the behavior with the `scrollToError` enabled (via `useScrollToError` hook).
 
 <Stories includePrimary={true} />
 
