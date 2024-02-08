@@ -414,7 +414,7 @@ function Select<T>({
               {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
               {error && warningIcon}
               {value && !hideClearButton && !error && (
-                <button className={clearClassName} onClick={clear}>
+                <button type="button" className={clearClassName} onClick={clear}>
                   {removeIcon}
                 </button>
               )}
