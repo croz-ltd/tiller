@@ -115,14 +115,23 @@ export default function NumberInput({
 }: NumberInputProps) {
   const intlContext = useIntlContext();
   const id = `numberformat-${name}`;
+  const usesDecimalSeparator = decimalSeparator !== undefined;
+  const usesThousandSeparator = thousandSeparator !== undefined;
 
-  if (!intlContext && (!decimalSeparator || !thousandSeparator)) {
+  if (!intlContext && (!usesDecimalSeparator || !usesThousandSeparator)) {
     throw new Error(
-      "You must pass decimalSeparator and thousandSeparator props if you are using the NumberInput component without IntlProvider.",
+      "You must pass decimalSeparator and/or thousandSeparator props if you are using the NumberInput component without IntlProvider.",
     );
   }
+
+  if (usesDecimalSeparator && decimalSeparator === "") {
+    throw new Error(
+      "When providing a decimalSeparator prop, it must be a valid character (e.g., '.', ',') to separate decimal places. An empty string ('') is not allowed.",
+    );
+  }
+
   const getFinalDecimalSeparator = () => {
-    if (decimalSeparator && thousandSeparator) {
+    if (usesDecimalSeparator) {
       return decimalSeparator;
     }
     if (intlContext) {
@@ -132,7 +141,7 @@ export default function NumberInput({
   };
 
   const getFinalThousandSeparator = () => {
-    if (decimalSeparator && thousandSeparator) {
+    if (usesThousandSeparator) {
       return thousandSeparator;
     }
     if (intlContext) {

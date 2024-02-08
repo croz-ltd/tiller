@@ -27,8 +27,9 @@ automatically inferred from the `locale` prop of `IntlProvider`.
 
 ## Usage without IntlProvider
 
-If you wish to use this component without `IntlProvider`, you can do so by passing `thousandSeparator` and `decimalSeparator` props
+If you wish to use this component without `IntlProvider`, you can do so by passing `decimalSeparator` and/or `thousandSeparator` props
 to the component. This way, the format will be inferred from these props instead of the `locale` prop of `IntlProvider`.
+If only one of these 2 props is defined, the other one will be inferred from `react-number-format` defaults.
 
 <Stories includePrimary={true} />
 
