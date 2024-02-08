@@ -986,7 +986,7 @@ function Autocomplete<T extends {}>({
         })}
         {...getComboboxProps({}, { suppressRefError: true })}
       />
-      {allowMultiple && <input type="hidden" name={name} />}
+      {allowMultiple && <input className="absolute w-0 h-0" name={name} />}
       <Popover
         className="z-50"
         targetRef={toggleRef}
