@@ -189,7 +189,7 @@ export function DropdownMenuItem({
   const { setItemHeight } = useContext(DropdownContext);
 
   React.useEffect(() => {
-    if (setItemHeight && itemRef.current) {
+    if (setItemHeight && itemRef.current && itemRef.current.clientHeight > 0) {
       setItemHeight(itemRef.current.clientHeight);
     }
   }, [setItemHeight]);
@@ -258,12 +258,11 @@ function DropdownMenuContainer({
   }, [childrenContainerRef.current]);
 
   const menuListHeight = useMemo(() => {
-    if (itemHeight && visibleItemCount && Array.isArray(children) && children.length >= visibleItemCount) {
-      return itemHeight * visibleItemCount + containerPadding;
-    }
+    const filteredChildren = Array.isArray(children) && children.filter((child) => typeof child !== "boolean");
 
-    if (itemHeight && Array.isArray(children)) {
-      return itemHeight * children.length + containerPadding;
+    if (itemHeight && Array.isArray(filteredChildren)) {
+      const itemCount = Math.min(filteredChildren.length, visibleItemCount || filteredChildren.length);
+      return itemHeight * itemCount + containerPadding;
     }
   }, [children, containerPadding, itemHeight, visibleItemCount]);
 
@@ -272,7 +271,7 @@ function DropdownMenuContainer({
       <div
         className={menuInnerContainerClassName}
         style={{
-          height: `${menuListHeight}px`,
+          height: visibleItemCount ? `${menuListHeight}px` : undefined,
         }}
       >
         <menu className={menuContainerChildrenClassName} ref={childrenContainerRef}>

@@ -16,14 +16,16 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
+import { NumberInput } from "@tiller-ds/form-elements";
 import { Icon, iconTypes } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
 
-import { extendedColors, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
+import { beautifySource, extendedColors, getChangedTokensFromSource, showFactoryDecorator } from "../utils";
 
 import mdx from "./DropdownMenu.mdx";
 
@@ -33,12 +35,12 @@ export default {
   parameters: {
     docs: {
       page: mdx,
-      source: { type: "dynamic", excludeDecorators: true },
+      source: { type: "auto", excludeDecorators: true },
       transformSource: (source) => {
         const correctedSource = source
           .replace(/DropdownMenuItem/g, "DropdownMenu.Item")
           .replace(/function noRefCheck\(\)\s\{\}/g, "() => {}");
-        return getChangedTokensFromSource(correctedSource, "DropdownMenu");
+        return beautifySource(getChangedTokensFromSource(correctedSource, "DropdownMenu"), "DropdownMenu");
       },
     },
     design: {
@@ -197,6 +199,36 @@ export const WithScrollbar = () => (
   </DropdownMenu>
 );
 
+export const WithDefinedVisibleItemCount = () => {
+  // incl-code
+  const [visibleCount, setVisibleCount] = useState<number | undefined>(5);
+
+  return (
+    <div className="flex space-x-4 items-end">
+      <DropdownMenu title="User" visibleItemCount={visibleCount}>
+        <DropdownMenu.Item onSelect={() => {}}>Account</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Account Info</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Account Messages</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Account Alerts</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Account Notifications</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Account Settings</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Account Pictures</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Support</DropdownMenu.Item>
+        <DropdownMenu.Item onSelect={() => {}}>Sign Out</DropdownMenu.Item>
+      </DropdownMenu>
+      <NumberInput
+        type="number"
+        allowNegative={false}
+        name="count"
+        label="Visible item count"
+        className="w-32"
+        value={String(visibleCount)}
+        onChange={setVisibleCount}
+      />
+    </div>
+  );
+};
+
 export const WithLeadingIcon = () => (
   <DropdownMenu title="User" iconPlacement="leading">
     <DropdownMenu.Item onSelect={() => {}}>Account settings</DropdownMenu.Item>
@@ -270,6 +302,7 @@ const HideControls = {
 
 Simple.argTypes = HideControls;
 WithScrollbar.argTypes = HideControls;
+WithDefinedVisibleItemCount.argTypes = HideControls;
 WithLeadingIcon.argTypes = HideControls;
 AsIcon.argTypes = HideControls;
 WithLongItems.argTypes = HideControls;
