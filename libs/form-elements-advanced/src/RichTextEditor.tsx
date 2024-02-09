@@ -677,8 +677,7 @@ function getHtmlOfEditor(editor: LexicalEditor): string {
   const htmlObject = document.createElement("div");
   htmlObject.innerHTML = htmlString;
 
-  //cleanup
-  for (const pElem of htmlObject.getElementsByTagName("p")) {
+  for (const pElem of Array.from(htmlObject.querySelectorAll("p"))) {
     pElem.removeAttribute("dir");
   }
 
