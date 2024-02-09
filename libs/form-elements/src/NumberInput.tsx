@@ -124,7 +124,7 @@ export default function NumberInput({
     );
   }
 
-  if (usesDecimalSeparator && decimalSeparator === "") {
+  if (usesDecimalSeparator && decimalSeparator?.trim() === "") {
     throw new Error(
       "When providing a decimalSeparator prop, it must be a valid character (e.g., '.', ',') to separate decimal places. An empty string ('') is not allowed.",
     );
