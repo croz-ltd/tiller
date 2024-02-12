@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node LTS
+      - name: Setup Node lts
         uses: actions/setup-node@v3
         with:
           node-version: 16.17.1
@@ -34,18 +34,25 @@ jobs:
       - name: Build all modules
         run: yarn build
 
-      - name: Build Storybook
+      - name: Build storybook
         run: yarn run build-storybook
 
-      - name: Upload Storybook Artifact
+      - name: Upload storybook artifact
         uses: actions/upload-artifact@v2
         with:
           name: storybook
           path: dist/storybook
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: actions/deploy-pages@v1
         with:
           token: ${{ github.token }}
-          publish_dir: dist/storybook
-          publish_branch: main
+          folder: dist/storybook
