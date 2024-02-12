@@ -22,6 +22,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - name: Setup Node lts
         uses: actions/setup-node@v3
         with:
@@ -44,6 +49,7 @@ jobs:
           path: dist/storybook
   deploy:
     runs-on: ubuntu-latest
+    name: Build to Storybook
     needs: build
     steps:
       - name: Download build artifact
