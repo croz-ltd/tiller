@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node lts
-        uses: actions/checkout@v4
+        uses: actions/setup-node@v4
         with:
           node-version: 16.17.1
           cache: 'yarn'
@@ -38,12 +38,22 @@ jobs:
         run: yarn run build-storybook
 
       - name: Upload storybook artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: github-pages
           path: dist/storybook
+  deploy:
+    runs-on: ubuntu-latest
+    name: Publish Storybook
+    needs: build
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
 
-      - id: deploy
-        name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
           token: ${{ github.token }}
+          artifact_name: github-pages
