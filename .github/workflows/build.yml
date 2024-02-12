@@ -60,3 +60,4 @@ jobs:
         uses: actions/deploy-pages@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_name: storybook
