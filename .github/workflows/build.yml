@@ -40,17 +40,14 @@ jobs:
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
         with:
-          name: storybook
           path: dist/storybook
   deploy:
     runs-on: ubuntu-latest
-    name: Build to Storybook
+    name: Download Storybook artifact
     needs: build
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
-        with:
-          name: storybook
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
