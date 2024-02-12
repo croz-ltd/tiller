@@ -37,17 +37,16 @@ jobs:
       - name: Build Storybook
         run: yarn run build-storybook
 
-      - name: Fix permissions
+      - name: Modify permissions
         run: |
-          chmod -c -R +rX "dist/storybook/" | while read line; do
-            echo "::warning title=Invalid file permissions automatically fixed::$line"
-          done
+          find dist/storybook -type d -exec chmod 755 {} \;
+          find dist/storybook -type f -exec chmod 644 {} \;
 
       - name: Compress artifacts
         run: tar -cvf github-pages.tar dist/storybook
 
       - name: Upload Storybook artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           artifact_name: github-pages
           path: dist/storybook
