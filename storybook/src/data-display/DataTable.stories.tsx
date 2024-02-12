@@ -482,10 +482,21 @@ export const WithClickableRows = () => {
       >
         <DataTable.Column header="ID" accessor="id" />
         <DataTable.Column header="Name" accessor="name" />
+        <DataTable.Column header="Edit" id="edit" canClick={false} className="w-12">
+          {(item: Item) => (
+            <div className="flex justify-start items-center space-x-1 z-50">
+              <IconButton icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />} label="Edit" />
+              <IconButton icon={<Icon type="trash" variant="fill" className="text-gray-500" />} label="Delete" />
+            </div>
+          )}
+        </DataTable.Column>
       </DataTable>
-      <Typography>
-        Clicked: <b>{selectedRow?.name || "-"}</b>
-      </Typography>
+      <div className="flex w-full justify-between">
+        <Typography>
+          Clicked: <b>{selectedRow?.name || "-"}</b>
+        </Typography>
+        <Typography>*clicking on the actions column is disabled</Typography>
+      </div>
     </>
   );
 };

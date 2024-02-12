@@ -168,9 +168,14 @@ type DataTableColumnProps<T extends object> = {
    */
   className?: string;
   /**
-   *
+   * Determines whether this column is sortable when clicking on its header.
    */
   canSort?: boolean;
+  /**
+   * Determines whether this column is clickable when `onClick` or `onDoubleClick` props are defined for a specific row.
+   * @default true
+   */
+  canClick?: boolean;
   /**
    * Defines the number of columns a cell should span.
    */
@@ -559,6 +564,7 @@ function DataTable<T extends object>({
     hasBorder: boolean,
     isSecondaryRow: boolean,
     cellIndex: number,
+    isClickable: boolean,
   ) =>
     cx(
       { [tokens.primaryRowSpacing]: !isSecondaryRow },
@@ -568,6 +574,7 @@ function DataTable<T extends object>({
         [tokens.tableCell.backgroundSticky]:
           (firstColumnFixed && cellIndex === 0) || (lastColumnFixed && cellIndex === columns.length - 1),
       },
+      { [onClickClasses]: isClickable },
       tokens.tableCell.fontSize,
       tokens.tableCell.fontWeight,
       tokens.tableCell.color,
@@ -667,19 +674,15 @@ function DataTable<T extends object>({
                     <React.Fragment key={rowKey}>
                       <tr
                         {...row.getRowProps()}
-                        className={cx(
-                          tableRowClassName(rowKey),
-                          onClickClasses,
-                          getRowClassName?.(row.original, rowKey),
-                        )}
-                        onClick={() => (onClick ? onClick(row.original) : undefined)}
-                        onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
+                        className={cx(tableRowClassName(rowKey), getRowClassName?.(row.original, rowKey))}
                       >
                         {primaryCells.map((cell, cellKey) => {
                           // @ts-ignore
                           const colSpan = cell.column.colSpan;
                           // @ts-ignore
                           const align = cell.column.align;
+                          // @ts-ignore
+                          const canClick = cell.column.canClick;
                           return (
                             <td
                               key={cellKey}
@@ -689,9 +692,14 @@ function DataTable<T extends object>({
                                 !hasSecondaryColumns,
                                 false,
                                 cellKey,
+                                canClick,
                               )}
                               {...cell.getCellProps()}
                               colSpan={colSpan}
+                              onClick={() => (onClick && canClick ? onClick(row.original) : undefined)}
+                              onDoubleClick={() =>
+                                onDoubleClick && canClick ? onDoubleClick(row.original) : undefined
+                              }
                             >
                               {cell.render("Cell")}
                             </td>
@@ -713,12 +721,25 @@ function DataTable<T extends object>({
                             const colSpan = cell.column.colSpan;
                             // @ts-ignore
                             const align = cell.column.align;
+                            // @ts-ignore
+                            const canClick = cell.column.canClick;
                             return (
                               <td
                                 key={cellKey}
-                                className={tableCellClassName(cell.column.className || "", align, true, true, rowKey)}
+                                className={tableCellClassName(
+                                  cell.column.className || "",
+                                  align,
+                                  true,
+                                  true,
+                                  rowKey,
+                                  canClick,
+                                )}
                                 {...cell.getCellProps()}
                                 colSpan={colSpan}
+                                onClick={() => (onClick && canClick ? onClick(row.original) : undefined)}
+                                onDoubleClick={() =>
+                                  onDoubleClick && canClick ? onDoubleClick(row.original) : undefined
+                                }
                               >
                                 <div className="flex flex-col text-xs">
                                   <div className="font-bold">
@@ -735,7 +756,7 @@ function DataTable<T extends object>({
                         <tr className={tableRowClassName(rowKey)}>
                           <td
                             colSpan={visibleColumns.length}
-                            className={tableCellClassName("", "text-left", true, false, rowKey)}
+                            className={tableCellClassName("", "text-left", true, false, rowKey, false)}
                           >
                             {renderExpandedRow(row.original)}
                           </td>
@@ -1003,6 +1024,7 @@ function extractColumns<T extends object>(
         title: child.props.title || "",
         id: child.props.id || child.props.accessor,
         disableSortBy: !(child.props.canSort ?? true),
+        canClick: child.props.canClick ?? true,
         colSpan: child.props.colSpan || 1,
         align: child.props.align,
         ...cell,
