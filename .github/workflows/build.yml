@@ -44,7 +44,7 @@ jobs:
           path: dist/storybook
 
   deploy:
-    needs: upload-artifact
+    needs: build
     runs-on: ubuntu-latest
     name: Deploy to GitHub Pages
     steps:
