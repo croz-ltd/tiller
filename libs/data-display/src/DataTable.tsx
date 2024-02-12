@@ -81,10 +81,16 @@ export type DataTableProps<T extends object> = {
   hook?: DataTableHook;
 
   /**
+   * Makes the rows clickable and executes a custom function when a single click is executed.
+   * The function takes the entity of a clicked row as a parameter.
+   */
+  onClick?: (rowValue: T) => void;
+
+  /**
    * Makes the rows double clickable and executes a custom function when a double click is executed.
    * The function takes the entity of a clicked row as a parameter.
    */
-  onDoubleClick?: (values: T) => void;
+  onDoubleClick?: (rowValue: T) => void;
 
   /**
    * Identifies the row which can be edited.
@@ -336,7 +342,7 @@ type UseDataTable = [
     sortBy: SortInfo[];
   },
 
-  DataTableHook
+  DataTableHook,
 ];
 
 type DataTableCardHeaderSelectorProps = {
@@ -404,12 +410,12 @@ export function useDataTable({ defaultSortBy = [] }: UseDataTableProps = {}): Us
         setSortBy(newSortBy);
       }
     },
-    [sortBy]
+    [sortBy],
   );
 
   const state = React.useMemo(
     () => ({ selected, selectedCount, isAllRowsSelected, sortBy }),
-    [selected, selectedCount, isAllRowsSelected, sortBy]
+    [selected, selectedCount, isAllRowsSelected, sortBy],
   );
 
   const hook = React.useMemo(
@@ -420,7 +426,7 @@ export function useDataTable({ defaultSortBy = [] }: UseDataTableProps = {}): Us
       isAllRowsSelected,
       toggleSelectAll,
     }),
-    [updateSelected, updateSortBy, selected, isAllRowsSelected, toggleSelectAll]
+    [updateSelected, updateSortBy, selected, isAllRowsSelected, toggleSelectAll],
   );
 
   return [state, hook];
@@ -440,7 +446,7 @@ type DataTableSummary<T> = {
 
 export function useLocalSummary<T>(
   data: T[],
-  summaryList: DataTableSummary<T>[]
+  summaryList: DataTableSummary<T>[],
 ): Record<keyof T, Record<Operation, number>> {
   const summaryResult = {} as Record<keyof T, Record<Operation, number>>;
 
@@ -462,6 +468,7 @@ function DataTable<T extends object>({
   children,
   defaultSortBy = [],
   getItemId = (_, index) => index,
+  onClick,
   onDoubleClick,
   getRowClassName,
   rowEditingIndex,
@@ -488,7 +495,7 @@ function DataTable<T extends object>({
 
   const columnChildren = React.useMemo(
     () => primaryColumnChildrenArray.concat(secondaryColumnChildrenArray),
-    [primaryColumnChildren, secondaryColumnChildren]
+    [primaryColumnChildren, secondaryColumnChildren],
   );
 
   const { columns, renderExpandedRow } = React.useMemo(() => {
@@ -504,27 +511,36 @@ function DataTable<T extends object>({
     (row: T, relativeIndex: number, parent?: Row<T>) => {
       return parent ? [parent.id, getItemId(row, relativeIndex)].join(".") : getItemId(row, relativeIndex).toString();
     },
-    [getItemId]
+    [getItemId],
   );
   const tokens = useTokens("DataTable", props.tokens);
-  const { getTableProps, getTableBodyProps, headerGroups, footerGroups, rows, prepareRow, visibleColumns, state, toggleSortBy } =
-    useTable(
-      {
-        columns,
-        data,
-        autoResetPage: false,
-        autoResetSelectedRows: false,
-        autoResetSortBy: false,
-        manualSortBy: true,
-        initialState: {
-          sortBy,
-        },
-        getRowId,
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    footerGroups,
+    rows,
+    prepareRow,
+    visibleColumns,
+    state,
+    toggleSortBy,
+  } = useTable(
+    {
+      columns,
+      data,
+      autoResetPage: false,
+      autoResetSelectedRows: false,
+      autoResetSortBy: false,
+      manualSortBy: true,
+      initialState: {
+        sortBy,
       },
-      useSortBy,
-      useExpanded,
-      useRowSelect
-    );
+      getRowId,
+    },
+    useSortBy,
+    useExpanded,
+    useRowSelect,
+  );
 
   React.useEffect(() => {
     const sorts: SortInfo[] = state.sortBy.map((sortBy) => ({
@@ -542,7 +558,7 @@ function DataTable<T extends object>({
     align: string,
     hasBorder: boolean,
     isSecondaryRow: boolean,
-    cellIndex: number
+    cellIndex: number,
   ) =>
     cx(
       { [tokens.primaryRowSpacing]: !isSecondaryRow },
@@ -556,7 +572,7 @@ function DataTable<T extends object>({
       tokens.tableCell.fontWeight,
       tokens.tableCell.color,
       tokens.align[align],
-      className
+      className,
     );
 
   const tableFooterClassName = (className: string, align: string) => cx(className, tokens.align[align]);
@@ -564,8 +580,8 @@ function DataTable<T extends object>({
   const tableRowClassName = (index: number) =>
     cx({ [tokens.tableRow.even]: index % 2 === 0 }, { [tokens.tableRow.odd]: index % 2 !== 0 });
 
-  const onDoubleClickClasses = cx({
-    "cursor-pointer": onDoubleClick,
+  const onClickClasses = cx({
+    "cursor-pointer": onClick || onDoubleClick,
   });
 
   const containerClassName = cx(className, tokens.container.master, tokens.container.borderRadius, {
@@ -582,7 +598,7 @@ function DataTable<T extends object>({
     tokens.tableHeader.color,
     tokens.tableHeader.fontWeight,
     tokens.tableHeader.fontSize,
-    tokens.tableHeader.padding
+    tokens.tableHeader.padding,
   );
 
   const tableInnerFooterClassName = cx(
@@ -592,7 +608,7 @@ function DataTable<T extends object>({
     tokens.tableFooter.color,
     tokens.tableFooter.fontWeight,
     tokens.tableFooter.fontSize,
-    tokens.tableFooter.padding
+    tokens.tableFooter.padding,
   );
 
   const selectorColumn = find(columns, (column) => column.id === "selector");
@@ -622,7 +638,7 @@ function DataTable<T extends object>({
                         className={tableHeaderClassName}
                         title={column.title}
                         onClick={() => {
-                         toggleSortBy(column.id, undefined, multiSort);
+                          toggleSortBy(column.id, undefined, multiSort);
                         }}
                       >
                         <DataTableHeader alignHeader={alignHeader} {...column}>
@@ -635,62 +651,31 @@ function DataTable<T extends object>({
               </thead>
             )}
             <tbody {...getTableBodyProps()}>
-            {props.emptyState && !data.length ?
-              <tr>
-                <td colSpan={visibleColumns.length}>{props.emptyState}</td>
-              </tr> :
-              rows.map((row, rowKey) => {
-                prepareRow(row);
+              {props.emptyState && !data.length ? (
+                <tr>
+                  <td colSpan={visibleColumns.length}>{props.emptyState}</td>
+                </tr>
+              ) : (
+                rows.map((row, rowKey) => {
+                  prepareRow(row);
 
-                const primaryCells = _.slice(row.cells, 0, columnChildrenSize);
-                const secondaryCells = hasSecondaryColumns
-                  ? row.cells.slice(columnChildrenSize, totalColumnChildrenSize)
-                  : [];
-                return (
-                  <React.Fragment key={rowKey}>
-                    <tr
-                      {...row.getRowProps()}
-                      className={cx(
-                        tableRowClassName(rowKey),
-                        onDoubleClickClasses,
-                        getRowClassName?.(row.original, rowKey)
-                      )}
-                      onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
-                    >
-                      {primaryCells.map((cell, cellKey) => {
-                        // @ts-ignore
-                        const colSpan = cell.column.colSpan;
-                        // @ts-ignore
-                        const align = cell.column.align;
-                        return (
-                          <td
-                            key={cellKey}
-                            className={tableCellClassName(
-                              cell.column.className || "",
-                              align,
-                              !hasSecondaryColumns,
-                              false,
-                              cellKey
-                            )}
-                            {...cell.getCellProps()}
-                            colSpan={colSpan}
-                          >
-                            {cell.render("Cell")}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                    {hasSecondaryColumns && (
+                  const primaryCells = _.slice(row.cells, 0, columnChildrenSize);
+                  const secondaryCells = hasSecondaryColumns
+                    ? row.cells.slice(columnChildrenSize, totalColumnChildrenSize)
+                    : [];
+                  return (
+                    <React.Fragment key={rowKey}>
                       <tr
                         {...row.getRowProps()}
                         className={cx(
                           tableRowClassName(rowKey),
-                          onDoubleClickClasses,
-                          getRowClassName?.(row.original, rowKey)
+                          onClickClasses,
+                          getRowClassName?.(row.original, rowKey),
                         )}
+                        onClick={() => (onClick ? onClick(row.original) : undefined)}
                         onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
                       >
-                        {secondaryCells.map((cell, cellKey) => {
+                        {primaryCells.map((cell, cellKey) => {
                           // @ts-ignore
                           const colSpan = cell.column.colSpan;
                           // @ts-ignore
@@ -698,34 +683,68 @@ function DataTable<T extends object>({
                           return (
                             <td
                               key={cellKey}
-                              className={tableCellClassName(cell.column.className || "", align, true, true, rowKey)}
+                              className={tableCellClassName(
+                                cell.column.className || "",
+                                align,
+                                !hasSecondaryColumns,
+                                false,
+                                cellKey,
+                              )}
                               {...cell.getCellProps()}
                               colSpan={colSpan}
                             >
-                              <div className="flex flex-col text-xs">
-                                <div className="font-bold">
-                                  <>{cell.column.Header}</>
-                                </div>
-                                <div>{cell.render("Cell")}</div>
-                              </div>
+                              {cell.render("Cell")}
                             </td>
                           );
                         })}
                       </tr>
-                    )}
-                    {renderExpandedRow && row.isExpanded ? (
-                      <tr className={tableRowClassName(rowKey)}>
-                        <td
-                          colSpan={visibleColumns.length}
-                          className={tableCellClassName("", "text-left", true, false, rowKey)}
+                      {hasSecondaryColumns && (
+                        <tr
+                          {...row.getRowProps()}
+                          className={cx(
+                            tableRowClassName(rowKey),
+                            onClickClasses,
+                            getRowClassName?.(row.original, rowKey),
+                          )}
+                          onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
                         >
-                          {renderExpandedRow(row.original)}
-                        </td>
-                      </tr>
-                    ) : null}
-                  </React.Fragment>
-                );
-              })}
+                          {secondaryCells.map((cell, cellKey) => {
+                            // @ts-ignore
+                            const colSpan = cell.column.colSpan;
+                            // @ts-ignore
+                            const align = cell.column.align;
+                            return (
+                              <td
+                                key={cellKey}
+                                className={tableCellClassName(cell.column.className || "", align, true, true, rowKey)}
+                                {...cell.getCellProps()}
+                                colSpan={colSpan}
+                              >
+                                <div className="flex flex-col text-xs">
+                                  <div className="font-bold">
+                                    <>{cell.column.Header}</>
+                                  </div>
+                                  <div>{cell.render("Cell")}</div>
+                                </div>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      )}
+                      {renderExpandedRow && row.isExpanded ? (
+                        <tr className={tableRowClassName(rowKey)}>
+                          <td
+                            colSpan={visibleColumns.length}
+                            className={tableCellClassName("", "text-left", true, false, rowKey)}
+                          >
+                            {renderExpandedRow(row.original)}
+                          </td>
+                        </tr>
+                      ) : null}
+                    </React.Fragment>
+                  );
+                })
+              )}
             </tbody>
             {showFooter && (
               <tfoot>
@@ -916,7 +935,7 @@ function SelectorCell<T extends object>({ row }: Pick<Cell<T>, "row">) {
           ...hook.selected,
           [row.id]: !checked,
         },
-        hook.isAllRowsSelected
+        hook.isAllRowsSelected,
       );
     };
 
@@ -941,7 +960,7 @@ function SelectorCell<T extends object>({ row }: Pick<Cell<T>, "row">) {
 function extractFromChildren<T extends object>(
   children: React.ReactNode,
   rowEditingIndex: number | undefined,
-  saveEnabled: boolean | undefined
+  saveEnabled: boolean | undefined,
 ): DataTableInfo<T> {
   const childrenArray = React.Children.toArray(children);
 
@@ -954,7 +973,7 @@ function extractFromChildren<T extends object>(
 function extractColumns<T extends object>(
   children: Array<Exclude<React.ReactNode, boolean | null | undefined>>,
   rowEditingIndex: number | undefined,
-  saveEnabled: boolean | undefined
+  saveEnabled: boolean | undefined,
 ) {
   return children.flatMap((child) => {
     if (!React.isValidElement(child)) {
@@ -972,7 +991,7 @@ function extractColumns<T extends object>(
                 {
                   isEditMode: rowEditingIndex === undefined ? false : row.index === rowEditingIndex,
                 },
-                saveEnabled
+                saveEnabled,
               ),
           }
         : {};
@@ -1100,7 +1119,7 @@ const MemoDataTable = React.memo(
     prevProps.showHeader === nextProps.showHeader &&
     prevProps.showFooter === nextProps.showFooter &&
     prevProps.lastColumnFixed === nextProps.lastColumnFixed &&
-    isConfigurationEqual(prevProps.children, nextProps.children)
+    isConfigurationEqual(prevProps.children, nextProps.children),
 ) as unknown as DataTable;
 MemoDataTable.Column = DataTableColumn;
 MemoDataTable.Expander = DataTableExpander;
