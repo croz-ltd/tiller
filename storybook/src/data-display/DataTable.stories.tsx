@@ -16,6 +16,7 @@
  */
 
 import * as React from "react";
+import { useState } from "react";
 
 import { range, slice } from "lodash";
 
@@ -416,12 +417,151 @@ export const WithFooterUsingLocalSummary = () => {
   );
 };
 
-export const WithClickableRows = (args) => (
-  <DataTable data={smallData} onDoubleClick={() => {}}>
-    <DataTable.Column header="ID" accessor="id" />
-    <DataTable.Column header="Name" accessor="name" />
-  </DataTable>
-);
+export const WithClickableRows = () => {
+  // incl-code
+  const [selectedRow, setSelectedRow] = useState<Item>();
+
+  return (
+    <>
+      <DataTable
+        data={[
+          {
+            id: 1,
+            name: "Emily",
+            surname: "Moore",
+            age: 12,
+            appliedFor: "Nurse",
+            jobDescription:
+              "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+            salary: {
+              annual: 60000,
+              bonus: 1000,
+            },
+          },
+          {
+            id: 2,
+            name: "Michael",
+            surname: "Williams",
+            age: 25,
+            appliedFor: "Teacher",
+            jobDescription:
+              "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+            salary: {
+              annual: 72000,
+              bonus: 1200,
+            },
+          },
+          {
+            id: 3,
+            name: "Sarah",
+            surname: "Brown",
+            age: 38,
+            appliedFor: "Software developer",
+            jobDescription:
+              "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+            salary: {
+              annual: 84000,
+              bonus: 1400,
+            },
+          },
+          {
+            id: 4,
+            name: "Matthew",
+            surname: "Davis",
+            age: 1,
+            appliedFor: "Lawyer",
+            jobDescription:
+              "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+            salary: {
+              annual: 96000,
+              bonus: 1600,
+            },
+          },
+        ]}
+        onClick={setSelectedRow}
+      >
+        <DataTable.Column header="ID" accessor="id" />
+        <DataTable.Column header="Name" accessor="name" />
+      </DataTable>
+      <Typography>
+        Clicked: <b>{selectedRow?.name || "-"}</b>
+      </Typography>
+    </>
+  );
+};
+
+export const WithDoubleClickableRows = () => {
+  // incl-code
+  const [selectedRow, setSelectedRow] = useState<Item>();
+
+  return (
+    <>
+      <DataTable
+        data={[
+          {
+            id: 1,
+            name: "Emily",
+            surname: "Moore",
+            age: 12,
+            appliedFor: "Nurse",
+            jobDescription:
+              "You will be tasked with caring for pediatric patients with a variety of health conditions and challenges as well as collaborating with physicians to provide the highest-quality care possible to each individual. As a registered nurse on staff, you will communicate orders to medical assistants and other team members and coordinate with staff and families to ensure the adherence to the attending physician’s instructions as well as proper care and disease control practices.",
+            salary: {
+              annual: 60000,
+              bonus: 1000,
+            },
+          },
+          {
+            id: 2,
+            name: "Michael",
+            surname: "Williams",
+            age: 25,
+            appliedFor: "Teacher",
+            jobDescription:
+              "The teaching profession is exciting and challenging. Teachers act as role models, mentors, caregivers and advisers. They can have a profound effect on the lives of their students.",
+            salary: {
+              annual: 72000,
+              bonus: 1200,
+            },
+          },
+          {
+            id: 3,
+            name: "Sarah",
+            surname: "Brown",
+            age: 38,
+            appliedFor: "Software developer",
+            jobDescription:
+              "The job of a software developer depends on the needs of the company, organization or team they are on. Some build and maintain systems that run devices and networks. Others develop applications that make it possible for people to perform specific tasks on computers, cellphones or other devices.",
+            salary: {
+              annual: 84000,
+              bonus: 1400,
+            },
+          },
+          {
+            id: 4,
+            name: "Matthew",
+            surname: "Davis",
+            age: 1,
+            appliedFor: "Lawyer",
+            jobDescription:
+              "A lawyer provides counsel and represents businesses, individuals, and government agencies in legal matters and disputes. A lawyer'ss main duties are to uphold the law while protecting a client's rights. Lawyers advise, research, and collect evidence or information, draft legal documents such as contracts, divorces, or real estate transactions, and defend or prosecute in court",
+            salary: {
+              annual: 96000,
+              bonus: 1600,
+            },
+          },
+        ]}
+        onDoubleClick={setSelectedRow}
+      >
+        <DataTable.Column header="ID" accessor="id" />
+        <DataTable.Column header="Name" accessor="name" />
+      </DataTable>
+      <Typography>
+        Double-clicked: <b>{selectedRow?.name || "-"}</b>
+      </Typography>
+    </>
+  );
+};
 
 export const WithoutHeader = (args) => (
   <DataTable data={smallData} showHeader={false}>
@@ -1263,7 +1403,7 @@ export const WithDefaultAscendingSortUsingHook = () => {
       <DataTable.Column header="Name" accessor="name" canSort={true} />
       <DataTable.Column header="Surname" accessor="surname" canSort={true} />
     </DataTable>
-  )
+  );
 };
 
 export const WithDefaultAscendingMultiSort = () => {
@@ -1302,17 +1442,17 @@ export const WithDefaultAscendingMultiSort = () => {
         }
 
         return result;
-      }, 0)
+      }, 0),
     );
   }, [dataTableState.sortBy]);
 
   return (
     <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy} multiSort>
-      <DataTable.Column header="ID" accessor="id" canSort={false}/>
-      <DataTable.Column header="Name" accessor="name" canSort={true}/>
-      <DataTable.Column header="Surname" accessor="surname" canSort={true}/>
+      <DataTable.Column header="ID" accessor="id" canSort={false} />
+      <DataTable.Column header="Name" accessor="name" canSort={true} />
+      <DataTable.Column header="Surname" accessor="surname" canSort={true} />
     </DataTable>
-  )
+  );
 };
 
 export const WithIconButtons = (args) => (
@@ -1504,6 +1644,7 @@ WithEmptyState.argTypes = HideControls;
 WithFooter.argTypes = HideControls;
 WithFooterUsingLocalSummary.argTypes = HideControls;
 WithClickableRows.argTypes = HideControls;
+WithDoubleClickableRows.argTypes = HideControls;
 WithoutHeader.argTypes = HideControls;
 WithExpanderAtBeginning.argTypes = HideControls;
 WithExpanderAtEnd.argTypes = HideControls;
