@@ -57,6 +57,9 @@ jobs:
         with:
           name: build
 
+      - name: Test artifact download
+        run: ls -R
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
         with:
