@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js LTS
+      - name: Setup Node LTS
         uses: actions/setup-node@v4
         with:
           node-version: 16.17.1
@@ -39,16 +39,19 @@ jobs:
 
       - name: Modify permissions
         run: |
-          find dist/storybook -type d -exec chmod 755 {} \;
-          find dist/storybook -type f -exec chmod 644 {} \;
+            find dist/storybook -type d -exec chmod 755 {} \;
+            find dist/storybook -type d -exec chmod 555 {} \;
+            find dist/storybook -type f -exec chmod 744 {} \;
+            find dist/storybook -type f -exec chmod 644 {} \;
+            find dist/storybook -type f -exec chmod 444 {} \;
 
       - name: Compress artifacts
         run: tar -cvf github-pages.tar dist/storybook
 
-      - name: Upload Storybook artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload storybook artifact
+        uses: actions/upload-pages-artifact@v1.0.4
         with:
-          artifact_name: github-pages
+          name: github-pages
           path: dist/storybook
 
   deploy:
