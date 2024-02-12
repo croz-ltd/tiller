@@ -45,11 +45,8 @@ jobs:
             find dist/storybook -type f -exec chmod 644 {} \;
             find dist/storybook -type f -exec chmod 444 {} \;
 
-      - name: Compress artifacts
-        run: tar -cvf github-pages.tar dist/storybook
-
       - name: Upload storybook artifact
-        uses: actions/upload-pages-artifact@v1.0.4
+        uses: actions/upload-artifact@v4
         with:
           name: github-pages
           path: dist/storybook
