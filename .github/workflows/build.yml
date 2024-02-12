@@ -51,9 +51,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github-pages
+        id: download-artifact
+
+      - name: Get artifact metadata
+        run: |
+          echo "::set-output name=artifact_id::$(jq -r '.metadata.id' ${{ steps.download-artifact.outputs.download_path }}/metadata.json)"
+          echo "::set-output name=pages_build_version::$(jq -r '.metadata.pages_build_version' ${{ steps.download-artifact.outputs.download_path }}/metadata.json)"
+        shell: bash
+        id: get-artifact-metadata
+        env:
+          DOWNLOAD_PATH: ${{ steps.download-artifact.outputs.download_path }}
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          token: ${{ github.token }}
-          artifact_name: github-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifact_id: ${{ steps.get-artifact-metadata.outputs.artifact_id }}
+          pages_build_version: "${{ steps.get-artifact-metadata.outputs.pages_build_version }}"
