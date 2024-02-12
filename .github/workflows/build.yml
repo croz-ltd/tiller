@@ -44,7 +44,7 @@ jobs:
             done
 
       - name: Compress artifacts
-        run: tar -zcvf github-pages.tar.gz dist/storybook
+        run: tar -cvf github-pages.tar dist/storybook
 
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v4
