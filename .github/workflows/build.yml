@@ -66,3 +66,4 @@ jobs:
         with:
           token: ${{ github.token }}
           artifact_name: github-pages
+          verbose: true
