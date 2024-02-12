@@ -46,9 +46,8 @@ jobs:
             find dist/storybook -type f -exec chmod 444 {} \;
 
       - name: Upload storybook artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v1.0.4
         with:
-          name: github-pages
           path: dist/storybook
 
   deploy:
