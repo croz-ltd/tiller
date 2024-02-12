@@ -40,7 +40,7 @@ jobs:
       - name: Upload storybook artifact
         uses: actions/upload-artifact@v2
         with:
-          name: storybook
+          name: build
           path: dist/storybook
   deploy:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v2
         with:
-          name: storybook
+          name: build
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
