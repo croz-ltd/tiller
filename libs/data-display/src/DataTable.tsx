@@ -83,12 +83,20 @@ export type DataTableProps<T extends object> = {
   /**
    * Makes the rows clickable and executes a custom function when a single click is executed.
    * The function takes the entity of a clicked row as a parameter.
+   *
+   * @note If a button is placed within a row, ensure to call `e.stopPropagation()` within its
+   * `onClick` event handler to prevent event bubbling and unintended triggering of the
+   * row's `onClick` handler. This isolates button actions and prevents conflicts.
    */
   onClick?: (rowValue: T) => void;
 
   /**
    * Makes the rows double clickable and executes a custom function when a double click is executed.
    * The function takes the entity of a clicked row as a parameter.
+   *
+   * @note If a button is placed within a row, ensure to call `e.stopPropagation()` within its
+   * `onDoubleClick` event handler to prevent event bubbling and unintended triggering of the
+   * row's `onDoubleClick` handler. This isolates button actions and prevents conflicts.
    */
   onDoubleClick?: (rowValue: T) => void;
 
@@ -171,11 +179,6 @@ type DataTableColumnProps<T extends object> = {
    * Determines whether this column is sortable when clicking on its header.
    */
   canSort?: boolean;
-  /**
-   * Determines whether this column is clickable when `onClick` or `onDoubleClick` props are defined for a specific row.
-   * @default true
-   */
-  canClick?: boolean;
   /**
    * Defines the number of columns a cell should span.
    */
@@ -564,7 +567,6 @@ function DataTable<T extends object>({
     hasBorder: boolean,
     isSecondaryRow: boolean,
     cellIndex: number,
-    isClickable: boolean,
   ) =>
     cx(
       { [tokens.primaryRowSpacing]: !isSecondaryRow },
@@ -574,7 +576,6 @@ function DataTable<T extends object>({
         [tokens.tableCell.backgroundSticky]:
           (firstColumnFixed && cellIndex === 0) || (lastColumnFixed && cellIndex === columns.length - 1),
       },
-      { [onClickClasses]: isClickable },
       tokens.tableCell.fontSize,
       tokens.tableCell.fontWeight,
       tokens.tableCell.color,
@@ -674,15 +675,17 @@ function DataTable<T extends object>({
                     <React.Fragment key={rowKey}>
                       <tr
                         {...row.getRowProps()}
-                        className={cx(tableRowClassName(rowKey), getRowClassName?.(row.original, rowKey))}
+                        className={cx(
+                          tableRowClassName(rowKey),
+                          onClickClasses,
+                          getRowClassName?.(row.original, rowKey),
+                        )}
                       >
                         {primaryCells.map((cell, cellKey) => {
                           // @ts-ignore
                           const colSpan = cell.column.colSpan;
                           // @ts-ignore
                           const align = cell.column.align;
-                          // @ts-ignore
-                          const canClick = cell.column.canClick;
                           return (
                             <td
                               key={cellKey}
@@ -692,14 +695,11 @@ function DataTable<T extends object>({
                                 !hasSecondaryColumns,
                                 false,
                                 cellKey,
-                                canClick,
                               )}
                               {...cell.getCellProps()}
                               colSpan={colSpan}
-                              onClick={() => (onClick && canClick ? onClick(row.original) : undefined)}
-                              onDoubleClick={() =>
-                                onDoubleClick && canClick ? onDoubleClick(row.original) : undefined
-                              }
+                              onClick={() => (onClick ? onClick(row.original) : undefined)}
+                              onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
                             >
                               {cell.render("Cell")}
                             </td>
@@ -721,25 +721,14 @@ function DataTable<T extends object>({
                             const colSpan = cell.column.colSpan;
                             // @ts-ignore
                             const align = cell.column.align;
-                            // @ts-ignore
-                            const canClick = cell.column.canClick;
                             return (
                               <td
                                 key={cellKey}
-                                className={tableCellClassName(
-                                  cell.column.className || "",
-                                  align,
-                                  true,
-                                  true,
-                                  rowKey,
-                                  canClick,
-                                )}
+                                className={tableCellClassName(cell.column.className || "", align, true, true, rowKey)}
                                 {...cell.getCellProps()}
                                 colSpan={colSpan}
-                                onClick={() => (onClick && canClick ? onClick(row.original) : undefined)}
-                                onDoubleClick={() =>
-                                  onDoubleClick && canClick ? onDoubleClick(row.original) : undefined
-                                }
+                                onClick={() => (onClick ? onClick(row.original) : undefined)}
+                                onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
                               >
                                 <div className="flex flex-col text-xs">
                                   <div className="font-bold">
@@ -756,7 +745,7 @@ function DataTable<T extends object>({
                         <tr className={tableRowClassName(rowKey)}>
                           <td
                             colSpan={visibleColumns.length}
-                            className={tableCellClassName("", "text-left", true, false, rowKey, false)}
+                            className={tableCellClassName("", "text-left", true, false, rowKey)}
                           >
                             {renderExpandedRow(row.original)}
                           </td>
@@ -1024,7 +1013,6 @@ function extractColumns<T extends object>(
         title: child.props.title || "",
         id: child.props.id || child.props.accessor,
         disableSortBy: !(child.props.canSort ?? true),
-        canClick: child.props.canClick ?? true,
         colSpan: child.props.colSpan || 1,
         align: child.props.align,
         ...cell,

@@ -482,21 +482,26 @@ export const WithClickableRows = () => {
       >
         <DataTable.Column header="ID" accessor="id" />
         <DataTable.Column header="Name" accessor="name" />
-        <DataTable.Column header="Edit" id="edit" canClick={false} className="w-12">
+        <DataTable.Column header="Edit" id="edit" className="w-12">
           {(item: Item) => (
             <div className="flex justify-start items-center space-x-1 z-50">
-              <IconButton icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />} label="Edit" />
-              <IconButton icon={<Icon type="trash" variant="fill" className="text-gray-500" />} label="Delete" />
+              <IconButton
+                icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />}
+                label="Edit"
+                onClick={(e) => e.stopPropagation()}
+              />
+              <IconButton
+                icon={<Icon type="trash" variant="fill" className="text-gray-500" />}
+                label="Delete"
+                onClick={(e) => e.stopPropagation()}
+              />
             </div>
           )}
         </DataTable.Column>
       </DataTable>
-      <div className="flex w-full justify-between">
-        <Typography>
-          Clicked: <b>{selectedRow?.name || "-"}</b>
-        </Typography>
-        <Typography>*clicking on the actions column is disabled</Typography>
-      </div>
+      <Typography>
+        Clicked: <b>{selectedRow?.name || "-"}</b>
+      </Typography>
     </>
   );
 };
@@ -566,6 +571,22 @@ export const WithDoubleClickableRows = () => {
       >
         <DataTable.Column header="ID" accessor="id" />
         <DataTable.Column header="Name" accessor="name" />
+        <DataTable.Column header="Edit" id="edit" className="w-12">
+          {(item: Item) => (
+            <div className="flex justify-start items-center space-x-1 z-50">
+              <IconButton
+                icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />}
+                label="Edit"
+                onDoubleClick={(e) => e.stopPropagation()}
+              />
+              <IconButton
+                icon={<Icon type="trash" variant="fill" className="text-gray-500" />}
+                label="Delete"
+                onDoubleClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          )}
+        </DataTable.Column>
       </DataTable>
       <Typography>
         Double-clicked: <b>{selectedRow?.name || "-"}</b>
