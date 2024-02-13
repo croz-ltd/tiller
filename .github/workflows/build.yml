@@ -1,4 +1,4 @@
-name: Build
+name: Build and Deploy Storybook
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -18,12 +18,12 @@ jobs:
     name: Build all libs together
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node lts
-        uses: actions/setup-node@v3
+      - name: Setup Node LTS
+        uses: actions/setup-node@v4
         with:
           node-version: 16.17.1
           cache: 'yarn'
@@ -34,16 +34,34 @@ jobs:
       - name: Build all modules
         run: yarn build
 
-      - name: Build storybook
+      - name: Build Storybook
         run: yarn run build-storybook
+
+      - name: Modify permissions
+        run: |
+            find dist/storybook -type d -exec chmod 755 {} \;
+            find dist/storybook -type d -exec chmod 555 {} \;
+            find dist/storybook -type f -exec chmod 744 {} \;
+            find dist/storybook -type f -exec chmod 644 {} \;
+            find dist/storybook -type f -exec chmod 444 {} \;
 
       - name: Upload storybook artifact
         uses: actions/upload-pages-artifact@v1.0.4
         with:
           path: dist/storybook
 
-      - id: deploy
-        name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+  deploy:
+    runs-on: ubuntu-latest
+    name: Publish Storybook
+    needs: build
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
         with:
           token: ${{ github.token }}
+          artifact_name: github-pages
