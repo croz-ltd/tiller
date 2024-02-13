@@ -18,20 +18,40 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.8.0 - latest** <span>_(Jan 30th 2024)_</span>
+## **1.9.0 - latest** <span>_(Feb 13th 2024)_</span>
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- Fixed `CheckboxGroupField` & `RadioGroupField` error handling by making validation consistent with other field components ([#184](https://github.com/croz-ltd/tiller/issues/184))
+- Fixed `Select` and `Autocomplete` (with multiple selection) input references for successful component detection inside the DOM ([#193](https://github.com/croz-ltd/tiller/issues/193))
+- Fixed children handling and detection of `DropdownMenu` in order to avoid ghost items inside the dropdown ([#191](https://github.com/croz-ltd/tiller/issues/191))
+- Fixed redundant `DateRangeInput(Field)` focus triggering when switching to another form element after choosing a date range ([#198](https://github.com/croz-ltd/tiller/issues/198))
+- Fixed an issue when the clear button of `Select` component unintentionally submits a form ([#196](https://github.com/croz-ltd/tiller/issues/196))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- Implemented a scroll to error functionality to forms by providing a `scrollToError` prop to `FormContainer` and a
+  `useScrollToError` hook for manual usage inside `Formik` forms ([#167](https://github.com/croz-ltd/tiller/issues/167))
+- Implemented `initialHtml` and `onHtmlChange` props which add functionality to `RichTextEditor` ([#189](https://github.com/croz-ltd/tiller/issues/189))
+- Added possibility of defining an empty string as a `thousandSeparator` prop of `NumberInput(Field)` ([#159](https://github.com/croz-ltd/tiller/issues/159))
+- Added an `onClick` prop to `DataTable` (which functions similarly to `onDoubleClick`) for enabling click events on table rows ([#201](https://github.com/croz-ltd/tiller/issues/201))
+
+## 1.8.0 <span>_(Jan 30th 2024)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
 - Resolved inconsistent focus issues when navigating through the following components: `DateInput`, `DateTimeInput`, `DateRangeInput`, `TimeInput` and `Select` ([#181](https://github.com/croz-ltd/tiller/issues/181))
 
 **<h4>⚡ Component Improvements</h4>**
+
 - Enhance disabled state appearance for the `Toggle` component, integrating new styles into the token system for easy customization ([#112](https://github.com/croz-ltd/tiller/issues/112))
 - Introduce the `emptyState` prop to enable displaying a custom message or content when the `DataTable` is empty ([#133](https://github.com/croz-ltd/tiller/issues/133))
 - Simplify `DataTable` sorting with the introduction of a new hook (`useSortableDataTable`) ([#149](https://github.com/croz-ltd/tiller/issues/149))
-- Improve DataTable sorting, introducing the `multiSort` prop to allow users to simultaneously sort by multiple columns  ([#182](https://github.com/croz-ltd/tiller/issues/182))
-- Introduce a visual cue for file upload progress in the `DragZone` with the addition of the `loader` prop  ([#178](https://github.com/croz-ltd/tiller/issues/178))
+- Improve DataTable sorting, introducing the `multiSort` prop to allow users to simultaneously sort by multiple columns ([#182](https://github.com/croz-ltd/tiller/issues/182))
+- Introduce a visual cue for file upload progress in the `DragZone` with the addition of the `loader` prop ([#178](https://github.com/croz-ltd/tiller/issues/178))
 
 **<h4>📚 Docs Improvements</h4>**
+
 - Updated documentation to offer clear and precise details about the `DataTable` component's sorting capabilities ([#148](https://github.com/croz-ltd/tiller/issues/148))
 - Improved `NumberInputField` documentation now provides a comprehensive list of all available props ([#150](https://github.com/croz-ltd/tiller/issues/150))
 - Refined `Storybook` code snippets with improved details to enhance user experience and ease of understanding ([#176](https://github.com/croz-ltd/tiller/issues/176))
