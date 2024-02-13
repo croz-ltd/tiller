@@ -682,10 +682,15 @@ function DataTable<T extends object>({
                         )}
                       >
                         {primaryCells.map((cell, cellKey) => {
+                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                           // @ts-ignore
                           const colSpan = cell.column.colSpan;
+                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                           // @ts-ignore
                           const align = cell.column.align;
+                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                          // @ts-ignore
+                          const isSelector = cell.column.id === "selector";
                           return (
                             <td
                               key={cellKey}
@@ -698,8 +703,10 @@ function DataTable<T extends object>({
                               )}
                               {...cell.getCellProps()}
                               colSpan={colSpan}
-                              onClick={() => (onClick ? onClick(row.original) : undefined)}
-                              onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
+                              onClick={() => (onClick && !isSelector ? onClick(row.original) : undefined)}
+                              onDoubleClick={() =>
+                                onDoubleClick && !isSelector ? onDoubleClick(row.original) : undefined
+                              }
                             >
                               {cell.render("Cell")}
                             </td>
