@@ -24,4 +24,5 @@ export { default as useSortableDataTable } from "./useSortableDataTable";
 export { default as Amount } from "./Amount";
 export { default as DataTable, useDataTable, useLocalSummary } from "./DataTable";
 export { default as DescriptionList } from "./DescriptionList";
+export { default as FileBrowser } from "./FileBrowser";
 export { default as Number } from "./Number";
