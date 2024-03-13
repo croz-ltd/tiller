@@ -19,12 +19,13 @@ import * as React from "react";
 
 import { withDesign } from "storybook-addon-designs";
 
+import { Breadcrumbs, IconButton, Typography } from "@tiller-ds/core";
 import { DataTable, FileBrowser } from "@tiller-ds/data-display";
+import { Icon, LoadingIcon } from "@tiller-ds/icons";
 
-import mdx from "./Amount.mdx";
 import { beautifySource } from "../utils";
-import { Breadcrumbs, Button, IconButton, Typography } from "@tiller-ds/core";
-import { Icon, IconType, LoadingIcon } from "@tiller-ds/icons";
+
+import mdx from "./FileBrowser.mdx";
 
 export default {
   title: "Component Library/Data-display/FileBrowser",
@@ -39,11 +40,12 @@ export default {
 };
 
 type File = {
-  name: string;
-  type: "directory" | "txt" | "docx" | "pdf" | "mp3" | "jpg";
+  id: string | number;
+  name?: string;
+  type?: "directory" | "txt" | "docx" | "pdf" | "mp3" | "jpg";
 };
 
-const rootDirectory: File = { name: "Root", type: "directory" };
+const rootDirectory: File = { id: 1, name: "Root", type: "directory" };
 
 async function onDirectoryClick(directory: File): Promise<File[]> {
   return new Promise((resolve) => {
@@ -53,28 +55,28 @@ async function onDirectoryClick(directory: File): Promise<File[]> {
       switch (directory.name) {
         case "Root":
           result = [
-            { name: "Folder of Secrets", type: "directory" },
-            { name: "Dragon", type: "txt" },
-            { name: "Magic Potion", type: "docx" },
+            { id: 1, name: "Folder of Secrets", type: "directory" },
+            { id: 2, name: "Dragon", type: "txt" },
+            { id: 3, name: "Magic Potion", type: "docx" },
           ];
           break;
         case "Folder of Secrets":
           result = [
-            { name: "Mystic Forest", type: "directory" },
-            { name: "Wizard Scroll", type: "pdf" },
-            { name: "Enchanted Amulet", type: "jpg" },
+            { id: 1, name: "Mystic Forest", type: "directory" },
+            { id: 2, name: "Wizard Scroll", type: "pdf" },
+            { id: 3, name: "Enchanted Amulet", type: "jpg" },
           ];
           break;
         case "Mystic Forest":
           result = [
-            { name: "Spellbook", type: "docx" },
-            { name: "Unicorn Song", type: "mp3" },
+            { id: 1, name: "Spellbook", type: "docx" },
+            { id: 2, name: "Unicorn Song", type: "mp3" },
           ];
           break;
         default:
           result = [
-            { name: "Ancient Tome", type: "txt" },
-            { name: "Legendary Sword", type: "jpg" },
+            { id: 1, name: "Ancient Tome", type: "txt" },
+            { id: 2, name: "Legendary Sword", type: "jpg" },
           ];
           break;
       }
@@ -84,75 +86,48 @@ async function onDirectoryClick(directory: File): Promise<File[]> {
   });
 }
 
-export const FileBrowserWithDataTable = () => (
+export const Default = () => <FileBrowser rootDirectory={rootDirectory} fetchDirectory={onDirectoryClick} />;
+
+export const WithoutIcons = () => (
   <FileBrowser rootDirectory={rootDirectory} fetchDirectory={onDirectoryClick}>
-    {(currentFiles, currentPath, handleItemClick, goBack, pending) => (
-      <>
-        <DataTable data={currentFiles} onClick={(file) => file.type === "directory" && handleItemClick(file)}>
-          <DataTable.Column header="Name" id="name" canSort={false}>
-            {(file: File) => <DisplayFileIconAndName file={file} />}
-          </DataTable.Column>
-          <DataTable.Column header="Type" accessor="type" canSort={false} />
-        </DataTable>
-      </>
-    )}
+    {(props) => <FileBrowser.Table {...props} icons={false} />}
   </FileBrowser>
 );
 
-export const FileBrowserWithDataTableAndBreadCrumbs = () => (
+export const WithoutBreadcrumbs = () => (
   <FileBrowser rootDirectory={rootDirectory} fetchDirectory={onDirectoryClick}>
-    {(currentFiles, currentPath, handleItemClick, goBack, pending) => (
-      <>
-        <Breadcrumbs icon={<Icon type="caret-right" />}>
-          {currentPath.map((file) => (
-            <Breadcrumbs.Breadcrumb>{file.name}</Breadcrumbs.Breadcrumb>
-          ))}
-        </Breadcrumbs>
-        <DataTable data={currentFiles} onClick={(file) => file.type === "directory" && handleItemClick(file)}>
-          <DataTable.Column header="Name" id="name" canSort={false}>
-            {(file: File) => <DisplayFileIconAndName file={file} />}
-          </DataTable.Column>
-          <DataTable.Column header="Type" accessor="type" canSort={false} />
-        </DataTable>
-      </>
-    )}
+    {(props) => <FileBrowser.Table {...props} breadcrumbs={false} />}
   </FileBrowser>
 );
 
-export const FileBrowserWithDataTableAndBreadCrumbsAndBack = () => (
+export const WithoutLoading = () => (
   <FileBrowser rootDirectory={rootDirectory} fetchDirectory={onDirectoryClick}>
-    {(currentFiles, currentPath, handleItemClick, goBack, pending) => (
+    {(props) => <FileBrowser.Table {...props} loading={false} />}
+  </FileBrowser>
+);
+
+export const WithCustomDisplay = () => (
+  <FileBrowser rootDirectory={rootDirectory} fetchDirectory={onDirectoryClick}>
+    {({ currentFiles, currentPath, handleItemClick, goBack, pending, goToDirectory }) => (
       <>
-        <div className="flex flex-row">
-          <Breadcrumbs icon={<Icon type="caret-right" />}>
-            {currentPath.map((file) => (
-              <Breadcrumbs.Breadcrumb>{file.name}</Breadcrumbs.Breadcrumb>
+        <div className="flex flex-row h-10 justify-between">
+          <Breadcrumbs icon={<Icon type="caret-right" />} tokens={{ container: { backgroundColor: "bg-transparent" } }}>
+            {currentPath.map((folder, index) => (
+              <button onClick={index !== currentPath.length - 1 ? () => goToDirectory(index + 1) : undefined}>
+                <Breadcrumbs.Breadcrumb>{folder.name}</Breadcrumbs.Breadcrumb>
+              </button>
             ))}
           </Breadcrumbs>
-          {currentPath.length > 1 && !pending && <IconButton icon={<Icon type="caret-up" />} onClick={goBack} />}
-        </div>
-        <DataTable data={currentFiles} onClick={(file) => file.type === "directory" && handleItemClick(file)}>
-          <DataTable.Column header="Name" id="name" canSort={false}>
-            {(file: File) => <DisplayFileIconAndName file={file} />}
-          </DataTable.Column>
-          <DataTable.Column header="Type" accessor="type" canSort={false} />
-        </DataTable>
-      </>
-    )}
-  </FileBrowser>
-);
-
-export const FileBrowserWithDataTableAndBreadCrumbsAndBackAndLoading = () => (
-  <FileBrowser rootDirectory={rootDirectory} fetchDirectory={onDirectoryClick}>
-    {(currentFiles, currentPath, handleItemClick, goBack, pending) => (
-      <>
-        <div className="flex flex-row">
-          <Breadcrumbs icon={<Icon type="caret-right" />}>
-            {currentPath.map((file) => (
-              <Breadcrumbs.Breadcrumb>{file.name}</Breadcrumbs.Breadcrumb>
-            ))}
-          </Breadcrumbs>
-          {currentPath.length > 1 && !pending && <IconButton icon={<Icon type="caret-up" />} onClick={goBack} />}
+          {!pending && (
+            <IconButton
+              icon={
+                <Icon type="caret-up" className="pt-1 px-1 text-body-light hover:text-body duration-150 ease-in-out" />
+              }
+              onClick={goBack}
+              disabled={currentPath.length === 1}
+              showTooltip={false}
+            />
+          )}
         </div>
         <DataTable
           data={pending ? [] : currentFiles}
@@ -162,37 +137,25 @@ export const FileBrowserWithDataTableAndBreadCrumbsAndBackAndLoading = () => (
               <LoadingIcon />
             </div>
           }
+          tokens={{ tableRow: { odd: "bg-white" } }}
         >
           <DataTable.Column header="Name" id="name" canSort={false}>
-            {(file: File) => <DisplayFileIconAndName file={file} />}
+            {(file: File) =>
+              file.type === "directory" ? (
+                <div className="flex items-center space-x-1">
+                  <Icon type="folder-notch" />
+                  <Typography>{file.name}</Typography>
+                </div>
+              ) : (
+                <Typography>{file.name}</Typography>
+              )
+            }
           </DataTable.Column>
-          <DataTable.Column header="Type" accessor="type" canSort={false} />
+          <DataTable.Column header="Type" id="type" canSort={false}>
+            {(file: File) => (file.type ? <Typography>{file.type}</Typography> : <Typography>-</Typography>)}
+          </DataTable.Column>
         </DataTable>
       </>
     )}
   </FileBrowser>
 );
-
-type DisplayFileIconAndNameProps = {
-  file: File;
-};
-
-const fileIconMappings: Record<string, IconType> = {
-  txt: "file-text",
-  docx: "microsoft-word-logo",
-  pdf: "file-pdf",
-  mp3: "file-audio",
-  jpg: "file-jpg",
-};
-
-function DisplayFileIconAndName({ file }: DisplayFileIconAndNameProps) {
-  const fileType = file.type.toLowerCase();
-  const iconType = fileIconMappings[fileType] || "folder-notch";
-
-  return (
-    <div className="flex items-center space-x-1">
-      <Icon type={iconType} />
-      <Typography>{file.name}</Typography>
-    </div>
-  );
-}

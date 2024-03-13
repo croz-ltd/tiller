@@ -2,12 +2,75 @@ import { ArgsTable, Stories } from "@storybook/addon-docs";
 
 import { FileBrowser } from "@tiller-ds/data-display";
 
-# FileBrowser
+# File Browser
 
-Tiller FileBrowser Component is used to display files in a manner similar to a file explorer on a desktop.
+`FileBrowser` Component is used to display files in a manner similar to a file explorer on a desktop.
+
+There are 3 ways of using this component:
+
+- default usage with minimum code (without the `children` prop) - [example](/docs/component-library-data-display-filebrowser--default)
+- usage with the `FileBrowser.Table` component that has access to context logic - [example](/docs/component-library-data-display-filebrowser--without-icons)
+- usage with a custom display component that has access to context logic - [example](/docs/component-library-data-display-filebrowser--with-custom-display)
+
+## Used Types
+
+```ts
+type File = {
+  id: string | number;
+  name?: string;
+  type?: "directory" | "txt" | "docx" | "pdf" | "mp3" | "jpg";
+};
+```
+
+## Used Props
+
+```tsx
+const rootDirectory: File = { id: 1, name: "Root", type: "directory" };
+
+async function onDirectoryClick(directory: File): Promise<File[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let result: File[];
+
+      switch (directory.name) {
+        case "Root":
+          result = [
+            { id: 1, name: "Folder of Secrets", type: "directory" },
+            { id: 2, name: "Dragon", type: "txt" },
+            { id: 3, name: "Magic Potion", type: "docx" },
+          ];
+          break;
+        case "Folder of Secrets":
+          result = [
+            { id: 1, name: "Mystic Forest", type: "directory" },
+            { id: 2, name: "Wizard Scroll", type: "pdf" },
+            { id: 3, name: "Enchanted Amulet", type: "jpg" },
+          ];
+          break;
+        case "Mystic Forest":
+          result = [
+            { id: 1, name: "Spellbook", type: "docx" },
+            { id: 2, name: "Unicorn Song", type: "mp3" },
+          ];
+          break;
+        default:
+          result = [
+            { id: 1, name: "Ancient Tome", type: "txt" },
+            { id: 2, name: "Legendary Sword", type: "jpg" },
+          ];
+          break;
+      }
+
+      resolve(result);
+    }, 1000);
+  });
+}
+```
 
 <Stories includePrimary={true} />
 
 ## FileBrowser Props:
 
 <ArgsTable of={FileBrowser} />
+
+<ArgsTable of={FileBrowser.Table} />
