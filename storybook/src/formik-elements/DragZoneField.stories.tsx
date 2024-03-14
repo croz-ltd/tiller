@@ -338,3 +338,35 @@ export const WithSizeLimit = () => {
     />
   );
 };
+
+export const WithPreLoadDelay = () => {
+  // incl-code
+  const useFileUploadHook = useFileUpload();
+
+  return (
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      preLoadDelay={2000}
+    />
+  );
+};
+
+export const WithPostLoadDelay = () => {
+  // incl-code
+  const useFileUploadHook = useFileUpload();
+
+  return (
+    <DragZoneField
+      name={name}
+      hook={useFileUploadHook}
+      url={useMockSender.destination.url}
+      send={useMockSender.send}
+      title={<Intl name="dragZoneTitle" />}
+      postLoadDelay={2000}
+    />
+  );
+};
