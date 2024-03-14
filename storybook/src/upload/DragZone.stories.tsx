@@ -336,3 +336,39 @@ export const WithManualFileTracking = () => {
     </>
   );
 };
+
+export const WithPreLoadDelay = () => {
+  // incl-code
+  const useFileUploadHook = useFileUpload([], true);
+
+  return (
+    <>
+      <DragZone
+        hook={useFileUploadHook}
+        url={useMockSender.destination.url}
+        send={useMockSender.send}
+        title={<Intl name="dragZoneTitle" />}
+        preLoadDelay={1000}
+      />
+      Uploaded: {useFileUploadHook.uploadedFiles.map((file) => file.originalFileName).join(", ") || "None"}
+    </>
+  );
+};
+
+export const WithPostLoadDelay = () => {
+  // incl-code
+  const useFileUploadHook = useFileUpload([], true);
+
+  return (
+    <>
+      <DragZone
+        hook={useFileUploadHook}
+        url={useMockSender.destination.url}
+        send={useMockSender.send}
+        title={<Intl name="dragZoneTitle" />}
+        postLoadDelay={2000}
+      />
+      Uploaded: {useFileUploadHook.uploadedFiles.map((file) => file.originalFileName).join(", ") || "None"}
+    </>
+  );
+};

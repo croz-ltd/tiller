@@ -15,7 +15,7 @@
  *
  */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { UploadyContext, useItemProgressListener, useItemFinishListener, useItemStartListener } from "@rpldy/uploady";
 import UploadDropZone from "@rpldy/upload-drop-zone";
@@ -28,6 +28,7 @@ import UploadyWrapper, { UploadyWrapperProps } from "./UploadyWrapper";
 
 import { UseFileUpload, File, defaultUploadResponseMapper } from "./useFileUpload";
 import { BatchItem } from "@rpldy/shared";
+import { usePrevious } from "../../util/src/usePrevious";
 
 export type DragZoneProps<T extends File> = {
   /**
@@ -89,6 +90,20 @@ export type DragZoneProps<T extends File> = {
    * @param   {number}  uploadPercentage  Percentage retrieved from the loader on file upload.
    */
   loader?: ((uploadPercentage: number) => React.ReactNode) | null;
+
+  /**
+   * Time in milliseconds of how long will dropzone component wait until loader element is shown.
+   * Useful when uploading small files which will cause flicker of the loader element.
+   * Doesn't adjust uploading percentages for the additional delay time, so UX behaviour needs to be additionally checked.
+   */
+  preLoadDelay?: number;
+
+  /**
+   * Time in milliseconds of how long loader element will be shown after uploading is finished.
+   * Useful when uploading small files which will cause flicker of the loader element.
+   * Doesn't adjust uploading percentages for the additional delay time, so UX behaviour needs to be additionally checked.
+   */
+  postLoadDelay?: number;
 } & Omit<UploadyWrapperProps, "children"> &
   Omit<FieldProps, "children"> &
   DragZoneTokensProps;
@@ -140,6 +155,16 @@ type CustomUploadDropZoneContainerProps<T extends File> = {
    * @param   {number}  uploadPercentage  Percentage retrieved from the loader on file upload.
    */
   loader?: ((uploadPercentage: number) => React.ReactNode) | null;
+
+  /**
+   * @see {@link DragZoneProps#preLoadDelay}
+   */
+  preLoadDelay?: number;
+
+  /**
+   * @see {@link DragZoneProps#postLoadDelay}
+   */
+  postLoadDelay?: number;
 };
 
 type CustomUploadDropZoneProps = {
@@ -152,6 +177,8 @@ type CustomUploadDropZoneProps = {
   className?: string;
   uploadPercentage?: number;
   loader?: ((uploadPercentage: number) => React.ReactNode) | null;
+  preLoadDelay?: number;
+  postLoadDelay?: number;
 } & TokenProps<"DragZone">;
 
 export default function DragZone<T extends File>({
@@ -170,6 +197,8 @@ export default function DragZone<T extends File>({
   withCredentials,
   className,
   loader = (uploadPercentage: number) => <DragZoneLoader uploadPercentage={uploadPercentage} />,
+  preLoadDelay = 0,
+  postLoadDelay = 0,
   ...props
 }: DragZoneProps<T>) {
   const tokens = useTokens("DragZone", props.tokens);
@@ -196,6 +225,8 @@ export default function DragZone<T extends File>({
               uploadIcon={uploadIcon}
               className={className}
               loader={loader}
+              preLoadDelay={preLoadDelay}
+              postLoadDelay={postLoadDelay}
             />
           </UploadDropZone>
         </UploadyWrapper>
@@ -257,6 +288,8 @@ function CustomUploadDropZone({
   className,
   loader,
   uploadPercentage,
+  preLoadDelay,
+  postLoadDelay,
   ...props
 }: CustomUploadDropZoneProps) {
   const tokens = useTokens("DragZone", props.tokens);
@@ -291,13 +324,33 @@ function CustomUploadDropZone({
     className: `mx-auto ${tokens.iconColor}`,
   });
 
+  const [preLoadDelayPassed, setPreLoadDelayPassed] = useState(false);
+  const [postUploadPeriodActive, setPostUploadPeriodActive] = useState(false);
+
+  const prevUploadActive = usePrevious(uploadActive);
+
+  useEffect(() => {
+    if (uploadActive) {
+      setPreLoadDelayPassed(false);
+      setTimeout(() => {
+        setPreLoadDelayPassed(true);
+      }, preLoadDelay);
+      return () => void 0;
+    } else if (prevUploadActive && !uploadActive) {
+      setPostUploadPeriodActive(true);
+      setTimeout(() => {
+        setPostUploadPeriodActive(false);
+      }, postLoadDelay);
+      return () => void 0;
+    }
+  }, [uploadActive, preLoadDelay, postLoadDelay, prevUploadActive]);
+
+  const showLoader = loader && ((preLoadDelayPassed && uploadActive) || postUploadPeriodActive);
+
   return (
     <div className={customUploadDropZoneContainerClassName} onClick={onClick}>
       <div className={tokens.customUploadDropZoneDescriptionContainer}>
-        {!uploadActive || !loader
-          ? uploadZoneIcon
-          : // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            loader(uploadPercentage!)}
+        {showLoader && loader && uploadPercentage ? loader(uploadPercentage) : uploadZoneIcon}
         <label className={customUploadDropZoneTitleClassName}>{title}</label>
         <p className={customUploadDropZoneSubtitleClassName}>{subtitle}</p>
       </div>
