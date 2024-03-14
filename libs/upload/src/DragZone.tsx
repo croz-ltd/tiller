@@ -335,13 +335,11 @@ function CustomUploadDropZone({
       setTimeout(() => {
         setPreLoadDelayPassed(true);
       }, preLoadDelay);
-      return () => void 0;
     } else if (prevUploadActive && !uploadActive) {
       setPostUploadPeriodActive(true);
       setTimeout(() => {
         setPostUploadPeriodActive(false);
       }, postLoadDelay);
-      return () => void 0;
     }
   }, [uploadActive, preLoadDelay, postLoadDelay, prevUploadActive]);
 
