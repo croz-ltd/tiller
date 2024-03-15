@@ -24,6 +24,7 @@ export type DisplayType = InternalDisplayType;
 export { default as useInterval } from "./useInterval";
 export { default as useTimeout } from "./useTimeout";
 export { default as useViewport } from "./useViewport";
+export { default as usePrevious } from "./usePrevious";
 
 export { default as createNamedContext } from "./createNamedContext";
 export {
