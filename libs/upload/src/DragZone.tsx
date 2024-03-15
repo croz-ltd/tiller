@@ -23,12 +23,12 @@ import UploadDropZone from "@rpldy/upload-drop-zone";
 import { Field, FieldProps } from "@tiller-ds/form-elements";
 import { LoadingIcon } from "@tiller-ds/icons";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { usePrevious } from "@tiller-ds/util";
 
 import UploadyWrapper, { UploadyWrapperProps } from "./UploadyWrapper";
 
 import { UseFileUpload, File, defaultUploadResponseMapper } from "./useFileUpload";
 import { BatchItem } from "@rpldy/shared";
-import { usePrevious } from "../../util/src/usePrevious";
 
 export type DragZoneProps<T extends File> = {
   /**
