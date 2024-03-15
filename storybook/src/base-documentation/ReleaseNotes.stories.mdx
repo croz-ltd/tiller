@@ -18,7 +18,20 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.9.0 - latest** <span>_(Feb 13th 2024)_</span>
+## **1.10.0 - latest** <span>_(Mar 15th 2024)_</span>
+
+**<h4>✨ Component Additions</h4>**
+
+- Introduced a **new customizable `FileBrowser` component** to the `data-display` module which enables different usages ([#216](https://github.com/croz-ltd/tiller/issues/216)):
+  - using a default out-of-the-box display (which requires minimum code)
+  - using the `FileBrowser.Table` component with access to context logic (which includes customizable icons, breadcrumbs and loader displays)
+  - using a custom display component, also with access to context logic required for modularity
+
+**<h4>⚡ Component Improvements</h4>**
+
+- Added `preLoadDelay` and `postLoadDelay` props to `DragZone(Field)` for fine-tuning loader behaviour (by introducing fade in and fade out delays) during file uploads ([#220](https://github.com/croz-ltd/tiller/issues/220))
+
+## 1.9.0 <span>_(Feb 13th 2024)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
