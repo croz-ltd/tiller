@@ -20,13 +20,15 @@ import * as React from "react";
 import { withDesign } from "storybook-addon-designs";
 
 import { Modal, useModal } from "@tiller-ds/alert";
-import { Button } from "@tiller-ds/core";
+import { Button, Typography } from "@tiller-ds/core";
 import { DescriptionList } from "@tiller-ds/data-display";
 import { Icon } from "@tiller-ds/icons";
 import { Intl } from "@tiller-ds/intl";
 
 import mdx from "./Modal.mdx";
 import { beautifySource } from "../utils";
+import { Input } from "@tiller-ds/form-elements";
+import { useState } from "react";
 
 export default {
   title: "Component Library/Alert/Modal",
@@ -228,3 +230,99 @@ export const WithScrollbar = () => {
     </>
   );
 };
+
+export const WithDisabledFocusLock = () => {
+  // incl-code
+  const modal = useModal();
+  const modalWithDisabledFocusLock = useModal();
+  const [showPopup, setShowPopup] = useState(false);
+  const [showDisabledFocusLockPopup, setShowDisabledFocusLockPopup] = useState(false);
+
+  return (
+    <>
+      <div className="flex space-x-2">
+        <Button id="open-button" onClick={modal.onOpen}>
+          <Intl name="Normal" />
+        </Button>
+        <Button id="open-button" onClick={modalWithDisabledFocusLock.onOpen}>
+          <Intl name="Disabled focus lock" />
+        </Button>
+      </div>
+
+      <Modal {...modal} icon={<Modal.Icon icon={<Icon type="check" variant="bold" />} className="text-white" />}>
+        <Modal.Content title={<Intl name="modalTitle" />}>
+          <Intl name="modalContent" />
+        </Modal.Content>
+
+        <Modal.Footer>
+          <Button variant="filled" color="success" onClick={() => setShowPopup(true)}>
+            <Intl name="Open popup" />
+          </Button>
+          <Button variant="text" color="white" onClick={modal.onClose}>
+            <Intl name="cancel" />
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        {...modalWithDisabledFocusLock}
+        icon={<Modal.Icon icon={<Icon type="check" variant="bold" />} className="text-white" />}
+        disableFocusLock={true}
+      >
+        <Modal.Content title={<Intl name="modalTitle" />}>
+          <Intl name="modalContent" />
+        </Modal.Content>
+
+        <Modal.Footer>
+          <Button variant="filled" color="success" onClick={() => setShowDisabledFocusLockPopup(true)}>
+            <Intl name="Open popup" />
+          </Button>
+          <Button variant="text" color="white" onClick={modalWithDisabledFocusLock.onClose}>
+            <Intl name="cancel" />
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Popup
+        text="Without this option, focus is locked on 'first' modal."
+        isOpen={showPopup}
+        setIsOpen={setShowPopup}
+      />
+      <Popup
+        text="With disabled focus lock, input field can get focused."
+        isOpen={showDisabledFocusLockPopup}
+        setIsOpen={setShowDisabledFocusLockPopup}
+      />
+    </>
+  );
+};
+
+type PopupProps = {
+  text: string;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+};
+
+function Popup({ text, isOpen, setIsOpen }: PopupProps) {
+  return isOpen ? (
+    <div className="flex items-center justify-center z-[10000000000] fixed inset-0">
+      <div className="rounded-lg shadow-lg bg-white outline-none focus:outline-none">
+        <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
+          <h3 className="text-2xl font-semibold">Popup with input fields</h3>
+          <button
+            className="p-1 ml-auto bg-transparent border-0 text-black text-3xl leading-none font-bold outline-none focus:outline-none"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="">×</span>
+          </button>
+        </div>
+        <div className="flex flex-col items-start p-5 space-y-4">
+          <Typography>{text}</Typography>
+          <Input name="test" />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <></>
+  );
+}
