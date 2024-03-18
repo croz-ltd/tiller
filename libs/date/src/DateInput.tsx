@@ -267,6 +267,12 @@ export default function DateInput({
     setOpened(false);
   };
 
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Tab") {
+      setOpened(false);
+    }
+  };
+
   return (
     <div className={className}>
       <DateInputInput
@@ -281,6 +287,7 @@ export default function DateInput({
         mask={getMaskFromFormat(typedValue, finalDateFormat)}
         dateFormat={dateFormat}
         tokens={{ textColor: !value ? "text-body-light" : undefined }}
+        onKeyDown={onKeyDown}
       />
       <Popover
         className="z-50"
