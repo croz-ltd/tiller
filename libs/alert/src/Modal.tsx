@@ -41,9 +41,9 @@ export type ModalProps<T = unknown> = {
   icon?: React.ReactNode;
 
   /**
-   * Disables focus lock on modal element.
+   * Bypasses focus lock on modal element.
    */
-  disableFocusLock?: boolean;
+  dangerouslyBypassFocusLock?: boolean;
 } & UseModal<T> &
   ModalTokensProps;
 
@@ -157,7 +157,7 @@ function Modal<T = unknown>({
   icon,
   children,
   canDismiss = true,
-  disableFocusLock = false,
+  dangerouslyBypassFocusLock = false,
   ...props
 }: ModalProps<T>) {
   const tokens = useTokens("Modal", props.tokens);
@@ -192,7 +192,7 @@ function Modal<T = unknown>({
   );
 
   return (
-    <DialogOverlay isOpen={isOpen} onDismiss={onDismiss} dangerouslyBypassFocusLock={disableFocusLock}>
+    <DialogOverlay isOpen={isOpen} onDismiss={onDismiss} dangerouslyBypassFocusLock={dangerouslyBypassFocusLock}>
       <ModalContext.Provider value={modalContext}>
         <div className={baseClassName}>
           <div className={tokens.Container.Overlay.outer}>

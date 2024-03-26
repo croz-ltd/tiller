@@ -231,12 +231,12 @@ export const WithScrollbar = () => {
   );
 };
 
-export const WithDisabledFocusLock = () => {
+export const WithBypassedFocusLock = () => {
   // incl-code
   const modal = useModal();
-  const modalWithDisabledFocusLock = useModal();
+  const modalWithBypassedFocusLock = useModal();
   const [showPopup, setShowPopup] = useState(false);
-  const [showDisabledFocusLockPopup, setShowDisabledFocusLockPopup] = useState(false);
+  const [showBypassedFocusLockPopup, setShowBypassedFocusLockPopup] = useState(false);
 
   return (
     <>
@@ -244,8 +244,8 @@ export const WithDisabledFocusLock = () => {
         <Button id="open-button" onClick={modal.onOpen}>
           <Intl name="Normal" />
         </Button>
-        <Button id="open-button" onClick={modalWithDisabledFocusLock.onOpen}>
-          <Intl name="Disabled focus lock" />
+        <Button id="open-button" onClick={modalWithBypassedFocusLock.onOpen}>
+          <Intl name="Bypassed focus lock" />
         </Button>
       </div>
 
@@ -265,19 +265,19 @@ export const WithDisabledFocusLock = () => {
       </Modal>
 
       <Modal
-        {...modalWithDisabledFocusLock}
+        {...modalWithBypassedFocusLock}
         icon={<Modal.Icon icon={<Icon type="check" variant="bold" />} className="text-white" />}
-        disableFocusLock={true}
+        dangerouslyBypassFocusLock={true}
       >
         <Modal.Content title={<Intl name="modalTitle" />}>
           <Intl name="modalContent" />
         </Modal.Content>
 
         <Modal.Footer>
-          <Button variant="filled" color="success" onClick={() => setShowDisabledFocusLockPopup(true)}>
+          <Button variant="filled" color="success" onClick={() => setShowBypassedFocusLockPopup(true)}>
             <Intl name="Open popup" />
           </Button>
-          <Button variant="text" color="white" onClick={modalWithDisabledFocusLock.onClose}>
+          <Button variant="text" color="white" onClick={modalWithBypassedFocusLock.onClose}>
             <Intl name="cancel" />
           </Button>
         </Modal.Footer>
@@ -289,9 +289,9 @@ export const WithDisabledFocusLock = () => {
         setIsOpen={setShowPopup}
       />
       <Popup
-        text="With disabled focus lock, input field can get focused."
-        isOpen={showDisabledFocusLockPopup}
-        setIsOpen={setShowDisabledFocusLockPopup}
+        text="With bypassed focus lock, input field can get focused."
+        isOpen={showBypassedFocusLockPopup}
+        setIsOpen={setShowBypassedFocusLockPopup}
       />
     </>
   );
