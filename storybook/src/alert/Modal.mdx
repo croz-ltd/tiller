@@ -27,6 +27,13 @@ When modals become too long for the user’s viewport or device, they `scroll` i
   <Story id="component-library-alert-modal--with-scrollbar" />
 </Canvas>
 
+When action on modal opens another popup which needs to get focused, modal will keep focus and will not let for example input element to get focus.
+In this case you should use `dangerouslyBypassFocusLock` prop.
+
+<Canvas>
+    <Story id="component-library-alert-modal--with-bypassed-focus-lock" />
+</Canvas>
+
 ## Modal With State
 
 `State` prop is used for fetching or storing the **state** of the modal.

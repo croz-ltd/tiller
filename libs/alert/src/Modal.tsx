@@ -39,6 +39,11 @@ export type ModalProps<T = unknown> = {
    * Icon shown on the left side of the modal title.
    */
   icon?: React.ReactNode;
+
+  /**
+   * Bypasses focus lock on modal element.
+   */
+  dangerouslyBypassFocusLock?: boolean;
 } & UseModal<T> &
   ModalTokensProps;
 
@@ -145,7 +150,16 @@ function useModalContext() {
   return context;
 }
 
-function Modal<T = unknown>({ isOpen, onClose, state, icon, children, canDismiss = true, ...props }: ModalProps<T>) {
+function Modal<T = unknown>({
+  isOpen,
+  onClose,
+  state,
+  icon,
+  children,
+  canDismiss = true,
+  dangerouslyBypassFocusLock = false,
+  ...props
+}: ModalProps<T>) {
   const tokens = useTokens("Modal", props.tokens);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -178,7 +192,7 @@ function Modal<T = unknown>({ isOpen, onClose, state, icon, children, canDismiss
   );
 
   return (
-    <DialogOverlay isOpen={isOpen} onDismiss={onDismiss}>
+    <DialogOverlay isOpen={isOpen} onDismiss={onDismiss} dangerouslyBypassFocusLock={dangerouslyBypassFocusLock}>
       <ModalContext.Provider value={modalContext}>
         <div className={baseClassName}>
           <div className={tokens.Container.Overlay.outer}>
