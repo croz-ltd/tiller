@@ -85,9 +85,12 @@ type FileBrowserProps<T extends File> = {
    */
   rootDirectory: T;
   /**
-   * Function which fetches the list of files from a directory.
+   * Fetches the list of files from a directory asynchronously.
+   * @param {T} directory - The directory from which to fetch files.
+   * @param {T[]} [currentPath] - The current path of the directory, for context purposes (optional).
+   * @returns {Promise<T[]>} A promise that resolves to an array of files in the directory.
    */
-  fetchDirectory: (directory: T) => Promise<T[]>;
+  fetchDirectory: (directory: T, currentPath?: T[]) => Promise<T[]>;
   children?: ChildrenFunction<T>;
 };
 
@@ -99,7 +102,7 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
 
   React.useEffect(() => {
     setPending(true);
-    fetchDirectory(rootDirectory)
+    fetchDirectory(rootDirectory, currentPath)
       .then((files) => {
         setCurrentFiles(files);
         setCurrentPath([rootDirectory]);
@@ -111,7 +114,7 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
 
   const handleItemClick = async (file: T) => {
     setPending(true);
-    fetchDirectory(file)
+    fetchDirectory(file, currentPath)
       .then((newFiles) => {
         setCurrentPath([...currentPath, file]);
         setCurrentFiles(newFiles);
@@ -127,7 +130,7 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
       const newPath = currentPath.slice(0, -1);
       setCurrentPath(newPath);
       const previousDirectory = newPath[newPath.length - 1];
-      fetchDirectory(previousDirectory)
+      fetchDirectory(previousDirectory, currentPath)
         .then((previousFiles) => {
           setCurrentFiles(previousFiles);
         })
@@ -143,7 +146,7 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
       const newPath = currentPath.slice(0, index);
       setCurrentPath(newPath);
       const previousDirectory = newPath[newPath.length - 1];
-      fetchDirectory(previousDirectory)
+      fetchDirectory(previousDirectory, currentPath)
         .then((previousFiles) => {
           setCurrentFiles(previousFiles);
         })
