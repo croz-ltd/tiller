@@ -87,7 +87,7 @@ type FileBrowserProps<T extends File> = {
   /**
    * Fetches the list of files from a directory asynchronously.
    * @param {T} directory - The directory from which to fetch files.
-   * @param {T[]} [currentPath] - The current path of the directory, for context purposes (optional).
+   * @param {T[]} [currentPath] - The current path of the directory (excluding the `directory` parameter), for context purposes (optional).
    * @returns {Promise<T[]>} A promise that resolves to an array of files in the directory.
    */
   fetchDirectory: (directory: T, currentPath?: T[]) => Promise<T[]>;
