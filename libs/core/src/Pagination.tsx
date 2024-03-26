@@ -260,6 +260,7 @@ function Pager({
     <div>
       <ButtonGroups>
         <ButtonGroups.IconButton
+          type="button"
           variant="filled"
           color="gray"
           size={displayType === "DESKTOP" ? "md" : "sm"}
@@ -273,6 +274,7 @@ function Pager({
           if (value === "dots") {
             return (
               <ButtonGroups.Button
+                type="button"
                 key={key}
                 variant="filled"
                 color="gray"
@@ -287,6 +289,7 @@ function Pager({
 
           return (
             <ButtonGroups.Button
+              type="button"
               key={key}
               variant="filled"
               color="gray"
@@ -300,6 +303,7 @@ function Pager({
         })}
 
         <ButtonGroups.IconButton
+          type="button"
           variant="filled"
           color="gray"
           size={displayType === "DESKTOP" ? "md" : "sm"}
