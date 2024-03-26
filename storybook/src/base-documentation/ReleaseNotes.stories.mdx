@@ -18,7 +18,19 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.10.0 - latest** <span>_(Mar 15th 2024)_</span>
+## **1.11.0 - latest** <span>_(Mar 26th 2024)_</span>
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- Fixed `DateInput(Field)` not closing its date picker when pressing the Tab key to switch focus ([#219](https://github.com/croz-ltd/tiller/issues/219))
+- Fixed `Pagination` page number buttons accidentally submitting the form if rendered inside of it ([#228](https://github.com/croz-ltd/tiller/issues/228))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- Added `dangerouslyBypassFocusLock` prop to `Modal` which removes strict focus from the component on render, enabling other components to receive focus ([#217](https://github.com/croz-ltd/tiller/issues/217))
+- Improved `FileBrowser` context by providing additional `currentPath` parameter to `fetchDirectory` function prop ([#230](https://github.com/croz-ltd/tiller/issues/230))
+
+## 1.10.0 <span>_(Mar 15th 2024)_</span>
 
 **<h4>✨ Component Additions</h4>**
 
