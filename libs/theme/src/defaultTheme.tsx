@@ -1619,6 +1619,13 @@ const defaultComponentConfig = {
     compactPadding: "py-4",
     padding: "py-6",
     contentContainer: "px-4 py-8 sm:px-0 z-0",
+    navigationContainer: {
+      fixed: "transition duration-300 w-full sticky top-0 z-30",
+      scrolled: "-translate-y-full"
+    },
+    heading: {
+      fixed: "bg-gray-100 transition duration-300 sticky top-0 w-full z-20",
+    }
   },
   StatusButton: {
     icon: {
