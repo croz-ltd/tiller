@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { Container } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
-import { createNamedContext } from "@tiller-ds/util";
+import { createNamedContext, useWindowEvent } from "@tiller-ds/util";
 
 type StackedLayoutProps = {
   /**
@@ -47,6 +47,12 @@ type StackedLayoutProps = {
    * Typically, TopNavigation.
    */
   navigation: React.ReactNode;
+
+  /**
+   * Defines whether the StackedLayout header statys fixed or hides when page is scrolled.
+   * Defaults to true.
+   */
+  hideOnScroll?: boolean;
 
   /**
    * Custom additional class name for the main container component.
@@ -82,8 +88,6 @@ type StackedLayoutContext = {
   containerVariant?: "max" | "fullWidth" | "constrainedPadded" | "fullWidthContainer" | "narrowConstrained" | undefined;
   isScrolling?: boolean;
   isFixed?: boolean;
-  headingHeight: number;
-  setHeadingHeight: React.Dispatch<number>;
 };
 
 const StackedLayoutContext = createNamedContext<StackedLayoutContext>("StackedLayoutContext");
@@ -94,15 +98,16 @@ function StackedLayout({
   isFixed,
   children,
   background = "gray",
+  hideOnScroll = true,
   className,
   ...props
 }: StackedLayoutProps) {
   const tokens = useTokens("StackedLayout", props.tokens);
   const [isScrolling, setIsScrolling] = React.useState<boolean>(false);
-  const [headingHeight, setHeadingHeight] = React.useState<number>(0);
 
   const navigationContainerClassName = cx({
-    "transition duration-300 w-full sticky top-0 z-30": isFixed,
+    [tokens.navigationContainer.fixed]: isFixed,
+    [tokens.navigationContainer.scrolled]: isScrolling,
   });
 
   const containerClassName = cx(
@@ -112,21 +117,20 @@ function StackedLayout({
     { [tokens.grayBackgroundColor]: background !== "white" }
   );
 
-  window.onscroll = function () {
-    if (window.pageYOffset > 80) {
-      setIsScrolling(true);
-    } else {
-      setIsScrolling(false);
+  useWindowEvent("scroll", () => {
+    if (hideOnScroll) {
+      if (window.pageYOffset > 80) {
+        setIsScrolling(true);
+      } else {
+        setIsScrolling(false);
+      }
     }
-  };
+  });
 
   return (
-    <StackedLayoutContext.Provider value={{ containerVariant, isScrolling, isFixed, headingHeight, setHeadingHeight }}>
+    <StackedLayoutContext.Provider value={{ containerVariant, isScrolling, isFixed }}>
       <div className={containerClassName}>
-        <div
-          className={navigationContainerClassName}
-          style={{ transform: isScrolling && isFixed ? "translate(0, -64px)" : "" }}
-        >
+        <div className={navigationContainerClassName}>
           {navigation}
         </div>
         {children}
@@ -143,14 +147,9 @@ function StackedLayoutHeading({
 }: StackedLayoutHeadingProps) {
   const tokens = useTokens("StackedLayout", props.tokens);
   const layoutContext = React.useContext(StackedLayoutContext) as StackedLayoutContext;
-  const ref = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    layoutContext.setHeadingHeight(ref.current?.clientHeight ?? 0);
-  }, [ref.current]);
 
   const headingContainerClassName = cx({
-    "bg-gray-100 transition duration-300 sticky top-0 w-full z-20": layoutContext?.isFixed,
+    [tokens.heading.fixed]: layoutContext?.isFixed,
   });
 
   const headingClassName = cx(
@@ -160,7 +159,7 @@ function StackedLayoutHeading({
   );
 
   return (
-    <div ref={ref} className={headingContainerClassName}>
+    <div className={headingContainerClassName}>
       <div className={headingClassName}>
         <Container variant={layoutContext.containerVariant}>{children}</Container>
       </div>
