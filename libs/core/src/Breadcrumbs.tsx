@@ -54,13 +54,13 @@ function Breadcrumbs({ children, icon, className, ...props }: BreadcrumbsProps) 
     tokens.container.borderRadius,
     tokens.container.padding,
     tokens.container.display,
-    tokens.container.spaceBetween
+    tokens.container.spaceBetween,
   );
 
   const childContainerClassName = cx(
     tokens.childContainer.display,
     tokens.childContainer.alignItems,
-    tokens.childContainer.spaceBetween
+    tokens.childContainer.spaceBetween,
   );
 
   const breadcrumbIcon = useIcon("breadcrumbs", icon, { className: tokens.iconColor });
@@ -68,14 +68,18 @@ function Breadcrumbs({ children, icon, className, ...props }: BreadcrumbsProps) 
   return (
     <nav className="flex">
       <ol className={containerClassName}>
-        {React.Children.map(children, (child, index) => (
-          <li key={index} className="flex">
-            <div className={childContainerClassName}>
-              {index > 0 && React.cloneElement(breadcrumbIcon)}
-              {child}
-            </div>
-          </li>
-        ))}
+        {React.Children.map(
+          children,
+          (child, index) =>
+            child && (
+              <li key={index} className="flex">
+                <div className={childContainerClassName}>
+                  {index > 0 && React.cloneElement(breadcrumbIcon)}
+                  {child}
+                </div>
+              </li>
+            ),
+        )}
       </ol>
     </nav>
   );
@@ -91,7 +95,7 @@ function Breadcrumb({ children, ...props }: BreadcrumbProps) {
     tokens.breadcrumb.color,
     tokens.breadcrumb.hover,
     tokens.breadcrumb.transitionDuration,
-    tokens.breadcrumb.transitionTimingFunction
+    tokens.breadcrumb.transitionTimingFunction,
   );
 
   return <span className={breadcrumbClassname}>{children}</span>;
