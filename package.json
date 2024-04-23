@@ -139,5 +139,9 @@
   "resolutions": {
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0"
+  },
+  "volta": {
+    "node": "16.17.1",
+    "yarn": "3.0.0-rc.1"
   }
 }
