@@ -148,7 +148,7 @@ export default function TreeSelect<T>({
     tokens.Select.fontSize,
     tokens.Select.lineHeight,
     { [tokens.Select.error]: error },
-    { [tokens.Select.disabled]: disabled }
+    { [tokens.Select.disabled]: disabled },
   );
 
   const listClassName = cx(tokens.List.master, tokens.List.borderRadius, tokens.List.boxShadow, { invisible: !isOpen });
@@ -158,7 +158,7 @@ export default function TreeSelect<T>({
     tokens.List.inner.borderRadius,
     tokens.List.inner.backgroundColor,
     tokens.List.inner.boxShadow,
-    tokens.List.inner.outline
+    tokens.List.inner.outline,
   );
 
   const onChange = (item: T | undefined) => {
@@ -197,9 +197,11 @@ export default function TreeSelect<T>({
           <div className="flex items-center justify-between">
             <div className="flex-grow mr-3 flex-wrap">{valueLabel}</div>
             <div className="flex items-center flex-shrink-0 text-gray-400">
-              <div className="p-2 -m-2 hover:text-gray-700 flex align-center" onClick={clear}>
-                {closeIcon}
-              </div>
+              {!disabled && (
+                <div className="p-2 -m-2 hover:text-gray-700 flex align-center" onClick={clear}>
+                  {closeIcon}
+                </div>
+              )}
               <div className="pl-2">
                 <div className="border-r border-gray-200">&nbsp;</div>
               </div>
@@ -273,7 +275,7 @@ function TreeSelectOption<T>({
     tokens.Item.base.fontSize,
     tokens.Item.base.lineHeight,
     tokens.Item.base.color,
-    "cursor-default select-none"
+    "cursor-default select-none",
   );
 
   const innerItemClassName = cx("flex items-center", levelClasses[level]);

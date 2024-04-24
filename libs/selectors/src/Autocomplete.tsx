@@ -943,7 +943,7 @@ function Autocomplete<T extends {}>({
         inlineTrailingIcon={
           <div className={autocompleteTokens.Loading.container}>
             {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
-            {validateUsage() && validateValue() && (
+            {!disabled && validateUsage() && validateValue() && (
               <div className={clearClassName} onClick={clear}>
                 {removeIcon}
               </div>

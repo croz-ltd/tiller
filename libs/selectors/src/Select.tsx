@@ -413,7 +413,7 @@ function Select<T>({
             <div className={tokens.Loading.container}>
               {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
               {error && warningIcon}
-              {value && !hideClearButton && !error && (
+              {!disabled && value && !hideClearButton && !error && (
                 <button type="button" className={clearClassName} onClick={clear}>
                   {removeIcon}
                 </button>
