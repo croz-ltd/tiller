@@ -109,7 +109,7 @@ export type UseModal<T = unknown> = {
    * Function for opening the modal. Called upon a variable initialized with 'useModal()'.
    * Most often used in onClick functions (ex. inside the onClick prop of the Button component)
    */
-  onOpen: (value: T | null) => void;
+  onOpen: (value?: T | null) => void;
 
   /**
    * Used for fetching or storing the state of the modal. Called upon a variable initialized with 'useModal()'.
@@ -130,9 +130,9 @@ export function useModal<T = unknown>(): UseModal<T> {
   const [isOpen, setIsOpen] = React.useState(false);
   const [state, setState] = React.useState<T | null>(null);
 
-  const onOpen = (value: T | null) => {
+  const onOpen = (value?: T | null) => {
     setIsOpen(true);
-    setState(value);
+    setState(value ? value : null);
   };
 
   const onClose = () => setIsOpen(false);
