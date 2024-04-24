@@ -646,7 +646,9 @@ function DataTable<T extends object>({
                         className={tableHeaderClassName}
                         title={column.title}
                         onClick={() => {
-                          toggleSortBy(column.id, undefined, multiSort);
+                          if (column.canSort) {
+                            toggleSortBy(column.id, undefined, multiSort);
+                          }
                         }}
                       >
                         <DataTableHeader alignHeader={alignHeader} {...column}>
@@ -815,10 +817,11 @@ function DataTableHeader({
   return (
     <div className={tableHeaderContainer}>
       {children}
-
-      <span className="flex justify-center items-center ml-1">
-        {isSorted ? isSortedDesc ? sortDescIcon : sortAscIcon : canSort ? <div className="w-4 h-4">&nbsp;</div> : null}
-      </span>
+      {canSort && (
+        <span className="flex justify-center items-center ml-1">
+          {isSorted ? isSortedDesc ? sortDescIcon : sortAscIcon : <div className="w-3.5">&nbsp;</div>}
+        </span>
+      )}
     </div>
   );
 }
@@ -1081,6 +1084,7 @@ function DataTableColumn<T extends object>(_: DataTableColumnProps<T>) {
 
 DataTableColumn.defaultProps = {
   type: "DataTableColumn",
+  canSort: false,
 };
 
 function DataTableExpander<T>(_: DataTableExpanderProps<T>) {
