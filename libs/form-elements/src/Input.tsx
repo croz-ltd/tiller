@@ -284,8 +284,8 @@ const Input = React.forwardRef(
         </div>
         <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
           {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
-          {props.value && allowClear && finalClearIcon && (
-            <button type="button" onClick={onReset} disabled={disabled || props.readOnly}>
+          {!disabled && !props.readOnly && props.value && allowClear && finalClearIcon && (
+            <button type="button" onClick={onReset}>
               {finalClearIcon}
             </button>
           )}
