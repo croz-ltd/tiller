@@ -739,7 +739,7 @@ const defaultComponentConfig = {
         firstOrLast: "bg-primary text-primary-contrast",
         selected: "bg-primary-light text-primary-contrast",
         hovered: "bg-primary-light text-primary-contrast",
-        currentDate: "ring-2 ring-inset ring-white border border-primary-dark text-primary-dark",
+        currentDate: "ring-2 ring-inset ring-white border border-primary-dark",
         dateHovered: `hover:bg-primary hover:text-primary-contrast`,
         yearHovered: `hover:bg-primary hover:text-primary-contrast`,
         disabled: "opacity-50 text-slate-700 ",
@@ -1621,11 +1621,11 @@ const defaultComponentConfig = {
     contentContainer: "px-4 py-8 sm:px-0 z-0",
     navigationContainer: {
       fixed: "transition duration-300 w-full sticky top-0 z-30",
-      scrolled: "-translate-y-full"
+      scrolled: "-translate-y-full",
     },
     heading: {
       fixed: "bg-gray-100 transition duration-300 sticky top-0 w-full z-20",
-    }
+    },
   },
   StatusButton: {
     icon: {
