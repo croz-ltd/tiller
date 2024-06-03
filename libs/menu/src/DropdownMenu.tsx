@@ -131,9 +131,19 @@ function DropdownMenu({
     { [tokens.Icon.color.light]: iconColor === "light" },
   );
 
-  const iconProps = { className: iconClassName, size: 3 };
-  const finalOpenExpanderIcon = useIcon("openExpander", openExpanderIcon, iconProps);
-  const finalCloseExpanderIcon = useIcon("closeExpander", closeExpanderIcon, iconProps);
+  const openIconProps = {
+    className: openExpanderIcon?.props.className || iconClassName,
+    size: openExpanderIcon?.props.size || 3,
+    ...openExpanderIcon?.props,
+  };
+  const finalOpenExpanderIcon = useIcon("openExpander", openExpanderIcon, openIconProps);
+
+  const closeIconProps = {
+    className: closeExpanderIcon?.props.className || iconClassName,
+    size: closeExpanderIcon?.props.size || 3,
+    ...closeExpanderIcon?.props,
+  };
+  const finalCloseExpanderIcon = useIcon("closeExpander", closeExpanderIcon, closeIconProps);
 
   const responsiveIcon = (
     <div>
