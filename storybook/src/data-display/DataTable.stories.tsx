@@ -649,6 +649,35 @@ export const WithCustomExpander = (args) => (
   </DataTable>
 );
 
+export const WithConditionalExpanderAtEnd = (args) => (
+  <DataTable data={smallData}>
+    <DataTable.Column header="ID" accessor="id" />
+    <DataTable.Column header="Name" accessor="name" />
+    <DataTable.Expander
+      predicate={(_: Item, index: number) => index % 2 === 1}
+      customComponent={(item: Item, _: number) => <p>{item.name}'s details not specified</p>}
+      className="w-[500px] text-right"
+    >
+      {(item: Item) => (
+        <span className="flex flex-col items-end">
+          <div>
+            <b>Age: </b>
+            {item.age}
+          </div>
+          <div>
+            <b>Applied for: </b>
+            {item.appliedFor}
+          </div>
+          <div>
+            <b>Annual Salary: </b>
+            {item.salary.annual}
+          </div>
+        </span>
+      )}
+    </DataTable.Expander>
+  </DataTable>
+);
+
 export const WithSelectorAtBeginning = () => {
   // incl-code
   const [, dataTableHook] = useDataTable();

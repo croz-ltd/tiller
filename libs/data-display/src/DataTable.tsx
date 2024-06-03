@@ -19,17 +19,7 @@ import * as React from "react";
 
 import { every, find, flatMap, identity, isEqual, pickBy, sum } from "lodash";
 import _ from "lodash";
-import {
-  Cell,
-  Column,
-  HeaderProps,
-  Row,
-  useExpanded,
-  UseExpandedRowProps,
-  useRowSelect,
-  useSortBy,
-  useTable,
-} from "react-table";
+import { Cell, Column, HeaderProps, Row, useExpanded, useRowSelect, useSortBy, useTable } from "react-table";
 
 import { Card, CardHeaderProps } from "@tiller-ds/core";
 import { Checkbox } from "@tiller-ds/form-elements";
@@ -214,8 +204,35 @@ type DataTableColumnProps<T extends object> = {
 ) &
   TokenProps<"DataTable">;
 
-type DataTableExpanderProps<T> = {
-  children: (item: T) => React.ReactNode;
+type DataTableExpanderProps<T extends object> = {
+  /**
+   * Defines whether a given row should be expandable.
+   *
+   * @param {T} item - The data item for the row.
+   * @param {number} index - The index of the row.
+   * @returns {boolean} - Returns true if the row is expandable, otherwise false.
+   */
+  predicate?: (item: T, index: number) => boolean;
+  /**
+   * The component rendered when the predicate prop is not satisfied.
+   *
+   * @param {T} item - The data item for the row.
+   * @param {number} index - The index of the row.
+   * @returns {React.ReactNode} - The custom component to render.
+   */
+  customComponent?: (item: T, index: number) => React.ReactNode;
+  /**
+   * Expander content displayed when the expander is clicked.
+   *
+   * @param {T} item - The data item for the row.
+   * @param {number} index - The index of the row.
+   * @returns {React.ReactNode} - The content to display in the expanded row.
+   */
+  children: (item: T, index: number) => React.ReactNode;
+  /**
+   * Optional class name for the expander column.
+   */
+  className?: string;
 };
 
 type DataTableSelectorProps<T extends object> = {
@@ -883,9 +900,8 @@ function DataTableCardHeaderSelector({ children }: DataTableCardHeaderSelectorPr
   return <>{selectorTitle}</>;
 }
 
-function ExpanderCell({ row, ...props }: Cell & TokenProps<"DataTable">) {
+function ExpanderCell<T extends object>({ row, ...props }: Pick<Cell<T>, "row"> & TokenProps<"DataTable">) {
   const tokens = useTokens("DataTable", props.tokens);
-  const expandedRow = row as unknown as UseExpandedRowProps<{}>;
 
   const openExpanderIcon = useIcon("openExpander", undefined, {
     size: 3,
@@ -897,12 +913,8 @@ function ExpanderCell({ row, ...props }: Cell & TokenProps<"DataTable">) {
   });
 
   return (
-    <button
-      {...expandedRow.getToggleRowExpandedProps()}
-      type="button"
-      className="focus:outline-none select-none h-4 w-4"
-    >
-      {expandedRow.isExpanded ? closeExpanderIcon : openExpanderIcon}
+    <button {...row.getToggleRowExpandedProps()} type="button" className="focus:outline-none select-none h-4 w-4">
+      {row.isExpanded ? closeExpanderIcon : openExpanderIcon}
     </button>
   );
 }
@@ -1032,11 +1044,21 @@ function extractColumns<T extends object>(
     }
 
     if (child.props.type === "DataTableExpander") {
+      const predicate = child.props.predicate ?? (() => false);
+      const Cell = child.props.predicate
+        ? ({ row }: { row: Row<T> }) =>
+            predicate(row.original, row.index) ? (
+              child.props.customComponent(row.original, row.index)
+            ) : (
+              <ExpanderCell row={row} />
+            )
+        : ExpanderCell;
+
       const column = {
         Header: () => null,
         id: "expander",
-        className: "w-px",
-        Cell: ExpanderCell,
+        className: child.props.className || "w-px",
+        Cell: Cell,
       };
 
       return [column as unknown as Column<T>];
@@ -1087,7 +1109,7 @@ DataTableColumn.defaultProps = {
   canSort: false,
 };
 
-function DataTableExpander<T>(_: DataTableExpanderProps<T>) {
+function DataTableExpander<T extends object>(_: DataTableExpanderProps<T>) {
   return <></>;
 }
 
