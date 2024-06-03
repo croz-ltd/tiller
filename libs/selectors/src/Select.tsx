@@ -440,7 +440,7 @@ function Select<T>({
             {isOpen && (
               <div className={listClassName}>
                 <div className={listInnerClassName}>
-                  <div className={tokens.Items.container} {...getMenuProps({ ref: inputRef })}>
+                  <div className={tokens.Items.container}>
                     <SelectItems />
                   </div>
                 </div>
