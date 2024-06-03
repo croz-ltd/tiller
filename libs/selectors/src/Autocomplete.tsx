@@ -963,6 +963,7 @@ function Autocomplete<T extends {}>({
         extend={tags && tagsContained && tagsDisplay}
         addonBelow={tags && !tagsContained && tagsDisplay}
         {...getInputProps({
+          id: id,
           ref: !tagsContained ? toggleRef : inputRef,
           refKey: "inputRef",
           value: highlightedOption && !allowMultiple ? safeItemToString(highlightedOption) : inputValue,

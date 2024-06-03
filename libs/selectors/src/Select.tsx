@@ -395,7 +395,13 @@ function Select<T>({
       <div className={tokens.container} ref={containerRef}>
         <button
           className={selectClassName}
-          {...getToggleButtonProps({ ref: toggleRef, disabled: isDisabled, onClick: () => setIsMenuOpen(!isMenuOpen) })}
+          {...getToggleButtonProps({
+            id: id,
+            ref: toggleRef,
+            disabled: isDisabled,
+            onClick: () => setIsMenuOpen(!isMenuOpen),
+          })}
+          data-testid={id}
           type="button"
           style={{
             backgroundImage:
@@ -434,7 +440,7 @@ function Select<T>({
             {isOpen && (
               <div className={listClassName}>
                 <div className={listInnerClassName}>
-                  <div className={tokens.Items.container}>
+                  <div className={tokens.Items.container} {...getMenuProps({ ref: inputRef })}>
                     <SelectItems />
                   </div>
                 </div>
