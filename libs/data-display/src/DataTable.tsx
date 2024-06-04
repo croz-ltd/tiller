@@ -36,7 +36,9 @@ import { Checkbox } from "@tiller-ds/form-elements";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 import { createNamedContext, findChild } from "@tiller-ds/util";
 
-type DataTableChild<T extends object> = React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>;
+type DataTableChild<T extends object> =
+  | React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>
+  | React.ReactNode;
 
 export type DataTableProps<T extends object> = {
   /**
@@ -495,7 +497,7 @@ function DataTable<T extends object>({
     return mapChildren(React.isValidElement(primaryRow) ? primaryRow.props.children : children);
   }, [primaryRow, children]);
 
-  let primaryColumnChildrenArray = React.Children.toArray(primaryColumnChildren).filter(Boolean);
+  const primaryColumnChildrenArray = React.Children.toArray(primaryColumnChildren).filter(Boolean);
   const columnChildrenSize = primaryColumnChildrenArray.length;
 
   const secondaryColumnChildren = React.useMemo(() => {
