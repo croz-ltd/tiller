@@ -23,7 +23,7 @@ import { range, slice } from "lodash";
 import { withDesign } from "storybook-addon-designs";
 
 import { Button, Card, IconButton, Link, Pagination, Typography, useLocalPagination } from "@tiller-ds/core";
-import { DataTable, useDataTable, useLocalSummary, useSortableDataTable } from "@tiller-ds/data-display";
+import { DataTable, SortInfo, useDataTable, useLocalSummary, useSortableDataTable } from "@tiller-ds/data-display";
 import { Icon } from "@tiller-ds/icons";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { defaultThemeConfig } from "@tiller-ds/theme";
@@ -1432,6 +1432,7 @@ export const WithDefaultAscendingSortByName = (args) => {
     <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy}>
       <DataTable.Column header="ID" accessor="id" canSort={false} />
       <DataTable.Column header="Name" accessor="name" canSort={true} />
+      <DataTable.Column header="Surname" accessor="surname" canSort={true} />
     </DataTable>
   );
 };
@@ -1443,26 +1444,63 @@ export const WithDefaultAscendingSortUsingHook = () => {
     surname: "surname",
   };
 
-  const { dataTableHook, sortedData } = useSortableDataTable(allData || [], columnMapping);
+  const defaultSortBy: SortInfo[] = [
+    {
+      column: "name",
+      sortDirection: "DESCENDING",
+    },
+    {
+      column: "surname",
+      sortDirection: "DESCENDING",
+    },
+  ];
+
+  const { dataTableHook, sortedData, dataTableState } = useSortableDataTable(
+    allData || [],
+    columnMapping,
+    defaultSortBy,
+  );
+
+  return (
+    <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy}>
+      <DataTable.Column header="ID" accessor="id" canSort={false} />
+      <DataTable.Column header="Name" accessor="name" canSort={true} />
+      <DataTable.Column header="Surname" accessor="surname" canSort={true} />
+    </DataTable>
+  );
+};
+
+export const WithDefaultAscendingSortWithRetainedInitialSort = () => {
+  // incl-code
+  const columnMapping = {
+    name: "name",
+    surname: "surname",
+  };
+
+  const defaultSortBy: SortInfo[] = [
+    {
+      column: "name",
+      sortDirection: "DESCENDING",
+    },
+  ];
+
+  const { dataTableHook, sortedData, dataTableState } = useSortableDataTable(
+    allData || [],
+    columnMapping,
+    defaultSortBy,
+  );
 
   return (
     <DataTable
       data={sortedData}
       hook={dataTableHook}
-      defaultSortBy={[
-        {
-          column: "name",
-          sortDirection: "ASCENDING",
-        },
-        {
-          column: "surname",
-          sortDirection: "ASCENDING",
-        },
-      ]}
+      defaultSortBy={dataTableState.defaultSortBy}
+      retainDefaultSortBy={true}
     >
       <DataTable.Column header="ID" accessor="id" canSort={false} />
       <DataTable.Column header="Name" accessor="name" canSort={true} />
       <DataTable.Column header="Surname" accessor="surname" canSort={true} />
+      <DataTable.Column header="Applied for" accessor="appliedFor" canSort={true} />
     </DataTable>
   );
 };
