@@ -93,6 +93,19 @@ export type NumberInputProps = {
   required?: boolean;
 
   /**
+   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  testId?: string;
+
+  /**
    * Custom thousand separator (e.g. "." or ",").
    *
    * If not provided, it will be inferred from the IntlProvider.
@@ -156,7 +169,7 @@ export default function NumberInput({
   return (
     <ReactNumberFormat
       id={id}
-      data-testid={id}
+      data-testid={props.testId || id}
       name={name}
       decimalSeparator={finalDecimalSeparator}
       thousandSeparator={finalThousandSeparator}

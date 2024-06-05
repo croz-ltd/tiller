@@ -70,6 +70,19 @@ export type ButtonProps = {
   size?: ButtonSize;
 
   /**
+   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  testId?: string;
+
+  /**
    * Icon on the right side of the button text.
    */
   trailingIcon?: React.ReactNode;
@@ -116,14 +129,21 @@ export default function Button({
     { [tokens.variant[variant].color[color].borderColor]: !isEqual(props.tokens, {}) },
     { [tokens.variant[variant].color[color].hover]: !isEqual(props.tokens, {}) && !disabled },
     { [tokens.variant[variant].color[color].shadow]: !isEqual(props.tokens, {}) },
-    className
+    className,
   );
 
   const leadingIconClassName = cx(tokens.leadingIcon[size], "flex justify-center items-center");
   const trailingIconClassName = cx(tokens.trailingIcon[size], "flex justify-center items-center");
 
   return (
-    <button ref={buttonRef} className={buttonClassName} id={id} data-testid={id} disabled={disabled} {...props}>
+    <button
+      ref={buttonRef}
+      className={buttonClassName}
+      id={id}
+      data-testid={props.testId || id}
+      disabled={disabled}
+      {...props}
+    >
       {leadingIcon && React.cloneElement(leadingIcon as React.ReactElement, { className: leadingIconClassName })}
       {children}
       {trailingIcon &&

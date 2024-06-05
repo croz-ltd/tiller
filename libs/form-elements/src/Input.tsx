@@ -119,6 +119,19 @@ export type InputProps = {
   required?: boolean;
 
   /**
+   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  testId?: string;
+
+  /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
    */
   tooltip?: React.ReactNode;
@@ -271,7 +284,7 @@ const Input = React.forwardRef(
             ref={inputRef || ref}
             name={name}
             id={id}
-            data-testid={id}
+            data-testid={props.testId || id}
             disabled={disabled}
             className={inputClassName}
             {...props}

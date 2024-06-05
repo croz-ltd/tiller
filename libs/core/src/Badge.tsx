@@ -62,7 +62,15 @@ export type BadgeProps = {
   small?: boolean;
 
   /**
-   * Special attribute for enabling test automation support.
+   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
    */
   testId?: string;
 
@@ -92,7 +100,6 @@ export type BadgeRemoveButtonProps = {
 
 export default function Badge({
   children,
-  testId,
   color = "primary",
   small,
   dot,
@@ -112,11 +119,11 @@ export default function Badge({
     { [tokens.small.lineHeight]: small },
     tokens.master,
     tokens.variant[variant].base,
-    tokens.variant[variant].color[color].base
+    tokens.variant[variant].color[color].base,
   );
 
   return (
-    <span className={containerClassName} data-testid={testId} onClick={onClick}>
+    <span className={containerClassName} data-testid={props.testId} onClick={onClick}>
       {dot && <BadgeDot color={color} variant={variant} />}
       {children}
       {onRemoveButtonClick && (
@@ -125,7 +132,7 @@ export default function Badge({
           small={small}
           variant={variant}
           onClick={onRemoveButtonClick}
-          testId={testId}
+          testId={props.testId}
         />
       )}
     </span>
