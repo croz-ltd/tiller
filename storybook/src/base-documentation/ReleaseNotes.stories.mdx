@@ -18,41 +18,26 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.14.0 - latest** <span>_(June 5th 2024)_</span>
-
-**<h4>🐛 Bug Fixes</h4>**
-
-- Fixed `DataTable` not supporting rendering one or more optional columns ([#240](https://github.com/croz-ltd/tiller/issues/240))
-- Fixed downshift console errors from `Select` caused by incorrect application of the `getMenuProps` function on the component ([#250](https://github.com/croz-ltd/tiller/issues/250))
-- Fixed registration of icon props for `openExpanderIcon` and `closeExpanderIcon` on `DropdownMenu` by passing on the props and resorting to defaults if not defined ([#251](https://github.com/croz-ltd/tiller/issues/251))
-- Fixed conflicting class names when `highlightToday` prop is enabled on date input components which render a date picker ([#254](https://github.com/croz-ltd/tiller/issues/254))
-- Fixed console warnings from `@reach/tabs` library related to styles file inclusion ([#261](https://github.com/croz-ltd/tiller/issues/261))
-
-**<h4>⚡ Component Improvements</h4>**
-
-- Added ability of retaining original data sorting on `DataTable` (defined by `defaultSortBy` prop) via new `retainDefaultSortBy` prop ([#236](https://github.com/croz-ltd/tiller/issues/236))
-- Added ability of conditionally rendering the expander on `DataTable` by introducing `predicate` and `predicateFallback` props to the `DataTable.Expander` subcomponent ([#252](https://github.com/croz-ltd/tiller/issues/252))
-- Added `testId` prop to Button, Badge and form components which sets the `data-testid` prop for components, while resorting to the same value as the `id` prop if not defined ([#253](https://github.com/croz-ltd/tiller/issues/253))
-
 ## **1.13.0 - latest** <span>_(Apr 25th 2024)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
+- Fixed `DataTable` not supporting multiple optional columns ([#240](https://github.com/croz-ltd/tiller/issues/240))
 - Fixed `DataTable` when sorting arrow icon is present even if `canSort` prop is set to `false` ([#239](https://github.com/croz-ltd/tiller/issues/239))
 - Fixed `Breadcrumbs` rendering icon between non-rendered elements ([#241](https://github.com/croz-ltd/tiller/issues/241))
 
 **<h4>⚡ Component Improvements</h4>**
 
-- Allowed `onOpen` function in `Modal` to be called without arguments ([#235](https://github.com/croz-ltd/tiller/issues/235))
-- Removed clear button from input fields when they are disabled ([#229](https://github.com/croz-ltd/tiller/issues/229))
+- Allow `onOpen` function in `Modal` to be called without arguments ([#235](https://github.com/croz-ltd/tiller/issues/235))
+- Remove clear button from input fields when they are disabled ([#229](https://github.com/croz-ltd/tiller/issues/229))
 
-## 1.12.0 <span>_(Apr 3rd 2024)_</span>
+## **1.12.0 ** <span>_(Apr 3rd 2024)_</span>
 
 **<h4>⚡ Component Improvements</h4>**
 
 - Improved `StackedLayout` autohide header functionality, so it can be controlled via tokens ([#237](https://github.com/croz-ltd/tiller/issues/237))
 
-## 1.11.0 <span>_(Mar 26th 2024)_</span>
+## **1.11.0 ** <span>_(Mar 26th 2024)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
