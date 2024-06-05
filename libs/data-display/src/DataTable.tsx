@@ -17,9 +17,15 @@
 
 import * as React from "react";
 
-import { every, find, flatMap, identity, isEqual, pickBy, sum } from "lodash";
-import _ from "lodash";
-import { Cell, Column, HeaderProps, Row, useExpanded, useRowSelect, useSortBy, useTable } from "react-table";
+import { every, find, flatMap, slice, identity, isEqual, pickBy, sum, xorWith } from "lodash";
+import {
+  Cell,
+  Column,
+  HeaderProps,
+  Row,
+  SortingRule,
+  useExpanded,
+   useRowSelect, useSortBy, useTable } from "react-table";
 
 import { Card, CardHeaderProps } from "@tiller-ds/core";
 import { Checkbox } from "@tiller-ds/form-elements";
@@ -54,6 +60,19 @@ export type DataTableProps<T extends object> = {
    * to a certain column name, while sortDirection is either ASCENDING or DESCENDING.
    */
   defaultSortBy?: SortInfo[];
+
+  /**
+   * Controls table sorting behavior when clicking a column header by returning to a default sorted state defined by `defaultSortBy` prop when sort resets.
+   *
+   * By default, clicking a column header cycles through sorting states, and a sort reset returns the table to an unsorted state.
+   * Setting this prop to `true` prevents this default behavior.
+   *
+   * With this prop enabled, clicking the header of a column defined in `defaultSortBy` will toggle between ascending and descending order **even after a sort reset**.
+   * This allows you to maintain the initial sort order throughout user interaction.
+   *
+   * @defaultValue false
+   */
+  retainDefaultSortBy?: boolean;
 
   /**
    * For getting each item's unique identifier on DataTable initialization.
@@ -368,6 +387,8 @@ type UseDataTable = [
     isAllRowsSelected: boolean;
 
     sortBy: SortInfo[];
+
+    defaultSortBy: SortInfo[];
   },
 
   DataTableHook,
@@ -442,7 +463,7 @@ export function useDataTable({ defaultSortBy = [] }: UseDataTableProps = {}): Us
   );
 
   const state = React.useMemo(
-    () => ({ selected, selectedCount, isAllRowsSelected, sortBy }),
+    () => ({ selected, selectedCount, isAllRowsSelected, sortBy, defaultSortBy }),
     [selected, selectedCount, isAllRowsSelected, sortBy],
   );
 
@@ -457,7 +478,7 @@ export function useDataTable({ defaultSortBy = [] }: UseDataTableProps = {}): Us
     [updateSelected, updateSortBy, selected, isAllRowsSelected, toggleSelectAll],
   );
 
-  return [state, hook];
+  return [state, hook] as UseDataTable;
 }
 
 type Operation = "sum" | "average";
@@ -505,8 +526,11 @@ function DataTable<T extends object>({
   lastColumnFixed,
   className,
   multiSort = false,
+  retainDefaultSortBy,
   ...props
 }: DataTableProps<T>) {
+  const tokens = useTokens("DataTable", props.tokens);
+
   const primaryRow = findChild("DataTablePrimaryRow", children);
   const secondaryRow = findChild("DataTableSecondaryRow", children);
   const hasSecondaryColumns = React.isValidElement(secondaryRow);
@@ -565,7 +589,19 @@ function DataTable<T extends object>({
     },
     [getItemId],
   );
-  const tokens = useTokens("DataTable", props.tokens);
+
+  const mapToSortingRules = (sortBy: SortInfo[], flipCols: string[]): SortingRule<T>[] => {
+    return sortBy.map((sortInfo) => ({
+      id: sortInfo.column,
+      desc: flipCols.includes(sortInfo.column)
+        ? sortInfo.sortDirection !== "DESCENDING"
+        : sortInfo.sortDirection === "DESCENDING",
+    }));
+  };
+
+  const differenceOfSortingRules = (rule1: SortingRule<T>[], rule2: SortingRule<T>[]): SortingRule<T>[] =>
+    xorWith(rule1, rule2, (r1, r2) => r1.id === r2.id && r1.desc === r2.desc);
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -580,6 +616,21 @@ function DataTable<T extends object>({
     {
       columns,
       data,
+      stateReducer: (newState, action, prevState) => {
+        const hasNoSort = newState.sortBy.length === 0;
+        const sortingDifference = differenceOfSortingRules(newState.sortBy, sortBy);
+
+        if (retainDefaultSortBy && action.type === "toggleSortBy" && (sortingDifference.length === 0 || hasNoSort)) {
+          const sortedCols = sortingDifference.map((rule) => rule.id);
+
+          return {
+            ...newState,
+            sortBy: isEqual(prevState.sortBy, sortBy) ? mapToSortingRules(defaultSortBy, sortedCols) : sortBy,
+          };
+        }
+
+        return newState;
+      },
       autoResetPage: false,
       autoResetSelectedRows: false,
       autoResetSortBy: false,
@@ -713,7 +764,7 @@ function DataTable<T extends object>({
                 rows.map((row, rowKey) => {
                   prepareRow(row);
 
-                  const primaryCells = _.slice(row.cells, 0, columnChildrenSize);
+                  const primaryCells = slice(row.cells, 0, columnChildrenSize);
                   const secondaryCells = hasSecondaryColumns
                     ? row.cells.slice(columnChildrenSize, totalColumnChildrenSize)
                     : [];
@@ -1174,7 +1225,7 @@ const isConfigurationEqual = (prevChildren, nextChildren) => {
   }
   const getConfiguration = (children: Array<Exclude<React.ReactNode, boolean | null | undefined>>) =>
     children.flatMap((child) => (React.isValidElement(child) ? child.props.type : undefined));
-  return _.isEqual(getConfiguration(prevChildArray), getConfiguration(nextChildArray));
+  return isEqual(getConfiguration(prevChildArray), getConfiguration(nextChildArray));
 };
 
 const MemoDataTable = React.memo(
