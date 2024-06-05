@@ -134,6 +134,19 @@ export type SelectProps<T> = {
   sort?: (items: T[]) => T[];
 
   /**
+   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  testId?: string;
+
+  /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
    */
   tooltip?: React.ReactNode;
@@ -395,7 +408,13 @@ function Select<T>({
       <div className={tokens.container} ref={containerRef}>
         <button
           className={selectClassName}
-          {...getToggleButtonProps({ ref: toggleRef, disabled: isDisabled, onClick: () => setIsMenuOpen(!isMenuOpen) })}
+          {...getToggleButtonProps({
+            id: id,
+            ref: toggleRef,
+            disabled: isDisabled,
+            onClick: () => setIsMenuOpen(!isMenuOpen),
+          })}
+          data-testid={props.testId || id}
           type="button"
           style={{
             backgroundImage:

@@ -221,6 +221,20 @@ export type AutocompleteProps<T extends {}> = {
    * sort = {(items: Item[]) => items.sort((a, b) => a.name.localeCompare(b.name))}
    */
   sort?: (items: T[]) => T[];
+
+  /**
+   * A unique identifier for testing purposes, equivalent to the 'data-testid' attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  testId?: string;
+
   /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
    */
@@ -930,6 +944,7 @@ function Autocomplete<T extends {}>({
       <Input
         className={className}
         id={id}
+        testId={props.testId || id}
         label={label}
         tooltip={tooltip}
         help={help}
@@ -963,6 +978,7 @@ function Autocomplete<T extends {}>({
         extend={tags && tagsContained && tagsDisplay}
         addonBelow={tags && !tagsContained && tagsDisplay}
         {...getInputProps({
+          id: id,
           ref: !tagsContained ? toggleRef : inputRef,
           refKey: "inputRef",
           value: highlightedOption && !allowMultiple ? safeItemToString(highlightedOption) : inputValue,

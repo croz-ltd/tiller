@@ -69,6 +69,19 @@ export type TextareaProps = {
   textareaClassName?: string;
 
   /**
+   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent testId="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  testId?: string;
+
+  /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
    */
   tooltip?: React.ReactNode;
@@ -113,7 +126,7 @@ export default function Textarea({
     { [tokens.error.color]: error },
     { [tokens.error.placeholder]: error },
     { [tokens.error.boxShadow]: error },
-    { [tokens.disabled]: disabled }
+    { [tokens.disabled]: disabled },
   );
 
   const inputContainerClassName = cx("relative", tokens.container.base, { [tokens.container.withLabel]: label });
@@ -134,7 +147,7 @@ export default function Textarea({
       <textarea
         name={name}
         id={id}
-        data-testid={id}
+        data-testid={props.testId || id}
         value={value}
         className={textareaComponentClassName}
         disabled={disabled}
