@@ -393,6 +393,7 @@ function Select<T>({
       containerClassName={className}
     >
       <div className={tokens.container} ref={containerRef}>
+        <div className="w-12 h-12 bg-primary" />
         <button
           className={selectClassName}
           {...getToggleButtonProps({ ref: toggleRef, disabled: isDisabled, onClick: () => setIsMenuOpen(!isMenuOpen) })}
@@ -424,24 +425,22 @@ function Select<T>({
             </div>
           </div>
         </button>
-        {hasOptions && (
-          <Popover
-            className="z-50"
-            targetRef={toggleRef}
-            position={positionMatchWidth}
-            {...getMenuProps({ ref: inputRef }, { suppressRefError: true })}
-          >
-            {isOpen && (
-              <div className={listClassName}>
-                <div className={listInnerClassName}>
-                  <div className={tokens.Items.container}>
-                    <SelectItems />
-                  </div>
+        <Popover
+          className="z-50"
+          targetRef={toggleRef}
+          position={positionMatchWidth}
+          {...getMenuProps({ ref: inputRef }, { suppressRefError: true })}
+        >
+          {isOpen && hasOptions && (
+            <div className={listClassName}>
+              <div className={listInnerClassName}>
+                <div className={tokens.Items.container}>
+                  <SelectItems />
                 </div>
               </div>
-            )}
-          </Popover>
-        )}
+            </div>
+          )}
+        </Popover>
       </div>
     </Field>
   );
