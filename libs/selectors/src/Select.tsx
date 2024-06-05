@@ -393,7 +393,6 @@ function Select<T>({
       containerClassName={className}
     >
       <div className={tokens.container} ref={containerRef}>
-        <div className="w-12 h-12 bg-primary" />
         <button
           className={selectClassName}
           {...getToggleButtonProps({ ref: toggleRef, disabled: isDisabled, onClick: () => setIsMenuOpen(!isMenuOpen) })}
