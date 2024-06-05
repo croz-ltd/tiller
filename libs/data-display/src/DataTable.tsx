@@ -509,8 +509,13 @@ function DataTable<T extends object>({
 
   function mapChildren(children: DataTableChild<T>[]) {
     return children.map((child) => {
+      if (!child) {
+        return undefined;
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       if (Array.isArray(child.props?.children)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         return mapChildren(child.props?.children);
       } else {
