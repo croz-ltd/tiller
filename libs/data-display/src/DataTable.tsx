@@ -38,7 +38,8 @@ import { createNamedContext, findChild } from "@tiller-ds/util";
 
 type DataTableChild<T extends object> =
   | React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>
-  | React.ReactNode;
+  | React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>[]
+  | undefined;
 
 export type DataTableProps<T extends object> = {
   /**
