@@ -36,7 +36,10 @@ import { Checkbox } from "@tiller-ds/form-elements";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
 import { createNamedContext, findChild } from "@tiller-ds/util";
 
-type DataTableChild<T extends object> = React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>;
+type DataTableChild<T extends object> =
+  | React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>
+  | React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>[]
+  | undefined;
 
 export type DataTableProps<T extends object> = {
   /**
@@ -490,12 +493,36 @@ function DataTable<T extends object>({
   const primaryRow = findChild("DataTablePrimaryRow", children);
   const secondaryRow = findChild("DataTableSecondaryRow", children);
   const hasSecondaryColumns = React.isValidElement(secondaryRow);
-  const primaryColumnChildren = React.isValidElement(primaryRow) ? primaryRow.props.children : children;
+
+  const primaryColumnChildren = React.useMemo(() => {
+    return mapChildren(React.isValidElement(primaryRow) ? primaryRow.props.children : children);
+  }, [primaryRow, children]);
+
   const primaryColumnChildrenArray = React.Children.toArray(primaryColumnChildren).filter(Boolean);
   const columnChildrenSize = primaryColumnChildrenArray.length;
 
-  const secondaryColumnChildren = React.isValidElement(secondaryRow) ? secondaryRow.props.children : null;
+  const secondaryColumnChildren = React.useMemo(() => {
+    return React.isValidElement(secondaryRow) ? mapChildren(secondaryRow.props.children) : null;
+  }, [secondaryRow, children]);
+
   const secondaryColumnChildrenArray = React.Children.toArray(secondaryColumnChildren).filter(Boolean);
+
+  function mapChildren(children: DataTableChild<T>[]) {
+    return children.map((child) => {
+      if (!child) {
+        return undefined;
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (Array.isArray(child.props?.children)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return mapChildren(child.props?.children);
+      } else {
+        return child;
+      }
+    });
+  }
 
   const totalColumnChildrenSize = hasSecondaryColumns
     ? secondaryColumnChildrenArray.length + columnChildrenSize
