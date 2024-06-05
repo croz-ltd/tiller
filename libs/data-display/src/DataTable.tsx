@@ -220,7 +220,7 @@ type DataTableExpanderProps<T extends object> = {
    * @param {number} index - The index of the row.
    * @returns {React.ReactNode} - The custom component to render.
    */
-  customComponent?: (item: T, index: number) => React.ReactNode;
+  predicateFallback?: (item: T, index: number) => React.ReactNode;
   /**
    * Expander content displayed when the expander is clicked.
    *
@@ -1048,7 +1048,7 @@ function extractColumns<T extends object>(
       const Cell = child.props.predicate
         ? ({ row }: { row: Row<T> }) =>
             predicate(row.original, row.index) ? (
-              child.props.customComponent(row.original, row.index)
+              child.props.predicateFallback && child.props.predicateFallback(row.original, row.index)
             ) : (
               <ExpanderCell row={row} />
             )

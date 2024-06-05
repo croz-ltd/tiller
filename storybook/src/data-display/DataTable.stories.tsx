@@ -655,7 +655,7 @@ export const WithConditionalExpanderAtEnd = (args) => (
     <DataTable.Column header="Name" accessor="name" />
     <DataTable.Expander
       predicate={(_: Item, index: number) => index % 2 === 1}
-      customComponent={(item: Item, _: number) => <p>{item.name}'s details not specified</p>}
+      predicateFallback={(item: Item, _: number) => <p>{item.name}'s details not specified</p>}
       className="w-[500px] text-right"
     >
       {(item: Item) => (
