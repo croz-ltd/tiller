@@ -25,7 +25,10 @@ import {
   Row,
   SortingRule,
   useExpanded,
-   useRowSelect, useSortBy, useTable } from "react-table";
+  useRowSelect,
+  useSortBy,
+  useTable,
+} from "react-table";
 
 import { Card, CardHeaderProps } from "@tiller-ds/core";
 import { Checkbox } from "@tiller-ds/form-elements";
@@ -549,6 +552,10 @@ function DataTable<T extends object>({
   const secondaryColumnChildrenArray = React.Children.toArray(secondaryColumnChildren).filter(Boolean);
 
   function mapChildren(children: DataTableChild<T>[]) {
+    if (!Array.isArray(children)) {
+      return children;
+    }
+
     return children.map((child) => {
       if (!child) {
         return undefined;
