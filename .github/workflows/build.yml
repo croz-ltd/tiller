@@ -22,18 +22,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Volta
-        run: |
-          curl https://get.volta.sh | bash
-          export VOLTA_HOME="$HOME/.volta"
-          export PATH="$VOLTA_HOME/bin:$PATH"
-          volta install node yarn
+      - name: Setup Volta
+        uses: volta-cli/action@v4
 
       - name: Install dependencies
-        run: volta run yarn install --immutable
+        run: yarn install --immutable
 
       - name: Build all modules
-        run: volta run yarn build
+        run: yarn build
 
       - name: Build Storybook
         run: yarn run build-storybook
