@@ -28,6 +28,13 @@ jobs:
           node-version: 16.17.1
           cache: 'yarn'
 
+      - name: Install Volta
+        run: |
+          curl https://get.volta.sh | bash
+          export VOLTA_HOME="$HOME/.volta"
+          export PATH="$VOLTA_HOME/bin:$PATH"
+          volta install node@16.17.1 yarn@3.8.0
+
       - name: Install dependencies
         run: yarn install --immutable
 
