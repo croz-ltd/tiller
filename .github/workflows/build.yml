@@ -22,24 +22,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node LTS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16.17.1
-          cache: 'yarn'
-
       - name: Install Volta
         run: |
           curl https://get.volta.sh | bash
           export VOLTA_HOME="$HOME/.volta"
           export PATH="$VOLTA_HOME/bin:$PATH"
-          volta install node@16.17.1 yarn@3.8.0
+          volta install node yarn
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: volta run yarn install --immutable
 
       - name: Build all modules
-        run: yarn build
+        run: volta run yarn build
 
       - name: Build Storybook
         run: yarn run build-storybook
