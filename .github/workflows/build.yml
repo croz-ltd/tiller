@@ -22,11 +22,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node LTS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16.17.1
-          cache: 'yarn'
+      - name: Setup Volta
+        uses: volta-cli/action@v4
 
       - name: Install dependencies
         run: yarn install --immutable
