@@ -690,9 +690,10 @@ type InitEditorProps = {
 
 function InitEditor({ initialHtml }: InitEditorProps) {
   const [editor] = useLexicalComposerContext();
+  const isEditorInitialized = useRef<boolean>(false);
 
   useEffect(() => {
-    initialHtml &&
+    if (initialHtml && !isEditorInitialized.current) {
       editor.update(() => {
         const parser = new DOMParser();
         const dom = parser.parseFromString(initialHtml, "text/html");
@@ -700,7 +701,9 @@ function InitEditor({ initialHtml }: InitEditorProps) {
         const root = $getRoot();
         root.selectEnd();
         $insertNodes(nodes);
+        isEditorInitialized.current = true;
       });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
