@@ -627,6 +627,7 @@ function Autocomplete<T extends {}>({
   const selectClassName = cx(
     autocompleteTokens.Select.base,
     { [autocompleteTokens.Select.active]: !disabled },
+    { [autocompleteTokens.Select.disabled]: disabled },
     { "pt-2.5": tags && tagsContained && !value },
   );
 
