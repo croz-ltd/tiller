@@ -690,20 +690,17 @@ type InitEditorProps = {
 
 function InitEditor({ initialHtml }: InitEditorProps) {
   const [editor] = useLexicalComposerContext();
-  const isEditorInitialized = useRef<boolean>(false);
 
   useEffect(() => {
-    if (initialHtml && !isEditorInitialized.current) {
+    initialHtml &&
       editor.update(() => {
         const parser = new DOMParser();
         const dom = parser.parseFromString(initialHtml, "text/html");
         const nodes = $generateNodesFromDOM(editor, dom);
         const root = $getRoot();
-        root.selectEnd();
+        root.clear();
         $insertNodes(nodes);
-        isEditorInitialized.current = true;
       });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
