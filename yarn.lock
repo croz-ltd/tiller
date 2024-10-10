@@ -5247,7 +5247,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/html@npm:0.11.3":
+"@lexical/html@npm:0.11.3, @lexical/html@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/html@npm:0.11.3"
   dependencies:
@@ -5258,7 +5258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/link@npm:0.11.3":
+"@lexical/link@npm:0.11.3, @lexical/link@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/link@npm:0.11.3"
   dependencies:
@@ -5269,7 +5269,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/list@npm:0.11.3":
+"@lexical/list@npm:0.11.3, @lexical/list@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/list@npm:0.11.3"
   dependencies:
@@ -5367,7 +5367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/rich-text@npm:0.11.3":
+"@lexical/rich-text@npm:0.11.3, @lexical/rich-text@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/rich-text@npm:0.11.3"
   peerDependencies:
@@ -5379,7 +5379,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/selection@npm:0.11.3":
+"@lexical/selection@npm:0.11.3, @lexical/selection@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/selection@npm:0.11.3"
   peerDependencies:
@@ -5388,7 +5388,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/table@npm:0.11.3":
+"@lexical/table@npm:0.11.3, @lexical/table@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/table@npm:0.11.3"
   dependencies:
@@ -5408,7 +5408,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lexical/utils@npm:0.11.3":
+"@lexical/utils@npm:0.11.3, @lexical/utils@npm:^0.11.0":
   version: 0.11.3
   resolution: "@lexical/utils@npm:0.11.3"
   dependencies:
@@ -29365,7 +29365,14 @@ resolve@^2.0.0-next.3:
     "@babel/preset-typescript": 7.12.13
     "@datepicker-react/hooks": 2.3.1
     "@fullhuman/postcss-purgecss": ^2.3.0
+    "@lexical/html": ^0.11.0
+    "@lexical/link": ^0.11.0
+    "@lexical/list": ^0.11.0
     "@lexical/react": ^0.11.0
+    "@lexical/rich-text": ^0.11.0
+    "@lexical/selection": ^0.11.0
+    "@lexical/table": ^0.11.0
+    "@lexical/utils": ^0.11.0
     "@nrwl/cli": 12.10.0
     "@nrwl/cypress": 12.10.0
     "@nrwl/eslint-plugin-nx": 12.10.0

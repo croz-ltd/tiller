@@ -18,7 +18,28 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.14.2 - latest** <span>_(June 19th 2024)_</span>
+## **1.15.0 - latest** <span>_(Oct 10th 2024)_</span>
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- Fixed visual inconsistencies between disabled input components, specifically `Input` and `Select` ([#273](https://github.com/croz-ltd/tiller/issues/273))
+- Fixed duplication of `RichTextEditor`'s `initialHtml` prop on dev environments ([#274](https://github.com/croz-ltd/tiller/issues/274))
+- Fixed unresponsiveness of `RichTextEditor`'s table, link and list functionalities ([#277](https://github.com/croz-ltd/tiller/issues/277))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- Added localization for all `RichTextEditor`'s text elements by adding new translations to the now-exported `defaultIntlDictionary` ([#236](https://github.com/croz-ltd/tiller/issues/236))
+  - to ensure translations are displayed correctly, the [necessary keys](https://github.com/croz-ltd/tiller/blob/a7e21a61dea4397c12105ffdad53e6c5671f8b28/libs/intl/src/intlDictionary.js#L96) must be included in the dictionary provided to the `IntlProvider`
+    (more info [here](https://croz-ltd.github.io/tiller/?path=/docs/component-library-intl-intl--basic#default-intl-dictionary))
+
+**<h4>📚 Docs Improvements</h4>**
+
+- Updated documentation for `Intl` ([docs](https://croz-ltd.github.io/tiller/?path=/docs/component-library-intl-intl--basic)) with newly-added
+  `RichTextEditor` translation keys ([#236](https://github.com/croz-ltd/tiller/issues/236))
+  - the [defaultIntlDictionary](https://github.com/croz-ltd/tiller/blob/master/libs/intl/src/intlDictionary.js) (with all required component translations)
+    can now be imported from the `@tiller-ds/intl` module for usage and/or merging with custom dictionaries
+
+## 1.14.2 <span>_(June 19th 2024)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
@@ -30,7 +51,7 @@ import { Meta } from "@storybook/addon-docs";
 
 - Fixed `DataTable` crashing if rendered with one child in a row ([#266](https://github.com/croz-ltd/tiller/issues/266))
 
-## **1.14.0** <span>_(June 5th 2024)_</span>
+## 1.14.0 <span>_(June 5th 2024)_</span>
 
 **<h4>🐛 Bug Fixes</h4>**
 
