@@ -698,7 +698,7 @@ function InitEditor({ initialHtml }: InitEditorProps) {
         const dom = parser.parseFromString(initialHtml, "text/html");
         const nodes = $generateNodesFromDOM(editor, dom);
         const root = $getRoot();
-        root.selectEnd();
+        root.clear();
         $insertNodes(nodes);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
