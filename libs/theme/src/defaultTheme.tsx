@@ -125,6 +125,7 @@ const defaultComponentConfig = {
     Select: {
       base: "-m-2 pl-2 flex flex-col",
       active: "pointer-events-auto cursor-pointer hover:text-slate-700 ",
+      disabled: "opacity-50",
     },
     Separator: {
       container: "pl-2",
@@ -1013,7 +1014,7 @@ const defaultComponentConfig = {
       autocomplete: "py-2 pl-3 pr-20",
     },
     boxShadow: `focus-within:ring focus-within:outline-none focus-within:ring-primary-light`,
-    disabled: "opacity-50",
+    disabled: "opacity-50 bg-slate-100",
     addOn: {
       master: "flex-1 block",
       padding: "py-2 px-3",
@@ -1444,7 +1445,7 @@ const defaultComponentConfig = {
       fontSize: "sm:text-sm",
       lineHeight: "sm:leading-5",
       error: `border border-danger text-danger-dark placeholder-danger focus:ring focus:border-danger-300 focus:ring-danger-light`,
-      disabled: "opacity-50",
+      disabled: "opacity-50 bg-slate-100",
       input: "absolute w-0 h-0",
     },
     container: "relative w-full",
@@ -1701,7 +1702,7 @@ const defaultComponentConfig = {
         color: "text-danger",
       },
     },
-    disabled: "opacity-50",
+    disabled: "opacity-50 bg-slate-100",
   },
   TimePicker: {
     container: "w-full flex flex-col items-center justify-center bg-white shadow p-2 left-0",
