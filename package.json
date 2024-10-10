@@ -26,6 +26,13 @@
   "dependencies": {
     "@datepicker-react/hooks": "2.3.1",
     "@lexical/react": "^0.11.0",
+    "@lexical/html": "^0.11.0",
+    "@lexical/list": "^0.11.0",
+    "@lexical/link": "^0.11.0",
+    "@lexical/selection": "^0.11.0",
+    "@lexical/rich-text": "^0.11.0",
+    "@lexical/table": "^0.11.0",
+    "@lexical/utils": "^0.11.0",
     "@reach/dialog": "^0.10.1",
     "@reach/menu-button": "^0.10.1",
     "@reach/popover": "^0.10.2",
