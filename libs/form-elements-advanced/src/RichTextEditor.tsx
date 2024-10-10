@@ -20,6 +20,7 @@ import React, { useEffect, useRef } from "react";
 import { Modal, useModal } from "@tiller-ds/alert";
 import { Button, IconButton } from "@tiller-ds/core";
 import { Input } from "@tiller-ds/form-elements";
+import { Intl } from "@tiller-ds/intl";
 import { DropdownMenu } from "@tiller-ds/menu";
 import { useIcon, useTokens } from "@tiller-ds/theme";
 
@@ -329,27 +330,21 @@ function RichTextEditorToolbar(): JSX.Element {
 
   return (
     <div className="bg-neutral-50 border border-neutral-100 flex flex-wrap items-center gap-2 px-1 py-1">
-      <IconButton
-        icon={undoIcon}
-        label="Undo"
-        buttonClassName={canUndo ? buttonClasses : buttonClassesDisabled}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined);
-        }}
-      />
-      <IconButton
-        icon={redoIcon}
-        label="Redo"
-        buttonClassName={canRedo ? buttonClasses : buttonClassesDisabled}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined);
-        }}
-      />
-
-      <DropdownMenu title={blockTypeToBlockName[blockType]} className="bg-transparent border-0" menuType="icon">
-        <DropdownMenu.Item onSelect={updateSelectionToParagraphNode}>Normal</DropdownMenu.Item>
+      <DropdownMenu
+        title={<Intl name={`richTextEditor.actions.textStyles.${blockType === "paragraph" ? "normal" : blockType}`} />}
+        className="bg-transparent border-0 w-[150px] justify-between"
+        menuType="text"
+      >
+        <DropdownMenu.Item
+          onSelect={updateSelectionToParagraphNode}
+          key="text-normal"
+          className={blockType === "paragraph" ? "bg-neutral-100" : ""}
+        >
+          <Intl name="richTextEditor.actions.textStyles.normal" />
+        </DropdownMenu.Item>
         {[...Array(6)].map((e, i) => (
           <DropdownMenu.Item
+            key={`text-h${i + 1}`}
             onSelect={() => {
               editor.update(() => {
                 const selection = $getSelection();
@@ -360,26 +355,28 @@ function RichTextEditorToolbar(): JSX.Element {
                 }
               });
             }}
+            className={blockType === `h${i + 1}` ? "bg-neutral-100" : ""}
           >
-            Heading {i + 1}
+            <Intl name={`richTextEditor.actions.textStyles.h${i + 1}`} />
           </DropdownMenu.Item>
         ))}
       </DropdownMenu>
+      <div className="relative inline-block text-left w-1 h-[36px] border-r border-neutral-200" />
       <IconButton
         icon={listBulletsIcon}
-        label="Unordered list"
+        label={<Intl name="richTextEditor.actions.unorderedList" />}
         buttonClassName={listType === "bullet" ? buttonClassesActive : buttonClasses}
         onClick={toggleBullet}
       />
       <IconButton
         icon={listNumbersIcon}
-        label="Ordered list"
+        label={<Intl name="richTextEditor.actions.orderedList" />}
         buttonClassName={listType === "number" ? buttonClassesActive : buttonClasses}
         onClick={toggleOrderedList}
       />
       <IconButton
         icon={textItalicIcon}
-        label="Italic"
+        label={<Intl name="richTextEditor.actions.italic" />}
         buttonClassName={isItalic ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic");
@@ -387,7 +384,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textBolderIcon}
-        label="Bold"
+        label={<Intl name="richTextEditor.actions.bold" />}
         buttonClassName={isBold ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold");
@@ -395,7 +392,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textUnderlineIcon}
-        label="Underline"
+        label={<Intl name="richTextEditor.actions.underline" />}
         buttonClassName={isUnderline ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline");
@@ -403,7 +400,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textStrikethroughIcon}
-        label="Strikethrough"
+        label={<Intl name="richTextEditor.actions.strikethrough" />}
         buttonClassName={isStrikethrough ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough");
@@ -411,7 +408,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textIndentIcon}
-        label="Indent"
+        label={<Intl name="richTextEditor.actions.indent" />}
         buttonClassName={buttonClasses}
         onClick={() => {
           editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined);
@@ -419,7 +416,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textOutdentIcon}
-        label="Outdent"
+        label={<Intl name="richTextEditor.actions.outdent" />}
         buttonClassName={buttonClasses}
         onClick={() => {
           editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined);
@@ -427,7 +424,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textAlignLeftIcon}
-        label="Left align"
+        label={<Intl name="richTextEditor.actions.leftAlign" />}
         buttonClassName={elementAlign === "left" || elementAlign === "" ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left");
@@ -435,7 +432,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textAlignCenterIcon}
-        label="Center align"
+        label={<Intl name="richTextEditor.actions.centerAlign" />}
         buttonClassName={elementAlign === "center" ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center");
@@ -443,7 +440,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textAlignRightIcon}
-        label="Right align"
+        label={<Intl name="richTextEditor.actions.rightAlign" />}
         buttonClassName={elementAlign === "right" ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right");
@@ -451,28 +448,61 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={textAlignJustifyIcon}
-        label="Justify"
+        label={<Intl name="richTextEditor.actions.justify" />}
         buttonClassName={elementAlign === "justify" ? buttonClassesActive : buttonClasses}
         onClick={() => {
           editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify");
         }}
       />
 
-      <IconButton icon={tableIcon} label="Insert table" buttonClassName={buttonClasses} onClick={tableModal.onOpen} />
+      <IconButton
+        icon={tableIcon}
+        label={<Intl name="richTextEditor.actions.insertTable" />}
+        buttonClassName={buttonClasses}
+        onClick={tableModal.onOpen}
+      />
       <IconButton
         icon={isLink ? linkBreakIcon : linkIcon}
-        label={isLink ? "Edit link" : "Insert link"}
+        label={
+          isLink ? <Intl name="richTextEditor.actions.editLink" /> : <Intl name="richTextEditor.actions.insertLink" />
+        }
         buttonClassName={isLink ? buttonClassesActive : buttonClasses}
         onClick={linkModal.onOpen}
       />
-
+      <div className="relative inline-block text-left w-1 h-[36px] border-l border-neutral-200" />
+      <IconButton
+        icon={undoIcon}
+        label={<Intl name="richTextEditor.actions.undo" />}
+        buttonClassName={canUndo ? buttonClasses : buttonClassesDisabled}
+        onClick={() => {
+          editor.dispatchCommand(UNDO_COMMAND, undefined);
+        }}
+      />
+      <IconButton
+        icon={redoIcon}
+        label={<Intl name="richTextEditor.actions.redo" />}
+        buttonClassName={canRedo ? buttonClasses : buttonClassesDisabled}
+        onClick={() => {
+          editor.dispatchCommand(REDO_COMMAND, undefined);
+        }}
+      />
       <Modal {...tableModal}>
-        <Modal.Content title="Insert table">
-          <div className="mb-3">
-            <Input name="rows" label="Rows" onChange={handleInputRowsChange} value={tableRowsInput} />
+        <Modal.Content title={<Intl name="richTextEditor.actions.insertTable" />}>
+          <div className="my-4">
+            <Input
+              name="rows"
+              label={<Intl name="richTextEditor.actions.insertTable.rows" />}
+              onChange={handleInputRowsChange}
+              value={tableRowsInput}
+            />
           </div>
           <div>
-            <Input name="columns" label="Columns" onChange={handleInputColsChange} value={tableColsInput} />
+            <Input
+              name="columns"
+              label={<Intl name="richTextEditor.actions.insertTable.columns" />}
+              onChange={handleInputColsChange}
+              value={tableColsInput}
+            />
           </div>
         </Modal.Content>
 
@@ -488,16 +518,22 @@ function RichTextEditorToolbar(): JSX.Element {
               tableModal.onClose();
             }}
           >
-            Add table
+            <Intl name="richTextEditor.actions.insertTable.add" />
           </Button>
           <Button onClick={tableModal.onClose} color="primary" variant="outlined">
-            Cancel
+            <Intl name="richTextEditor.actions.insertTable.cancel" />
           </Button>
         </Modal.Footer>
       </Modal>
       <Modal {...linkModal}>
-        <Modal.Content title="Add link">
-          <Input name="link" label="Link URL" onChange={handleLinkChange} value={linkURL} />
+        <Modal.Content title={<Intl name="richTextEditor.actions.insertLink" />}>
+          <Input
+            name="link"
+            label={<Intl name="richTextEditor.actions.insertLink.url" />}
+            className="my-4"
+            onChange={handleLinkChange}
+            value={linkURL}
+          />
         </Modal.Content>
 
         <Modal.Footer>
@@ -508,10 +544,10 @@ function RichTextEditorToolbar(): JSX.Element {
               linkModal.onClose();
             }}
           >
-            Add link
+            <Intl name="richTextEditor.actions.insertLink.add" />
           </Button>
           <Button onClick={linkModal.onClose} color="primary" variant="outlined">
-            Cancel
+            <Intl name="richTextEditor.actions.insertLink.cancel" />
           </Button>
           <Button
             onClick={() => {
@@ -521,7 +557,7 @@ function RichTextEditorToolbar(): JSX.Element {
             color="danger"
             className="sm:mr-auto"
           >
-            Remove link
+            <Intl name="richTextEditor.actions.insertLink.remove" />
           </Button>
         </Modal.Footer>
       </Modal>

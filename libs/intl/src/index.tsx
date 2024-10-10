@@ -35,3 +35,4 @@ export { default as Intl } from "./Intl";
 export { default as IntlProvider, useIntl } from "./IntlProvider";
 export { useIntlContext } from "./useIntlContext";
 export { useLabel } from "./useLabel";
+export { default as defaultIntlDictionary } from "./intlDictionary";
