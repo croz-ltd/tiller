@@ -44,7 +44,7 @@ import {
   ListType,
 } from "@lexical/list";
 import { $isLinkNode, TOGGLE_LINK_COMMAND, LinkNode } from "@lexical/link";
-import { $wrapNodes, $isAtNodeEnd } from "@lexical/selection";
+import { $setBlocksType, $isAtNodeEnd } from "@lexical/selection";
 import { $createHeadingNode, HeadingNode, $isHeadingNode } from "@lexical/rich-text";
 import { INSERT_TABLE_COMMAND, TableNode, TableCellNode, TableRowNode } from "@lexical/table";
 
@@ -253,7 +253,7 @@ function RichTextEditorToolbar(): JSX.Element {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
         if (listType === "none") {
-          $wrapNodes(selection, () => $createParagraphNode());
+          $setBlocksType(selection, () => $createParagraphNode());
         }
       }
     });
@@ -264,7 +264,7 @@ function RichTextEditorToolbar(): JSX.Element {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
         if (listType === "bullet") {
-          $wrapNodes(selection, () => $createParagraphNode());
+          $setBlocksType(selection, () => $createParagraphNode());
         } else {
           editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
         }
@@ -277,7 +277,7 @@ function RichTextEditorToolbar(): JSX.Element {
       const selection = $getSelection();
       if ($isRangeSelection(selection)) {
         if (listType === "number") {
-          $wrapNodes(selection, () => $createParagraphNode());
+          $setBlocksType(selection, () => $createParagraphNode());
         } else {
           editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
         }
@@ -356,7 +356,7 @@ function RichTextEditorToolbar(): JSX.Element {
                 if ($isRangeSelection(selection)) {
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
-                  $wrapNodes(selection, () => $createHeadingNode(`h${i + 1}`));
+                  $setBlocksType(selection, () => $createHeadingNode(`h${i + 1}`));
                 }
               });
             }}
@@ -519,6 +519,7 @@ function RichTextEditorToolbar(): JSX.Element {
               linkModal.onClose();
             }}
             color="danger"
+            variant="outlined"
             className="sm:mr-auto"
           >
             Remove link
@@ -588,8 +589,8 @@ export default function RichTextEditor({ initialHtml, onHtmlChange }: RichTextEd
       nested: {
         listitem: "list-none",
       },
-      ul: "list-disc list-inside pl-5",
-      ol: "list-decimal list-inside pl-5",
+      ul: `list-disc list-inside pl-5 ${generateParagraphStyles()}`,
+      ol: `list-decimal list-inside pl-5 ${generateParagraphStyles()}`,
     },
     text: {
       bold: "font-bold",
