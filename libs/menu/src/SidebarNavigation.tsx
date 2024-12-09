@@ -367,6 +367,7 @@ export function SidebarNavigationDropdown({
   iconColor,
   popupBackgroundColor,
   buttonVariant = "filled",
+  visibleItemCount,
   className,
   ...props
 }: SidebarNavigationDropdownProps) {
@@ -405,6 +406,7 @@ export function SidebarNavigationDropdown({
           openExpanderIcon={icon}
           closeExpanderIcon={icon}
           iconColor={iconColor}
+          visibleItemCount={visibleItemCount}
           popupBackgroundColor={popupBackgroundColor || "default"}
         >
           <div className="px-2">{children}</div>
