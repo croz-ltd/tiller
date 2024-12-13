@@ -21,6 +21,7 @@ import {
   ThemeConfigFactory as InternalThemeConfigFactory,
   IconConfig as InternalIconConfig,
   IconProps as InternalIconProps,
+  IconVariant as InternalIconVariant,
 } from "./defaultTheme";
 import { TokenProps as InternalTokenProps, ComponentTokens as InternalComponentTokens } from "./useTokens";
 
@@ -29,6 +30,7 @@ export type ThemeConfigFactory = InternalThemeConfigFactory;
 export type ThemeComponentType = InternalThemeComponentType;
 export type IconConfig = InternalIconConfig;
 export type IconProps = InternalIconProps;
+export type IconVariant = InternalIconVariant;
 export type TokenProps<T extends ThemeComponentType> = InternalTokenProps<T>;
 export type ComponentTokens<T extends ThemeComponentType> = InternalComponentTokens<T>;
 

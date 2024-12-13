@@ -17,13 +17,13 @@
 
 import * as React from "react";
 
-import { cx } from "@tiller-ds/theme";
+import { cx, IconVariant as ThemeIconVariant } from "@tiller-ds/theme";
 
 import iconTypes from "./iconTypes";
 
 export type IconType = typeof iconTypes[number] | undefined;
 
-export type IconVariant = "thin" | "light" | "regular" | "bold" | "fill";
+export type IconVariant = ThemeIconVariant;
 
 export type IconProps = {
   /**

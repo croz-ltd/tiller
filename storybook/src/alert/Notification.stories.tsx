@@ -44,6 +44,14 @@ export default {
 
 export const Simple = () => (
   <Notification
+    title={<Intl name="notificationTitle" />}
+    content={<Intl name="notificationContent" />}
+    onDismiss={() => {}}
+  />
+);
+
+export const WithIcon = () => (
+  <Notification
     icon={<Icon type="check-circle" size={6} variant="fill" className="text-success" />}
     title={<Intl name="notificationTitle" />}
     content={<Intl name="notificationContent" />}
@@ -111,4 +119,65 @@ export const WithActionsRight = () => (
       </Link>,
     ]}
   />
+);
+
+export const WithPredefinedStyle = () => (
+  <Notification
+    type="success"
+    title={<Intl name="notificationTitle" />}
+    content={<Intl name="notificationContent" />}
+    onDismiss={() => {}}
+  />
+);
+
+export const WithPredefinedStyleAndNoAccent = () => (
+  <Notification
+    type="success"
+    disableAccent={true}
+    title={<Intl name="notificationTitle" />}
+    content={<Intl name="notificationContent" />}
+    onDismiss={() => {}}
+  />
+);
+
+export const WithPredefinedStyleAndModifiedIcons = () => (
+  <Notification
+    type="success"
+    iconProps={{
+      mainIcon: { variant: "thin", size: 7, className: "text-success" },
+      dismissIcon: { variant: "thin", size: 4, className: "text-success-dark" },
+    }}
+    title={<Intl name="notificationTitle" />}
+    content={<Intl name="notificationContent" />}
+    onDismiss={() => {}}
+  />
+);
+
+export const AllPredefinedStyles = () => (
+  <div className="flex flex-col space-y-4">
+    <Notification
+      type="success"
+      title={<Intl name="notificationTitle" />}
+      content={<Intl name="notificationContent" />}
+      onDismiss={() => {}}
+    />
+    <Notification
+      type="info"
+      title={<Intl name="notificationTitle" />}
+      content={<Intl name="notificationContent" />}
+      onDismiss={() => {}}
+    />
+    <Notification
+      type="danger"
+      title={<Intl name="notificationTitle" />}
+      content={<Intl name="notificationContent" />}
+      onDismiss={() => {}}
+    />
+    <Notification
+      type="warning"
+      title={<Intl name="notificationTitle" />}
+      content={<Intl name="notificationContent" />}
+      onDismiss={() => {}}
+    />
+  </div>
 );
