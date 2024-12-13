@@ -1226,7 +1226,7 @@ const defaultComponentConfig = {
       },
       borderRadius: "rounded-xl",
       boxShadow: "drop-shadow-xl",
-      inner: {
+      outer: {
         base: "rounded-lg flex items-start shadow-xs overflow-hidden ",
         regular: "p-3",
         condensed: "p-2",

@@ -165,9 +165,9 @@ export default function Notification({
   );
 
   const innerContainerClassName = cx(
-    tokens.Container.inner.base,
-    { [tokens.Container.inner.regular]: !condensed },
-    { [tokens.Container.inner.condensed]: condensed },
+    tokens.Container.outer.base,
+    { [tokens.Container.outer.regular]: !condensed },
+    { [tokens.Container.outer.condensed]: condensed },
   );
 
   const containerClassName = cx(
