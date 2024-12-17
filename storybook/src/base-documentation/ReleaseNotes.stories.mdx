@@ -18,11 +18,39 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.15.1 - latest** <span>_(Dec 9th 2024)_</span>
+## **1.16.0 - latest** <span>_(Dec 17th 2024)_</span>
+
+**<h4>🚨 Breaking changes </h4>**
+
+1. `TreeSelect` - `placeholder` prop now only accepts a `string` type instead of `React.ReactNode` to align with the new typing enhancements
+2. `TreeSelect` - `itemToString` prop has been made mandatory to ensure proper functionality of the component
 
 **<h4>🐛 Bug Fixes</h4>**
 
-- FFixed propagating `visibleItemCount` on `SidebarNavigation` ([#284](https://github.com/croz-ltd/tiller/issues/284))
+- Fixed an issue where `Select` and `SelectField` components did not handle a return value of 0 correctly ([#291](https://github.com/croz-ltd/tiller/issues/291))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- **Revamped `TreeSelect`** by introducing typing support and improved functionality with additional props ([#282](https://github.com/croz-ltd/tiller/issues/282))
+
+  - `itemToString` - converts an item into a string representation to display the selected item as text in the input field (also used for filtering the options if the `filter` prop is not provided)
+  - `filter` - determines how options are filtered as the user types into the input field (If this prop is undefined, filtering falls back to using the `itemToString` function)
+  - moved styles into newly added `TreeSelect` tokens (the component no longer loads `Select`'s tokens)
+  - introduced the `testId` prop for easier testing
+  - for full prop details and usage, see [TreeSelect prop docs](https://croz-ltd.github.io/tiller/?path=/docs/component-library-selectors-treeselect--with-label#tree-select-props)
+
+- Enhanced `Notification` component with more customization options ([#283](https://github.com/croz-ltd/tiller/issues/283))
+  - `type` - changes the default look and feel of the notification (`success`/`info`/`danger`/`warning`)
+  - `disableAccent` - disables the accent background color that follows the `type` prop's look and feel
+  - `iconProps` - enables modifying `size`, `className` and `variant` props of default main and dismiss icons
+  - improved visuals for better UX
+- Changed the `title` prop type on `TopNavigation` and `SidebarNavigation` components to `React.ReactNode` for greater flexibility in usage ([#287](https://github.com/croz-ltd/tiller/issues/287))
+
+## 1.15.1 <span>_(Dec 9th 2024)_</span>
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- Fixed propagating `visibleItemCount` on `SidebarNavigation` ([#284](https://github.com/croz-ltd/tiller/issues/284))
 
 ## 1.15.0 <span>_(Oct 10th 2024)_</span>
 
