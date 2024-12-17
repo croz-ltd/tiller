@@ -116,7 +116,6 @@ export const WithValueLabel = () => (
   <TreeSelectField
     {...commonProps}
     name="nameWithTreeItem"
-    disabled
     getValueLabel={(item) => (
       <>
         {item.code} {item.name}
