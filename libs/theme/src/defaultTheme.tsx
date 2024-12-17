@@ -1466,7 +1466,7 @@ const defaultComponentConfig = {
         padding: "p-2",
         margin: "-m-2 ml-2",
       },
-      active: "pointer-events-auto cursor-pointer",
+      active: "pointer-events-auto cursor-pointer hover:text-slate-700",
     },
     List: {
       master: "w-full outline-none",
