@@ -28,7 +28,7 @@ import { Meta } from "@storybook/addon-docs";
 
 - **Revamped `TreeSelect`** by introducing typing support and improved functionality with additional props ([#282](https://github.com/croz-ltd/tiller/issues/282))
 
-  - `itemToString` - converts an item of type `T` into a string representation to display the selected item as text in the input field (also used for filtering the options if the `filter` prop is not provided)
+  - `itemToString` - converts an item into a string representation to display the selected item as text in the input field (also used for filtering the options if the `filter` prop is not provided)
   - `filter` - determines how options are filtered as the user types into the input field (If this prop is undefined, filtering falls back to using the `itemToString` function)
   - introduced the `testId` prop for easier testing
   - for full prop details and usage, see [TreeSelect prop docs](https://croz-ltd.github.io/tiller/?path=/docs/component-library-selectors-treeselect--with-label#tree-select-props)
