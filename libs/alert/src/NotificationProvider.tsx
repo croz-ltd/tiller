@@ -24,6 +24,7 @@ import { createNamedContext } from "@tiller-ds/util";
 import Notification from "./Notification";
 import NotificationContainer from "./NotificationContainer";
 import { NotificationPosition } from "./NotificationPositionType";
+import { InternalNotificationProps } from "./index";
 
 type NotificationProviderProps = {
   /**
@@ -45,47 +46,7 @@ type NotificationProviderProps = {
   children: React.ReactNode;
 };
 
-export type NotificationProps = {
-  /**
-   * An array containing the components to be displayed under the title and description.
-   * Most often buttons or hyperlinks.
-   */
-  actions?: React.ReactNode[];
-
-  /**
-   * Defines whether the clear button is shown on the component.
-   * Turned on by default.
-   */
-  closeButton?: boolean;
-
-  /**
-   * Optional description of the notification displayed under the title.
-   * Previously named "subtitle".
-   */
-  content?: React.ReactNode;
-
-  /**
-   * Custom timeout value, describing how long the notification stays on screen when rendered.
-   * Defaults to 3000 ms (3 seconds).
-   */
-  timeout?: number;
-
-  /**
-   * Optional icon located on the left side of the notification text title.
-   */
-  icon?: React.ReactElement;
-
-  /**
-   * Function which, by default, closes the notification on click (if closeButton prop is enabled),
-   * An additional optional custom function can be defined here, to execute alongside the process of closing the notification.
-   */
-  onDismiss?: () => void;
-
-  /**
-   * The title displayed accentuated above the optional description.
-   */
-  title: string | React.ReactElement;
-};
+export type NotificationProps = InternalNotificationProps;
 
 type NotificationContext = {
   notifications: NotificationProps[];
@@ -147,12 +108,8 @@ export default function NotificationProvider({
         {notifications.notifications.map((notification, key) => (
           <Notification
             key={key}
-            title={notification.title}
-            content={notification.content}
-            icon={notification.icon}
-            actions={notification.actions}
+            {...notification}
             timeout={notification.timeout || timeout}
-            closeButton={notification.closeButton}
             onDismiss={() => handleDismiss(notification)}
           />
         ))}

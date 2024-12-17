@@ -29,7 +29,6 @@ const iconConfig: IconConfig = {
   paginatorPrevious: (props: Partial<IconProps>) => <Icon type="caret-left" {...props} />,
   paginatorNext: (props: Partial<IconProps>) => <Icon type="caret-right" {...props} />,
   completed: (props: Partial<IconProps>) => <Icon type="check" variant="bold" {...props} />,
-  warning: (props: Partial<IconProps>) => <Icon type="warning" variant="fill" {...props} />,
   sortDesc: (props: Partial<IconProps>) => <Icon type="caret-down" variant="bold" {...props} />,
   sortAsc: (props: Partial<IconProps>) => <Icon type="caret-up" variant="bold" {...props} />,
   date: (props: Partial<IconProps>) => <Icon type="calendar-blank" variant="fill" {...props} />,
@@ -59,5 +58,9 @@ const iconConfig: IconConfig = {
   table: (props: Partial<IconProps>) => <Icon type="table" {...props} />,
   link: (props: Partial<IconProps>) => <Icon type="link-simple-break" {...props} />,
   linkBreak: (props: Partial<IconProps>) => <Icon type="link" {...props} />,
+  success: (props: Partial<IconProps>) => <Icon type="check-circle" variant="fill" {...props} />,
+  info: (props: Partial<IconProps>) => <Icon type="info" variant="fill" {...props} />,
+  danger: (props: Partial<IconProps>) => <Icon type="x-circle" variant="fill" {...props} />,
+  warning: (props: Partial<IconProps>) => <Icon type="warning-circle" variant="fill" {...props} />,
 };
 export default iconConfig;

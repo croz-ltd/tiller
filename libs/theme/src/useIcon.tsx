@@ -26,14 +26,18 @@ type AppIconType = keyof IconConfig;
 export default function useIcon(
   iconName: AppIconType,
   override?: React.ReactElement,
-  iconProps?: Partial<IconProps>
+  iconProps?: Partial<IconProps>,
 ): React.ReactElement {
   const { icons } = useThemeContext();
   if (override !== undefined) {
-    return React.cloneElement(override, { className: iconProps?.className, size: iconProps?.size });
+    return React.cloneElement(override, {
+      className: iconProps?.className,
+      size: iconProps?.size,
+      variant: iconProps?.variant,
+    });
   }
 
-  const { size = 5, className = "" } = iconProps ?? {};
+  const { size = 5, className = "", variant = "regular" } = iconProps ?? {};
 
-  return icons[iconName]({ size, className });
+  return icons[iconName]({ size, className, variant });
 }

@@ -1210,16 +1210,36 @@ const defaultComponentConfig = {
     actions: {
       master: "mt-2 space-x-2",
       borderColor: "border-primary",
+      noCloseButton: {
+        container: "flex border-l pl-2",
+        innerContainer: "-ml-px flex flex-col",
+      },
     },
     Container: {
       master: "w-full max-w-sm pointer-events-auto",
-      backgroundColor: "bg-white",
+      backgroundColor: {
+        info: "bg-info-light",
+        danger: "bg-danger-light",
+        warning: "bg-warning-light",
+        success: "bg-success-light",
+        default: "bg-white",
+      },
       borderRadius: "rounded-xl",
       boxShadow: "drop-shadow-xl",
       outer: {
         base: "rounded-lg flex items-start shadow-xs overflow-hidden ",
         regular: "p-3",
         condensed: "p-2",
+      },
+      content: "flex-1 ml-3",
+    },
+    icon: {
+      master: "flex-shrink-0",
+      type: {
+        info: "text-info",
+        danger: "text-danger",
+        warning: "text-warning",
+        success: "text-success",
       },
     },
     dismiss: {
@@ -2029,9 +2049,11 @@ const defaultComponentConfig = {
 
 const defaultTheme = createTheme({ component: defaultComponentConfig });
 
+export type IconVariant = "thin" | "light" | "regular" | "bold" | "fill";
 export type IconProps = {
   size: number;
   className: string;
+  variant: IconVariant;
 };
 
 export type IconConfig = {
@@ -2042,7 +2064,6 @@ export type IconConfig = {
   paginatorPrevious: (props: Partial<IconProps>) => React.ReactElement;
   paginatorNext: (props: Partial<IconProps>) => React.ReactElement;
   completed: (props: Partial<IconProps>) => React.ReactElement;
-  warning: (props: Partial<IconProps>) => React.ReactElement;
   sortDesc: (props: Partial<IconProps>) => React.ReactElement;
   sortAsc: (props: Partial<IconProps>) => React.ReactElement;
   date: (props: Partial<IconProps>) => React.ReactElement;
@@ -2072,9 +2093,13 @@ export type IconConfig = {
   table: (props: Partial<IconProps>) => React.ReactElement;
   link: (props: Partial<IconProps>) => React.ReactElement;
   linkBreak: (props: Partial<IconProps>) => React.ReactElement;
+  success: (props: Partial<IconProps>) => React.ReactElement;
+  info: (props: Partial<IconProps>) => React.ReactElement;
+  danger: (props: Partial<IconProps>) => React.ReactElement;
+  warning: (props: Partial<IconProps>) => React.ReactElement;
 };
 
-export const defaultIconConfig = {
+export const defaultIconConfig: IconConfig = {
   dismiss: (props: Partial<IconProps>) => <span className={props.className}>&times;</span>,
   breadcrumbs: (props: Partial<IconProps>) => <span className={props.className}>&gt;</span>,
   openExpander: (props: Partial<IconProps>) => <span className={props.className}>-</span>,
@@ -2082,7 +2107,6 @@ export const defaultIconConfig = {
   paginatorPrevious: (props: Partial<IconProps>) => <span className={props.className}>&lt;</span>,
   paginatorNext: (props: Partial<IconProps>) => <span className={props.className}>&gt;</span>,
   completed: (props: Partial<IconProps>) => <span className={props.className}>✓</span>,
-  warning: (props: Partial<IconProps>) => <span className={props.className}>!</span>,
   sortDesc: (props: Partial<IconProps>) => <span className={props.className}>↓</span>,
   sortAsc: (props: Partial<IconProps>) => <span className={props.className}>↑</span>,
   date: (props: Partial<IconProps>) => <span className={props.className}></span>,
@@ -2112,6 +2136,10 @@ export const defaultIconConfig = {
   table: (props: Partial<IconProps>) => <span className={props.className}></span>,
   link: (props: Partial<IconProps>) => <span className={props.className}></span>,
   linkBreak: (props: Partial<IconProps>) => <span className={props.className}></span>,
+  success: (props: Partial<IconProps>) => <span className={props.className}>&#9745;</span>,
+  info: (props: Partial<IconProps>) => <span className={props.className}>&#9432;</span>,
+  danger: (props: Partial<IconProps>) => <span className={props.className}>X</span>,
+  warning: (props: Partial<IconProps>) => <span className={props.className}>!</span>,
 };
 
 export type Theme = {

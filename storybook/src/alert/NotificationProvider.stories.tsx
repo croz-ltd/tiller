@@ -97,6 +97,21 @@ function Content() {
     onDismiss: () => {},
   };
 
+  const withPredefinedStyle: NotificationProps = {
+    title: "With Predefined Style",
+    content: "Simple styled notification.",
+    type: "success",
+    onDismiss: () => {},
+  };
+
+  const withPredefinedStyleNoAccent: NotificationProps = {
+    title: "With Predefined Style",
+    content: "Simple styled notification without accent background.",
+    type: "success",
+    disableAccent: true,
+    onDismiss: () => {},
+  };
+
   return (
     <div className="flex flex-col w-1/4 space-y-2">
       <Button onClick={() => notifications.push(simple)}>Simple</Button>
@@ -105,6 +120,10 @@ function Content() {
       <Button onClick={() => notifications.push(withActionsBelow)}>With Actions Below</Button>
       <Button onClick={() => notifications.push(withButtonsBelow)}>With Buttons Below</Button>
       <Button onClick={() => notifications.push(withActionsRight)}>With Actions Right</Button>
+      <Button onClick={() => notifications.push(withPredefinedStyle)}>With Predefined Style</Button>
+      <Button onClick={() => notifications.push(withPredefinedStyleNoAccent)}>
+        With Predefined Style and No Accent
+      </Button>
     </div>
   );
 }
@@ -125,11 +144,15 @@ function Notification({ label }) {
     icon: <Icon type="check-circle" size={6} variant="fill" className="text-emerald-500" />,
   };
 
-  return <Button onClick={() => notifications.push(withIcon)}>{label}</Button>;
+  return (
+    <Button className="w-[250px]" onClick={() => notifications.push(withIcon)}>
+      {label}
+    </Button>
+  );
 }
 
 export const DifferentPositions = () => (
-  <div className="flex flex-col w-1/4 space-y-2">
+  <div className="flex flex-col w-full mt-32 space-y-2 justify-center items-center">
     <NotificationProvider>
       <Notification label="Top Right" />
     </NotificationProvider>
