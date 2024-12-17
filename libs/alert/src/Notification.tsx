@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { ComponentTokens, cx, IconProps, useIcon, useTokens } from "@tiller-ds/theme";
 
-type NotificationColor = "info" | "danger" | "warning" | "success";
+type NotificationType = "info" | "danger" | "warning" | "success";
 
 export type NotificationProps = {
   /**
@@ -69,7 +69,7 @@ export type NotificationProps = {
   /**
    * Provides default styling sets for the notification with icon and color presets.
    */
-  type?: NotificationColor;
+  type?: NotificationType;
 
   /**
    * Disables the default background accent style provided by the `type` prop.
