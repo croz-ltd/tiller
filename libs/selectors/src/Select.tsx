@@ -18,8 +18,9 @@
 import * as React from "react";
 
 import { useSelect, UseSelectStateChangeTypes } from "downshift";
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { isNil } from "lodash";
 
+import Popover, { positionMatchWidth } from "@reach/popover";
 import { Field } from "@tiller-ds/form-elements";
 import { useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
@@ -197,6 +198,7 @@ function Select<T>({
   const id = `input-${name}`;
   const isDisabled = disabled || loading;
   const hasOptions = options.length !== 0;
+  const hasValue = !isNil(value);
 
   const toggleRef = React.useRef<HTMLButtonElement>(null);
   //used only for form submit on enter
@@ -237,9 +239,9 @@ function Select<T>({
 
       if (selectionTypes.indexOf(type) !== -1 || type === useSelect.stateChangeTypes.FunctionReset) {
         if (allowMultiple) {
-          const currentValue = value && Array.isArray(value) ? [...value] : [];
+          const currentValue = hasValue && Array.isArray(value) ? [...value] : [];
 
-          if (selectedItem) {
+          if (!isNil(selectedItem)) {
             const index = currentValue.indexOf(selectedItem);
 
             if (index === -1) {
@@ -252,7 +254,7 @@ function Select<T>({
           } else {
             onChange([]);
           }
-        } else if (selectedItem) {
+        } else if (!isNil(selectedItem)) {
           onChange(selectedItem);
         }
       } else if (type === useSelect.stateChangeTypes.MenuBlur) {
@@ -322,9 +324,7 @@ function Select<T>({
   }, [isOpen]);
 
   const defaultFn = (item: T) => (typeof item === "string" ? item : item["label"]);
-  const defaultIsItemDisabledFn = () => false;
   const optionLabelFn = getOptionLabel || children || defaultFn;
-  const isItemDisabledFn = isItemDisabled || defaultIsItemDisabledFn;
 
   const noResultsText = useLabel("selectNoResults", "No results");
   const placeholderElement = (
@@ -333,7 +333,7 @@ function Select<T>({
     </div>
   );
   const singleOptionLabelFn = (singleValue?: T | null) =>
-    singleValue ? optionLabelFn(singleValue) : placeholderElement;
+    !isNil(singleValue) ? optionLabelFn(singleValue) : placeholderElement;
   const selectedFn = (array: T[]) =>
     getMultipleSelectedLabel ? getMultipleSelectedLabel(array) : `${array.length} selected`;
   const arrayLabelFn = (array: T[]) => (array.length <= 1 ? singleOptionLabelFn(array[0]) : selectedFn(array));
@@ -360,7 +360,7 @@ function Select<T>({
 
   const SelectItem = ({ option, index }: { option: T; index: number }) => {
     let element = optionLabelFn(option);
-    const isDisabled = isItemDisabledFn(option);
+    const isDisabled = Boolean(isItemDisabled && isItemDisabled(option));
     const itemProps = !isDisabled && { ...getItemProps({ item: option, index }) };
 
     const itemClassName = (selected: boolean) =>
@@ -432,13 +432,13 @@ function Select<T>({
             <div className={tokens.Loading.container}>
               {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
               {error && warningIcon}
-              {!disabled && value && !hideClearButton && !error && (
+              {!disabled && hasValue && !hideClearButton && !error && (
                 <button type="button" className={clearClassName} onClick={clear}>
                   {removeIcon}
                 </button>
               )}
-              <div className={value || error || loading ? tokens.Separator.container : undefined}>
-                {(value || error || loading) && <div className={tokens.Separator.inner}>&nbsp;</div>}
+              <div className={hasValue || error || loading ? tokens.Separator.container : undefined}>
+                {(hasValue || error || loading) && <div className={tokens.Separator.inner}>&nbsp;</div>}
               </div>
             </div>
           </div>
