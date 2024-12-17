@@ -97,7 +97,7 @@ type SidebarNavigationItemProps = {
    * Defines the title of the item. If the 'isExpandable' prop is not set to true (which is by default),
    * this prop is not required. In that case, you can set the title via the 'children' prop.
    */
-  title?: string;
+  title?: React.ReactNode;
 
   /**
    * Custom additional class name for the main container component.
@@ -147,7 +147,7 @@ type SidebarNavigationDropdownProps = {
   /**
    * Title of the Dropdown menu, shown only if text variant of the dropdown is selected.
    */
-  title: string;
+  title: React.ReactNode;
 
   /**
    * Determines the button color for the dropdown. Accepts many colors, along with your brand colors
