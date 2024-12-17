@@ -1451,6 +1451,59 @@ const defaultComponentConfig = {
     container: "relative w-full",
     placeholder: "text-slate-500 select-none",
   },
+  TreeSelect: {
+    Select: {
+      base: "pl-2 flex flex-col",
+      active: "pointer-events-auto cursor-pointer hover:text-slate-700 ",
+      disabled: "opacity-50",
+    },
+    ValueLabel: {
+      base: "flex-grow mr-3 flex-wrap",
+      disabled: "opacity-50",
+    },
+    Clear: {
+      base: {
+        padding: "p-2",
+        margin: "-m-2 ml-2",
+      },
+      active: "pointer-events-auto cursor-pointer",
+    },
+    List: {
+      master: "w-full outline-none",
+      borderRadius: "rounded-md",
+      boxShadow: "shadow-lg",
+      inner: {
+        base: "max-h-48 overflow-y-auto",
+        margin: "mt-2 mb-2",
+        borderRadius: "rounded-md",
+        backgroundColor: "bg-white",
+        boxShadow: "ring-1 ring-black ring-opacity-5",
+        outline: "outline-none",
+      },
+    },
+    Item: {
+      base: {
+        master:
+          "block hover:text-slate-900 hover:bg-slate-100 focus:text-slate-900 focus:bg-slate-100 focus:outline-none",
+        padding: "py-2 px-4",
+        fontSize: "text-sm",
+        lineHeight: "leading-5",
+        color: "text-slate-700",
+        hover: "cursor-pointer",
+      },
+      container: "flex justify-between items-center",
+      element: "mr-3 flex-grow flex-wrap",
+      selected: {
+        master: "flex-shrink-0",
+        color: "text-primary",
+        size: "w-4 h-4",
+      },
+    },
+    Separator: {
+      container: "pl-2",
+      inner: "border-r border-slate-200",
+    },
+  },
   SidebarLayout: {
     container: {
       master: "h-screen flex overflow-hidden flex-col md:flex-row",

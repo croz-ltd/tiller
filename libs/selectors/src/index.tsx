@@ -27,3 +27,4 @@ export { default as Autocomplete } from "./Autocomplete";
 export { default as Select } from "./Select";
 export { default as TreeSelect } from "./TreeSelect";
 export { default as PageResizer } from "./PageResizer";
+export { default as MenuHandleIcon } from "./MenuHandleIcon";

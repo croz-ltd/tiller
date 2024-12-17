@@ -23,6 +23,7 @@ import { Intl } from "@tiller-ds/intl";
 import { beautifySource, TreeItem, treeItems } from "../utils";
 
 import mdx from "./TreeSelect.mdx";
+import storybookDictionary from "../intl/storybookDictionary";
 
 export default {
   title: "Component Library/Selectors/TreeSelect",
@@ -36,6 +37,8 @@ export default {
   },
 };
 
+const translations = storybookDictionary.translations;
+
 const name = "test";
 const value = treeItems[1]?.items?.[0]?.items?.[0]?.items?.[1];
 
@@ -47,6 +50,7 @@ const commonProps = {
   // eslint-disable-next-line react/display-name
   getOptionLabel: (option: TreeItem) => <>{option.name}</>,
   getItems: (option: TreeItem) => option.items || [],
+  itemToString: (option: TreeItem) => option.name,
 };
 
 export const WithLabel = () => <TreeSelect {...commonProps} label={<Intl name="label" />} />;
@@ -59,8 +63,12 @@ export const Disabled = () => (
   <TreeSelect value={value} label={<Intl name="label" />} disabled={true} {...commonProps} />
 );
 
-export const WithPlaceholder = () => (
-  <TreeSelect label={<Intl name="label" />} placeholder={<Intl name="placeholder" />} {...commonProps} />
+export const WithPlaceholder = (args, context) => (
+  <TreeSelect
+    label={<Intl name="label" />}
+    placeholder={translations[context.globals.language]["placeholder"]}
+    {...commonProps}
+  />
 );
 
 export const WithHelp = () => <TreeSelect label={<Intl name="label" />} help={<Intl name="help" />} {...commonProps} />;
@@ -78,5 +86,15 @@ export const WithValueLabel = () => (
         {item.code} {item.name}
       </>
     )}
+  />
+);
+
+export const WithCustomFiltering = () => (
+  <TreeSelect
+    {...commonProps}
+    filter={(name: string, option) =>
+      option.name.toLowerCase().includes(name.toLowerCase()) ||
+      Boolean(option.code && option.code.toLowerCase().includes(name.toLowerCase()))
+    }
   />
 );
