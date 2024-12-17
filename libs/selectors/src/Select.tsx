@@ -18,8 +18,9 @@
 import * as React from "react";
 
 import { useSelect, UseSelectStateChangeTypes } from "downshift";
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { isNil } from "lodash";
 
+import Popover, { positionMatchWidth } from "@reach/popover";
 import { Field } from "@tiller-ds/form-elements";
 import { useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
@@ -197,7 +198,7 @@ function Select<T>({
   const id = `input-${name}`;
   const isDisabled = disabled || loading;
   const hasOptions = options.length !== 0;
-  const hasValue = value != null;
+  const hasValue = !isNil(value);
 
   const toggleRef = React.useRef<HTMLButtonElement>(null);
   //used only for form submit on enter
@@ -240,7 +241,7 @@ function Select<T>({
         if (allowMultiple) {
           const currentValue = hasValue && Array.isArray(value) ? [...value] : [];
 
-          if (selectedItem != null) {
+          if (!isNil(selectedItem)) {
             const index = currentValue.indexOf(selectedItem);
 
             if (index === -1) {
@@ -253,7 +254,7 @@ function Select<T>({
           } else {
             onChange([]);
           }
-        } else if (selectedItem != null) {
+        } else if (!isNil(selectedItem)) {
           onChange(selectedItem);
         }
       } else if (type === useSelect.stateChangeTypes.MenuBlur) {
@@ -332,7 +333,7 @@ function Select<T>({
     </div>
   );
   const singleOptionLabelFn = (singleValue?: T | null) =>
-    singleValue != null ? optionLabelFn(singleValue) : placeholderElement;
+    !isNil(singleValue) ? optionLabelFn(singleValue) : placeholderElement;
   const selectedFn = (array: T[]) =>
     getMultipleSelectedLabel ? getMultipleSelectedLabel(array) : `${array.length} selected`;
   const arrayLabelFn = (array: T[]) => (array.length <= 1 ? singleOptionLabelFn(array[0]) : selectedFn(array));

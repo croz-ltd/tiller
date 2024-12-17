@@ -18,7 +18,7 @@
 import React from "react";
 
 import { useField } from "formik";
-import { isEqual } from "lodash";
+import { isEqual, isNil } from "lodash";
 
 import { Select, SelectProps } from "@tiller-ds/selectors";
 import useShouldValidate from "./useShouldValidate";
@@ -62,7 +62,7 @@ function SelectField<T>({ name, getOptionValue, children, options, ...props }: S
   const value = field.value && (Array.isArray(field.value) ? field.value.map(optionFn) : optionFn(field.value));
 
   const onChange = (item: T | T[] | undefined) => {
-    if (item != null) {
+    if (!isNil(item)) {
       if (Array.isArray(item)) {
         helpers.setValue(item.map(valueFn), shouldValidate);
       } else {
