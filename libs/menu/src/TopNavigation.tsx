@@ -119,7 +119,7 @@ export type TopNavigationItemProps = {
    * Defines the title of the item. If the 'isExpandable' prop is not set to true (which is by default),
    * this prop is not required. In that case, you can set the title via the 'children' prop.
    */
-  title?: string;
+  title?: React.ReactNode;
 
   /**
    * Destination url.
@@ -148,7 +148,7 @@ type TopNavigationDropdownProps = {
   /**
    * Title of the Dropdown menu, shown only if text variant of the dropdown is selected.
    */
-  title: string;
+  title: React.ReactNode;
 
   /**
    * Custom icon serving as a dropdown menu open button.
