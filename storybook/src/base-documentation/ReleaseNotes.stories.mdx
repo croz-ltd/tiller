@@ -20,6 +20,11 @@ import { Meta } from "@storybook/addon-docs";
 
 ## **1.16.0 - latest** <span>_(Dec 17th 2024)_</span>
 
+**<h4>🚨 Breaking changes </h4>**
+
+1. `TreeSelect` - `placeholder` prop now only accepts a `string` type instead of `React.ReactNode` to align with the new typing enhancements
+2. `TreeSelect` - `itemToString` prop has been made mandatory to ensure proper functionality of the component
+
 **<h4>🐛 Bug Fixes</h4>**
 
 - Fixed an issue where `Select` and `SelectField` components did not handle a return value of 0 correctly ([#291](https://github.com/croz-ltd/tiller/issues/291))
@@ -30,6 +35,7 @@ import { Meta } from "@storybook/addon-docs";
 
   - `itemToString` - converts an item into a string representation to display the selected item as text in the input field (also used for filtering the options if the `filter` prop is not provided)
   - `filter` - determines how options are filtered as the user types into the input field (If this prop is undefined, filtering falls back to using the `itemToString` function)
+  - moved styles into newly added `TreeSelect` tokens (the component no longer loads `Select`'s tokens)
   - introduced the `testId` prop for easier testing
   - for full prop details and usage, see [TreeSelect prop docs](https://croz-ltd.github.io/tiller/?path=/docs/component-library-selectors-treeselect--with-label#tree-select-props)
 
