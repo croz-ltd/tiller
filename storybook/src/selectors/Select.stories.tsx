@@ -212,7 +212,7 @@ export const DisabledItems = () => (
     {...commonProps}
     label={<Intl name="label" />}
     isItemDisabled={(item: Item) => {
-      return item.name === "Pero";
+      return item.name === "Matthew" || item.name === "John";
     }}
   />
 );

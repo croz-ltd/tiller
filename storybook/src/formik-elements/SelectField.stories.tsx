@@ -204,6 +204,17 @@ SelectFieldFactory.parameters = {
   },
 };
 
+export const Test = () => (
+  <SelectField
+    name="test"
+    options={[0, 1]}
+    getOptionLabel={(option) => (!option ? "Nula" : "Jedan")}
+    getOptionValue={(option) => option}
+    label={<Intl name="label" />}
+    allowMultiple={true}
+  />
+);
+
 export const WithLabel = () => <SelectField {...commonProps} label={<Intl name="label" />} />;
 
 export const WithoutLabel = () => <SelectField {...commonProps} />;
@@ -226,7 +237,7 @@ export const DisabledItems = () => (
     {...commonProps}
     label={<Intl name="label" />}
     isItemDisabled={(item: Item) => {
-      return item.name === "Pero";
+      return item.name === "Matthew" || item.name === "John";
     }}
   />
 );

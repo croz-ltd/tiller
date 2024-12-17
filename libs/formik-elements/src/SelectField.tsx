@@ -17,7 +17,7 @@
 
 import React from "react";
 
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 import { isEqual } from "lodash";
 
 import { Select, SelectProps } from "@tiller-ds/selectors";
@@ -43,7 +43,6 @@ function find<T>(value: T, arr: T[]) {
 }
 
 function SelectField<T>({ name, getOptionValue, children, options, ...props }: SelectFieldProps<T>) {
-  const formik = useFormikContext();
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);
@@ -63,11 +62,11 @@ function SelectField<T>({ name, getOptionValue, children, options, ...props }: S
   const value = field.value && (Array.isArray(field.value) ? field.value.map(optionFn) : optionFn(field.value));
 
   const onChange = (item: T | T[] | undefined) => {
-    if (item) {
+    if (item != null) {
       if (Array.isArray(item)) {
         helpers.setValue(item.map(valueFn), shouldValidate);
       } else {
-        helpers.setValue(item && valueFn(item), shouldValidate);
+        helpers.setValue(valueFn(item), shouldValidate);
       }
     } else {
       helpers.setTouched(true, shouldValidate);
