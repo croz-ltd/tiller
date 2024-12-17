@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 import { isEqual } from "lodash";
 
 import { TreeSelect, TreeSelectProps } from "@tiller-ds/selectors";
@@ -57,7 +57,6 @@ export default function TreeSelectField<T>({
 
   const optionsToValues = React.useMemo(() => {
     if (getOptionValue) {
-      //@ts-ignore
       return tree.map(getOptionValue);
     } else {
       return tree;

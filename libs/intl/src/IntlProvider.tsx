@@ -32,6 +32,7 @@ export type CommonKeys = {
   autocompleteAddTag?: string;
   autocompleteAddItem?: string;
   autocompleteNoResults?: string;
+  treeSelectNoResults?: string;
   selectNoResults?: string;
   paginationSummary?: string;
   pageResizerSummary?: string;
@@ -89,6 +90,7 @@ const defaultKeyConfig: CommonKeys = {
   autocompleteAddTag: "autocomplete.addTag",
   autocompleteAddItem: "autocomplete.addItem",
   autocompleteNoResults: "autocomplete.noResults",
+  treeSelectNoResults: "treeSelect.noResults",
   selectNoResults: "select.noResults",
   paginationSummary: "pagination.summary",
   pageResizerSummary: "pageResizer.summary",

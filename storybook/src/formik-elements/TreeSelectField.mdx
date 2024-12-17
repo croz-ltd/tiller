@@ -42,6 +42,7 @@ const commonProps = {
   // eslint-disable-next-line react/display-name
   getOptionLabel: (option: TreeItem) => <>{option.name}</>,
   getItems: (option: TreeItem) => option.items || [],
+  itemToString: (option: TreeItem) => option.name,
 };
 ```
 
@@ -57,4 +58,4 @@ const commonProps = {
 
 ## Tree Select Tokens:
 
-<ThemeTokens component="Select" />
+<ThemeTokens component="TreeSelect" />

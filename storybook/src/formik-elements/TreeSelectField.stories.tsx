@@ -23,7 +23,9 @@ import { Intl } from "@tiller-ds/intl";
 import { beautifySource, FormikDecorator, TreeItem, treeItems } from "../utils";
 
 import mdx from "./TreeSelectField.mdx";
+import storybookDictionary from "../intl/storybookDictionary";
 
+const translations = storybookDictionary.translations;
 const name = "test";
 const nameWithError = "nameWithError";
 const nameWithTreeItem = "nameWithTreeItem";
@@ -69,6 +71,7 @@ const commonProps = {
   // eslint-disable-next-line react/display-name
   getOptionLabel: (option: TreeItem) => <>{option.name}</>,
   getItems: (option: TreeItem) => option.items || [],
+  itemToString: (option: TreeItem) => option.name,
 };
 
 const complexProps = {
@@ -93,8 +96,12 @@ export const Disabled = () => (
   <TreeSelectField label={<Intl name="label" />} disabled={true} {...commonProps} name="nameWithTreeItem" />
 );
 
-export const WithPlaceholder = () => (
-  <TreeSelectField label={<Intl name="label" />} placeholder={<Intl name="placeholder" />} {...commonProps} />
+export const WithPlaceholder = (args, context) => (
+  <TreeSelectField
+    label={<Intl name="label" />}
+    placeholder={translations[context.globals.language]["placeholder"]}
+    {...commonProps}
+  />
 );
 
 export const WithHelp = () => (
@@ -109,10 +116,21 @@ export const WithValueLabel = () => (
   <TreeSelectField
     {...commonProps}
     name="nameWithTreeItem"
+    disabled
     getValueLabel={(item) => (
       <>
         {item.code} {item.name}
       </>
     )}
+  />
+);
+
+export const WithCustomFiltering = () => (
+  <TreeSelectField
+    {...commonProps}
+    filter={(name: string, option) =>
+      option.name.toLowerCase().includes(name.toLowerCase()) ||
+      Boolean(option.code && option.code.toLowerCase().includes(name.toLowerCase()))
+    }
   />
 );
