@@ -58,6 +58,18 @@ type ModalContentProps = {
   title: React.ReactNode;
 
   children?: React.ReactNode;
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TokenProps<"Modal">;
 
 type ModalDismissProps = {
@@ -73,10 +85,36 @@ type ModalDismissProps = {
    * Icon uses for dismiss button
    */
   dismissIcon?: React.ReactElement;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TokenProps<"Modal">;
 
 type ModalFooterProps = {
   children?: React.ReactNode;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TokenProps<"Modal">;
 
 type ModalIconProps = {
@@ -89,6 +127,19 @@ type ModalIconProps = {
    * Icon used.
    */
   icon: React.ReactElement;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TokenProps<"Modal">;
 
 export type UseModal<T = unknown> = {
@@ -118,6 +169,19 @@ export type UseModal<T = unknown> = {
    * 'const modal = useModal<string>()' and open the modal with 'modal.onOpen('someString')'.
    */
   state: T | null;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 type ModalContext = {
@@ -198,10 +262,14 @@ function Modal<T = unknown>({
           <div className={tokens.Container.Overlay.outer}>
             <div className={overlayInnerClassName}>&nbsp;</div>
           </div>
-          <DialogContent className={contentContainerClassName} aria-label="Dialog Content">
+          <DialogContent
+            className={contentContainerClassName}
+            aria-label="Dialog Content"
+            data-testid={props["data-testid"]}
+          >
             {canDismiss && (
               <div className={tokens.Container.Content.dismiss}>
-                <ModalDismiss />
+                <ModalDismiss data-testid={`${props["data-testid"]}-dismiss`} />
               </div>
             )}
             <div className={tokens.Container.Content.outer}>
@@ -230,7 +298,13 @@ function ModalDismiss({ ariaLabel = "Close", dismissIcon, ...props }: ModalDismi
   const finalDismissIcon = useIcon("dismiss", dismissIcon);
 
   return (
-    <button onClick={onClose} type="button" className={dismissButtonClassName} aria-label={ariaLabel}>
+    <button
+      onClick={onClose}
+      type="button"
+      className={dismissButtonClassName}
+      aria-label={ariaLabel}
+      data-testid={props["data-testid"]}
+    >
       {finalDismissIcon}
     </button>
   );
@@ -247,26 +321,34 @@ function ModalContent({ title, children, ...props }: ModalContentProps) {
   );
 
   return (
-    <>
+    <div data-testid={props["data-testid"]}>
       <h3 className={contentTitleClassName} id="modal-headline">
         {title}
       </h3>
       <div className={tokens.Content.master}>{children}</div>
-    </>
+    </div>
   );
 }
 
 function ModalFooter({ children, ...props }: ModalFooterProps) {
   const tokens = useTokens("Modal", props.tokens);
 
-  return <div className={tokens.Footer.base}>{React.Children.map(children, (child, index) => child)}</div>;
+  return (
+    <div className={tokens.Footer.base} data-testid={props["data-testid"]}>
+      {React.Children.map(children, (child, index) => child)}
+    </div>
+  );
 }
 
 function ModalIcon({ className, icon, ...props }: ModalIconProps) {
   const tokens = useTokens("Modal", props.tokens);
   const containerClassName = cx(tokens.Icon.base, tokens.Icon.backgroundColor, className);
 
-  return <div className={containerClassName}>{icon}</div>;
+  return (
+    <div className={containerClassName} data-testid={props["data-testid"]}>
+      {icon}
+    </div>
+  );
 }
 
 Modal.Content = ModalContent;

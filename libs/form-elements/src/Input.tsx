@@ -119,17 +119,17 @@ export type InputProps = {
   required?: boolean;
 
   /**
-   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
    * @type {string}
    * @example
    * // Usage:
-   * <MyComponent testId="my-component" />
+   * <MyComponent data-testid="my-component" />
    * // In tests:
    * getByTestId('my-component');
    */
-  testId?: string;
+  "data-testid"?: string;
 
   /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
@@ -284,7 +284,7 @@ const Input = React.forwardRef(
             ref={inputRef || ref}
             name={name}
             id={id}
-            data-testid={props.testId || id}
+            data-testid={props["data-testid"] || id}
             disabled={disabled}
             className={inputClassName}
             {...props}
@@ -298,7 +298,11 @@ const Input = React.forwardRef(
         <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
           {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
           {!disabled && !props.readOnly && props.value && allowClear && finalClearIcon && (
-            <button type="button" onClick={onReset}>
+            <button
+              type="button"
+              onClick={onReset}
+              data-testid={props["data-testid"] && `${props["data-testid"]}-clear`}
+            >
               {finalClearIcon}
             </button>
           )}

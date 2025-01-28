@@ -30,13 +30,32 @@ type LoadingIconProps = {
    * Custom additional class name for the svg icon.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
-export default function LoadingIcon({ size = 5, className = "" }: LoadingIconProps) {
+export default function LoadingIcon({ size = 5, className = "", ...props }: LoadingIconProps) {
   const svgClassName = cx("spinner", `w-${size} h-${size}`, className);
 
   return (
-    <svg className={svgClassName} viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+    <svg
+      className={svgClassName}
+      viewBox="0 0 66 66"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      data-testid={props["data-testid"]}
+    >
       <circle
         className="path stroke-current"
         fill="none"

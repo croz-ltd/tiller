@@ -139,17 +139,31 @@ export type TreeSelectProps<T> = {
   filter?: (query: string, item: T) => boolean;
 
   /**
-   * A unique identifier for testing purposes, equivalent to the 'data-testid' attribute.
+   * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
    * @type {string}
    * @example
    * // Usage:
-   * <MyComponent testId="my-component" />
+   * <MyComponent data-testid="my-component" />
    * // In tests:
    * getByTestId('my-component');
    */
-  testId?: string;
+  "data-testid"?: string;
+
+  /**
+   * A function that generates a unique data-testid identifier for individual items.
+   * The function accepts an item of type `T` and returns a string that can be
+   * used as the `data-testid` for that item. By incorporating unique properties
+   * of the item, it ensures that each element has a distinct identifier.
+   *
+   * // Example function:
+   * const itemTestId = (item) => `list-item-${item.id}`;
+   *
+   * // Example test:
+   * getByTestId('list-item-123');
+   */
+  "item-testid"?: (item: T) => string;
 } & OptionProps<T> &
   SelectTokensProps;
 
@@ -162,6 +176,7 @@ type TreeSelectOptionsProps<T> = {
   highlightedIndex: number;
   closeMenu: () => void;
   expanded?: boolean;
+  testId?: (item: T) => string;
 } & OptionProps<T>;
 
 type TreeSelectOptionProps<T> = {
@@ -170,6 +185,7 @@ type TreeSelectOptionProps<T> = {
   highlightedIndex: number;
   closeMenu: () => void;
   initialExpanded?: boolean;
+  testId?: (item: T) => string;
 } & OptionProps<T> &
   TokenProps<"Select">;
 
@@ -426,7 +442,7 @@ export default function TreeSelect<T>({
         ref={inputRef}
         className={className}
         id={id}
-        testId={props.testId || id}
+        data-testid={props["data-testid"] ?? id}
         label={label}
         help={help}
         tooltip={props.tooltip}
@@ -441,7 +457,11 @@ export default function TreeSelect<T>({
             {value && getValueLabel && <div className={valueLabelClassName}>{getValueLabel(value)}</div>}
             <div className="flex flex-row items-center">
               {!disabled && value && (
-                <div className={clearClassName} onClick={clear}>
+                <div
+                  className={clearClassName}
+                  onClick={clear}
+                  data-testid={props["data-testid"] && `${props["data-testid"]}-clear`}
+                >
                   {clearIcon}
                 </div>
               )}
@@ -485,6 +505,7 @@ export default function TreeSelect<T>({
                   closeMenu={closeMenu}
                   expanded={inputValue.length > 0}
                   highlightedIndex={highlightedIndex}
+                  testId={props["item-testid"]}
                 />
               )}
             </div>
@@ -495,7 +516,7 @@ export default function TreeSelect<T>({
   );
 }
 
-function TreeSelectOptions<T>({ options, expanded, highlightedIndex, ...props }: TreeSelectOptionsProps<T>) {
+function TreeSelectOptions<T>({ options, expanded, highlightedIndex, testId, ...props }: TreeSelectOptionsProps<T>) {
   return (
     <>
       {options.map((option, index) => (
@@ -506,6 +527,7 @@ function TreeSelectOptions<T>({ options, expanded, highlightedIndex, ...props }:
           highlightedIndex={highlightedIndex}
           option={option}
           initialExpanded={expanded}
+          testId={testId}
         />
       ))}
     </>
@@ -522,6 +544,7 @@ function TreeSelectOption<T>({
   initialExpanded = false,
   index,
   highlightedIndex,
+  testId,
   ...props
 }: TreeSelectOptionProps<T>) {
   const tokens = useTokens("TreeSelect", props.tokens);
@@ -565,7 +588,7 @@ function TreeSelectOption<T>({
 
   return (
     <div>
-      <div className={itemClassName} onClick={onItemClick}>
+      <div className={itemClassName} onClick={onItemClick} data-testid={testId && testId(option)}>
         <div className={levelClasses[level]}>
           <div className={innerItemClassName}>
             {childOptions.length > 0 && icon}
@@ -583,6 +606,7 @@ function TreeSelectOption<T>({
           closeMenu={closeMenu}
           expanded={initialExpanded}
           highlightedIndex={highlightedIndex}
+          testId={testId}
         />
       )}
     </div>

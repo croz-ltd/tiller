@@ -56,6 +56,19 @@ type PageResizerProps = {
    * Custom additional styling applied to the component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & PageResizerTokensProps;
 
 type PageResizerTokensProps = {
@@ -85,6 +98,7 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
       onChange={onChange}
       onBlur={() => ({})}
       className={selectClassName}
+      data-testid={props["data-testid"] && `${props["data-testid"]}-select`}
     />
   );
 
@@ -97,18 +111,16 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
   }
 
   return (
-    <div>
-      <p className={tokens.master}>
-        {intl ? (
-          <Intl name={intl.commonKeys["pageResizerSummary"] as string} params={{ pageSizeSelect: pageSizeSelect }}>
-            {{
-              pageSizeSelect: () => pageSizeSelect,
-            }}
-          </Intl>
-        ) : (
-          <>Show {pageSizeSelect} results per page</>
-        )}
-      </p>
+    <div className={tokens.master} data-testid={props["data-testid"]}>
+      {intl ? (
+        <Intl name={intl.commonKeys["pageResizerSummary"] as string} params={{ pageSizeSelect: pageSizeSelect }}>
+          {{
+            pageSizeSelect: () => pageSizeSelect,
+          }}
+        </Intl>
+      ) : (
+        <>Show {pageSizeSelect} results per page</>
+      )}
     </div>
   );
 }

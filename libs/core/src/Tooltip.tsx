@@ -36,6 +36,19 @@ export type TooltipProps = {
    * Custom additional class name for the main container.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TooltipTokensProps;
 
 type TooltipTokensProps = {
@@ -52,11 +65,11 @@ export default function Tooltip({ children, label, className, ...props }: Toolti
     tokens.borderRadius,
     tokens.fontSize,
     tokens.color,
-    tokens.backgroundColor
+    tokens.backgroundColor,
   );
 
   return (
-    <ReachTooltip className={tooltipClassName} label={<pre>{label}</pre>}>
+    <ReachTooltip className={tooltipClassName} label={<pre data-testid={props["data-testid"]}>{label}</pre>}>
       <div>{children}</div>
     </ReachTooltip>
   );

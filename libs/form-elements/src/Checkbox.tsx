@@ -38,6 +38,19 @@ export type CheckboxProps = {
    * Custom class name for the container.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & Omit<React.HTMLProps<HTMLInputElement>, "label"> &
   CheckboxTokensProps;
 
@@ -63,7 +76,7 @@ export default function Checkbox({ id, label, color = "primary", className, ...p
     tokens.borderRadius,
     tokens.boxShadow,
     tokens.color[color],
-    { [tokens.disabled]: props.disabled }
+    { [tokens.disabled]: props.disabled },
   );
 
   const labelClassName = cx(tokens.label.fontSize, tokens.label.color, tokens.label.padding, {
@@ -82,6 +95,7 @@ export default function Checkbox({ id, label, color = "primary", className, ...p
         style={{
           backgroundImage: `url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e")`,
         }}
+        data-testid={props["data-testid"]}
       />
       {label && (
         <label htmlFor={id || defaultId} className={labelClassName}>

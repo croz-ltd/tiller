@@ -19,9 +19,22 @@ import * as React from "react";
 
 type PlaceholderProps = {
   className: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
-export default function Placeholder({ className }: PlaceholderProps) {
+export default function Placeholder({ className, ...props }: PlaceholderProps) {
   return (
     <svg
       className={`border-2 border-dashed border-gray-300 rounded bg-white w-full ${className} text-gray-200`}
@@ -29,6 +42,7 @@ export default function Placeholder({ className }: PlaceholderProps) {
       stroke="currentColor"
       fill="none"
       viewBox="0 0 200 200"
+      data-testid={props["data-testid"]}
     >
       <path vectorEffect="non-scaling-stroke" strokeWidth="2" d="M0 0l200 200M0 200L200 0" />
     </svg>

@@ -135,17 +135,31 @@ export type SelectProps<T> = {
   sort?: (items: T[]) => T[];
 
   /**
-   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
    * @type {string}
    * @example
    * // Usage:
-   * <MyComponent testId="my-component" />
+   * <MyComponent data-testid="my-component" />
    * // In tests:
    * getByTestId('my-component');
    */
-  testId?: string;
+  "data-testid"?: string;
+
+  /**
+   * A function that generates a unique data-testid identifier for individual items.
+   * The function accepts an item of type `T` and returns a string that can be
+   * used as the `data-testid` for that item. By incorporating unique properties
+   * of the item, it ensures that each element has a distinct identifier.
+   *
+   * // Example function:
+   * const itemTestId = (item) => `list-item-${item.id}`;
+   *
+   * // Example test:
+   * getByTestId('list-item-123');
+   */
+  "item-testid"?: (item: T) => string;
 
   /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
@@ -353,12 +367,17 @@ function Select<T>({
   const SelectItems = () => (
     <>
       {filteredOptions.map((option: T, index: number) => (
-        <SelectItem key={index} index={index} option={option} />
+        <SelectItem
+          key={index}
+          index={index}
+          option={option}
+          testId={props["item-testid"] && props["item-testid"](option)}
+        />
       ))}
     </>
   );
 
-  const SelectItem = ({ option, index }: { option: T; index: number }) => {
+  const SelectItem = ({ option, index, testId }: { option: T; index: number; testId?: string }) => {
     let element = optionLabelFn(option);
     const isDisabled = Boolean(isItemDisabled && isItemDisabled(option));
     const itemProps = !isDisabled && { ...getItemProps({ item: option, index }) };
@@ -389,7 +408,11 @@ function Select<T>({
     }
 
     return (
-      <div {...itemProps} className={hovered ? activeClassName(hovered && selected) : itemClassName(selected)}>
+      <div
+        {...itemProps}
+        className={hovered ? activeClassName(hovered && selected) : itemClassName(selected)}
+        data-testid={testId}
+      >
         {element}
       </div>
     );
@@ -414,7 +437,7 @@ function Select<T>({
             disabled: isDisabled,
             onClick: () => setIsMenuOpen(!isMenuOpen),
           })}
-          data-testid={props.testId || id}
+          data-testid={props["data-testid"] ?? id}
           type="button"
           style={{
             backgroundImage:
@@ -433,7 +456,12 @@ function Select<T>({
               {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
               {error && warningIcon}
               {!disabled && hasValue && !hideClearButton && !error && (
-                <button type="button" className={clearClassName} onClick={clear}>
+                <button
+                  type="button"
+                  className={clearClassName}
+                  onClick={clear}
+                  data-testid={props["data-testid"] && `${props["data-testid"]}-clear`}
+                >
                   {removeIcon}
                 </button>
               )}

@@ -39,6 +39,18 @@ export type LinkProps = {
    * Defaults to linkColor defined in the color's configuration of defaultConfig.
    */
   variant?: LinkColor;
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & Omit<ReactRouterLinkProps, "to"> &
   LinkTokensProps;
 
@@ -54,20 +66,20 @@ export default function Link({ children, variant = "main", to, className, ...pro
     tokens.master,
     tokens.base.fontSize,
     tokens.base.fontWeight,
-    tokens.color[variant]
+    tokens.color[variant],
   );
 
   if (to) {
     return (
-      <ReactRouterLink {...props} to={to} className={linkClassName}>
+      <ReactRouterLink {...props} to={to} className={linkClassName} data-testid={props["data-testid"]}>
         {children}
       </ReactRouterLink>
     );
-  } else {
-    return (
-      <a {...props} type="button" className={linkClassName}>
-        {children}
-      </a>
-    );
   }
+
+  return (
+    <a {...props} type="button" className={linkClassName} data-testid={props["data-testid"]}>
+      {children}
+    </a>
+  );
 }

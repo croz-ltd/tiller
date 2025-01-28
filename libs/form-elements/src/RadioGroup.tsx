@@ -94,6 +94,8 @@ type RadioGroupContext = {
   onChange: (value: string) => () => void;
 
   onBlur?: () => void;
+
+  testId?: string;
 };
 
 const RadioGroupContext = React.createContext<RadioGroupContext>({
@@ -115,8 +117,10 @@ function RadioGroup({ name, children, value, className = "", onChange, onBlur, .
   };
 
   return (
-    <FieldGroup {...props} className={className}>
-      <RadioGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange, onBlur }}>
+    <FieldGroup {...props} className={className} data-testid={props["data-testid"]}>
+      <RadioGroupContext.Provider
+        value={{ name, checked: value, onChange: contextOnChange, testId: props["data-testid"] }}
+      >
         {children}
         <input className={tokens.input} ref={inputRef} />
       </RadioGroupContext.Provider>
@@ -126,7 +130,7 @@ function RadioGroup({ name, children, value, className = "", onChange, onBlur, .
 
 function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioGroupItemProps) {
   const tokens = useTokens("RadioGroup", props.tokens);
-  const { name, checked, onChange, onBlur } = React.useContext(RadioGroupContext);
+  const { name, checked, onChange, onBlur, testId } = React.useContext(RadioGroupContext);
 
   const radioGroupItemInputClassName = cx(
     [tokens.master],
@@ -143,7 +147,12 @@ function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioG
 
   const id = `${name}-${value}`;
   return (
-    <FieldGroup.Item id={id} {...props} className={fieldGroupItemClassName}>
+    <FieldGroup.Item
+      id={id}
+      {...props}
+      className={fieldGroupItemClassName}
+      data-testid={props["data-testid"] ? `${props["data-testid"]}-wrapper` : testId && `${testId}-${value}-wrapper`}
+    >
       <input
         id={id}
         name={name}
@@ -157,6 +166,7 @@ function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioG
         style={{
           backgroundImage: `url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e")`,
         }}
+        data-testid={props["data-testid"] ? props["data-testid"] : testId && `${testId}-${value}`}
       />
     </FieldGroup.Item>
   );

@@ -32,6 +32,19 @@ export type ButtonGroupsProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & ButtonGroupsTokensProps;
 
 type ButtonGroupsTokensProps = {
@@ -53,7 +66,7 @@ function ButtonGroups({ children, className, ...props }: ButtonGroupsProps) {
   const baseClassName = cx(tokens.master, tokens.base, className);
 
   return (
-    <span className={baseClassName}>
+    <span className={baseClassName} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child, key) => (
         <ButtonGroupContext.Provider key={key} value={{ index: key, count: React.Children.count(children) }}>
           {child}
@@ -81,7 +94,7 @@ export function ButtonGroupsButton({
     className,
     "rounded-none -ml-px",
     { "rounded-l-md": index === 0 },
-    { "rounded-r-md": index + 1 === count }
+    { "rounded-r-md": index + 1 === count },
   );
 
   return (
@@ -116,7 +129,7 @@ export function ButtonGroupsIconButton({
   const roundedClassName = cx(
     className,
     { "rounded-l-md": index === 0 },
-    { "rounded-r-md -ml-px": index + 1 === count }
+    { "rounded-r-md -ml-px": index + 1 === count },
   );
 
   return (

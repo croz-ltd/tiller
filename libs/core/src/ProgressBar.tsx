@@ -47,6 +47,19 @@ export type ProgressBarProps = {
    * Custom step separator shown between steps.
    */
   separator?: React.ReactNode;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & ProgressBarTokensProps;
 
 type ProgressBarTokensProps = {
@@ -69,6 +82,19 @@ type StepProps = {
    * Icon used when step is completed.
    */
   completedIcon?: React.ReactElement;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & ProgressBarTokensProps;
 
 type StepContext = {
@@ -78,6 +104,7 @@ type StepContext = {
   endingIndex: number;
   completed: boolean;
   separator: React.ReactNode;
+  testId?: string;
 };
 
 const StepContext = createNamedContext<StepContext>("StepContext", {
@@ -115,13 +142,23 @@ function ProgressBar({
   const endingIndex = React.Children.toArray(children).length - 1;
 
   const childrenWithIndex = React.Children.map(children, (child, index) => (
-    <StepContext.Provider value={{ activeStepIndex, index, startingIndex, endingIndex, completed, separator }}>
+    <StepContext.Provider
+      value={{
+        activeStepIndex,
+        index,
+        startingIndex,
+        endingIndex,
+        completed,
+        separator,
+        testId: props["data-testid"] && `${props["data-testid"]}-${startingIndex + index}`,
+      }}
+    >
       {child}
     </StepContext.Provider>
   ));
 
   return (
-    <nav>
+    <nav data-testid={props["data-testid"]}>
       <ul className={containerClassName}>{childrenWithIndex}</ul>
     </nav>
   );
@@ -129,7 +166,8 @@ function ProgressBar({
 
 export function Step({ active, children, ...props }: StepProps) {
   const tokens = useTokens("ProgressBar", props.tokens);
-  const { activeStepIndex, index, startingIndex, endingIndex, completed, separator } = React.useContext(StepContext);
+  const { activeStepIndex, index, startingIndex, endingIndex, completed, separator, testId } =
+    React.useContext(StepContext);
 
   const before = index < activeStepIndex;
   const after = index > activeStepIndex;
@@ -171,7 +209,7 @@ export function Step({ active, children, ...props }: StepProps) {
   const stepSeparator = separator ?? <DefaultSeparator />;
 
   return (
-    <li className="relative md:flex-1 md:flex">
+    <li className="relative md:flex-1 md:flex" data-testid={props["data-testid"] ?? testId}>
       <div className="group flex items-center">
         <div className={stepContainerClassName}>
           <div className={indexIconDivClassName}>{content}</div>

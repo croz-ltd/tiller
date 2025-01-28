@@ -75,6 +75,19 @@ type ChildrenProps<T extends File> = {
    * @default true
    */
   loading?: boolean;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 type ChildrenFunction<T extends File> = (props: ChildrenProps<T>) => React.ReactNode;
@@ -92,6 +105,19 @@ type FileBrowserProps<T extends File> = {
    */
   fetchDirectory: (directory: T, currentPath?: T[]) => Promise<T[]>;
   children?: ChildrenFunction<T>;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Element {
@@ -157,7 +183,7 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
   };
 
   return (
-    <>
+    <div data-testid={props["data-testid"]}>
       {children ? (
         children({
           currentFiles,
@@ -181,9 +207,10 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
           icons={true}
           breadcrumbs={true}
           loading={true}
+          data-testid={props["data-testid"] && `${props["data-testid"]}-table`}
         />
       )}
-    </>
+    </div>
   );
 }
 
@@ -197,14 +224,21 @@ function FileBrowserTable<T extends File>({
   breadcrumbs = true,
   icons = true,
   loading = true,
+  ...props
 }: ChildrenProps<T>) {
   return (
     <>
       {breadcrumbs && (
         <div className="flex flex-row h-10">
-          <Breadcrumbs tokens={{ container: { backgroundColor: "bg-transparent" } }}>
+          <Breadcrumbs
+            tokens={{ container: { backgroundColor: "bg-transparent" } }}
+            data-testid={props["data-testid"] && `${props["data-testid"]}-breadcrumbs`}
+          >
             {currentPath.map((folder, index) => (
-              <button onClick={index !== currentPath.length - 1 ? () => goToDirectory(index + 1) : undefined}>
+              <button
+                onClick={index !== currentPath.length - 1 ? () => goToDirectory(index + 1) : undefined}
+                data-testid={props["data-testid"] && `${props["data-testid"]}-breadcrumbs-${index}`}
+              >
                 <Breadcrumbs.Breadcrumb>{folder.name}</Breadcrumbs.Breadcrumb>
               </button>
             ))}
@@ -217,6 +251,7 @@ function FileBrowserTable<T extends File>({
               onClick={goBack}
               showTooltip={false}
               className="ml-2"
+              data-testid={props["data-testid"] && `${props["data-testid"]}-folder-up`}
             />
           )}
         </div>
@@ -231,6 +266,7 @@ function FileBrowserTable<T extends File>({
             </div>
           ) : undefined
         }
+        data-testid={props["data-testid"] && `${props["data-testid"]}-table`}
       >
         <DataTable.Column header="Name" id="name" canSort={false}>
           {(file: File) => (icons ? <DisplayFileIconAndName file={file} /> : <Typography>{file.name}</Typography>)}

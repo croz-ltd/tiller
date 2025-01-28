@@ -21,6 +21,7 @@ import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/
 
 type BreadcrumbProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"Breadcrumbs">;
 
 export type BreadcrumbsProps = {
@@ -38,6 +39,19 @@ export type BreadcrumbsProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & BreadcrumbsTokensProps;
 
 type BreadcrumbsTokensProps = {
@@ -66,7 +80,7 @@ function Breadcrumbs({ children, icon, className, ...props }: BreadcrumbsProps) 
   const breadcrumbIcon = useIcon("breadcrumbs", icon, { className: tokens.iconColor });
 
   return (
-    <nav className="flex">
+    <nav className="flex" data-testid={props["data-testid"]}>
       <ol className={containerClassName}>
         {React.Children.map(
           children,
@@ -98,7 +112,11 @@ function Breadcrumb({ children, ...props }: BreadcrumbProps) {
     tokens.breadcrumb.transitionTimingFunction,
   );
 
-  return <span className={breadcrumbClassname}>{children}</span>;
+  return (
+    <span className={breadcrumbClassname} data-testid={props["data-testid"]}>
+      {children}
+    </span>
+  );
 }
 
 Breadcrumbs.Breadcrumb = Breadcrumb;

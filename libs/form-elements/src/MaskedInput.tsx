@@ -98,7 +98,7 @@ export default function MaskedInput({
       ref={props.inputRef || currentRef}
       name={name}
       id={id}
-      data-testid={id}
+      data-testid={props["data-testid"] ?? id}
       disabled={disabled}
       onChange={onMaskChange}
       placeholder={inputPlaceholder}

@@ -85,6 +85,19 @@ export type FieldProps = {
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
    */
   tooltip?: React.ReactNode;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & InputTokensProps;
 
 type InputTokensProps = {
@@ -128,11 +141,11 @@ export default function Field({
     errorMessage = <Intl name={errorMessage.toString().replace("intl:", "")} />;
   }
   if (typeof errorMessage !== "string" && !React.isValidElement(errorMessage)) {
-    errorMessage = ""
+    errorMessage = "";
   }
 
   return (
-    <div className={containerClassName}>
+    <div className={containerClassName} data-testid={props["data-testid"]}>
       <FieldLabel id={id} label={label} required={required} tooltip={tooltip} {...props} />
       <div className={fieldClassName}>{children}</div>
       {addonBelow && addonBelow}

@@ -34,6 +34,19 @@ type DropdownProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 type DropdownContentProps = {
@@ -45,10 +58,24 @@ type DropdownContentProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 type DropdownButtonProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 };
 
 type DropdownItemProps = {
@@ -61,6 +88,19 @@ type DropdownItemProps = {
    * Custom function witch fires on selection of the item.
    */
   onSelect: () => void;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 type DropdownContext = {
@@ -75,12 +115,12 @@ export const DropdownContext = createNamedContext<DropdownContext>("DropdownCont
   setItemHeight: (height: number) => {},
 });
 
-function Dropdown({ children, className }: DropdownProps) {
+function Dropdown({ children, className, ...props }: DropdownProps) {
   return (
     <Menu>
       {({ isExpanded }) => {
         return (
-          <DropdownContent isExpanded={isExpanded} className={className}>
+          <DropdownContent isExpanded={isExpanded} data-testid={props["data-testid"]} className={className}>
             {children}
           </DropdownContent>
         );
@@ -89,20 +129,26 @@ function Dropdown({ children, className }: DropdownProps) {
   );
 }
 
-function DropdownContent({ children, isExpanded, className }: DropdownContentProps) {
+function DropdownContent({ children, isExpanded, className, ...props }: DropdownContentProps) {
   const context = React.useMemo(() => ({ isExpanded }), [isExpanded]);
 
   const contentClassName = cx("relative inline-block text-left", className);
 
   return (
     <DropdownContext.Provider value={context}>
-      <div className={contentClassName}>{children}</div>
+      <div className={contentClassName} data-testid={props["data-testid"]}>
+        {children}
+      </div>
     </DropdownContext.Provider>
   );
 }
 
-function DropdownButton({ children }: DropdownButtonProps) {
-  return <MenuButton as="menu">{children}</MenuButton>;
+function DropdownButton({ children, ...props }: DropdownButtonProps) {
+  return (
+    <MenuButton as="menu" data-testid={props["data-testid"]}>
+      {children}
+    </MenuButton>
+  );
 }
 
 function DropdownItem({ children, ...props }: DropdownItemProps) {
@@ -112,12 +158,12 @@ function DropdownItem({ children, ...props }: DropdownItemProps) {
 function DropdownMenu({
   children,
   ...props
-}: React.PropsWithChildren<Record<string, unknown>> & TokenProps<"Dropdown">) {
+}: React.PropsWithChildren<Record<string, unknown>> & TokenProps<"Dropdown"> & { "data-testid"?: string }) {
   const tokens = useTokens("Dropdown", props.tokens);
   const { isExpanded } = React.useContext(DropdownContext);
 
   return (
-    <MenuPopover className="z-50">
+    <MenuPopover className="z-50" data-testid={props["data-testid"]}>
       <Transition show={isExpanded} {...tokens.Menu.transition}>
         <MenuItems>{children}</MenuItems>
       </Transition>

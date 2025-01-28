@@ -40,6 +40,7 @@ export type IconButtonProps = {
 
   /**
    * Unique identifier passed onto the component.
+   * Assigned as 'data-testid' attribute if 'data-testid' prop is not defined.
    */
   id?: string;
 
@@ -82,6 +83,7 @@ type WithLinkProps = {
   id?: string;
   onClick?: (() => void) | React.MouseEventHandler<HTMLButtonElement>;
   shouldWrap: boolean;
+  "data-testid"?: string;
 };
 
 function WithLink({ children, shouldWrap, onClick, buttonClass, ...props }: WithLinkProps) {
@@ -125,12 +127,19 @@ export default function IconButton({
   return wrapContent(
     <>
       {disabled && (
-        <WithLink shouldWrap={false} id={id} buttonClass={buttonClass}>
+        <WithLink shouldWrap={false} id={id} buttonClass={buttonClass} data-testid={props["data-testid"] ?? id}>
           {React.cloneElement(icon, { className: disabledIconClass })}
         </WithLink>
       )}
       {!disabled && (
-        <WithLink shouldWrap={props.to !== undefined} id={id} onClick={onClick} buttonClass={buttonClass} {...props}>
+        <WithLink
+          shouldWrap={props.to !== undefined}
+          id={id}
+          onClick={onClick}
+          buttonClass={buttonClass}
+          data-testid={props["data-testid"] ?? id}
+          {...props}
+        >
           {icon}
         </WithLink>
       )}

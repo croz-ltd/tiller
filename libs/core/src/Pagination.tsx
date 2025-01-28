@@ -87,6 +87,19 @@ export type PaginationProps = {
    * Defines the total number of elements on a source that the component is hooked up to.
    */
   totalElements: number;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & PaginationTokensProps;
 
 type PaginationTokensProps = {
@@ -162,7 +175,7 @@ export default function Pagination(props: PaginationProps) {
   };
 
   return (
-    <section className={tokens.master}>
+    <section className={tokens.master} data-testid={props["data-testid"]}>
       {pageSummary && <PageSummary {...props} />}
       <Pager {...props} {...calculatedProps} />
     </section>
@@ -192,7 +205,7 @@ function PageSummary({ pageNumber, pageSize, totalElements, children, ...props }
   }
 
   return (
-    <p className={pageSummaryClassName}>
+    <p className={pageSummaryClassName} data-testid={props["data-testid"] && `${props["data-testid"]}-summary`}>
       {intl ? (
         <Intl
           name={intl.commonKeys["paginationSummary"] as string}
@@ -267,6 +280,7 @@ function Pager({
           tokens={defaultButtonTokens}
           disabled={pageNumber === 0 || totalElements === 0}
           onClick={() => onPageChange && onPageChange(pageNumber - 1)}
+          data-testid={props["data-testid"] && `${props["data-testid"]}-previous`}
         >
           {iconPrevious}
         </ButtonGroups.IconButton>
@@ -281,6 +295,7 @@ function Pager({
                 size={displayType === "DESKTOP" ? "md" : "sm"}
                 tokens={defaultButtonTokens}
                 className="cursor-default"
+                data-testid={props["data-testid"] && `${props["data-testid"]}-${value}`}
               >
                 ...
               </ButtonGroups.Button>
@@ -296,6 +311,7 @@ function Pager({
               size={displayType === "DESKTOP" ? "md" : "sm"}
               tokens={pageNumber + 1 === value ? currentButtonTokens : defaultButtonTokens}
               onClick={() => onPageChange && onPageChange(value - 1)}
+              data-testid={props["data-testid"] && `${props["data-testid"]}-${value}`}
             >
               {value}
             </ButtonGroups.Button>
@@ -310,6 +326,7 @@ function Pager({
           tokens={defaultButtonTokens}
           disabled={pageNumber + 1 === pageCount || totalElements === 0}
           onClick={() => onPageChange && onPageChange(pageNumber + 1)}
+          data-testid={props["data-testid"] && `${props["data-testid"]}-next`}
         >
           {iconNext}
         </ButtonGroups.IconButton>

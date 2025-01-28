@@ -109,6 +109,19 @@ export type NotificationProps = {
    * Custom container (div) className.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & NotificationTokensProps;
 
 type NotificationTokensProps = {
@@ -187,7 +200,7 @@ export default function Notification({
   const dismissClassName = cx(tokens.dismiss.master, tokens.dismiss.margin);
 
   return (
-    <section className={containerClassName}>
+    <section className={containerClassName} data-testid={props["data-testid"]}>
       <div className={innerContainerClassName}>
         {(icon || type) && <div className={tokens.icon.master}>{type ? finalMainIcon : icon}</div>}
         <div className={tokens.Container.content}>
