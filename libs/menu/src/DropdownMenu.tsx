@@ -98,6 +98,7 @@ type DropdownMenuMenuItemProps = {
   type?: "submit" | "reset" | "button";
   children: React.ReactNode;
   onSelect: () => void;
+  "data-testid"?: string;
 } & TokenProps<"DropdownMenu">;
 
 type DropdownMenuContainerProps = {
@@ -154,7 +155,7 @@ function DropdownMenu({
   );
 
   return (
-    <Dropdown>
+    <Dropdown data-testid={props["data-testid"]}>
       <Dropdown.Button>
         {menuType === "text" && (
           <Button
@@ -165,18 +166,27 @@ function DropdownMenu({
             trailingIcon={iconPlacement === "trailing" && responsiveIcon}
             className={className}
             {...props}
+            data-testid={props["data-testid"] && `${props["data-testid"]}-button`}
           >
             {title}
           </Button>
         )}
         {menuType === "icon" && (
-          <Button type={type} variant={variant} color={color} menu={true} className={className} {...props}>
+          <Button
+            type={type}
+            variant={variant}
+            color={color}
+            menu={true}
+            className={className}
+            {...props}
+            data-testid={props["data-testid"] && `${props["data-testid"]}-button`}
+          >
             {responsiveIcon}
           </Button>
         )}
       </Dropdown.Button>
 
-      <Dropdown.Menu>
+      <Dropdown.Menu data-testid={props["data-testid"] && `${props["data-testid"]}-menu`}>
         <DropdownContext.Provider value={{ isExpanded: true, itemHeight, setItemHeight }}>
           <DropdownMenuContainer backgroundColor={popupBackgroundColor} visibleItemCount={visibleItemCount}>
             {children}
@@ -215,8 +225,14 @@ export function DropdownMenuItem({
   );
 
   return (
-    <Dropdown.Item {...props}>
-      <button type="button" className={dropdownMenuItemClassName} disabled={disabled} ref={itemRef}>
+    <Dropdown.Item {...props} data-testid={props["data-testid"] && `${props["data-testid"]}-wrapper`}>
+      <button
+        type="button"
+        className={dropdownMenuItemClassName}
+        disabled={disabled}
+        ref={itemRef}
+        data-testid={props["data-testid"]}
+      >
         {children}
       </button>
     </Dropdown.Item>

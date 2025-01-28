@@ -35,6 +35,19 @@ export type CardProps = {
    * Determines whether the component is expanded by default.
    */
   isExpanded?: boolean;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & React.HTMLAttributes<HTMLDivElement> &
   CardTokensProps;
 
@@ -52,6 +65,8 @@ export type CardHeaderProps = {
   openExpanderIcon?: React.ReactElement;
 
   closeExpanderIcon?: React.ReactElement;
+
+  "data-testid"?: string;
 } & CardTokensProps;
 
 type CardHeaderTitleProps = {
@@ -59,14 +74,17 @@ type CardHeaderTitleProps = {
    * Card header title content (not exclusively text).
    */
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"Card">;
 
 type CardHeaderSubtitleProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"Card">;
 
 type CardHeaderActionsProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 };
 
 export type CardBodyProps = {
@@ -81,12 +99,24 @@ export type CardBodyProps = {
    * Removes the spacing (padding) from the body of the card.
    */
   removeSpacing?: boolean;
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & CardTokensProps;
 
 export type CardFooterProps = {
   className?: string;
-
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"Card">;
 
 type CardContextProviderProps = {
@@ -126,18 +156,18 @@ function Card({ children, status = "idle", isExpanded, className = "", ...props 
     tokens.container.backgroundColor,
     tokens.container.boxShadow,
     tokens.container.borderRadius,
-    tokens.container.overflow
+    tokens.container.overflow,
   );
 
   const waitingContainerClassName = cx(
     "absolute w-full h-full top-0 left-0 z-1",
     tokens.waitingContainer.backgroundColor,
-    tokens.waitingContainer.opacity
+    tokens.waitingContainer.opacity,
   );
 
   return (
     <CardContextProvider flag={isExpanded}>
-      <div className={tokens.master}>
+      <div className={tokens.master} data-testid={props["data-testid"]}>
         <div className={containerClassName}>{children}</div>
         {status === "waiting" && (
           <div className={waitingContainerClassName}>
@@ -158,7 +188,7 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
     { [tokens.header.padding]: !removeSpacing },
     { [tokens.header.borderBottomWidth]: !removeSpacing },
     { [tokens.header.borderColor]: !removeSpacing },
-    { "cursor-pointer": isExpanded !== undefined }
+    { "cursor-pointer": isExpanded !== undefined },
   );
 
   const title = findChild("CardHeaderTitle", children);
@@ -176,7 +206,7 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
 
   if (title || subtitle || actions) {
     return (
-      <div className={cardHeaderClassName} onClick={toggleExpander}>
+      <div className={cardHeaderClassName} onClick={toggleExpander} data-testid={props["data-testid"]}>
         <div className="-ml-4 -mt-4 flex justify-between items-center sm:flex-nowrap">
           <div className="ml-4 mt-4">
             {title}
@@ -191,7 +221,11 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
       </div>
     );
   } else {
-    return <div className={cardHeaderClassName}>{children}</div>;
+    return (
+      <div className={cardHeaderClassName} data-testid={props["data-testid"]}>
+        {children}
+      </div>
+    );
   }
 }
 
@@ -202,10 +236,14 @@ export function CardHeaderTitle({ children, ...props }: CardHeaderTitleProps) {
     tokens.header.title.fontSize,
     tokens.header.title.fontWeight,
     tokens.header.title.lineHeight,
-    tokens.header.title.color
+    tokens.header.title.color,
   );
 
-  return <h3 className={cardHeaderTitleClassName}>{children}</h3>;
+  return (
+    <h3 className={cardHeaderTitleClassName} data-testid={props["data-testid"]}>
+      {children}
+    </h3>
+  );
 }
 
 CardHeaderTitle.defaultProps = {
@@ -219,17 +257,25 @@ function CardHeaderSubtitle({ children, ...props }: CardHeaderSubtitleProps) {
     tokens.header.subtitle.marginTop,
     tokens.header.subtitle.fontSize,
     tokens.header.subtitle.lineHeight,
-    tokens.header.subtitle.color
+    tokens.header.subtitle.color,
   );
-  return <p className={cardHeaderSubtitleClassName}>{children}</p>;
+  return (
+    <p className={cardHeaderSubtitleClassName} data-testid={props["data-testid"]}>
+      {children}
+    </p>
+  );
 }
 
 CardHeaderSubtitle.defaultProps = {
   type: "CardHeaderSubtitle",
 };
 
-export function CardHeaderActions({ children }: CardHeaderActionsProps) {
-  return <div className="flex-shrink-0 ml-4 space-x-2">{children}</div>;
+export function CardHeaderActions({ children, ...props }: CardHeaderActionsProps) {
+  return (
+    <div className="flex-shrink-0 ml-4 space-x-2" data-testid={props["data-testid"]}>
+      {children}
+    </div>
+  );
 }
 
 CardHeaderActions.defaultProps = {
@@ -246,7 +292,11 @@ function CardBody({ removeSpacing = false, children, className = "", ...props }:
     return null;
   }
 
-  return <div className={cardBodyClassName}>{children}</div>;
+  return (
+    <div className={cardBodyClassName} data-testid={props["data-testid"]}>
+      {children}
+    </div>
+  );
 }
 
 function CardFooter({ children, className = "", ...props }: CardFooterProps) {
@@ -257,14 +307,18 @@ function CardFooter({ children, className = "", ...props }: CardFooterProps) {
     tokens.footer.borderTopWidth,
     tokens.footer.borderColor,
     tokens.footer.padding,
-    className
+    className,
   );
 
   if (isExpanded === false) {
     return null;
   }
 
-  return <div className={cardFooterClassName}>{children}</div>;
+  return (
+    <div className={cardFooterClassName} data-testid={props["data-testid"]}>
+      {children}
+    </div>
+  );
 }
 
 CardHeader.Title = CardHeaderTitle;

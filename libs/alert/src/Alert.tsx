@@ -66,6 +66,19 @@ export type AlertProps = {
    * Icon shown on the left side of the Alert.
    */
   icon?: React.ReactNode;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & AlertTokensProps;
 
 type AlertTokensProps = {
@@ -97,7 +110,7 @@ export default function Alert({
   const textClassName = cx({ [tokens.text.margin]: title }, tokens.text.fontSize, tokens.text.color[variant]);
 
   return (
-    <section className={alertClassName} {...props}>
+    <section className={alertClassName} data-testid={props["data-testid"]} {...props}>
       {icon}
       <div>
         {title && <p className={titleClassName}>{title}</p>}

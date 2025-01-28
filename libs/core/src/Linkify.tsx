@@ -35,6 +35,18 @@ export type LinkifyProps = {
    * Defaults to linkColor defined in the color's configuration of defaultConfig.
    */
   variant?: LinkifyColor;
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & Options &
   LinkTokensProps;
 
@@ -53,5 +65,9 @@ export default function Linkify({ children, variant = "main", nl2br = true, ...p
     ...props,
   } as Options;
 
-  return <LinkifyLibrary options={options}>{children}</LinkifyLibrary>;
+  return (
+    <LinkifyLibrary options={options} data-testid={props["data-testid"]}>
+      {children}
+    </LinkifyLibrary>
+  );
 }

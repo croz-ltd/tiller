@@ -592,9 +592,22 @@ type RichTextEditorProps = {
    * @param html The updated HTML content.
    */
   onHtmlChange?: (html: string) => void;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
-export default function RichTextEditor({ initialHtml, onHtmlChange }: RichTextEditorProps) {
+export default function RichTextEditor({ initialHtml, onHtmlChange, ...props }: RichTextEditorProps) {
   const linkTokens = useTokens("Link");
   const typographyTokens = useTokens("Typography");
 
@@ -671,7 +684,7 @@ export default function RichTextEditor({ initialHtml, onHtmlChange }: RichTextEd
       <LinkPlugin />
       <HistoryPlugin />
       <ListPlugin />
-      <div className="relative border border-neutral-100 border-t-0">
+      <div className="relative border border-neutral-100 border-t-0" data-testid={props["data-testid"]}>
         <RichTextPlugin
           contentEditable={<ContentEditable className={richTextEditorClasses} style={{ minHeight: 250 }} />}
           placeholder={<div className={placeholderClasses}>Enter some text...</div>}

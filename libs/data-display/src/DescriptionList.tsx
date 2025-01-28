@@ -40,6 +40,19 @@ type DescriptionListProps = {
    * Custom additional class name for the main container.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & DescriptionListTokensProps;
 
 type DescriptionListTokensProps = {
@@ -68,6 +81,19 @@ type DescriptionListItemProps = {
    * Custom additional class name for the main container.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TokenProps<"DescriptionList">;
 
 function DescriptionList({ children, type = "default", className, ...props }: DescriptionListProps) {
@@ -90,7 +116,7 @@ function DescriptionList({ children, type = "default", className, ...props }: De
           <>
             <div className={tokens.Type.clean.itemBase}>{childrenArray[i]}</div>
             <div className={tokens.Type.clean.itemBase}>{childrenArray[i + 1]}</div>
-          </>
+          </>,
         );
         i++;
       } else {
@@ -109,7 +135,7 @@ function DescriptionList({ children, type = "default", className, ...props }: De
       {
         [`${tokens.Type.default.margin} ${tokens.Type.default.border}  ${tokens.Type.default.borderColor}`]:
           type === "default" && index > 0,
-      }
+      },
     );
 
   const transformed = rows.map((child, key) => {
@@ -124,7 +150,11 @@ function DescriptionList({ children, type = "default", className, ...props }: De
 
   const descriptionListContainerClassName = cx(className, tokens.padding);
 
-  return <dl className={descriptionListContainerClassName}>{transformed}</dl>;
+  return (
+    <dl className={descriptionListContainerClassName} data-testid={props["data-testid"]}>
+      {transformed}
+    </dl>
+  );
 }
 
 function DescriptionListItem({ label, children, type = "default", ...props }: DescriptionListItemProps) {
@@ -132,20 +162,20 @@ function DescriptionListItem({ label, children, type = "default", ...props }: De
 
   const descriptionListItemContainerClassName = cx(
     { [tokens.Item.type.default.itemColumnContainer]: type === "default" },
-    { [tokens.Item.type.sameColumn.itemColumnContainer]: type === "same-column" }
+    { [tokens.Item.type.sameColumn.itemColumnContainer]: type === "same-column" },
   );
 
   const descriptionTermClassName = cx(
     { [tokens.Item.type.default.label]: type === "default" },
-    { [tokens.Item.type.sameColumn.label]: type === "same-column" }
+    { [tokens.Item.type.sameColumn.label]: type === "same-column" },
   );
   const descriptionDetailsClassName = cx(
     { [tokens.Item.type.default.content]: type === "default" },
-    { [tokens.Item.type.sameColumn.content]: type === "same-column" }
+    { [tokens.Item.type.sameColumn.content]: type === "same-column" },
   );
 
   return (
-    <div className={descriptionListItemContainerClassName}>
+    <div className={descriptionListItemContainerClassName} data-testid={props["data-testid"]}>
       <dt className={descriptionTermClassName}>
         <Typography variant="subtext" className="font-medium">
           {label}

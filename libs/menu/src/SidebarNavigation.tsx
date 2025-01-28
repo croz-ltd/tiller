@@ -61,6 +61,19 @@ type SidebarNavigationProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & SidebarNavigationTokensProps;
 
 type SidebarNavigationTokensProps = {
@@ -103,6 +116,19 @@ type SidebarNavigationItemProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & SidebarNavigationTokensProps;
 
 type SidebarNavigationDropdownItemProps = {
@@ -137,6 +163,19 @@ type SidebarNavigationDropdownItemProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & SidebarNavigationTokensProps;
 
 type SidebarNavigationDropdownProps = {
@@ -252,7 +291,7 @@ function SidebarNavigation({
     <NavigationContextProvider menuOpened={isOpen} actionOpened={false}>
       <NavigationContext.Consumer>
         {({ isActionOpened }) => (
-          <div className={containerClassName}>
+          <div className={containerClassName} data-testid={props["data-testid"]}>
             <div className={tokens.topContainer}>
               {!isActionOpened && (
                 <>
@@ -262,11 +301,16 @@ function SidebarNavigation({
                       color={menuButtonClassName}
                       variant="text"
                       onClick={handleClick}
+                      data-testid={props["data-testid"] && `${props["data-testid"]}-menu`}
                     >
                       {menuIcon}
                     </Button>
                   </div>
-                  {logo && <div className={logoClassName}>{logo}</div>}
+                  {logo && (
+                    <div className={logoClassName} data-testid={props["data-testid"] && `${props["data-testid"]}-logo`}>
+                      {logo}
+                    </div>
+                  )}
                 </>
               )}
               {topRightAction && (
@@ -274,14 +318,24 @@ function SidebarNavigation({
                   className={`flex items-center justify-end md:justify-center md:mr-0 md:col-span-1 ${
                     !isActionOpened ? (logo ? "col-span-1 mr-4" : "col-span-2 mr-4") : "col-span-3"
                   }`}
+                  data-testid={props["data-testid"] && `${props["data-testid"]}-right-action`}
                 >
                   {topRightAction}
                 </div>
               )}
             </div>
             <div className={navClass}>
-              <nav className={navClassName}>{children}</nav>
-              {bottomActions && <div className={bottomActionsClassName}>{bottomActions}</div>}
+              <nav className={navClassName} data-testid={props["data-testid"] && `${props["data-testid"]}-navigation`}>
+                {children}
+              </nav>
+              {bottomActions && (
+                <div
+                  className={bottomActionsClassName}
+                  data-testid={props["data-testid"] && `${props["data-testid"]}-bottom-action`}
+                >
+                  {bottomActions}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -340,7 +394,7 @@ export function SidebarNavigationItem({
   if (isExpandable) {
     return (
       <div className="cursor-pointer flex flex-col md:items-start items-center">
-        <div {...props} className={cn} onClick={() => setExpanded(!expanded)}>
+        <div {...props} className={cn} onClick={() => setExpanded(!expanded)} data-testid={props["data-testid"]}>
           {icon && <div className={iconClassName}>{icon}</div>}
           {title}
           {expanded ? closeExpanderIcon : openExpanderIcon}
@@ -351,7 +405,7 @@ export function SidebarNavigationItem({
   }
 
   return (
-    <Link {...props} to={to || "#"} className={cn}>
+    <Link {...props} to={to || "#"} className={cn} data-testid={props["data-testid"]}>
       {icon && <div className={iconClassName}>{icon}</div>}
       <div className="flex items-center">{title || children}</div>
     </Link>
@@ -408,6 +462,7 @@ export function SidebarNavigationDropdown({
           iconColor={iconColor}
           visibleItemCount={visibleItemCount}
           popupBackgroundColor={popupBackgroundColor || "default"}
+          data-testid={props["data-testid"]}
         >
           <div className="px-2">{children}</div>
         </DropdownMenu>
@@ -417,6 +472,7 @@ export function SidebarNavigationDropdown({
           variant={buttonVariant}
           color={buttonColor}
           onClick={() => (onActionOpenedToggle ? onActionOpenedToggle(!isActionOpened) : undefined)}
+          data-testid={props["data-testid"]}
         >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
@@ -461,7 +517,7 @@ export function SidebarNavigationDropdownItem({
   };
 
   return (
-    <Link to={to ? to : ""} onClick={onSelect} className={dropdownItemClassName}>
+    <Link to={to ? to : ""} onClick={onSelect} className={dropdownItemClassName} data-testid={props["data-testid"]}>
       {icon ? iconTextWrapper(children) : children}
     </Link>
   );

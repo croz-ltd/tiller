@@ -62,6 +62,19 @@ type TabsProps = {
    * Custom additional class name for the main container.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TabsTokenProps;
 
 type TabsTokenProps = {
@@ -94,6 +107,19 @@ type TabsTabProp = {
    * Takes the index of the selected tab as a parameter.
    */
   onClick?: (selectedIndex: number) => void;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 export type CustomTabProps = {
@@ -139,6 +165,19 @@ export type CustomTabProps = {
    * Make text unwrappable.
    */
   dontWrapText?: boolean;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TokenProps<"Tabs">;
 
 type CustomTabsProps = {
@@ -242,6 +281,7 @@ function Tabs({
             dontWrapText={scrollButtons}
             className={child.props.className}
             tokens={tokens}
+            data-testid={child.props["data-testid"] ? child.props["data-testid"] : `${props["data-testid"]}-${key}`}
           >
             {child.props.label}
           </CustomTab>
@@ -262,7 +302,7 @@ function Tabs({
 
   return (
     <CustomTabsContext.Provider value={tabsContext}>
-      <ReachTabs defaultIndex={defaultIndex} index={index} onChange={onTabChange}>
+      <ReachTabs defaultIndex={defaultIndex} index={index} onChange={onTabChange} data-testid={props["data-testid"]}>
         <WithScrollButtons shouldWrap={scrollButtons}>
           <TabList className={className}>
             <CustomTabs hasScrollButtons={scrollButtons} tokens={tokens}>
@@ -432,7 +472,7 @@ function CustomTab({
 
   return (
     <div className={tabClassName} onClick={handleClick} ref={tab}>
-      <ReachTab className={tabWrapperClassName} as="a">
+      <ReachTab className={tabWrapperClassName} as="a" data-testid={props["data-testid"]}>
         {icon && <div className={iconClassName}>{icon}</div>}
         {children}
       </ReachTab>

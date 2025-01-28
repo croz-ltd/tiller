@@ -30,6 +30,19 @@ export type ContainerProps = {
    * for inner and outer container of the component.
    */
   variant?: "max" | "fullWidth" | "constrainedPadded" | "fullWidthContainer" | "narrowConstrained";
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & ContainerTokensProps;
 
 type ContainerTokensProps = {
@@ -40,7 +53,7 @@ export default function Container({ variant = "max", children, ...props }: Conta
   const tokens = useTokens("Container", props.tokens);
 
   return (
-    <div className={tokens.variant[variant].outerContainer}>
+    <div className={tokens.variant[variant].outerContainer} data-testid={props["data-testid"]}>
       <div className={tokens.variant[variant].innerContainer}>{children}</div>
     </div>
   );

@@ -162,6 +162,19 @@ export type DataTableProps<T extends object> = {
    * When set to true, users can sort by multiple columns simultaneously.
    */
   multiSort?: boolean;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & DataTableTokensProps;
 
 type DataTableTokensProps = {
@@ -556,7 +569,7 @@ function DataTable<T extends object>({
   );
 
   const { columns, renderExpandedRow } = React.useMemo(() => {
-    return extractFromChildren<T>(columnChildren, rowEditingIndex, saveEnabled);
+    return extractFromChildren<T>(columnChildren, rowEditingIndex, saveEnabled, props["data-testid"]);
   }, [columnChildren]);
 
   const sortBy = defaultSortBy?.map((sort) => ({
@@ -710,9 +723,9 @@ function DataTable<T extends object>({
     >
       <div className="flex flex-col">
         <div className={containerClassName}>
-          <table {...getTableProps()} className="min-w-full">
+          <table {...getTableProps()} className="min-w-full" data-testid={props["data-testid"]}>
             {showHeader && (
-              <thead>
+              <thead data-testid={props["data-testid"] && `${props["data-testid"]}-head`}>
                 {headerGroups.map((headerGroup, headerGroupKey) => (
                   <tr key={headerGroupKey} {...headerGroup.getHeaderGroupProps()}>
                     {headerGroup.headers.slice(0, columnChildrenSize).map((column, columnKey) => (
@@ -726,6 +739,7 @@ function DataTable<T extends object>({
                             toggleSortBy(column.id, undefined, multiSort);
                           }
                         }}
+                        data-testid={props["data-testid"] && `${props["data-testid"]}-head-${columnKey}`}
                       >
                         <DataTableHeader alignHeader={alignHeader} {...column}>
                           {column.render("Header")}
@@ -736,7 +750,7 @@ function DataTable<T extends object>({
                 ))}
               </thead>
             )}
-            <tbody {...getTableBodyProps()}>
+            <tbody {...getTableBodyProps()} data-testid={props["data-testid"] && `${props["data-testid"]}-body`}>
               {props.emptyState && !data.length ? (
                 <tr>
                   <td colSpan={visibleColumns.length}>{props.emptyState}</td>
@@ -758,6 +772,7 @@ function DataTable<T extends object>({
                           onClickClasses,
                           getRowClassName?.(row.original, rowKey),
                         )}
+                        data-testid={props["data-testid"] && `${props["data-testid"]}-body-${rowKey}`}
                       >
                         {primaryCells.map((cell, cellKey) => {
                           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -785,6 +800,7 @@ function DataTable<T extends object>({
                               onDoubleClick={() =>
                                 onDoubleClick && !isSelector ? onDoubleClick(row.original) : undefined
                               }
+                              data-testid={props["data-testid"] && `${props["data-testid"]}-body-${rowKey}-${cellKey}`}
                             >
                               {cell.render("Cell")}
                             </td>
@@ -800,6 +816,7 @@ function DataTable<T extends object>({
                             getRowClassName?.(row.original, rowKey),
                           )}
                           onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
+                          data-testid={props["data-testid"] && `${props["data-testid"]}-body-secondary-${rowKey}`}
                         >
                           {secondaryCells.map((cell, cellKey) => {
                             // @ts-ignore
@@ -814,6 +831,9 @@ function DataTable<T extends object>({
                                 colSpan={colSpan}
                                 onClick={() => (onClick ? onClick(row.original) : undefined)}
                                 onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
+                                data-testid={
+                                  props["data-testid"] && `${props["data-testid"]}-body-secondary-${rowKey}-${cellKey}`
+                                }
                               >
                                 <div className="flex flex-col text-xs">
                                   <div className="font-bold">
@@ -959,7 +979,10 @@ function DataTableCardHeaderSelector({ children }: DataTableCardHeaderSelectorPr
   return <>{selectorTitle}</>;
 }
 
-function ExpanderCell<T extends object>({ row, ...props }: Pick<Cell<T>, "row"> & TokenProps<"DataTable">) {
+function ExpanderCell<T extends object>({
+  row,
+  ...props
+}: Pick<Cell<T>, "row"> & TokenProps<"DataTable"> & { "data-testid"?: string }) {
   const tokens = useTokens("DataTable", props.tokens);
 
   const openExpanderIcon = useIcon("openExpander", undefined, {
@@ -972,7 +995,12 @@ function ExpanderCell<T extends object>({ row, ...props }: Pick<Cell<T>, "row"> 
   });
 
   return (
-    <button {...row.getToggleRowExpandedProps()} type="button" className="focus:outline-none select-none h-4 w-4">
+    <button
+      {...row.getToggleRowExpandedProps()}
+      type="button"
+      className="focus:outline-none select-none h-4 w-4"
+      data-testid={props["data-testid"] && `${props["data-testid"]}-expander-${row.index}`}
+    >
       {row.isExpanded ? closeExpanderIcon : openExpanderIcon}
     </button>
   );
@@ -1015,7 +1043,7 @@ function SelectorHeader({ getToggleAllPageRowsSelectedProps }: HeaderProps<{}>) 
   );
 }
 
-function SelectorCell<T extends object>({ row }: Pick<Cell<T>, "row">) {
+function SelectorCell<T extends object>({ row, ...props }: Pick<Cell<T>, "row"> & { "data-testid"?: string }) {
   const { hook } = useDataTableContext();
 
   if (hook) {
@@ -1036,6 +1064,7 @@ function SelectorCell<T extends object>({ row }: Pick<Cell<T>, "row">) {
           disabled={hook.isAllRowsSelected || false}
           checked={checked || hook.isAllRowsSelected}
           onChange={onChange}
+          data-testid={props["data-testid"] && `${props["data-testid"]}-selector-${row.index}`}
         />
       </div>
     );
@@ -1043,7 +1072,10 @@ function SelectorCell<T extends object>({ row }: Pick<Cell<T>, "row">) {
 
   return (
     <div>
-      <Checkbox {...row.getToggleRowSelectedProps()} />
+      <Checkbox
+        {...row.getToggleRowSelectedProps()}
+        data-testid={props["data-testid"] && `${props["data-testid"]}-selector-${row.index}`}
+      />
     </div>
   );
 }
@@ -1052,11 +1084,12 @@ function extractFromChildren<T extends object>(
   children: React.ReactNode,
   rowEditingIndex: number | undefined,
   saveEnabled: boolean | undefined,
+  testId?: string,
 ): DataTableInfo<T> {
   const childrenArray = React.Children.toArray(children);
 
   return {
-    columns: extractColumns(childrenArray, rowEditingIndex, saveEnabled),
+    columns: extractColumns(childrenArray, rowEditingIndex, saveEnabled, testId),
     renderExpandedRow: extractRenderExpandedRow(childrenArray),
   };
 }
@@ -1065,6 +1098,7 @@ function extractColumns<T extends object>(
   children: Array<Exclude<React.ReactNode, boolean | null | undefined>>,
   rowEditingIndex: number | undefined,
   saveEnabled: boolean | undefined,
+  testId?: string,
 ) {
   return children.flatMap((child) => {
     if (!React.isValidElement(child)) {
@@ -1109,9 +1143,9 @@ function extractColumns<T extends object>(
             predicate(row.original, row.index) ? (
               child.props.predicateFallback && child.props.predicateFallback(row.original, row.index)
             ) : (
-              <ExpanderCell row={row} />
+              <ExpanderCell row={row} data-testid={testId} />
             )
-        : ExpanderCell;
+        : ({ row }: { row: Row<T> }) => <ExpanderCell row={row} data-testid={testId} />;
 
       const column = {
         Header: () => null,
@@ -1128,7 +1162,7 @@ function extractColumns<T extends object>(
       const Cell = child.props.children
         ? ({ row }: { row: Row<T> }) =>
             child.props.children(row.original, row.index, row, predicate(row.original, row.index))
-        : SelectorCell;
+        : ({ row }: { row: Row<T> }) => <SelectorCell row={row} data-testid={testId} />;
 
       const column = {
         id: "selector",

@@ -54,6 +54,19 @@ export type TypographyProps = {
    * Children of the component (not exclusively text).
    */
   children: React.ReactNode;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TypographyTokensProps;
 
 type TypographyTokensProps = {
@@ -77,14 +90,18 @@ export default function Typography({
     tokens.icon[variant],
     tokens.icon.base,
     { [tokens.icon.marginRight]: iconPlacement === "leading" },
-    { [tokens.icon.marginLeft]: iconPlacement === "trailing" }
+    { [tokens.icon.marginLeft]: iconPlacement === "trailing" },
   );
 
-  const elementNode = <Element className={elementClassName}>{children}</Element>;
+  const elementNode = (
+    <Element className={elementClassName} data-testid={!icon ? props["data-testid"] : undefined}>
+      {children}
+    </Element>
+  );
 
   if (icon) {
     return (
-      <div className={containerClassName}>
+      <div className={containerClassName} data-testid={props["data-testid"]}>
         {iconPlacement === "leading" && <div className={iconClassName}>{icon}</div>}
         {elementNode}
         {iconPlacement === "trailing" && <div className={iconClassName}>{icon}</div>}

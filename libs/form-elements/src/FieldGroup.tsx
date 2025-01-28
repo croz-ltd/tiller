@@ -56,6 +56,19 @@ export type FieldGroupProps = {
    * Displays the field items vertically instead of horizontally by default.
    */
   vertical?: boolean;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & FieldGroupTokens;
 
 export type FieldGroupItemProps = {
@@ -70,6 +83,8 @@ export type FieldGroupItemProps = {
   className?: string;
 
   disabled?: boolean;
+
+  "data-testid"?: string;
 } & TokenProps<"FieldGroup">;
 
 type FieldGroupTokens = {
@@ -106,7 +121,7 @@ function FieldGroup({
   );
 
   return (
-    <fieldset>
+    <fieldset data-testid={props["data-testid"]}>
       <legend className={fieldGroupTokens.Group.legend}>
         {label}
         {required && (
@@ -128,7 +143,7 @@ function FieldGroupItem({ label, help, id, children, className = "", disabled, .
   const fieldGroupItemClassName = cx(className, { [tokens.GroupItem.disabled]: disabled });
 
   return (
-    <div className={fieldGroupItemClassName}>
+    <div className={fieldGroupItemClassName} data-testid={props["data-testid"]}>
       <div className={tokens.GroupItem.container}>
         <div className={tokens.GroupItem.content}>{children}</div>
         <div className={tokens.GroupItem.info}>

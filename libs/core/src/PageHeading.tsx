@@ -32,6 +32,19 @@ export type PageHeadingProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & PageHeadingTokensProps;
 
 type PageHeadingTokensProps = {
@@ -40,10 +53,12 @@ type PageHeadingTokensProps = {
 
 type PageHeadingTitleProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
 type PageHeadingSubtitleProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
 type PageHeadingBreadcrumbsProps = {
@@ -56,18 +71,22 @@ type PageHeadingBreadcrumbsProps = {
    * Defines the look of the component, as demonstrated in stories of Breadcrumbs.
    */
   variant?: React.ReactElement;
+  "data-testid"?: string;
 };
 
 type PageHeadingBreadcrumbProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 };
 
 type PageHeadingMetaProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
 type PageHeadingActionsProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
 function PageHeading({ children, className, ...props }: PageHeadingProps) {
@@ -85,7 +104,7 @@ function PageHeading({ children, className, ...props }: PageHeadingProps) {
   const actions = findChild("PageHeadingActions");
 
   return (
-    <header>
+    <header data-testid={props["data-testid"]}>
       {breadcrumbs && <div className={tokens.breadcrumbs}>{breadcrumbs}</div>}
       <div className={`${tokens.container} ${className}`}>
         {title && (
@@ -101,9 +120,9 @@ function PageHeading({ children, className, ...props }: PageHeadingProps) {
   );
 }
 
-function PageHeadingBreadcrumbs({ children, variant }: PageHeadingBreadcrumbsProps) {
+function PageHeadingBreadcrumbs({ children, variant, ...props }: PageHeadingBreadcrumbsProps) {
   return (
-    <Breadcrumbs icon={variant}>
+    <Breadcrumbs icon={variant} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child) => {
         return <Breadcrumbs.Breadcrumb>{child}</Breadcrumbs.Breadcrumb>;
       })}
@@ -115,8 +134,8 @@ PageHeadingBreadcrumbs.defaultProps = {
   type: "PageHeadingBreadcrumbs",
 };
 
-function PageHeadingBreadcrumb({ children }: PageHeadingBreadcrumbProps) {
-  return <>{children}</>;
+function PageHeadingBreadcrumb({ children, ...props }: PageHeadingBreadcrumbProps) {
+  return <span data-testid={props["data-testid"]}>{children}</span>;
 }
 
 function PageHeadingTitle({ children, ...props }: PageHeadingTitleProps) {
@@ -130,7 +149,11 @@ function PageHeadingTitle({ children, ...props }: PageHeadingTitleProps) {
     tokens.title.lineHeight,
     tokens.title.color,
   );
-  return <h2 className={pageHeadingTitleClassName}>{children}</h2>;
+  return (
+    <h2 className={pageHeadingTitleClassName} data-testid={props["data-testid"]}>
+      {children}
+    </h2>
+  );
 }
 
 PageHeadingTitle.defaultProps = {
@@ -146,7 +169,11 @@ function PageHeadingSubtitle({ children, ...props }: PageHeadingSubtitleProps) {
     tokens.subtitle.lineHeight,
     tokens.subtitle.color,
   );
-  return <p className={pageHeadingSubtitleClassName}>{children}</p>;
+  return (
+    <p className={pageHeadingSubtitleClassName} data-testid={props["data-testid"]}>
+      {children}
+    </p>
+  );
 }
 
 PageHeadingSubtitle.defaultProps = {
@@ -158,7 +185,7 @@ function PageHeadingMeta({ children, ...props }: PageHeadingMetaProps) {
 
   const pageHeadingMeta = cx(tokens.meta.master, tokens.meta.marginTop);
   return (
-    <div className={pageHeadingMeta}>
+    <div className={pageHeadingMeta} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child) => (
         <div className={tokens.meta.child}>{child}</div>
       ))}
@@ -175,7 +202,11 @@ function PageHeadingActions({ children, ...props }: PageHeadingActionsProps) {
 
   const pageHeadingActionsClassName = cx(tokens.actions.master, tokens.actions.marginTop, tokens.actions.marginLeft);
 
-  return <div className={pageHeadingActionsClassName}>{children}</div>;
+  return (
+    <div className={pageHeadingActionsClassName} data-testid={props["data-testid"]}>
+      {children}
+    </div>
+  );
 }
 
 PageHeadingActions.defaultProps = {

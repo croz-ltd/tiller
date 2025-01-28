@@ -41,16 +41,26 @@ export type FileListProps<T extends File> = {
    * Custom additional styling applied to the component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 export type FileListNameProps = {
   children?: React.ReactNode;
   fileIcon?: React.ReactElement;
-
-  /**
-   * Custom additional styling applied to the component.
-   */
   className?: string;
+  "data-testid"?: string;
 } & TokenProps<"FileList">;
 
 export type FileListActionsProps = {
@@ -58,12 +68,26 @@ export type FileListActionsProps = {
    * Used in case of redirect, for example, file content url
    */
   to?: string;
+
   children?: React.ReactNode;
 
   /**
    * Handler for click action
    */
   onClick?: React.MouseEventHandler<HTMLElement>;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement> &
   TokenProps<"FileList">;
 
@@ -111,10 +135,12 @@ export type FileHeaderProps = {
    * Custom additional styling applied to the component.
    */
   className?: string;
+  "data-testid"?: string;
 } & TokenProps<"FileList">;
 
 export type FileBodyProps = {
   children: React.ReactNode;
+  "data-testid"?: string;
 };
 
 function FileHeader({ expandable = false, children, className, ...props }: FileHeaderProps) {
@@ -142,13 +168,14 @@ function FileHeader({ expandable = false, children, className, ...props }: FileH
   const closeExpanderIcon = useIcon("closeExpander", props.closeExpanderIcon, { size: 3 });
 
   return (
-    <div className={containerClassName}>
+    <div className={containerClassName} data-testid={props["data-testid"]}>
       {children}
       {expandable ? (
         <IconButton
           icon={isExpanded ? closeExpanderIcon : openExpanderIcon}
           className="ml-2"
           onClick={toggleExpander}
+          data-testid={props["data-testid"] && `${props["data-testid"]}-expander`}
           showTooltip={false}
         />
       ) : (
@@ -158,14 +185,14 @@ function FileHeader({ expandable = false, children, className, ...props }: FileH
   );
 }
 
-function FileBody({ children }: FileBodyProps) {
+function FileBody({ children, ...props }: FileBodyProps) {
   const { isExpanded } = React.useContext(FileContext);
 
   if (isExpanded === false) {
     return null;
   }
 
-  return <div>{children}</div>;
+  return <div data-testid={props["data-testid"]}>{children}</div>;
 }
 
 function FileListName({ children, className, fileIcon, ...props }: FileListNameProps) {
@@ -179,7 +206,7 @@ function FileListName({ children, className, fileIcon, ...props }: FileListNameP
   const fileListNameClassName = cx(tokens.fileName.textColor, tokens.fileName.fontSize);
 
   return (
-    <div className={containerClassName}>
+    <div className={containerClassName} data-testid={props["data-testid"]}>
       {finalFileIcon}
       <span className={fileListNameClassName}>{children}</span>
     </div>
@@ -195,14 +222,14 @@ function FileListAction({ to, children, className, ...props }: FileListActionsPr
 
   return (
     <div className={containerClassName}>
-      <a href={to} className={actionsClassName} {...props}>
+      <a href={to} className={actionsClassName} {...props} data-testid={props["data-testid"]}>
         {children}
       </a>
     </div>
   );
 }
 
-export function FileList<T extends File>({ hook, children, className }: FileListProps<T>) {
+export function FileList<T extends File>({ hook, children, className, ...props }: FileListProps<T>) {
   const helpers = {
     deleteFile: (selectedFile: T) => {
       hook.onDeletedFiles(selectedFile);
@@ -212,14 +239,22 @@ export function FileList<T extends File>({ hook, children, className }: FileList
   const files = hook.uploadedFiles.map((file) => {
     return (
       <FileContextProvider>
-        <li key={file.id} className="">
+        <li
+          key={file.id}
+          className=""
+          data-testid={props["data-testid"] && `${props["data-testid"]}-${file.name || file.originalFileName}`}
+        >
           {children ? children(file, helpers) : null}
         </li>
       </FileContextProvider>
     );
   });
 
-  return <ul className={className}>{files}</ul>;
+  return (
+    <ul className={className} data-testid={props["data-testid"]}>
+      {files}
+    </ul>
+  );
 }
 
 FileHeader.Name = FileListName;

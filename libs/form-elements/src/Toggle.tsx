@@ -111,10 +111,17 @@ export default function Toggle({
 
   return (
     <div className={divClassName}>
-      <Field {...props}>
+      <Field {...props} data-testid={props["data-testid"] && `${props["data-testid"]}-wrapper`}>
         <div className={tokens.master}>
           {reverse && label && <label className={labelClassName}>{label}</label>}
-          <span role="checkbox" aria-checked={checked} tabIndex={0} onClick={onClick} className={checkboxClassName}>
+          <span
+            role="checkbox"
+            aria-checked={checked}
+            tabIndex={0}
+            onClick={onClick}
+            className={checkboxClassName}
+            data-testid={props["data-testid"]}
+          >
             <span className={toggleClassName}>{checked ? finalCheckedIcon : finalUncheckedIcon}</span>
           </span>
           {!reverse && label && <label className={labelClassName}>{label}</label>}

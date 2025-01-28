@@ -62,17 +62,17 @@ export type BadgeProps = {
   small?: boolean;
 
   /**
-   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
    * @type {string}
    * @example
    * // Usage:
-   * <MyComponent testId="my-component" />
+   * <MyComponent data-testid="my-component" />
    * // In tests:
    * getByTestId('my-component');
    */
-  testId?: string;
+  "data-testid"?: string;
 
   /**
    * Determines whether the style of the badge is 'filled' (text-color-800, bg-color-100)
@@ -123,7 +123,7 @@ export default function Badge({
   );
 
   return (
-    <span className={containerClassName} data-testid={props.testId} onClick={onClick}>
+    <span className={containerClassName} data-testid={props["data-testid"]} onClick={onClick}>
       {dot && <BadgeDot color={color} variant={variant} />}
       {children}
       {onRemoveButtonClick && (
@@ -132,7 +132,7 @@ export default function Badge({
           small={small}
           variant={variant}
           onClick={onRemoveButtonClick}
-          testId={props.testId}
+          data-testid={props["data-testid"] && `${props["data-testid"]}-remove`}
         />
       )}
     </span>
@@ -151,7 +151,7 @@ function BadgeDot({ color = "white", variant = "filled", ...props }: BadgeDotPro
   );
 }
 
-function BadgeRemoveButton({ color = "white", small, onClick, testId, variant, ...props }: BadgeRemoveButtonProps) {
+function BadgeRemoveButton({ color = "white", small, onClick, variant, testId, ...props }: BadgeRemoveButtonProps) {
   const tokens = useTokens("Badge", props.tokens);
 
   const className = cx(tokens.variant[variant].color[color].removeIcon, {
@@ -159,10 +159,8 @@ function BadgeRemoveButton({ color = "white", small, onClick, testId, variant, .
     "-mr-0.5": small,
   });
 
-  const buttonId = testId && `remove-button-${testId}`;
-
   return (
-    <button type="button" data-testid={buttonId} className={className} onClick={onClick}>
+    <button type="button" data-testid={testId} className={className} onClick={onClick}>
       <svg className="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
         <path strokeLinecap="round" strokeWidth="1.5" d="M1 1l6 6m0-6L1 7" />
       </svg>

@@ -41,6 +41,7 @@ export type ButtonProps = {
 
   /**
    * The unique identifier of the button.
+   * Assigned as 'data-testid' attribute if 'data-testid' prop is not defined.
    */
   id?: string;
 
@@ -70,17 +71,17 @@ export type ButtonProps = {
   size?: ButtonSize;
 
   /**
-   * A unique identifier for testing purposes, equivalent to the `data-testid` attribute.
+   * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
    * @type {string}
    * @example
    * // Usage:
-   * <MyComponent testId="my-component" />
+   * <MyComponent data-testid="my-component" />
    * // In tests:
    * getByTestId('my-component');
    */
-  testId?: string;
+  "data-testid"?: string;
 
   /**
    * Icon on the right side of the button text.
@@ -140,7 +141,7 @@ export default function Button({
       ref={buttonRef}
       className={buttonClassName}
       id={id}
-      data-testid={props.testId || id}
+      data-testid={props["data-testid"] ?? id}
       disabled={disabled}
       {...props}
     >

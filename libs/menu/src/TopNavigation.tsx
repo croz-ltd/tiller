@@ -69,6 +69,19 @@ export type TopNavigationProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TopNavigationTokensProps;
 
 type TopNavigationTokensProps = {
@@ -125,6 +138,19 @@ export type TopNavigationItemProps = {
    * Destination url.
    */
   to?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TopNavigationItemsTokensProps;
 
 type TopNavigationDropdownProps = {
@@ -202,6 +228,19 @@ type TopNavigationDropdownItemProps = {
    * Custom additional class name for the main container component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & TopNavigationItemsTokensProps;
 
 type TopNavigationActionProps = {
@@ -241,6 +280,7 @@ type ThemeNavigationMenuContainerProps = {
   variant: "basic" | "centered" | "contained";
   className: string;
   color?: "default" | "dark" | "light";
+  "data-testid"?: string;
 } & TokenProps<"TopNavigation">;
 
 function TopNavigation({
@@ -305,7 +345,7 @@ function TopNavigation({
     <NavigationContextProvider small={false} menuOpened={isOpen} actionOpened={false}>
       <NavigationContext.Consumer>
         {({ isActionOpened }) => (
-          <nav className={baseClassName}>
+          <div className={baseClassName} data-testid={props["data-testid"]}>
             <div className={containerClassName}>
               {!isActionOpened && (
                 <>
@@ -315,14 +355,24 @@ function TopNavigation({
                       color={menuButtonClassName}
                       variant="text"
                       onClick={handleClick}
+                      data-testid={props["data-testid"] && `${props["data-testid"]}-menu`}
                     >
                       {isOpen ? closeIcon : menuIcon}
                     </Button>
                   </div>
-                  {logo && variant === "centered" && <div className={logoClassName}>{logo}</div>}
+                  {logo && variant === "centered" && (
+                    <div className={logoClassName} data-testid={props["data-testid"] && `${props["data-testid"]}-logo`}>
+                      {logo}
+                    </div>
+                  )}
                   <div className={topNavigationTokens.innerContainer}>
                     {logo && (variant === "basic" || variant === "contained") && (
-                      <div className={logoClassName}>{logo}</div>
+                      <div
+                        className={logoClassName}
+                        data-testid={props["data-testid"] && `${props["data-testid"]}-logo`}
+                      >
+                        {logo}
+                      </div>
                     )}
                     {(variant === "basic" || variant === "contained") && (
                       <TopNavigationMenuContainer variant={variant} className={headerClasses}>
@@ -334,18 +384,33 @@ function TopNavigation({
               )}
               {topRightAction && (
                 <div className={`flex items-center justify-end md:mr-2 ${isActionOpened ? "col-span-3 mt-2" : "mr-4"}`}>
-                  <div className={`${isActionOpened && "w-full md:w-fit"}`}>{topRightAction}</div>
+                  <div
+                    className={`${isActionOpened && "w-full md:w-fit"}`}
+                    data-testid={props["data-testid"] && `${props["data-testid"]}-right-action`}
+                  >
+                    {topRightAction}
+                  </div>
                 </div>
               )}
               {searchBar && (
                 <div className={searchBarClasses}>
-                  <div className={topNavigationTokens.searchBar}>{searchBar}</div>
+                  <div
+                    className={topNavigationTokens.searchBar}
+                    data-testid={props["data-testid"] && `${props["data-testid"]}-search`}
+                  >
+                    {searchBar}
+                  </div>
                 </div>
               )}
               {actions && (
                 <div className={topNavigationTokens.actionsAndDropdownContainer}>
                   <div className={topNavigationTokens.innerActionsAndDropdownContainer}>
-                    <div className={topNavigationTokens.actionsContainer}>{actions}</div>
+                    <div
+                      className={topNavigationTokens.actionsContainer}
+                      data-testid={props["data-testid"] && `${props["data-testid"]}-actions`}
+                    >
+                      {actions}
+                    </div>
                   </div>
                 </div>
               )}
@@ -355,14 +420,18 @@ function TopNavigation({
                 {navigation}
               </TopNavigationMenuContainer>
             )}
-
             <div className={topNavigationTokens.smallMenuContainer}>
               <div className={menuClasses}>
-                <div className={topNavigationTokens.smallMenuInnerContainer}>{navigation}</div>
+                <nav
+                  className={topNavigationTokens.smallMenuInnerContainer}
+                  data-testid={props["data-testid"] && `${props["data-testid"]}-navigation`}
+                >
+                  {navigation}
+                </nav>
                 {actions}
               </div>
             </div>
-          </nav>
+          </div>
         )}
       </NavigationContext.Consumer>
     </NavigationContextProvider>
@@ -386,7 +455,12 @@ function TopNavigationMenuContainer({
 
   return (
     <div className={menuContainerClassName}>
-      <div className={innerMenuContainerClassName}>{children}</div>
+      <nav
+        className={innerMenuContainerClassName}
+        data-testid={props["data-testid"] && `${props["data-testid"]}-navigation`}
+      >
+        {children}
+      </nav>
     </div>
   );
 }
@@ -452,13 +526,20 @@ export function TopNavigationItem({
             tokens={{}}
             className={cn}
             popupBackgroundColor={backgroundColor ? backgroundColor : color}
+            data-testid={props["data-testid"]}
           >
             {children}
           </DropdownMenu>
         </div>
         <div className="md:hidden">
           <div className="flex flex-col flex-wrap items-center">
-            <Link {...props} to={to || "#"} className={cn + ` items-center`} onClick={() => setExpanded(!expanded)}>
+            <Link
+              {...props}
+              to={to || "#"}
+              className={cn + ` items-center`}
+              onClick={() => setExpanded(!expanded)}
+              data-testid={props["data-testid"]}
+            >
               {title}
               {expanded ? closeExpanderIcon : openExpanderIcon}
             </Link>
@@ -533,6 +614,7 @@ export function TopNavigationDropdown({
           closeExpanderIcon={icon}
           iconColor={iconColor}
           popupBackgroundColor={popupBackgroundColor || "default"}
+          data-testid={props["data-testid"]}
         >
           <div className="px-2">{children}</div>
         </DropdownMenu>
@@ -543,6 +625,7 @@ export function TopNavigationDropdown({
           color={buttonColor}
           onClick={() => (onActionOpenedToggle ? onActionOpenedToggle(!isActionOpened) : undefined)}
           className="flex items-center justify-center space-x-2"
+          data-testid={props["data-testid"]}
         >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
@@ -599,7 +682,12 @@ export function TopNavigationDropdownItem({
 
   if (small) {
     return (
-      <Link to={to ? to : ""} onClick={onSelect} className={smallDropdownItemClassName}>
+      <Link
+        to={to ? to : ""}
+        onClick={onSelect}
+        className={smallDropdownItemClassName}
+        data-testid={props["data-testid"]}
+      >
         {icon ? iconTextWrapper(children) : children}
       </Link>
     );

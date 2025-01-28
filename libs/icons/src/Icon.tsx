@@ -41,6 +41,19 @@ export type IconProps = {
    * Determines whether the icon is solid (filled) or outlined
    */
   variant?: IconVariant;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & Omit<React.SVGProps<SVGSVGElement>, "color">;
 
 export default function Icon({ variant = "regular", type, className = "", size = 5, ...props }: IconProps) {
@@ -67,5 +80,5 @@ export default function Icon({ variant = "regular", type, className = "", size =
     [`ph-${type}-${variant}`]: variant !== "regular",
   });
 
-  return <i className={iconClassName} style={{ ...props.style }} />;
+  return <i className={iconClassName} style={{ ...props.style }} data-testid={props["data-testid"]} />;
 }

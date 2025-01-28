@@ -74,7 +74,7 @@ export type CheckboxGroupItemProps = {
    * A string representing the value of the checkbox. This is not displayed on the client-side, but on the server this is the value given to the data submitted with the checkbox's name.
    */
   value: string;
-} & Omit<FieldGroupItemProps, "id" | "children"> &
+} & Omit<FieldGroupItemProps, "id" | "children" | "data-testid"> &
   CheckboxProps;
 
 type CheckboxGroupContext = {
@@ -85,6 +85,8 @@ type CheckboxGroupContext = {
   onChange: (value: string) => () => void;
 
   onBlur?: () => void;
+
+  testId?: string;
 };
 
 const CheckboxGroupContext = React.createContext<CheckboxGroupContext>({
@@ -109,8 +111,10 @@ function CheckboxGroup({ name, children, value, className = "", onChange, onBlur
   };
 
   return (
-    <FieldGroup className={className} {...props}>
-      <CheckboxGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange, onBlur }}>
+    <FieldGroup className={className} {...props} data-testid={props["data-testid"]}>
+      <CheckboxGroupContext.Provider
+        value={{ name, checked: value, onChange: contextOnChange, onBlur, testId: props["data-testid"] }}
+      >
         {children}
         <input className={tokens.input} ref={inputRef} />
       </CheckboxGroupContext.Provider>
@@ -119,11 +123,16 @@ function CheckboxGroup({ name, children, value, className = "", onChange, onBlur
 }
 
 function CheckboxGroupItem({ value, color, disabled, ...props }: CheckboxGroupItemProps) {
-  const { name, checked, onChange, onBlur } = React.useContext(CheckboxGroupContext);
+  const { name, checked, onChange, onBlur, testId } = React.useContext(CheckboxGroupContext);
 
   const id = `${name}-${value}`;
   return (
-    <FieldGroup.Item {...props} id={id} disabled={disabled}>
+    <FieldGroup.Item
+      {...props}
+      id={id}
+      disabled={disabled}
+      data-testid={props["data-testid"] ? `${props["data-testid"]}-wrapper` : testId && `${testId}-${value}-wrapper`}
+    >
       <Checkbox
         id={id}
         name={name}
@@ -133,6 +142,7 @@ function CheckboxGroupItem({ value, color, disabled, ...props }: CheckboxGroupIt
         onChange={onChange(value)}
         onBlur={onBlur}
         disabled={disabled}
+        data-testid={props["data-testid"] ? props["data-testid"] : testId && `${testId}-${value}`}
       />
     </FieldGroup.Item>
   );

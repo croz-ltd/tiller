@@ -104,6 +104,19 @@ export type DragZoneProps<T extends File> = {
    * Doesn't adjust uploading percentages for the additional delay time, so UX behaviour needs to be additionally checked.
    */
   postLoadDelay?: number;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & Omit<UploadyWrapperProps, "children"> &
   Omit<FieldProps, "children"> &
   DragZoneTokensProps;
@@ -165,6 +178,19 @@ type CustomUploadDropZoneContainerProps<T extends File> = {
    * @see {@link DragZoneProps#postLoadDelay}
    */
   postLoadDelay?: number;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 };
 
 type CustomUploadDropZoneProps = {
@@ -179,6 +205,7 @@ type CustomUploadDropZoneProps = {
   loader?: ((uploadPercentage: number) => React.ReactNode) | null;
   preLoadDelay?: number;
   postLoadDelay?: number;
+  "data-testid"?: string;
 } & TokenProps<"DragZone">;
 
 export default function DragZone<T extends File>({
@@ -205,7 +232,7 @@ export default function DragZone<T extends File>({
   const onDragOverClassName = "opacity-50";
 
   return (
-    <Field {...props}>
+    <Field {...props} data-testid={props["data-testid"] && `${props["data-testid"]}-wrapper`}>
       {!disabled ? (
         <UploadyWrapper
           url={url}
@@ -227,6 +254,7 @@ export default function DragZone<T extends File>({
               loader={loader}
               preLoadDelay={preLoadDelay}
               postLoadDelay={postLoadDelay}
+              data-testid={props["data-testid"]}
             />
           </UploadDropZone>
         </UploadyWrapper>
@@ -346,7 +374,7 @@ function CustomUploadDropZone({
   const showLoader = loader && ((preLoadDelayPassed && uploadActive) || postUploadPeriodActive);
 
   return (
-    <div className={customUploadDropZoneContainerClassName} onClick={onClick}>
+    <div className={customUploadDropZoneContainerClassName} onClick={onClick} data-testid={props["data-testid"]}>
       <div className={tokens.customUploadDropZoneDescriptionContainer}>
         {showLoader && loader && uploadPercentage ? loader(uploadPercentage) : uploadZoneIcon}
         <label className={customUploadDropZoneTitleClassName}>{title}</label>

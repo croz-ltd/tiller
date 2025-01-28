@@ -223,17 +223,31 @@ export type AutocompleteProps<T extends {}> = {
   sort?: (items: T[]) => T[];
 
   /**
-   * A unique identifier for testing purposes, equivalent to the 'data-testid' attribute.
+   * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
    * @type {string}
    * @example
    * // Usage:
-   * <MyComponent testId="my-component" />
+   * <MyComponent data-testid="my-component" />
    * // In tests:
    * getByTestId('my-component');
    */
-  testId?: string;
+  "data-testid"?: string;
+
+  /**
+   * A function that generates a unique data-testid identifier for individual items.
+   * The function accepts an item of type `T` and returns a string that can be
+   * used as the `data-testid` for that item. By incorporating unique properties
+   * of the item, it ensures that each element has a distinct identifier.
+   *
+   * // Example function:
+   * const itemTestId = (item) => `list-item-${item.id}`;
+   *
+   * // Example test:
+   * getByTestId('list-item-123');
+   */
+  "item-testid"?: (item: T) => string;
 
   /**
    * Tooltip icon and text (on icon hover) displayed on the right of the label.
@@ -788,11 +802,22 @@ function Autocomplete<T extends {}>({
             .slice(0, lastIndex === 0 && getCustomItem ? 1 : lastIndex)
             .map((option, index) =>
               !inputValue || index !== filteredOptions.length - 1 ? (
-                <SelectItem key={index} index={index} option={option} />
+                <SelectItem
+                  key={index}
+                  index={index}
+                  option={option}
+                  testId={props["item-testid"] && `${props["item-testid"](option)}`}
+                />
               ) : (
                 inputValue &&
                 !arrayIncludes(filteredOptions.slice(0, filteredOptions.length - 1), getCustomItem(inputValue)) && (
-                  <SelectItem key={index} custom={true} option={getCustomItem(inputValue)} index={index} />
+                  <SelectItem
+                    key={index}
+                    custom={true}
+                    option={getCustomItem(inputValue)}
+                    index={index}
+                    testId={props["item-testid"] && `${props["item-testid"](option)}`}
+                  />
                 )
               ),
             )}
@@ -802,13 +827,28 @@ function Autocomplete<T extends {}>({
     return (
       <>
         {filteredOptions.slice(0, lastIndex).map((option, index) => (
-          <SelectItem key={index} index={index} option={option} />
+          <SelectItem
+            key={index}
+            index={index}
+            option={option}
+            testId={props["item-testid"] && `${props["item-testid"](option)}`}
+          />
         ))}
       </>
     );
   };
 
-  const SelectItem = ({ option, index, custom }: { option: T; index: number; custom?: boolean }) => {
+  const SelectItem = ({
+    option,
+    index,
+    custom,
+    testId,
+  }: {
+    option: T;
+    index: number;
+    custom?: boolean;
+    testId?: string;
+  }) => {
     const label = safeItemToString(option);
     const checkFirstChar = label.toLowerCase()[0] === inputValue?.toLowerCase()[0];
     const checkFirstWord = label.split(" ")[0].toLowerCase().includes(inputValue.split(" ")[0].toLowerCase());
@@ -842,6 +882,7 @@ function Autocomplete<T extends {}>({
               ? activeClassName(!getOptionLabel ? !tag && boldAll : false, selected, hovered, customContains)
               : itemClassName(!getOptionLabel ? !tag && boldAll : false, selected, customContains)
           }
+          data-testid={testId}
         >
           {children}
         </div>
@@ -945,7 +986,7 @@ function Autocomplete<T extends {}>({
       <Input
         className={className}
         id={id}
-        testId={props.testId || id}
+        data-testid={props["data-testid"] ?? id}
         label={label}
         tooltip={tooltip}
         help={help}
@@ -960,7 +1001,11 @@ function Autocomplete<T extends {}>({
           <div className={autocompleteTokens.Loading.container}>
             {loading && <div className={loadingInnerClassName}>{loadingIcon}</div>}
             {!disabled && validateUsage() && validateValue() && (
-              <div className={clearClassName} onClick={clear}>
+              <div
+                className={clearClassName}
+                onClick={clear}
+                data-testid={props["data-testid"] && `${props["data-testid"]}-clear`}
+              >
                 {removeIcon}
               </div>
             )}
