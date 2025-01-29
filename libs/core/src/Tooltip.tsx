@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { default as ReachTooltip } from "@reach/tooltip";
+import { Tooltip as ReachTooltip } from "@reach/tooltip";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
@@ -38,6 +38,11 @@ export type TooltipProps = {
   className?: string;
 
   /**
+   * The style of the tooltip. Defaults to `dark`.
+   */
+  color?: "dark" | "light";
+
+  /**
    * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
@@ -55,7 +60,7 @@ type TooltipTokensProps = {
   tokens?: ComponentTokens<"Tooltip">;
 };
 
-export default function Tooltip({ children, label, className, ...props }: TooltipProps) {
+export default function Tooltip({ children, label, color = "dark", className, ...props }: TooltipProps) {
   const tokens = useTokens("Tooltip", props.tokens);
 
   const tooltipClassName = cx(
@@ -65,11 +70,19 @@ export default function Tooltip({ children, label, className, ...props }: Toolti
     tokens.borderRadius,
     tokens.fontSize,
     tokens.color,
-    tokens.backgroundColor,
+    tokens[color].backgroundColor,
   );
 
   return (
-    <ReachTooltip className={tooltipClassName} label={<pre data-testid={props["data-testid"]}>{label}</pre>}>
+    <ReachTooltip
+      {...props}
+      className={tooltipClassName}
+      label={
+        <pre style={{ all: "unset", whiteSpace: "pre-wrap" }} data-testid={props["data-testid"]}>
+          <span className={tokens[color].textColor}>{label}</span>
+        </pre>
+      }
+    >
       <div>{children}</div>
     </ReachTooltip>
   );

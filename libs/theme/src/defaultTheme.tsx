@@ -1987,7 +1987,14 @@ const defaultComponentConfig = {
     borderRadius: "rounded",
     fontSize: "text-base",
     color: "text-white",
-    backgroundColor: "bg-black",
+    dark: {
+      backgroundColor: "bg-black",
+      textColor: "text-white",
+    },
+    light: {
+      backgroundColor: "bg-white",
+      textColor: "text-black",
+    },
   },
   Typography: {
     container: {
