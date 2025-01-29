@@ -140,6 +140,12 @@ export type TopNavigationItemProps = {
   to?: string;
 
   /**
+   * Custom function to execute on selection of the item. Do not use in parallel with 'to' prop for changing
+   * the link of your website.
+   */
+  onSelect?: () => void;
+
+  /**
    * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
    * It helps ensure that UI components are behaving as expected across different scenarios.
@@ -475,6 +481,7 @@ export function TopNavigationItem({
   icon,
   iconPlacement = "trailing",
   backgroundColor,
+  onSelect,
   ...props
 }: TopNavigationItemProps) {
   const [expanded, setExpanded] = React.useState(false);
@@ -511,20 +518,34 @@ export function TopNavigationItem({
   const openExpanderIcon = useIcon("openExpander", undefined, iconProps);
   const closeExpanderIcon = useIcon("closeExpander", undefined, iconProps);
 
+  const onExpandableItemClickMobile = () => {
+    setExpanded(!expanded);
+    if (onSelect) {
+      onSelect();
+    }
+  };
+
+  const onExpandableItemClick = () => {
+    if (onMenuOpenedToggle) {
+      onMenuOpenedToggle(!isMenuOpened);
+    }
+    if (onSelect) {
+      onSelect();
+    }
+  };
+
   if (isExpandable) {
     return (
       <div className="w-full">
-        <div
-          className="hidden md:block"
-          onClick={() => onMenuOpenedToggle && onMenuOpenedToggle(!isMenuOpened)}
-          onBlur={() => onMenuOpenedToggle && onMenuOpenedToggle(false)}
-        >
+        <div className="hidden md:block">
           <DropdownMenu
             title={title}
             menuType="text"
             variant="text"
             tokens={{}}
             className={cn}
+            onClick={onExpandableItemClick}
+            onBlur={() => onMenuOpenedToggle && onMenuOpenedToggle(false)}
             popupBackgroundColor={backgroundColor ? backgroundColor : color}
             data-testid={props["data-testid"]}
           >
@@ -537,7 +558,7 @@ export function TopNavigationItem({
               {...props}
               to={to || "#"}
               className={cn + ` items-center`}
-              onClick={() => setExpanded(!expanded)}
+              onClick={onExpandableItemClickMobile}
               data-testid={props["data-testid"]}
             >
               {title}
@@ -558,6 +579,7 @@ export function TopNavigationItem({
     <Link
       {...props}
       to={to || "#"}
+      onClick={onSelect}
       className={
         cn +
         ` md:flex md:items-center md:space-x-0.5 ${
@@ -606,6 +628,7 @@ export function TopNavigationDropdown({
     <>
       <div className="hidden md:block">
         <DropdownMenu
+          {...props}
           title={title}
           variant={buttonVariant}
           color={buttonColor}
