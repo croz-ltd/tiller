@@ -69,7 +69,7 @@ export default function Tooltip({ children, label, className, ...props }: Toolti
   );
 
   return (
-    <ReachTooltip className={tooltipClassName} label={<pre data-testid={props["data-testid"]}>{label}</pre>}>
+    <ReachTooltip {...props} className={tooltipClassName} label={<pre data-testid={props["data-testid"]}>{label}</pre>}>
       <div>{children}</div>
     </ReachTooltip>
   );
