@@ -52,6 +52,12 @@ export const MultiLineTooltip = () => (
   </Tooltip>
 );
 
+export const LightTooltip = () => (
+  <Tooltip label={labelItem1} color="light">
+    <p>Hover on me</p>
+  </Tooltip>
+);
+
 export const CustomTooltip = () => (
   <Tooltip label={customLabelItem}>
     <p>Hover on me</p>
