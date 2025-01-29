@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { useCombobox, UseComboboxStateChangeTypes } from "downshift";
 
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { Popover, positionMatchWidth } from "@reach/popover";
 
 import { Badge } from "@tiller-ds/core";
 import { Input } from "@tiller-ds/form-elements";

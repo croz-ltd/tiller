@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { Popover, positionMatchWidth } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
 import { defaultPlaceholderChar, InputProps, MaskedInput } from "@tiller-ds/form-elements";
