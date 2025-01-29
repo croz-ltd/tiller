@@ -107,6 +107,12 @@ type SidebarNavigationItemProps = {
   to?: string;
 
   /**
+   * Custom function to execute on selection of the item. Do not use in parallel with 'to' prop for changing
+   * the link of your website.
+   */
+  onSelect?: () => void;
+
+  /**
    * Defines the title of the item. If the 'isExpandable' prop is not set to true (which is by default),
    * this prop is not required. In that case, you can set the title via the 'children' prop.
    */
@@ -352,6 +358,7 @@ export function SidebarNavigationItem({
   title,
   isExpandable,
   className,
+  onSelect,
   ...props
 }: SidebarNavigationItemProps) {
   const [expanded, setExpanded] = React.useState(false);
@@ -391,10 +398,17 @@ export function SidebarNavigationItem({
   const openExpanderIcon = useIcon("openExpander", undefined, iconProps);
   const closeExpanderIcon = useIcon("closeExpander", undefined, iconProps);
 
+  const onExpandableItemClick = () => {
+    setExpanded(!expanded);
+    if (onSelect) {
+      onSelect();
+    }
+  };
+
   if (isExpandable) {
     return (
       <div className="cursor-pointer flex flex-col md:items-start items-center">
-        <div {...props} className={cn} onClick={() => setExpanded(!expanded)} data-testid={props["data-testid"]}>
+        <div {...props} className={cn} onClick={onExpandableItemClick} data-testid={props["data-testid"]}>
           {icon && <div className={iconClassName}>{icon}</div>}
           {title}
           {expanded ? closeExpanderIcon : openExpanderIcon}
@@ -405,7 +419,7 @@ export function SidebarNavigationItem({
   }
 
   return (
-    <Link {...props} to={to || "#"} className={cn} data-testid={props["data-testid"]}>
+    <Link {...props} to={to || "#"} onClick={onSelect} className={cn} data-testid={props["data-testid"]}>
       {icon && <div className={iconClassName}>{icon}</div>}
       <div className="flex items-center">{title || children}</div>
     </Link>
@@ -453,6 +467,7 @@ export function SidebarNavigationDropdown({
     <div className={dropdownMenuContainerClassName}>
       <div className="hidden md:block">
         <DropdownMenu
+          {...props}
           title={title}
           variant={buttonVariant}
           color={buttonColor}
