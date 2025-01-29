@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { default as ReachTooltip } from "@reach/tooltip";
+import { Tooltip as ReachTooltip } from "@reach/tooltip";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
