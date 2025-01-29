@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { Menu, MenuButton, MenuItem, MenuPopover, MenuItems } from "@reach/menu-button";
+import { Menu, MenuButton, MenuItem, MenuItems, MenuList } from "@reach/menu-button";
 
 import { cx, TokenProps, useTokens } from "@tiller-ds/theme";
 import { createNamedContext } from "@tiller-ds/util";
@@ -145,7 +145,7 @@ function DropdownContent({ children, isExpanded, className, ...props }: Dropdown
 
 function DropdownButton({ children, ...props }: DropdownButtonProps) {
   return (
-    <MenuButton as="menu" data-testid={props["data-testid"]}>
+    <MenuButton {...props} as="menu" data-testid={props["data-testid"]}>
       {children}
     </MenuButton>
   );
@@ -163,11 +163,11 @@ function DropdownMenu({
   const { isExpanded } = React.useContext(DropdownContext);
 
   return (
-    <MenuPopover className="z-50" data-testid={props["data-testid"]}>
+    <MenuList {...props} className="z-50" data-testid={props["data-testid"]} hidden={!isExpanded}>
       <Transition show={isExpanded} {...tokens.Menu.transition}>
-        <MenuItems>{children}</MenuItems>
+        <MenuItems {...props}>{children}</MenuItems>
       </Transition>
-    </MenuPopover>
+    </MenuList>
   );
 }
 
