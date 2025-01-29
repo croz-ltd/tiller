@@ -18,7 +18,7 @@
 import * as React from "react";
 
 import { useCombobox } from "downshift";
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { Popover, positionMatchWidth } from "@reach/popover";
 
 import { Input } from "@tiller-ds/form-elements";
 import { useLabel } from "@tiller-ds/intl";

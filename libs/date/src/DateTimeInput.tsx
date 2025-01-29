@@ -20,7 +20,7 @@ import * as React from "react";
 import * as dateFns from "date-fns";
 
 import { OnDatesChangeProps, START_DATE, useDatepicker } from "@datepicker-react/hooks";
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { Popover, positionMatchWidth } from "@reach/popover";
 
 import { IconButton } from "@tiller-ds/core";
 import { defaultPlaceholderChar, InputProps, MaskedInput } from "@tiller-ds/form-elements";
