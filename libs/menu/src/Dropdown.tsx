@@ -163,7 +163,7 @@ function DropdownMenu({
   const { isExpanded } = React.useContext(DropdownContext);
 
   return (
-    <MenuList {...props} className="z-50" data-testid={props["data-testid"]} hidden={!isExpanded}>
+    <MenuList {...props} className="z-50" data-testid={props["data-testid"]}>
       <Transition show={isExpanded} {...tokens.Menu.transition}>
         <MenuItems {...props}>{children}</MenuItems>
       </Transition>
