@@ -20,7 +20,7 @@ import * as React from "react";
 import { useSelect, UseSelectStateChangeTypes } from "downshift";
 import { isNil } from "lodash";
 
-import Popover, { positionMatchWidth } from "@reach/popover";
+import { Popover, positionMatchWidth } from "@reach/popover";
 import { Field } from "@tiller-ds/form-elements";
 import { useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
