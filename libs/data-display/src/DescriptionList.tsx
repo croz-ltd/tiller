@@ -19,6 +19,7 @@ import * as React from "react";
 
 import { Typography } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type DescriptionListType = "default" | "striped" | "clean";
 
@@ -37,7 +38,10 @@ type DescriptionListProps = {
   type?: DescriptionListType;
 
   /**
-   * Custom additional class name for the main container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -78,7 +82,10 @@ type DescriptionListItemProps = {
   type?: DescriptionListItemType;
 
   /**
-   * Custom additional class name for the main container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -148,16 +155,16 @@ function DescriptionList({ children, type = "default", className, ...props }: De
     );
   });
 
-  const descriptionListContainerClassName = cx(className, tokens.padding);
+  const descriptionListContainerClassName = cx(tokens.padding);
 
   return (
-    <dl className={descriptionListContainerClassName} data-testid={props["data-testid"]}>
+    <dl className={tillerTwMerge(descriptionListContainerClassName, className)} data-testid={props["data-testid"]}>
       {transformed}
     </dl>
   );
 }
 
-function DescriptionListItem({ label, children, type = "default", ...props }: DescriptionListItemProps) {
+function DescriptionListItem({ label, children, type = "default", className, ...props }: DescriptionListItemProps) {
   const tokens = useTokens("DescriptionList", props.tokens);
 
   const descriptionListItemContainerClassName = cx(
@@ -175,7 +182,7 @@ function DescriptionListItem({ label, children, type = "default", ...props }: De
   );
 
   return (
-    <div className={descriptionListItemContainerClassName} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(descriptionListItemContainerClassName, className)} data-testid={props["data-testid"]}>
       <dt className={descriptionTermClassName}>
         <Typography variant="subtext" className="font-medium">
           {label}

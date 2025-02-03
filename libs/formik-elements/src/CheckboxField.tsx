@@ -21,6 +21,7 @@ import { useField } from "formik";
 
 import { Checkbox, CheckboxProps } from "@tiller-ds/form-elements";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type CheckboxFieldProps = {
   /**
@@ -46,11 +47,18 @@ export default function CheckboxField({ name, label, containerClassName, ...prop
   const checkboxTokens = useTokens("Checkbox", props.checkboxTokens);
   const id = `${name}-${field.value}`;
 
-  const checkboxFieldContainerClassName = cx(containerClassName, checkboxFieldTokens.base);
+  const checkboxFieldContainerClassName = cx(checkboxFieldTokens.base);
 
   return (
-    <div className={checkboxFieldContainerClassName}>
-      <Checkbox id={id} label={label} {...field} checkboxTokens={checkboxTokens} {...props} />
+    <div className={tillerTwMerge(checkboxFieldContainerClassName, containerClassName)}>
+      <Checkbox
+        id={id}
+        label={label}
+        {...field}
+        checkboxTokens={checkboxTokens}
+        {...props}
+        data-testid={name ?? props["data-testid"]}
+      />
     </div>
   );
 }

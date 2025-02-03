@@ -80,15 +80,14 @@ export default function DateInputField({ name, allowClear = true, ...props }: Da
   return (
     <DateInput
       name={field.name}
-      value={
-        field.value instanceof Date ? field.value : field.value && dateFns.parse(field.value, "yyyy-MM-dd", new Date())
-      }
+      value={field.value instanceof Date ? field.value : field.value && dateFns.parse(field.value, "yyyy-MM-dd", new Date())}
       onChange={onChange}
       onReset={onReset}
       allowClear={allowClear}
       error={meta.touched && (initialError.current ? initialError.current : meta.error)}
       onBlur={onBlur}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

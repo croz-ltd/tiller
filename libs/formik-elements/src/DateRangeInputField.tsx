@@ -96,9 +96,7 @@ export default function DateRangeInputField({ start, end, allowClear = true, ...
           : startField.value && dateFns.parse(startField.value, dateFormat, new Date())
       }
       end={
-        endField.value instanceof Date
-          ? endField.value
-          : endField.value && dateFns.parse(endField.value, dateFormat, new Date())
+        endField.value instanceof Date ? endField.value : endField.value && dateFns.parse(endField.value, dateFormat, new Date())
       }
       error={onError()}
       onReset={onReset}
@@ -106,6 +104,7 @@ export default function DateRangeInputField({ start, end, allowClear = true, ...
       onChange={onChange}
       onBlur={onBlur}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

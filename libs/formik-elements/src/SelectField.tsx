@@ -86,6 +86,7 @@ function SelectField<T>({ name, getOptionValue, children, options, ...props }: S
       onBlur={onBlur}
       onChange={onChange}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     >
       {children}
     </Select>

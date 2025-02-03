@@ -37,7 +37,10 @@ export type SelectProps<T> = {
   children?: (item: T) => React.ReactNode;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the component.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 

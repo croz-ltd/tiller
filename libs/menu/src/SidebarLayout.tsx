@@ -20,6 +20,7 @@ import * as React from "react";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 import { Container } from "@tiller-ds/core";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type SidebarLayoutProps = {
   /**
@@ -33,7 +34,10 @@ type SidebarLayoutProps = {
   navigation: React.ReactNode;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 } & SidebarLayoutTokensProps;
@@ -53,11 +57,11 @@ type SidebarLayoutContentProps = {
 function SidebarLayout({ navigation, children, ...props }: SidebarLayoutProps) {
   const tokens = useTokens("SidebarLayout", props.tokens);
 
-  const containerClassName = cx(tokens.container.master, tokens.container.backgroundColor, props.className);
+  const containerClassName = cx(tokens.container.master, tokens.container.backgroundColor);
   const className = cx(tokens.master, tokens.padding);
 
   return (
-    <div className={containerClassName}>
+    <div className={tillerTwMerge(containerClassName, props.className)}>
       {navigation}
       <div className={className}>
         <main>

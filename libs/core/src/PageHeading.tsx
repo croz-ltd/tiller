@@ -20,6 +20,7 @@ import * as React from "react";
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
 
 import Breadcrumbs from "./Breadcrumbs";
+import { findChildByType, tillerTwMerge } from "@tiller-ds/util";
 
 export type PageHeadingProps = {
   /**
@@ -29,7 +30,10 @@ export type PageHeadingProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -53,11 +57,25 @@ type PageHeadingTokensProps = {
 
 type PageHeadingTitleProps = {
   children: React.ReactNode;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
   "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
 type PageHeadingSubtitleProps = {
   children: React.ReactNode;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
   "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
@@ -68,6 +86,14 @@ type PageHeadingBreadcrumbsProps = {
   children: React.ReactNode;
 
   /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
+
+  /**
    * Defines the look of the component, as demonstrated in stories of Breadcrumbs.
    */
   variant?: React.ReactElement;
@@ -76,16 +102,37 @@ type PageHeadingBreadcrumbsProps = {
 
 type PageHeadingBreadcrumbProps = {
   children: React.ReactNode;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
   "data-testid"?: string;
 };
 
 type PageHeadingMetaProps = {
   children: React.ReactNode;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
   "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
 type PageHeadingActionsProps = {
   children: React.ReactNode;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
   "data-testid"?: string;
 } & TokenProps<"PageHeading">;
 
@@ -93,20 +140,16 @@ function PageHeading({ children, className, ...props }: PageHeadingProps) {
   const childrenArray = React.Children.toArray(children);
   const tokens = useTokens("PageHeading", props.tokens);
 
-  function findChild(type: string) {
-    return childrenArray.find((child) => React.isValidElement(child) && child.props.type === type);
-  }
-
-  const title = findChild("PageHeadingTitle");
-  const subtitle = findChild("PageHeadingSubtitle");
-  const breadcrumbs = findChild("PageHeadingBreadcrumbs");
-  const meta = findChild("PageHeadingMeta");
-  const actions = findChild("PageHeadingActions");
+  const title = findChildByType(PageHeadingTitle, children);
+  const subtitle = findChildByType(PageHeadingSubtitle, children);
+  const breadcrumbs = findChildByType(PageHeadingBreadcrumbs, children);
+  const meta = findChildByType(PageHeadingMeta, children);
+  const actions = findChildByType(PageHeadingActions, children);
 
   return (
     <header data-testid={props["data-testid"]}>
       {breadcrumbs && <div className={tokens.breadcrumbs}>{breadcrumbs}</div>}
-      <div className={`${tokens.container} ${className}`}>
+      <div className={tillerTwMerge(tokens.container, className)}>
         {title && (
           <div className={tokens.master}>
             {title}
@@ -120,9 +163,9 @@ function PageHeading({ children, className, ...props }: PageHeadingProps) {
   );
 }
 
-function PageHeadingBreadcrumbs({ children, variant, ...props }: PageHeadingBreadcrumbsProps) {
+function PageHeadingBreadcrumbs({ children, variant, className, ...props }: PageHeadingBreadcrumbsProps) {
   return (
-    <Breadcrumbs icon={variant} data-testid={props["data-testid"]}>
+    <Breadcrumbs icon={variant} className={className} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child) => {
         return <Breadcrumbs.Breadcrumb>{child}</Breadcrumbs.Breadcrumb>;
       })}
@@ -130,15 +173,15 @@ function PageHeadingBreadcrumbs({ children, variant, ...props }: PageHeadingBrea
   );
 }
 
-PageHeadingBreadcrumbs.defaultProps = {
-  type: "PageHeadingBreadcrumbs",
-};
-
-function PageHeadingBreadcrumb({ children, ...props }: PageHeadingBreadcrumbProps) {
-  return <span data-testid={props["data-testid"]}>{children}</span>;
+function PageHeadingBreadcrumb({ children, className, ...props }: PageHeadingBreadcrumbProps) {
+  return (
+    <span className={className} data-testid={props["data-testid"]}>
+      {children}
+    </span>
+  );
 }
 
-function PageHeadingTitle({ children, ...props }: PageHeadingTitleProps) {
+function PageHeadingTitle({ children, className, ...props }: PageHeadingTitleProps) {
   const tokens = useTokens("PageHeading", props.tokens);
 
   const pageHeadingTitleClassName = cx(
@@ -150,17 +193,13 @@ function PageHeadingTitle({ children, ...props }: PageHeadingTitleProps) {
     tokens.title.color,
   );
   return (
-    <h2 className={pageHeadingTitleClassName} data-testid={props["data-testid"]}>
+    <h2 className={tillerTwMerge(pageHeadingTitleClassName, className)} data-testid={props["data-testid"]}>
       {children}
     </h2>
   );
 }
 
-PageHeadingTitle.defaultProps = {
-  type: "PageHeadingTitle",
-};
-
-function PageHeadingSubtitle({ children, ...props }: PageHeadingSubtitleProps) {
+function PageHeadingSubtitle({ children, className, ...props }: PageHeadingSubtitleProps) {
   const tokens = useTokens("PageHeading", props.tokens);
 
   const pageHeadingSubtitleClassName = cx(
@@ -170,22 +209,18 @@ function PageHeadingSubtitle({ children, ...props }: PageHeadingSubtitleProps) {
     tokens.subtitle.color,
   );
   return (
-    <p className={pageHeadingSubtitleClassName} data-testid={props["data-testid"]}>
+    <p className={tillerTwMerge(pageHeadingSubtitleClassName, className)} data-testid={props["data-testid"]}>
       {children}
     </p>
   );
 }
 
-PageHeadingSubtitle.defaultProps = {
-  type: "PageHeadingSubtitle",
-};
-
-function PageHeadingMeta({ children, ...props }: PageHeadingMetaProps) {
+function PageHeadingMeta({ children, className, ...props }: PageHeadingMetaProps) {
   const tokens = useTokens("PageHeading", props.tokens);
 
   const pageHeadingMeta = cx(tokens.meta.master, tokens.meta.marginTop);
   return (
-    <div className={pageHeadingMeta} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(pageHeadingMeta, className)} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child) => (
         <div className={tokens.meta.child}>{child}</div>
       ))}
@@ -193,25 +228,17 @@ function PageHeadingMeta({ children, ...props }: PageHeadingMetaProps) {
   );
 }
 
-PageHeadingMeta.defaultProps = {
-  type: "PageHeadingMeta",
-};
-
-function PageHeadingActions({ children, ...props }: PageHeadingActionsProps) {
+function PageHeadingActions({ children, className, ...props }: PageHeadingActionsProps) {
   const tokens = useTokens("PageHeading", props.tokens);
 
   const pageHeadingActionsClassName = cx(tokens.actions.master, tokens.actions.marginTop, tokens.actions.marginLeft);
 
   return (
-    <div className={pageHeadingActionsClassName} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(pageHeadingActionsClassName, className)} data-testid={props["data-testid"]}>
       {children}
     </div>
   );
 }
-
-PageHeadingActions.defaultProps = {
-  type: "PageHeadingActions",
-};
 
 PageHeading.Title = PageHeadingTitle;
 PageHeading.Subtitle = PageHeadingSubtitle;

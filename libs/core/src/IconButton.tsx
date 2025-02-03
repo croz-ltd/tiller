@@ -21,6 +21,7 @@ import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 import Link, { LinkProps } from "./Link";
 import Tooltip, { TooltipProps } from "./Tooltip";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type IconButtonProps = {
   /**
@@ -88,13 +89,15 @@ type WithLinkProps = {
 
 function WithLink({ children, shouldWrap, onClick, buttonClass, ...props }: WithLinkProps) {
   return shouldWrap && onClick ? (
-    <button onClick={onClick}>
-      <Link {...props}>{children}</Link>
+    <button {...props} className={buttonClass} onClick={onClick} type="button">
+      <Link>{children}</Link>
     </button>
   ) : shouldWrap ? (
-    <Link {...props}>{children}</Link>
+    <Link {...props} className={buttonClass}>
+      {children}
+    </Link>
   ) : (
-    <button className={buttonClass} onClick={onClick} type="button" {...props}>
+    <button {...props} className={buttonClass} onClick={onClick} type="button">
       {children}
     </button>
   );
@@ -112,13 +115,17 @@ export default function IconButton({
 }: IconButtonProps) {
   const tokens = useTokens("IconButton", props.tokens);
 
-  const buttonClass = cx(buttonClassName, tokens.master, tokens.container.padding, { "cursor-default": disabled });
+  const buttonClass = cx(tokens.master, tokens.padding, { [tokens.disabled]: disabled });
 
-  const disabledIconClass = cx(buttonClassName, [tokens.icon.opacity], [icon.props.className]);
+  const disabledIconClass = cx([tokens.icon.opacity]);
 
   const wrapContent = (children: React.ReactNode) => {
     if (showTooltip) {
-      return <Tooltip label={label}>{children}</Tooltip>;
+      return (
+        <Tooltip {...props} label={label}>
+          {children}
+        </Tooltip>
+      );
     } else {
       return <>{children}</>;
     }
@@ -127,8 +134,13 @@ export default function IconButton({
   return wrapContent(
     <>
       {disabled && (
-        <WithLink shouldWrap={false} id={id} buttonClass={buttonClass} data-testid={props["data-testid"] ?? id}>
-          {React.cloneElement(icon, { className: disabledIconClass })}
+        <WithLink
+          shouldWrap={false}
+          id={id}
+          buttonClass={tillerTwMerge(buttonClass, buttonClassName)}
+          data-testid={props["data-testid"] ?? id}
+        >
+          {React.cloneElement(icon, { className: tillerTwMerge(disabledIconClass, icon.props.className) })}
         </WithLink>
       )}
       {!disabled && (
@@ -136,7 +148,7 @@ export default function IconButton({
           shouldWrap={props.to !== undefined}
           id={id}
           onClick={onClick}
-          buttonClass={buttonClass}
+          buttonClass={tillerTwMerge(buttonClass, buttonClassName)}
           data-testid={props["data-testid"] ?? id}
           {...props}
         >

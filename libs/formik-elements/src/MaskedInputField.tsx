@@ -51,6 +51,7 @@ export default function MaskedInputField({ name, ...props }: MaskedInputFieldPro
       onBlur={onBlur}
       onChange={onChange}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

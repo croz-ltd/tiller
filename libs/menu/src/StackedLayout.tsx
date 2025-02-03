@@ -19,7 +19,7 @@ import * as React from "react";
 
 import { Container } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
-import { createNamedContext, useWindowEvent } from "@tiller-ds/util";
+import { createNamedContext, tillerTwMerge, useWindowEvent } from "@tiller-ds/util";
 
 type StackedLayoutProps = {
   /**
@@ -55,7 +55,10 @@ type StackedLayoutProps = {
   hideOnScroll?: boolean;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 } & StackedLayoutTokensProps;
@@ -69,19 +72,25 @@ type StackedLayoutHeadingProps = {
   headerBackground?: "transparent" | "white";
   containerVariant?: "max" | "fullWidth" | "constrainedPadded" | "fullWidthContainer" | "narrowConstrained" | undefined;
   children: React.ReactNode;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & TokenProps<"StackedLayout">;
-
-StackedLayoutHeading.defaultProps = {
-  type: "StackedLayoutHeading",
-};
 
 type StackedLayoutContentProps = {
   containerVariant?: "max" | "fullWidth" | "constrainedPadded" | "fullWidthContainer" | "narrowConstrained" | undefined;
   children: React.ReactNode;
-};
-
-StackedLayoutContent.defaultProps = {
-  type: "StackedLayoutContent",
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 };
 
 type StackedLayoutContext = {
@@ -111,10 +120,9 @@ function StackedLayout({
   });
 
   const containerClassName = cx(
-    className,
     tokens.master,
     { [tokens.backgroundColor]: background === "white" },
-    { [tokens.grayBackgroundColor]: background !== "white" }
+    { [tokens.grayBackgroundColor]: background !== "white" },
   );
 
   useWindowEvent("scroll", () => {
@@ -129,10 +137,8 @@ function StackedLayout({
 
   return (
     <StackedLayoutContext.Provider value={{ containerVariant, isScrolling, isFixed }}>
-      <div className={containerClassName}>
-        <div className={navigationContainerClassName}>
-          {navigation}
-        </div>
+      <div className={tillerTwMerge(containerClassName, className)}>
+        <div className={navigationContainerClassName}>{navigation}</div>
         {children}
       </div>
     </StackedLayoutContext.Provider>
@@ -143,6 +149,7 @@ function StackedLayoutHeading({
   children,
   headerCompact = false,
   headerBackground = "transparent",
+  className,
   ...props
 }: StackedLayoutHeadingProps) {
   const tokens = useTokens("StackedLayout", props.tokens);
@@ -155,11 +162,11 @@ function StackedLayoutHeading({
   const headingClassName = cx(
     { [tokens.backgroundColor]: headerBackground === "transparent" },
     { [tokens.compactPadding]: headerCompact },
-    { [tokens.padding]: !headerCompact }
+    { [tokens.padding]: !headerCompact },
   );
 
   return (
-    <div className={headingContainerClassName}>
+    <div className={tillerTwMerge(headingContainerClassName, className)}>
       <div className={headingClassName}>
         <Container variant={layoutContext.containerVariant}>{children}</Container>
       </div>
@@ -167,11 +174,11 @@ function StackedLayoutHeading({
   );
 }
 
-function StackedLayoutContent({ containerVariant = "fullWidth", children }: StackedLayoutContentProps) {
+function StackedLayoutContent({ containerVariant = "fullWidth", children, className }: StackedLayoutContentProps) {
   const tokens = useTokens("StackedLayout");
 
   return (
-    <Container variant={containerVariant}>
+    <Container variant={containerVariant} className={className}>
       <main className={tokens.contentContainer}>{children}</main>
     </Container>
   );

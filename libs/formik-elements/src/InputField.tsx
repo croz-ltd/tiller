@@ -93,6 +93,7 @@ export default function InputField({ name, autoTrim = true, valueTransform, ...p
       onReset={onReset}
       onBlur={onBlur}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

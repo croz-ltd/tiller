@@ -26,14 +26,9 @@ export { default as useTimeout } from "./useTimeout";
 export { default as useViewport } from "./useViewport";
 export { default as usePrevious } from "./usePrevious";
 export { default as useWindowEvent } from "./useWindowEvent";
+export { default as tillerTwMerge } from "./tillerTwMerge";
 
 export { default as createNamedContext } from "./createNamedContext";
-export {
-  __internal,
-  addRequestBuilderHelper,
-  fetch,
-  removeRequestBuilderHelper,
-  setAuthenticationBearer,
-} from "./fetch";
-export { default as findChild } from "./findChild";
+export { __internal, addRequestBuilderHelper, fetch, removeRequestBuilderHelper, setAuthenticationBearer } from "./fetch";
+export { default as findChild, findChildByType } from "./findChild";
 export { default as ValidationError } from "./ValidationError";

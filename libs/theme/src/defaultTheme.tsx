@@ -65,8 +65,7 @@ const defaultComponentConfig = {
   },
   AppPicker: {
     Application: {
-      master:
-        "block hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:text-slate-900 focus:bg-slate-100 ",
+      master: "block hover:text-slate-900 hover:bg-slate-100 focus:outline-none focus:text-slate-900 focus:bg-slate-100 ",
       padding: "py-2 px-4",
       fontSize: "text-sm",
       lineHeight: "leading-5",
@@ -177,6 +176,7 @@ const defaultComponentConfig = {
   },
   Badge: {
     master: "py-1 text-xs font-medium rounded-3xl inline-flex items-center",
+    removeButton: { master: "flex-shrink-0 ml-1.5 inline-flex focus:outline-none", small: "-mr-0.5" },
     base: {
       padding: "px-3",
       lineHeight: "leading-5",
@@ -294,6 +294,7 @@ const defaultComponentConfig = {
       spaceBetween: "space-x-4",
     },
     breadcrumb: {
+      master: "cursor-pointer",
       fontSize: "text-base",
       fontWeight: "font-medium",
       color: "text-body-light",
@@ -534,6 +535,15 @@ const defaultComponentConfig = {
   ButtonGroups: {
     master: "relative z-0 inline-flex items-center",
     base: "shadow-sm",
+    Button: {
+      master: "rounded-none -ml-px",
+      first: "rounded-l-md",
+      last: "rounded-r-md",
+    },
+    IconButton: {
+      first: "rounded-l-md",
+      last: "rounded-r-md -ml-px",
+    },
   },
   Card: {
     master: "relative",
@@ -544,6 +554,7 @@ const defaultComponentConfig = {
       overflow: "overflow-hidden",
     },
     waitingContainer: {
+      master: "absolute w-full h-full top-0 left-0 z-1",
       backgroundColor: "bg-black",
       opacity: "opacity-50",
     },
@@ -555,6 +566,9 @@ const defaultComponentConfig = {
       padding: "p-4",
       borderBottomWidth: "border-b",
       borderColor: "border-base",
+      innerContainer: "-ml-4 -mt-4 flex justify-between items-center sm:flex-nowrap",
+      titleSubtitleContainer: "ml-4 mt-4",
+      expandable: "cursor-pointer",
       title: {
         fontSize: "text-title",
         fontWeight: "font-medium",
@@ -566,6 +580,10 @@ const defaultComponentConfig = {
         fontSize: "text-subtitle",
         lineHeight: "leading-4",
         color: "text-body-light",
+      },
+      actions: {
+        outerContainer: "mt-4 justify-between items-center flex sm:flex-nowrap",
+        innerContainer: "flex-shrink-0 ml-4 space-x-2",
       },
     },
     body: {
@@ -637,6 +655,9 @@ const defaultComponentConfig = {
       master: "min-w-full inline-block align-middle overflow-hidden overflow-x-auto scrollbar",
       borderRadius: "sm:rounded-lg",
     },
+    table: "min-w-full",
+    head: "",
+    body: "",
     tableHeader: {
       align: {
         left: "text-left justify-start",
@@ -780,6 +801,8 @@ const defaultComponentConfig = {
     },
   },
   Dropdown: {
+    content: "relative inline-block text-left",
+    popover: "z-50",
     Menu: {
       transition: {
         entering: "transition ease-out duration-100",
@@ -1015,8 +1038,14 @@ const defaultComponentConfig = {
     },
     boxShadow: `focus-within:ring focus-within:outline-none focus-within:ring-primary-light`,
     disabled: "opacity-50 bg-slate-100",
+    withExtend: "focus:outline-none",
+    extend: {
+      master: "bg-white focus:outline-none rounded-md",
+      disabled: "opacity-50",
+    },
     addOn: {
       master: "flex-1 block",
+      container: "inline-flex items-center",
       padding: "py-2 px-3",
       color: "text-body-light",
       fontSize: "text-base",
@@ -1024,12 +1053,19 @@ const defaultComponentConfig = {
       inline: "sm:leading-5",
       outline: "px-3 bg-slate-50 rounded-l-md border border-r-0 border-slate-300 ",
       InlineAddOn: {
-        leading: "pl-3",
-        trailing: "pr-3",
+        master: "flex items-center pointer-events-none",
+        leading: "pl-3 absolute inset-y-0 left-0",
+        trailing: "pr-3 right-0",
       },
     },
     inlineLeadingIcon: "pl-10",
     inlineLeadingAddOn: "pl-8",
+    leadingAddOnContainer: "absolute inset-y-0 flex items-center left-0 align-center",
+    trailingAddOnContainer: {
+      master: "absolute flex right-0",
+      withExtend: "items-start top-3",
+      withoutExtend: "items-center inset-y-0",
+    },
     inlineTrailingAddOn: "pr-12",
     error: {
       borderColor: `border border-danger focus:border-danger-300`,
@@ -1054,8 +1090,10 @@ const defaultComponentConfig = {
       base: "mt-2 text-danger text-base",
     },
     Icon: {
+      master: "flex align-center",
       color: "text-slate-400 flex",
       Container: {
+        master: "flex pointer-events-auto items-center",
         leading: "pl-3 left-0",
         trailing: "pr-3",
       },
@@ -1079,9 +1117,8 @@ const defaultComponentConfig = {
   },
   IconButton: {
     master: "focus:outline-none flex justify-center items-center hover:no-underline",
-    container: {
-      padding: "p-0.5",
-    },
+    padding: "p-0.5",
+    disabled: "cursor-default",
     icon: {
       opacity: "opacity-50",
       size: 5,
@@ -1328,6 +1365,10 @@ const defaultComponentConfig = {
   },
   PageResizer: {
     master: "text-sm text-slate-700 flex items-center leading-5",
+    select: "px-2 mb-1",
+  },
+  Placeholder: {
+    master: "border-2 border-dashed border-gray-300 rounded bg-white w-full text-gray-200",
   },
   ProgressBar: {
     container: {
@@ -1335,6 +1376,7 @@ const defaultComponentConfig = {
       borderWidth: "border",
       borderColor: "border-base",
       borderRadius: "rounded-md",
+      overflow: "overflow-x-auto scrollbar",
     },
     indexIcon: {
       master: "w-10 h-10 flex flex-shrink-0 justify-center items-center",
@@ -1353,17 +1395,25 @@ const defaultComponentConfig = {
       beforeTextColor: "text-body",
       afterTextColor: "text-body-light",
     },
-    stepContainer: {
-      master: "flex items-center space-x-4",
-      padding: "py-4 px-6",
-      margin: "mr-1",
+    Step: {
+      master: "relative md:flex-1 md:flex",
+      innerContainer: "group flex item-center",
+      stepContainer: {
+        master: "flex items-center space-x-4",
+        padding: "py-4 px-6",
+        margin: "mr-1",
+      },
+    },
+    DefaultSeparator: {
+      master: "hidden md:block absolute top-0 right-0 h-full w-1",
+      rightArrow: {
+        master: "h-full w-1",
+        color: "text-slate-300",
+      },
     },
     icon: {
       color: "text-white mt-1",
       size: 24,
-    },
-    rightArrow: {
-      color: "text-slate-300",
     },
   },
   RadioGroup: {
@@ -1406,8 +1456,7 @@ const defaultComponentConfig = {
     },
     Item: {
       base: {
-        master:
-          "block hover:text-slate-900 hover:bg-slate-100 focus:text-slate-900 focus:bg-slate-100 focus:outline-none",
+        master: "block hover:text-slate-900 hover:bg-slate-100 focus:text-slate-900 focus:bg-slate-100 focus:outline-none",
         padding: "py-2 px-4",
         fontSize: "text-sm",
         lineHeight: "leading-5",
@@ -1503,8 +1552,7 @@ const defaultComponentConfig = {
     },
     Item: {
       base: {
-        master:
-          "block hover:text-slate-900 hover:bg-slate-100 focus:text-slate-900 focus:bg-slate-100 focus:outline-none",
+        master: "block hover:text-slate-900 hover:bg-slate-100 focus:text-slate-900 focus:bg-slate-100 focus:outline-none",
         padding: "py-2 px-4",
         fontSize: "text-sm",
         lineHeight: "leading-5",
@@ -1548,6 +1596,7 @@ const defaultComponentConfig = {
     base: {
       master: "flex-col space-y-1 scrollbar overflow-y-auto",
       container: "h-96 flex-col flex-grow",
+      closed: "md:flex hidden",
       boxShadow: "shadow-sm",
       borderRadius: "rounded-md",
       default: "text-white bg-primary",
@@ -1610,6 +1659,7 @@ const defaultComponentConfig = {
       },
       expandable: {
         container: "w-full flex space-x-0.5 justify-center items-center",
+        outerContainer: "cursor-pointer flex flex-col md:items-start items-center",
         subitemsContainer: {
           padding: "p-2",
           margin: "md:ml-4",
@@ -1634,6 +1684,7 @@ const defaultComponentConfig = {
     },
     dropdownItem: {
       master: "my-1 block flex justify-center md:justify-start",
+      iconWrapper: "flex items-center md:justify-start justify-center space-x-0.5",
       padding: "py-2 px-2 md:pl-2 md:py-0.5",
       fontSize: "text-button-lg md:text-button-sm",
       base: {
@@ -1715,6 +1766,7 @@ const defaultComponentConfig = {
   Tabs: {
     outerContainer: "border-b border-base",
     innerContainer: "-mb-px pb-0.5 flex space-x-4",
+    scrollButtons: "p-2 text-slate-500 hover:text-slate-700",
     withoutScrollButtons: "overflow-x-auto scrollbar",
     Tab: {
       base: {
@@ -1859,6 +1911,10 @@ const defaultComponentConfig = {
         justify-center md:justify-start md:bg-transparent md:border-b-2
          md:hover:text-slate-500 md:rounded-none`,
       },
+      link: {
+        master: "md:flex md:items-center md:space-x-0.5",
+        leading: "flex-row-reverse md:flex-row-reverse",
+      },
       expandable: {
         container: "flex items-center space-x-0.5",
         subitemsContainer: {
@@ -1958,8 +2014,6 @@ const defaultComponentConfig = {
     menuButton:
       "px-2 py-2 text-slate-400 rounded-md hover:text-white hover:bg-slate-700 focus:outline-none " +
       "focus:text-white focus:bg-slate-700",
-    searchBarContainer: "flex-1 flex px-2 lg:ml-4",
-    searchBar: "w-full max-w-sm lg:max-w-xs",
   },
   Toggle: {
     master: "flex items-center space-x-3",
@@ -1973,8 +2027,11 @@ const defaultComponentConfig = {
       fontSize: "text-label",
     },
     disabled: "opacity-70 pointer-events-none",
-    toggle:
-      "inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200 flex align-center",
+    toggle: {
+      master: "inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200 flex align-center",
+      checked: "translate-x-5",
+      unchecked: "translate-x-0",
+    },
     icon: {
       master: "flex items-center",
       margin: "my-[3px] ml-[2.8px]",

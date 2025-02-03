@@ -20,7 +20,7 @@ import * as React from "react";
 import { findIndex } from "lodash";
 
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
-import { createNamedContext } from "@tiller-ds/util";
+import { createNamedContext, tillerTwMerge } from "@tiller-ds/util";
 
 export type ProgressBarProps = {
   /**
@@ -39,7 +39,10 @@ export type ProgressBarProps = {
   startingIndex?: number;
 
   /**
-   * Custom additional class name for the main container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -79,6 +82,14 @@ type StepProps = {
   children: React.ReactNode;
 
   /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
+
+  /**
    * Icon used when step is completed.
    */
   completedIcon?: React.ReactElement;
@@ -116,14 +127,7 @@ const StepContext = createNamedContext<StepContext>("StepContext", {
   separator: undefined,
 });
 
-function ProgressBar({
-  startingIndex = 0,
-  completed = false,
-  children,
-  className,
-  separator,
-  ...props
-}: ProgressBarProps) {
+function ProgressBar({ startingIndex = 0, completed = false, children, className, separator, ...props }: ProgressBarProps) {
   const tokens = useTokens("ProgressBar", props.tokens);
 
   const containerClassName = cx(
@@ -131,8 +135,7 @@ function ProgressBar({
     tokens.container.borderWidth,
     tokens.container.borderColor,
     tokens.container.borderRadius,
-    "overflow-x-auto scrollbar",
-    className,
+    tokens.container.overflow,
   );
 
   const activeStepIndex = findIndex(React.Children.toArray(children), (child) =>
@@ -159,15 +162,14 @@ function ProgressBar({
 
   return (
     <nav data-testid={props["data-testid"]}>
-      <ul className={containerClassName}>{childrenWithIndex}</ul>
+      <ul className={tillerTwMerge(containerClassName, className)}>{childrenWithIndex}</ul>
     </nav>
   );
 }
 
-export function Step({ active, children, ...props }: StepProps) {
+export function Step({ active, children, className, ...props }: StepProps) {
   const tokens = useTokens("ProgressBar", props.tokens);
-  const { activeStepIndex, index, startingIndex, endingIndex, completed, separator, testId } =
-    React.useContext(StepContext);
+  const { activeStepIndex, index, startingIndex, endingIndex, completed, separator, testId } = React.useContext(StepContext);
 
   const before = index < activeStepIndex;
   const after = index > activeStepIndex;
@@ -193,9 +195,9 @@ export function Step({ active, children, ...props }: StepProps) {
   );
 
   const stepContainerClassName = cx(
-    tokens.stepContainer.master,
-    tokens.stepContainer.padding,
-    tokens.stepContainer.margin,
+    tokens.Step.stepContainer.master,
+    tokens.Step.stepContainer.padding,
+    tokens.Step.stepContainer.margin,
   );
 
   const finalCompletedIcon = useIcon("completed", props.completedIcon, {
@@ -203,14 +205,13 @@ export function Step({ active, children, ...props }: StepProps) {
     className: tokens.icon.color,
   });
 
-  const content =
-    before || completed ? finalCompletedIcon : <p className={textIndexClassName}>{index + startingIndex}</p>;
+  const content = before || completed ? finalCompletedIcon : <p className={textIndexClassName}>{index + startingIndex}</p>;
 
   const stepSeparator = separator ?? <DefaultSeparator />;
 
   return (
-    <li className="relative md:flex-1 md:flex" data-testid={props["data-testid"] ?? testId}>
-      <div className="group flex items-center">
+    <li className={tillerTwMerge(tokens.Step.master, className)} data-testid={props["data-testid"] ?? testId}>
+      <div className={tokens.Step.innerContainer}>
         <div className={stepContainerClassName}>
           <div className={indexIconDivClassName}>{content}</div>
           <p className={textIndexClassName}>{children}</p>
@@ -223,14 +224,11 @@ export function Step({ active, children, ...props }: StepProps) {
 
 function DefaultSeparator({ ...props }) {
   const tokens = useTokens("ProgressBar", props.tokens);
+  const rightArrowClassName = cx(tokens.DefaultSeparator.rightArrow.master, tokens.DefaultSeparator.rightArrow.color);
+
   return (
-    <div className="hidden md:block absolute top-0 right-0 h-full w-1">
-      <svg
-        className={`h-full w-1 ${tokens.rightArrow.color}`}
-        viewBox="0 0 2 72"
-        fill="none"
-        preserveAspectRatio="none"
-      >
+    <div className={tokens.DefaultSeparator.master}>
+      <svg className={rightArrowClassName} viewBox="0 0 2 72" fill="none" preserveAspectRatio="none">
         <line x1="0.833328" y1="72" x2="0.833325" y2="2.18557e-08" stroke="#D2D6DC" />
       </svg>
     </div>

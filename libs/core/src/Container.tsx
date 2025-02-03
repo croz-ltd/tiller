@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { ComponentTokens, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type ContainerProps = {
   /**
@@ -43,17 +44,28 @@ export type ContainerProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & ContainerTokensProps;
 
 type ContainerTokensProps = {
   tokens?: ComponentTokens<"Container">;
 };
 
-export default function Container({ variant = "max", children, ...props }: ContainerProps) {
+export default function Container({ variant = "max", children, className, ...props }: ContainerProps) {
   const tokens = useTokens("Container", props.tokens);
 
   return (
-    <div className={tokens.variant[variant].outerContainer} data-testid={props["data-testid"]}>
+    <div
+      className={tillerTwMerge(tokens.variant[variant].outerContainer, className)}
+      data-testid={props["data-testid"]}
+    >
       <div className={tokens.variant[variant].innerContainer}>{children}</div>
     </div>
   );

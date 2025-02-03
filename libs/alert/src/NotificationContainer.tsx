@@ -20,6 +20,7 @@ import React from "react";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 import { NotificationPosition } from "./NotificationPositionType";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type NotificationContainerProps = {
   /**
@@ -33,7 +34,10 @@ export type NotificationContainerProps = {
   children: React.ReactNode;
 
   /**
-   * Custom container (div) className.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 } & NotificationContainerTokensProps;
@@ -54,11 +58,11 @@ export default function NotificationContainer({
     className,
     tokens.Container.master,
     tokens.Container.padding,
-    tokens.Container.position[position]
+    tokens.Container.position[position],
   );
 
   return (
-    <div className={containerClassName} {...props}>
+    <div className={tillerTwMerge(containerClassName, className)} {...props}>
       <div className={tokens.Container.inner}>{children}</div>
     </div>
   );

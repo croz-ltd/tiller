@@ -42,13 +42,7 @@ function find<T>(value: T, arr: T[]) {
   return arr.findIndex((item) => isEqual(item, value));
 }
 
-export default function TreeSelectField<T>({
-  name,
-  options,
-  getItems,
-  getOptionValue,
-  ...props
-}: TreeSelectFieldProps<T>) {
+export default function TreeSelectField<T>({ name, options, getItems, getOptionValue, ...props }: TreeSelectFieldProps<T>) {
   const [field, meta, helpers] = useField(name);
   const shouldValidate = useShouldValidate();
   const initialError = useFormikBypass(name);
@@ -85,6 +79,7 @@ export default function TreeSelectField<T>({
       value={value}
       onChange={onChange}
       error={meta.touched && (initialError.current ? initialError.current : meta.error)}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

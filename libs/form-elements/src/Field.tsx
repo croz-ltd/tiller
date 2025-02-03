@@ -107,6 +107,14 @@ type InputTokensProps = {
 export type FieldLabelProps = {
   id?: string;
 
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
+
   label?: React.ReactNode;
 
   tooltip?: React.ReactNode;
@@ -156,14 +164,14 @@ export default function Field({
   );
 }
 
-export function FieldLabel({ id, label, required, tooltip, ...props }: FieldLabelProps) {
+export function FieldLabel({ id, label, required, tooltip, className, ...props }: FieldLabelProps) {
   const inputTokens = useTokens("Input", props.inputTokens);
   const fieldTokens = useTokens("Field", props.fieldTokens);
 
   const requiredLabelText = useLabel("required", "Required field");
 
   return (
-    <Label id={id}>
+    <Label id={id} className={className}>
       <span className="flex">
         {label}
         {required && (

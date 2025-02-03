@@ -52,7 +52,7 @@ export default function UploadButtonField<T extends File>({ name, ...props }: Up
         helpers.setValue(updatedFiles);
       } else if (deleted) {
         helpers.setValue(
-          (fieldValue.current || []).filter((id) => (Array.isArray(deleted) ? deleted.includes(id) : id !== deleted))
+          (fieldValue.current || []).filter((id) => (Array.isArray(deleted) ? deleted.includes(id) : id !== deleted)),
         );
       }
     });
@@ -60,7 +60,7 @@ export default function UploadButtonField<T extends File>({ name, ...props }: Up
   }, []);
 
   return (
-    <UploadButton hook={props.hook} url={props.url} {...props}>
+    <UploadButton hook={props.hook} url={props.url} {...props} data-testid={name ?? props["data-testid"]}>
       {props.children}
     </UploadButton>
   );

@@ -29,8 +29,10 @@ export type DropdownMenuMenuProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional class name for the button component.
-   * Only applies if 'menuType' is set to 'custom'.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -86,10 +88,15 @@ export type DropdownMenuMenuProps = {
    */
   visibleItemCount?: number;
 } & Omit<ButtonProps, "className" | "leadingIcon" | "trailingIcon" | "children" | "title"> &
-  DropdownMenuTokensProps;
+  DropdownMenuTokensProps &
+  DropdownTokensProps;
 
 type DropdownMenuTokensProps = {
   tokens?: ComponentTokens<"DropdownMenu">;
+};
+
+type DropdownTokensProps = {
+  dropdownTokens?: ComponentTokens<"Dropdown">;
 };
 
 type DropdownMenuMenuItemProps = {
@@ -124,6 +131,7 @@ function DropdownMenu({
   ...props
 }: DropdownMenuMenuProps) {
   const tokens = useTokens("DropdownMenu", props.tokens);
+  const dropdownTokens = useTokens("Dropdown", props.dropdownTokens);
   const [itemHeight, setItemHeight] = useState(40);
 
   const iconClassName = cx(
@@ -155,7 +163,7 @@ function DropdownMenu({
   );
 
   return (
-    <Dropdown data-testid={props["data-testid"]}>
+    <Dropdown data-testid={props["data-testid"]} tokens={dropdownTokens}>
       <Dropdown.Button>
         {menuType === "text" && (
           <Button

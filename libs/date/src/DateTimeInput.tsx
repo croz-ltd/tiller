@@ -38,6 +38,7 @@ import {
   getDateFormatByLang,
   getMaskFromFormat,
 } from "./utils";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 const AM = "AM";
 const MIDNIGHT = 0;
@@ -46,7 +47,10 @@ const PM = "PM";
 
 export type DateTimeInputProps = {
   /**
-   * Custom class name for the container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -404,7 +408,7 @@ export default function DateTimeInput({
   };
 
   return (
-    <div className={cx(timeInputTokens.container, className)}>
+    <div className={tillerTwMerge(cx(timeInputTokens.container, className))}>
       <MaskedInput
         {...props}
         inputRef={inputRef}

@@ -61,6 +61,7 @@ export default function TextareaField({ name, tooltip, ...props }: TextareaField
       onChange={onChange}
       onBlur={onBlur}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

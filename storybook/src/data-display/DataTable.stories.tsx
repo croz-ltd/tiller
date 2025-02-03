@@ -176,14 +176,8 @@ export const DataTableFactory = ({
                 <DataTable.Column header="Edit" id="edit" canSort={false}>
                   {(item: Item) => (
                     <div className="flex justify-start items-center space-x-1">
-                      <IconButton
-                        icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />}
-                        label="Edit"
-                      />
-                      <IconButton
-                        icon={<Icon type="trash" variant="fill" className="text-gray-500" />}
-                        label="Delete"
-                      />
+                      <IconButton icon={<Icon type="pencil-simple" variant="fill" className="text-gray-500" />} label="Edit" />
+                      <IconButton icon={<Icon type="trash" variant="fill" className="text-gray-500" />} label="Delete" />
                     </div>
                   )}
                 </DataTable.Column>
@@ -890,9 +884,7 @@ export const WithConditionalSelectorAtEnd = () => {
         <DataTable.Column header="ID" accessor="id" />
         <DataTable.Column header="Name" accessor="name" />
         <DataTable.Selector predicate={(item: Item, index: number) => index % 2 === 1}>
-          {(item, index, row, predicate) =>
-            predicate ? <p>Custom Component</p> : <DataTable.SelectorCell row={row} />
-          }
+          {(item, index, row, predicate) => (predicate ? <p>Custom Component</p> : <DataTable.SelectorCell row={row} />)}
         </DataTable.Selector>
       </DataTable>
     </>
@@ -1209,7 +1201,7 @@ export const WithTextWrapping = (args) => (
 );
 
 export const WithHorizontalScroll = (args) => (
-  <DataTable data={smallData}>
+  <DataTable data={smallData} className="w-full">
     <DataTable.Column header="Name-01" id="name-01" className="max-w-md">
       {(item: Item) => <>{item.name}</>}
     </DataTable.Column>
@@ -1274,7 +1266,7 @@ export const WithHorizontalScroll = (args) => (
 );
 
 export const WithHorizontalScrollAndFirstColumnFixed = (args) => (
-  <DataTable data={smallData} firstColumnFixed>
+  <DataTable data={smallData} className="w-full" firstColumnFixed>
     <DataTable.Column header="Name-01" id="name-01" className="max-w-md">
       {(item: Item) => <>{item.name}</>}
     </DataTable.Column>
@@ -1339,7 +1331,7 @@ export const WithHorizontalScrollAndFirstColumnFixed = (args) => (
 );
 
 export const WithHorizontalScrollAndLastColumnFixed = (args) => (
-  <DataTable data={smallData} lastColumnFixed>
+  <DataTable data={smallData} className="w-full" lastColumnFixed>
     <DataTable.Column header="Name-01" id="name-01" className="max-w-md">
       {(item: Item) => <>{item.name}</>}
     </DataTable.Column>
@@ -1455,11 +1447,7 @@ export const WithDefaultAscendingSortUsingHook = () => {
     },
   ];
 
-  const { dataTableHook, sortedData, dataTableState } = useSortableDataTable(
-    allData || [],
-    columnMapping,
-    defaultSortBy,
-  );
+  const { dataTableHook, sortedData, dataTableState } = useSortableDataTable(allData || [], columnMapping, defaultSortBy);
 
   return (
     <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.sortBy}>
@@ -1484,19 +1472,10 @@ export const WithDefaultAscendingSortWithRetainedInitialSort = () => {
     },
   ];
 
-  const { dataTableHook, sortedData, dataTableState } = useSortableDataTable(
-    allData || [],
-    columnMapping,
-    defaultSortBy,
-  );
+  const { dataTableHook, sortedData, dataTableState } = useSortableDataTable(allData || [], columnMapping, defaultSortBy);
 
   return (
-    <DataTable
-      data={sortedData}
-      hook={dataTableHook}
-      defaultSortBy={dataTableState.defaultSortBy}
-      retainDefaultSortBy={true}
-    >
+    <DataTable data={sortedData} hook={dataTableHook} defaultSortBy={dataTableState.defaultSortBy} retainDefaultSortBy={true}>
       <DataTable.Column header="ID" accessor="id" canSort={false} />
       <DataTable.Column header="Name" accessor="name" canSort={true} />
       <DataTable.Column header="Surname" accessor="surname" canSort={true} />

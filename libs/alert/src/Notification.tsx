@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { ComponentTokens, cx, IconProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type NotificationType = "info" | "danger" | "warning" | "success";
 
@@ -106,7 +107,10 @@ export type NotificationProps = {
   dismissIcon?: React.ReactElement;
 
   /**
-   * Custom container (div) className.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -190,7 +194,6 @@ export default function Notification({
     tokens.Container.backgroundColor,
     tokens.Container.borderRadius,
     tokens.Container.boxShadow,
-    className,
   );
 
   const titleClassName = cx(tokens.title.color, tokens.title.fontSize, tokens.title.fontWeight);
@@ -200,7 +203,7 @@ export default function Notification({
   const dismissClassName = cx(tokens.dismiss.master, tokens.dismiss.margin);
 
   return (
-    <section className={containerClassName} data-testid={props["data-testid"]}>
+    <section className={tillerTwMerge(containerClassName, className)} data-testid={props["data-testid"]}>
       <div className={innerContainerClassName}>
         {(icon || type) && <div className={tokens.icon.master}>{type ? finalMainIcon : icon}</div>}
         <div className={tokens.Container.content}>

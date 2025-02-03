@@ -44,7 +44,10 @@ export type PaginationProps = {
   children?: (pageInfo: PageInfo, components: Components) => React.ReactNode;
 
   /**
-   * Custom additional class name for the main component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -277,7 +280,7 @@ function Pager({
           variant="filled"
           color="gray"
           size={displayType === "DESKTOP" ? "md" : "sm"}
-          tokens={defaultButtonTokens}
+          buttonTokens={defaultButtonTokens}
           disabled={pageNumber === 0 || totalElements === 0}
           onClick={() => onPageChange && onPageChange(pageNumber - 1)}
           data-testid={props["data-testid"] && `${props["data-testid"]}-previous`}
@@ -293,7 +296,7 @@ function Pager({
                 variant="filled"
                 color="gray"
                 size={displayType === "DESKTOP" ? "md" : "sm"}
-                tokens={defaultButtonTokens}
+                buttonTokens={defaultButtonTokens}
                 className="cursor-default"
                 data-testid={props["data-testid"] && `${props["data-testid"]}-${value}`}
               >
@@ -309,7 +312,7 @@ function Pager({
               variant="filled"
               color="gray"
               size={displayType === "DESKTOP" ? "md" : "sm"}
-              tokens={pageNumber + 1 === value ? currentButtonTokens : defaultButtonTokens}
+              buttonTokens={pageNumber + 1 === value ? currentButtonTokens : defaultButtonTokens}
               onClick={() => onPageChange && onPageChange(value - 1)}
               data-testid={props["data-testid"] && `${props["data-testid"]}-${value}`}
             >
@@ -323,7 +326,7 @@ function Pager({
           variant="filled"
           color="gray"
           size={displayType === "DESKTOP" ? "md" : "sm"}
-          tokens={defaultButtonTokens}
+          buttonTokens={defaultButtonTokens}
           disabled={pageNumber + 1 === pageCount || totalElements === 0}
           onClick={() => onPageChange && onPageChange(pageNumber + 1)}
           data-testid={props["data-testid"] && `${props["data-testid"]}-next`}

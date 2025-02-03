@@ -22,3 +22,7 @@ export default function findChild(type: string, children: React.ReactNode) {
 
   return childrenArray.flatMap((x) => (React.isValidElement(x) ? [x] : [])).find((child) => child.props.type === type);
 }
+
+export function findChildByType(component: React.ElementType, children: React.ReactNode) {
+  return React.Children.toArray(children).find((child) => React.isValidElement(child) && child.type === component);
+}

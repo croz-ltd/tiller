@@ -52,12 +52,12 @@ export default function DragZoneField<T extends File>({ name, ...props }: DragZo
         helpers.setValue(updatedFiles);
       } else if (deleted) {
         helpers.setValue(
-          (fieldValue.current || []).filter((id) => (Array.isArray(deleted) ? !deleted.includes(id) : id !== deleted))
+          (fieldValue.current || []).filter((id) => (Array.isArray(deleted) ? !deleted.includes(id) : id !== deleted)),
         );
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <DragZone hook={props.hook} url={props.url} {...props} />;
+  return <DragZone hook={props.hook} url={props.url} {...props} data-testid={name ?? props["data-testid"]} />;
 }

@@ -20,7 +20,7 @@ import * as React from "react";
 import { DialogOverlay, DialogContent } from "@reach/dialog";
 
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
-import { createNamedContext } from "@tiller-ds/util";
+import { createNamedContext, tillerTwMerge } from "@tiller-ds/util";
 
 export type ModalProps<T = unknown> = {
   /**
@@ -44,6 +44,14 @@ export type ModalProps<T = unknown> = {
    * Bypasses focus lock on modal element.
    */
   dangerouslyBypassFocusLock?: boolean;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & UseModal<T> &
   ModalTokensProps;
 
@@ -70,6 +78,14 @@ type ModalContentProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & TokenProps<"Modal">;
 
 type ModalDismissProps = {
@@ -98,6 +114,14 @@ type ModalDismissProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & TokenProps<"Modal">;
 
 type ModalFooterProps = {
@@ -115,6 +139,14 @@ type ModalFooterProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & TokenProps<"Modal">;
 
 type ModalIconProps = {
@@ -222,6 +254,7 @@ function Modal<T = unknown>({
   children,
   canDismiss = true,
   dangerouslyBypassFocusLock = false,
+  className,
   ...props
 }: ModalProps<T>) {
   const tokens = useTokens("Modal", props.tokens);
@@ -258,7 +291,7 @@ function Modal<T = unknown>({
   return (
     <DialogOverlay isOpen={isOpen} onDismiss={onDismiss} dangerouslyBypassFocusLock={dangerouslyBypassFocusLock}>
       <ModalContext.Provider value={modalContext}>
-        <div className={baseClassName}>
+        <div className={tillerTwMerge(baseClassName, className)}>
           <div className={tokens.Container.Overlay.outer}>
             <div className={overlayInnerClassName}>&nbsp;</div>
           </div>
@@ -285,7 +318,7 @@ function Modal<T = unknown>({
   );
 }
 
-function ModalDismiss({ ariaLabel = "Close", dismissIcon, ...props }: ModalDismissProps) {
+function ModalDismiss({ ariaLabel = "Close", dismissIcon, className, ...props }: ModalDismissProps) {
   const tokens = useTokens("Modal", props.tokens);
   const { onClose } = useModalContext();
 
@@ -301,7 +334,7 @@ function ModalDismiss({ ariaLabel = "Close", dismissIcon, ...props }: ModalDismi
     <button
       onClick={onClose}
       type="button"
-      className={dismissButtonClassName}
+      className={tillerTwMerge(dismissButtonClassName, className)}
       aria-label={ariaLabel}
       data-testid={props["data-testid"]}
     >
@@ -310,7 +343,7 @@ function ModalDismiss({ ariaLabel = "Close", dismissIcon, ...props }: ModalDismi
   );
 }
 
-function ModalContent({ title, children, ...props }: ModalContentProps) {
+function ModalContent({ title, children, className, ...props }: ModalContentProps) {
   const tokens = useTokens("Modal", props.tokens);
 
   const contentTitleClassName = cx(
@@ -321,7 +354,7 @@ function ModalContent({ title, children, ...props }: ModalContentProps) {
   );
 
   return (
-    <div data-testid={props["data-testid"]}>
+    <div data-testid={props["data-testid"]} className={className}>
       <h3 className={contentTitleClassName} id="modal-headline">
         {title}
       </h3>
@@ -330,11 +363,11 @@ function ModalContent({ title, children, ...props }: ModalContentProps) {
   );
 }
 
-function ModalFooter({ children, ...props }: ModalFooterProps) {
+function ModalFooter({ children, className, ...props }: ModalFooterProps) {
   const tokens = useTokens("Modal", props.tokens);
 
   return (
-    <div className={tokens.Footer.base} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(tokens.Footer.base, className)} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child, index) => child)}
     </div>
   );

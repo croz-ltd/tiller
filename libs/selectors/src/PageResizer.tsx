@@ -21,6 +21,7 @@ import { Intl, useIntlContext } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 import Select from "./Select";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type PageResizerProps = {
   /**
@@ -53,7 +54,10 @@ type PageResizerProps = {
   children?: (select: React.ReactNode) => React.ReactNode;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the component.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -86,7 +90,7 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
     }
   };
 
-  const selectClassName = cx("px-2 mb-1", className);
+  const selectClassName = cx(tokens.select);
 
   const pageSizeSelect = (
     <Select
@@ -97,7 +101,7 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
       getOptionLabel={(item: number) => item}
       onChange={onChange}
       onBlur={() => ({})}
-      className={selectClassName}
+      className={tillerTwMerge(selectClassName, className)}
       data-testid={props["data-testid"] && `${props["data-testid"]}-select`}
     />
   );

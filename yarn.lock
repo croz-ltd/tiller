@@ -6139,19 +6139,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/auto-id@npm:0.10.5":
-  version: 0.10.5
-  resolution: "@reach/auto-id@npm:0.10.5"
-  dependencies:
-    "@reach/utils": 0.10.5
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: c91c1df796529192027bbfdd7bf4908d55adf99f70be47c2cbb56b258e266992d59a4325536df5e76e6f90b50bae445730fbb5b5cf9a02bed4833f6930d2f0b3
-  languageName: node
-  linkType: hard
-
 "@reach/auto-id@npm:0.18.0":
   version: 0.18.0
   resolution: "@reach/auto-id@npm:0.18.0"
@@ -6256,19 +6243,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/portal@npm:0.10.5":
-  version: 0.10.5
-  resolution: "@reach/portal@npm:0.10.5"
-  dependencies:
-    "@reach/utils": 0.10.5
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: 4f8c43cdfa8e4f0cc0fdb71d17b344ee4e8e35d4c0633afce120cfc072445ec61123351563c3ca603b5829fe3d462acb3ed58ebe48a4c9cfcbea979c256d80f5
-  languageName: node
-  linkType: hard
-
 "@reach/portal@npm:0.18.0":
   version: 0.18.0
   resolution: "@reach/portal@npm:0.18.0"
@@ -6278,21 +6252,6 @@ __metadata:
     react: ^16.8.0 || 17.x
     react-dom: ^16.8.0 || 17.x
   checksum: bd54c694922ac8e8ae6ef515547214c1eb05fd7ce5514e1046fd3504e37aa440ba4fb62fdd8664fdcd47e9b865b3ee085b58942c0db667146da6eec2dc269fa3
-  languageName: node
-  linkType: hard
-
-"@reach/rect@npm:0.10.5":
-  version: 0.10.5
-  resolution: "@reach/rect@npm:0.10.5"
-  dependencies:
-    "@reach/observe-rect": 1.2.0
-    "@reach/utils": 0.10.5
-    prop-types: ^15.7.2
-    tslib: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: 941553ff64af1013ffd31319936f1fe6ec866044e869ec0fbfc7bfd45a4bb39f71972b1284e1481fe5b240c348d39ae9ed888b0de9f3953de1e2f0bc5ede2219
   languageName: node
   linkType: hard
 
@@ -6339,35 +6298,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/tooltip@npm:^0.10.1":
-  version: 0.10.5
-  resolution: "@reach/tooltip@npm:0.10.5"
+"@reach/tooltip@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "@reach/tooltip@npm:0.18.0"
   dependencies:
-    "@reach/auto-id": 0.10.5
-    "@reach/portal": 0.10.5
-    "@reach/rect": 0.10.5
-    "@reach/utils": 0.10.5
-    "@reach/visually-hidden": 0.10.4
-    prop-types: ^15.7.2
-    tslib: ^2.0.0
+    "@reach/auto-id": 0.18.0
+    "@reach/polymorphic": 0.18.0
+    "@reach/portal": 0.18.0
+    "@reach/rect": 0.18.0
+    "@reach/utils": 0.18.0
+    "@reach/visually-hidden": 0.18.0
   peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: 6d58dee54d810eb2495343793002634e53fb58785d29b40df851935cf0c684f428a92951c3f46253ab8b43620329469dc72e46ad0adc7c8e8db779dac20b9129
-  languageName: node
-  linkType: hard
-
-"@reach/utils@npm:0.10.5":
-  version: 0.10.5
-  resolution: "@reach/utils@npm:0.10.5"
-  dependencies:
-    "@types/warning": ^3.0.0
-    tslib: ^2.0.0
-    warning: ^4.0.3
-  peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: 34acbff41f521774d78d847f9f463b187f5a85c903b43ff1b47a3368f97625809dded58156daa2dc25ecfa21a6f7c6c428286974531f964d0733cf4842edda5f
+    react: ^16.8.0 || 17.x
+    react-dom: ^16.8.0 || 17.x
+  checksum: 4080b15c1b5d313751bcb4a7494e83e36d280e4a9bd35df39c62d26b658a18ce1e25d1e2f68bb1bb018a48bffc607049f14d262c7576bfd25a608cfa9c6d4e28
   languageName: node
   linkType: hard
 
@@ -6381,15 +6325,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/visually-hidden@npm:0.10.4":
-  version: 0.10.4
-  resolution: "@reach/visually-hidden@npm:0.10.4"
+"@reach/visually-hidden@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@reach/visually-hidden@npm:0.18.0"
   dependencies:
-    tslib: ^2.0.0
+    "@reach/polymorphic": 0.18.0
   peerDependencies:
-    react: ^16.8.0
-    react-dom: ^16.8.0
-  checksum: 20a491491b9f6fa645ec76a718c0eb65a7e208428241e04776d2d6dfd7cefcbd6b906381f25af0a1b8ced17af6f47d13d7d842edf3cb57d77fdf125632b6da03
+    react: ^16.8.0 || 17.x || 18.x
+    react-dom: ^16.8.0 || 17.x || 18.x
+  checksum: 675ad41121d0ae52a55d3e75ad9e60a4ca7cb91defe756565bf7b8fb3d27553d76f851f9cd069455240ec955465d6e235a8f92b73859e091265607b0cb3358ae
   languageName: node
   linkType: hard
 
@@ -9860,13 +9804,6 @@ __metadata:
   version: 2.0.3
   resolution: "@types/unist@npm:2.0.3"
   checksum: 4427306b094561da28164e7e5250c4e6b382cb8eac40bf7e6bb0ff1e6e00c13e47aaf32e4a08fc8ba54602d07f79a39fb9ba304cc9dc886b1e3caf824649edbd
-  languageName: node
-  linkType: hard
-
-"@types/warning@npm:^3.0.0":
-  version: 3.0.3
-  resolution: "@types/warning@npm:3.0.3"
-  checksum: 862b71c918283d2ace5cab4e9f0167507a15ee9cf4d46035c858bdd4bf1ee83cbfb42bcfd4da6e7e254a2efa32200b6521f3719c729e39e88e336309d53bb4c4
   languageName: node
   linkType: hard
 
@@ -29065,6 +29002,13 @@ resolve@^2.0.0-next.3:
   languageName: node
   linkType: hard
 
+"tailwind-merge@npm:2.6.0":
+  version: 2.6.0
+  resolution: "tailwind-merge@npm:2.6.0"
+  checksum: 18976c4096920bc6125f1dc837479805de996d86bcc636f98436f65c297003bde89ffe51dfd325b7c97fc71b1dbba8505459dd96010e7b181badd29aea996440
+  languageName: node
+  linkType: hard
+
 "tailwindcss@npm:3.1.6":
   version: 3.1.6
   resolution: "tailwindcss@npm:3.1.6"
@@ -29450,7 +29394,7 @@ resolve@^2.0.0-next.3:
     "@reach/menu-button": ^0.18.0
     "@reach/popover": ^0.18.0
     "@reach/tabs": ^0.18.0
-    "@reach/tooltip": ^0.10.1
+    "@reach/tooltip": ^0.18.0
     "@rpldy/mock-sender": 0.8.2
     "@rpldy/shared": 0.8.0
     "@rpldy/upload-drop-zone": 0.8.2
@@ -29527,6 +29471,7 @@ resolve@^2.0.0-next.3:
     react-transition-group: ^4.4.5
     storybook-addon-designs: ^6.3.1
     storybook-addon-playroom: ^3.0.2
+    tailwind-merge: 2.6.0
     tailwindcss: 3.1.6
     ts-jest: 26.4.0
     ts-node: ~9.1.1

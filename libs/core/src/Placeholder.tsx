@@ -16,9 +16,17 @@
  */
 
 import * as React from "react";
+import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type PlaceholderProps = {
-  className: string;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 
   /**
    * A unique identifier for testing purposes.
@@ -32,12 +40,19 @@ type PlaceholderProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+} & PlaceholderTokensProps;
+
+type PlaceholderTokensProps = {
+  tokens?: ComponentTokens<"Placeholder">;
 };
 
 export default function Placeholder({ className, ...props }: PlaceholderProps) {
+  const tokens = useTokens("Placeholder", props.tokens);
+  const placeholderClassName = cx(tokens.master);
+
   return (
     <svg
-      className={`border-2 border-dashed border-gray-300 rounded bg-white w-full ${className} text-gray-200`}
+      className={tillerTwMerge(placeholderClassName, className)}
       preserveAspectRatio="none"
       stroke="currentColor"
       fill="none"

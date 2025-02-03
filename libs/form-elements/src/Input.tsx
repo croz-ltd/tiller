@@ -34,7 +34,10 @@ export type InputProps = {
   addOn?: React.ReactNode;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -213,7 +216,7 @@ const Input = React.forwardRef(
       { [tokens.borderRadius]: !addOn },
       { [tokens.borderColor]: !extend && !error },
       { [tokens.boxShadow]: !extend && !error },
-      { "focus:outline-none": extend },
+      { [tokens.withExtend]: extend },
       { [tokens.error.borderColor]: error && !extend },
       { [tokens.error.color]: error && !extend && !props?.id?.includes("downshift") },
       { [tokens.error.placeholder]: error && !extend },
@@ -239,13 +242,13 @@ const Input = React.forwardRef(
     );
 
     const inlineTrailingIconClass = cx({
-      "flex align-center": true,
+      [tokens.Icon.master]: true,
       [tokens.Icon.color]: true,
     });
 
     const extendClassName = cx({
-      "bg-white focus:outline-none rounded-md": true,
-      "opacity-50": disabled,
+      [tokens.extend.master]: true,
+      [tokens.extend.disabled]: disabled,
     });
 
     const inputContainerClassName = cx("relative", { flex: addOn }, tokens.container.base, {
@@ -276,7 +279,7 @@ const Input = React.forwardRef(
       >
         {addOn && <InputAddOn addOn={addOn} />}
         {inlineLeadingAddOn && <InputInlineAddOn inline={true}>{inlineLeadingAddOn}</InputInlineAddOn>}
-        <div className="absolute inset-y-0 flex items-center left-0 align-center">
+        <div className={tokens.leadingAddOnContainer}>
           {inlineLeadingIcon && <InputIcon icon={<div className={tokens.Icon.color}>{inlineLeadingIcon}</div>} />}
         </div>
         <div className={extend ? extendedInputClassName : addOn ? "w-full" : undefined}>
@@ -295,7 +298,11 @@ const Input = React.forwardRef(
             </div>
           )}
         </div>
-        <div className={`absolute flex ${extend ? "items-start top-3" : "items-center inset-y-0"} right-0`}>
+        <div
+          className={`${tokens.trailingAddOnContainer.master} ${
+            extend ? tokens.trailingAddOnContainer.withExtend : tokens.trailingAddOnContainer.withoutExtend
+          }`}
+        >
           {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
           {!disabled && !props.readOnly && props.value && allowClear && finalClearIcon && (
             <button
@@ -324,7 +331,7 @@ function InputIcon({ icon, trailing, inputId, ...props }: InputIconProps) {
   const tokens = useTokens("Input", props.tokens);
 
   const className = cx(
-    "flex pointer-events-auto items-center",
+    tokens.Icon.Container.master,
     { [tokens.Icon.color]: !trailing },
     { [tokens.Icon.Container.leading]: !trailing },
     { [tokens.Icon.Container.trailing]: trailing && !inputId?.includes("downshift") },
@@ -336,7 +343,7 @@ function InputAddOn({ addOn, className, ...props }: InputAddOnProps) {
   const tokens = useTokens("Input", props.tokens);
   const cn = className
     ? className
-    : cx("inline-flex items-center", tokens.addOn.color, tokens.addOn.fontSize, tokens.addOn.outline);
+    : cx(tokens.addOn.container, tokens.addOn.color, tokens.addOn.fontSize, tokens.addOn.outline);
   return <span className={cn}>{addOn}</span>;
 }
 
@@ -344,10 +351,7 @@ function InputInlineAddOn({ inline, trailing, children, ...props }: InputInlineA
   const tokens = useTokens("Input", props.tokens);
 
   const className = cx(
-    "flex items-center pointer-events-none",
-    { "absolute inset-y-0": !trailing },
-    { "left-0": !trailing },
-    { "right-0": trailing },
+    tokens.addOn.InlineAddOn.master,
     { [tokens.addOn.InlineAddOn.leading]: !trailing },
     { [tokens.addOn.InlineAddOn.trailing]: trailing },
   );

@@ -46,6 +46,7 @@ function CheckboxGroupField({ name, children, ...props }: CheckboxGroupFieldProp
   return (
     <CheckboxGroup
       {...props}
+      data-testid={name ?? props["data-testid"]}
       name={name}
       value={field.value || {}}
       onChange={onChange}
@@ -58,7 +59,7 @@ function CheckboxGroupField({ name, children, ...props }: CheckboxGroupFieldProp
 }
 
 function CheckboxGroupFieldItem(props: CheckboxGroupFieldItemProps) {
-  return <CheckboxGroup.Item {...props} />;
+  return <CheckboxGroup.Item {...props} data-testid={props.value ?? props["data-testid"]} />;
 }
 
 CheckboxGroupField.Item = CheckboxGroupFieldItem;

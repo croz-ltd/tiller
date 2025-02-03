@@ -114,15 +114,11 @@ type UseDataTableField<T extends object> = [
     saveEnabled?: boolean;
   },
 
-  DataTableFieldHook
+  DataTableFieldHook,
 ];
 
 type DataTableFieldNewRowProps = {
   children: React.ReactNode;
-};
-
-DataTableFieldNewRow.defaultProps = {
-  type: "DataTableFieldNewRow",
 };
 
 function onValidationForm<T extends object>(validationSchema?: Schema<any>) {
@@ -147,13 +143,13 @@ function onValidationForm<T extends object>(validationSchema?: Schema<any>) {
         return false;
       }
     },
-    [formik]
+    [formik],
   );
 }
 
 export function useDataTableField<T extends object>(
   dataTableFieldName: string,
-  validationSchema: Schema<any> | undefined = undefined
+  validationSchema: Schema<any> | undefined = undefined,
 ): UseDataTableField<T> {
   const formik = useFormikContext();
   const [field, , helpers] = useField<T[]>(dataTableFieldName);
@@ -218,7 +214,7 @@ export function useDataTableField<T extends object>(
       const value = data[index];
       formik.setFieldValue(`editRow.${dataTableFieldName}`, value);
     },
-    [data]
+    [data],
   );
 
   const onRowEditCancel = React.useCallback(() => {
@@ -243,7 +239,7 @@ export function useDataTableField<T extends object>(
       }
       return editRowValue.current || {};
     },
-    [formik, validateForm]
+    [formik, validateForm],
   );
 
   const onRowDelete = React.useCallback(
@@ -258,7 +254,7 @@ export function useDataTableField<T extends object>(
       setRowEditingIndex(undefined);
       setEditingRow(undefined);
     },
-    [field.value]
+    [field.value],
   );
 
   const state = React.useMemo(() => ({ data, rowEditingIndex, saveEnabled }), [data, rowEditingIndex, saveEnabled]);
@@ -285,7 +281,7 @@ export function useDataTableField<T extends object>(
       onRowEditField,
       onRowEditSave,
       onRowDelete,
-    ]
+    ],
   );
 
   return [state, hook];
