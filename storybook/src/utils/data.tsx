@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -99,8 +99,7 @@ export const lessSimpleItems: string[] = ["Important", "Secret"];
 export const loadOptions = (query: string) => {
   return new Promise<Item[]>((resolve) => {
     const filtered = items.filter(
-      (item) =>
-        item.username.indexOf(query) !== -1 || item.name.indexOf(query) !== -1 || item.surname.indexOf(query) !== -1
+      (item) => item.username.indexOf(query) !== -1 || item.name.indexOf(query) !== -1 || item.surname.indexOf(query) !== -1,
     );
 
     setTimeout(() => {

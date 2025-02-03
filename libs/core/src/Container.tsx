@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -62,10 +62,7 @@ export default function Container({ variant = "max", children, className, ...pro
   const tokens = useTokens("Container", props.tokens);
 
   return (
-    <div
-      className={tillerTwMerge(tokens.variant[variant].outerContainer, className)}
-      data-testid={props["data-testid"]}
-    >
+    <div className={tillerTwMerge(tokens.variant[variant].outerContainer, className)} data-testid={props["data-testid"]}>
       <div className={tokens.variant[variant].innerContainer}>{children}</div>
     </div>
   );

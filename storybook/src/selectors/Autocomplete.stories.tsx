@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -190,8 +190,7 @@ const frontendProps = {
   ...commonProps,
   options: items,
   getOptionValue: (item: Item) => item.username,
-  filter: (name: string, option) =>
-    (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase()),
+  filter: (name: string, option) => (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase()),
 };
 
 const frontendSimpleProps = {
@@ -251,8 +250,7 @@ export const AutocompleteFactory = ({
     filter={
       fetchFrontend
         ? tags
-          ? (name: string, option: string) =>
-              (option.toLowerCase() + " " + option.toLowerCase()).includes(name.toLowerCase())
+          ? (name: string, option: string) => (option.toLowerCase() + " " + option.toLowerCase()).includes(name.toLowerCase())
           : (name: string, option) =>
               (option.name.toLowerCase() + " " + option.surname.toLowerCase()).includes(name.toLowerCase())
         : undefined
@@ -325,25 +323,19 @@ export const WithLabel = () => <Autocomplete label={<Intl name="label" />} {...b
 
 export const WithoutLabel = () => <Autocomplete {...backendProps} />;
 
-export const WithValue = () => (
-  <Autocomplete {...backendProps} label={<Intl name="label" />} name={name} value={value} />
-);
+export const WithValue = () => <Autocomplete {...backendProps} label={<Intl name="label" />} name={name} value={value} />;
 
 export const WithTransformedValue = () => (
   <Autocomplete {...backendProps} label={<Intl name="label" />} name={name} value={value} valueTransform="uppercase" />
 );
 
-export const Disabled = () => (
-  <Autocomplete label={<Intl name="label" />} disabled={true} {...backendProps} name={name} />
-);
+export const Disabled = () => <Autocomplete label={<Intl name="label" />} disabled={true} {...backendProps} name={name} />;
 
 export const WithPlaceholder = () => (
   <Autocomplete label={<Intl name="label" />} placeholder="Test placeholder" {...backendProps} />
 );
 
-export const WithHelp = () => (
-  <Autocomplete label={<Intl name="label" />} help={<Intl name="label" />} {...backendProps} />
-);
+export const WithHelp = () => <Autocomplete label={<Intl name="label" />} help={<Intl name="label" />} {...backendProps} />;
 
 export const WithTooltip = () => (
   <Autocomplete
@@ -358,22 +350,14 @@ export const WithTooltip = () => (
 );
 
 export const WithError = () => (
-  <Autocomplete
-    label={<Intl name="label" />}
-    {...backendProps}
-    help={<Intl name="label" />}
-    name={nameWithError}
-    error={error}
-  />
+  <Autocomplete label={<Intl name="label" />} {...backendProps} help={<Intl name="label" />} name={nameWithError} error={error} />
 );
 
 export const WithComplexDisplay = () => (
   <Autocomplete label={<Intl name="label" />} {...backendProps} {...complexProps} allowMultiple={true} />
 );
 
-export const WithMultipleSelection = () => (
-  <Autocomplete label={<Intl name="label" />} {...backendProps} allowMultiple={true} />
-);
+export const WithMultipleSelection = () => <Autocomplete label={<Intl name="label" />} {...backendProps} allowMultiple={true} />;
 
 export const WithMultipleSelectionAndValues = () => (
   <Autocomplete label={<Intl name="label" />} {...backendProps} allowMultiple={true} name={name} value={values} />
@@ -403,13 +387,7 @@ export const WithComplexTags = () => (
 );
 
 export const WithContainedTags = () => (
-  <Autocomplete
-    label={<Intl name="label" />}
-    {...frontendSimpleProps}
-    allowMultiple={true}
-    tags={true}
-    tagsContained={true}
-  />
+  <Autocomplete label={<Intl name="label" />} {...frontendSimpleProps} allowMultiple={true} tags={true} tagsContained={true} />
 );
 
 export const WithAddingCustomTags = () => {
@@ -449,9 +427,7 @@ export const WithAddingCustomItems = () => {
         const newItem = {
           name: item.split(" ")[0],
           surname: item.split(" ")[1] ?? "",
-          username: item.split(" ")[1]
-            ? item[0].toLowerCase() + item.split(" ")[1].toLowerCase()
-            : item[0].toLowerCase() ?? "",
+          username: item.split(" ")[1] ? item[0].toLowerCase() + item.split(" ")[1].toLowerCase() : item[0].toLowerCase() ?? "",
         };
         return newItem;
       }}

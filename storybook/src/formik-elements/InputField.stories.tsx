@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -174,9 +174,7 @@ InputFieldFactory.parameters = {
 
 InputFieldFactory.decorators = showFactoryDecorator();
 
-export const WithLabel = (args) => (
-  <InputField name={name} label={<Intl name="label" />} allowClear={true} required={true} />
-);
+export const WithLabel = (args) => <InputField name={name} label={<Intl name="label" />} allowClear={true} required={true} />;
 
 export const WithoutLabel = (args) => <InputField name={name} />;
 
@@ -201,11 +199,7 @@ export const WithTransformedValue = () => {
 export const Disabled = (args) => <InputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
 export const WithPlaceholder = (args, context) => (
-  <InputField
-    name={name}
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-  />
+  <InputField name={name} label={<Intl name="label" />} placeholder={translations[context.globals.language]["placeholder"]} />
 );
 
 export const WithHelp = (args) => <InputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
@@ -242,11 +236,7 @@ export const WithTrailingIcon = (args) => (
 );
 
 export const WithTrailingIconAndError = (args) => (
-  <InputField
-    name={nameWithError}
-    label={<Intl name="label" />}
-    inlineTrailingIcon={<Icon type="question" variant="fill" />}
-  />
+  <InputField name={nameWithError} label={<Intl name="label" />} inlineTrailingIcon={<Icon type="question" variant="fill" />} />
 );
 
 export const WithAddOn = (args) => <InputField name={name} label={<Intl name="label" />} addOn={addOn} />;

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -70,12 +70,7 @@ export const WithoutLabel = () => {
   const [dateTime, setDateTime] = React.useState<Date | null>(null);
 
   return (
-    <DateTimeInput
-      name={name}
-      value={dateTime}
-      onChange={(newDate) => setDateTime(newDate)}
-      onReset={() => setDateTime(null)}
-    />
+    <DateTimeInput name={name} value={dateTime} onChange={(newDate) => setDateTime(newDate)} onReset={() => setDateTime(null)} />
   );
 };
 
@@ -84,12 +79,7 @@ export const WithValue = () => {
   const [dateTime, setDateTime] = React.useState<Date | null>(new Date("2020-11-20T11:21:28.635778"));
 
   return (
-    <DateTimeInput
-      name={name}
-      value={dateTime}
-      onChange={(newDate) => setDateTime(newDate)}
-      onReset={() => setDateTime(null)}
-    />
+    <DateTimeInput name={name} value={dateTime} onChange={(newDate) => setDateTime(newDate)} onReset={() => setDateTime(null)} />
   );
 };
 

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -405,11 +405,7 @@ export default function TreeSelect<T>({
     tokens.Item.base.lineHeight,
     tokens.Item.base.color,
   );
-  const selectClassName = cx(
-    tokens.Select.base,
-    { [tokens.Select.active]: !disabled },
-    { [tokens.Select.disabled]: disabled },
-  );
+  const selectClassName = cx(tokens.Select.base, { [tokens.Select.active]: !disabled }, { [tokens.Select.disabled]: disabled });
 
   const valueLabelClassName = cx(tokens.ValueLabel.base, { [tokens.ValueLabel.disabled]: disabled });
 

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -113,13 +113,7 @@ function MetaHelper({ fieldName }: { fieldName: string }) {
   );
 }
 
-function WrapInFormContainer({
-  children,
-  includeInitialErrors,
-}: {
-  children: React.ReactNode;
-  includeInitialErrors?: boolean;
-}) {
+function WrapInFormContainer({ children, includeInitialErrors }: { children: React.ReactNode; includeInitialErrors?: boolean }) {
   const [customInitialErrors, setCustomInitialErrors] = React.useState<any>({
     autocompleteMultiple: "Initial item selection is required.",
     autocompleteSingle: "Initial item selection is required.",
@@ -204,12 +198,7 @@ export const UsualUsageTest = () => (
             </Button>
           </div>
           <MetaHelper fieldName="autocompleteMultiple" />
-          <AutocompleteField
-            label="AutocompleteField Test"
-            {...backendProps}
-            name="autocompleteSingle"
-            required={true}
-          />
+          <AutocompleteField label="AutocompleteField Test" {...backendProps} name="autocompleteSingle" required={true} />
           <div className="flex space-x-2 mt-2">
             <Button
               type="button"
@@ -309,12 +298,7 @@ export const InitialErrorsTest = () => {
               </Button>
             </div>
             <MetaHelper fieldName="autocompleteMultiple" />
-            <AutocompleteField
-              label="AutocompleteField Test"
-              {...backendProps}
-              name="autocompleteSingle"
-              required={true}
-            />
+            <AutocompleteField label="AutocompleteField Test" {...backendProps} name="autocompleteSingle" required={true} />
             <div className="flex space-x-2 mt-2">
               <Button
                 type="button"

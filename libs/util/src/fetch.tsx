@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -143,7 +143,7 @@ function finishRequest(waitingItem: Waiting, activeItem: Active, response: Respo
   state = produce(state, (draft: Draft<State>) => {
     draft.active.splice(
       draft.active.findIndex((value) => value === activeItem),
-      1
+      1,
     );
 
     draft.history.push(activeItem);

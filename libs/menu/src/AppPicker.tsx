@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -71,13 +71,11 @@ export default function AppPicker({ applications = [], currentApplication = "", 
   );
 }
 
-const AppPickerButton = React.forwardRef(
-  ({ children, ...props }: AppPickerButtonProps, ref: React.Ref<HTMLButtonElement>) => (
-    <button className="block" ref={ref} {...props}>
-      {children}
-    </button>
-  )
-);
+const AppPickerButton = React.forwardRef(({ children, ...props }: AppPickerButtonProps, ref: React.Ref<HTMLButtonElement>) => (
+  <button className="block" ref={ref} {...props}>
+    {children}
+  </button>
+));
 
 function ApplicationList({ applications, ...props }: ApplicationListProps) {
   const tokens = useTokens("AppPicker", props.tokens);
@@ -86,13 +84,13 @@ function ApplicationList({ applications, ...props }: ApplicationListProps) {
     tokens.ApplicationList.outerContainer.width,
     tokens.ApplicationList.outerContainer.margin,
     tokens.ApplicationList.outerContainer.borderRadius,
-    tokens.ApplicationList.outerContainer.boxShadow
+    tokens.ApplicationList.outerContainer.boxShadow,
   );
 
   const innerContainerClassName = cx(
     tokens.ApplicationList.innerContainer.borderRadius,
     tokens.ApplicationList.innerContainer.backgroundColor,
-    tokens.ApplicationList.innerContainer.boxShadow
+    tokens.ApplicationList.innerContainer.boxShadow,
   );
 
   return (
@@ -116,7 +114,7 @@ function Application({ name, path, ...props }: ApplicationProps) {
     tokens.Application.padding,
     tokens.Application.fontSize,
     tokens.Application.lineHeight,
-    tokens.Application.color
+    tokens.Application.color,
   );
 
   const onSelect = () => {

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,13 +20,7 @@ import React from "react";
 export default function MenuHandleIcon() {
   return (
     <svg width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none">
-      <path
-        d="M7 7l3-3 3 3m0 6l-3 3-3-3"
-        stroke="#9fa6b2"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M7 7l3-3 3 3m0 6l-3 3-3-3" stroke="#9fa6b2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ export const PasswordValidationSchema = (passwordValidationRegex?: RegExp) =>
       .required("intl:login.validation.passwordValidation.newPassword.required")
       .matches(
         passwordValidationRegex || defaultPasswordValidationRegex,
-        "intl:login.validation.passwordValidation.newPassword.regex"
+        "intl:login.validation.passwordValidation.newPassword.regex",
       ),
     repeatPassword: Yup.string()
       .required("intl:login.validation.passwordValidation.repeatPassword.required")

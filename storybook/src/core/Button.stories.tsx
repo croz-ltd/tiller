@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -109,9 +109,7 @@ export const ButtonFactory = ({
     rounded={rounded}
     tokens={useTokens && tokens}
     className={className}
-    leadingIcon={
-      iconType === "leading" ? <Icon type={icon} variant={iconVariant} /> : waiting ? <LoadingIcon /> : undefined
-    }
+    leadingIcon={iconType === "leading" ? <Icon type={icon} variant={iconVariant} /> : waiting ? <LoadingIcon /> : undefined}
     trailingIcon={iconType === "trailing" ? <Icon type={icon} variant={iconVariant} /> : undefined}
     onClick={() => {}}
   />
@@ -170,11 +168,7 @@ export const CustomViaTokens = () => {
   };
 
   return (
-    <Button
-      tokens={roundedButtonTokens}
-      className="hover:bg-green-900"
-      trailingIcon={<Icon type="smiley" variant="fill" />}
-    >
+    <Button tokens={roundedButtonTokens} className="hover:bg-green-900" trailingIcon={<Icon type="smiley" variant="fill" />}>
       Custom Button
     </Button>
   );

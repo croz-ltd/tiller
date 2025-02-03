@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -89,9 +89,7 @@ export const WithoutClearButton = (args) => <DateTimeInputField name={nameWithVa
 
 export const Disabled = (args) => <DateTimeInputField name={name} label={<Intl name="label" />} disabled={true} />;
 
-export const WithHelp = (args) => (
-  <DateTimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />
-);
+export const WithHelp = (args) => <DateTimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
 
 export const WithTooltip = (args) => (
   <DateTimeInputField
@@ -107,9 +105,7 @@ export const WithTooltip = (args) => (
 
 export const WithError = (args) => <DateTimeInputField name={nameWithError} label={<Intl name="label" />} />;
 
-export const ReadOnly = (args) => (
-  <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />
-);
+export const ReadOnly = (args) => <DateTimeInputField name={nameWithValue} label={<Intl name="label" />} readOnly={true} />;
 
 export const WithCustomPlaceholder = (args, context) => (
   <DateTimeInputField
@@ -136,9 +132,7 @@ export const WithMinAndMaxDateAndValue = (args) => (
   />
 );
 
-export const WithTwelveHours = (args) => (
-  <DateTimeInputField name={name} label={<Intl name="label" />} type="use12Hours" />
-);
+export const WithTwelveHours = (args) => <DateTimeInputField name={name} label={<Intl name="label" />} type="use12Hours" />;
 
 export const WithTwelveHoursAndValue = () => {
   // incl-code

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -115,9 +115,7 @@ export const checkDatesInterval = (
  */
 export const convertTwelveHoursTimeTo24Hours = (value: string) => {
   const amPm = value.split(" ")[1].toUpperCase();
-  const hours = addLeadingZerosToDigit(
-    transformHourTo24HoursValue(parseInt(value.split(":")[0]), amPm === "PM" ? PM : AM),
-  );
+  const hours = addLeadingZerosToDigit(transformHourTo24HoursValue(parseInt(value.split(":")[0]), amPm === "PM" ? PM : AM));
   const minutes = value.split(" ")[0].split(":")[1];
   if (amPm === "PM" || amPm === "AM") {
     return `${hours}:${minutes}`;

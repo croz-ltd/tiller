@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ export type UploadButtonProps<T extends File> = {
   /**
    * `withCredentials` flag on fetch requests for uploading
    */
-  withCredentials?: boolean
+  withCredentials?: boolean;
 
   /**
    * UploadButton content
@@ -182,14 +182,7 @@ export default function UploadButton<T extends File>({
   );
 }
 
-function CustomUploadButton<T extends File>({
-  children,
-  hook,
-  color,
-  disabled,
-  onError,
-  ...props
-}: CustomUploadButtonProps<T>) {
+function CustomUploadButton<T extends File>({ children, hook, color, disabled, onError, ...props }: CustomUploadButtonProps<T>) {
   const tokens = useTokens("StatusButton", props.tokens);
   const size = props.size || "md";
   const [status, setStatus] = React.useState<Status>("idle");
@@ -232,13 +225,7 @@ function CustomUploadButton<T extends File>({
   if (status === "waiting") {
     const buttonColor = color || "primary";
     return (
-      <Button
-        {...props}
-        color={buttonColor}
-        leadingIcon={loadingIcon}
-        onClick={onClick}
-        disabled={disabled}
-      >
+      <Button {...props} color={buttonColor} leadingIcon={loadingIcon} onClick={onClick} disabled={disabled}>
         {" "}
         {children}
       </Button>
@@ -246,13 +233,7 @@ function CustomUploadButton<T extends File>({
   } else if (status === "success") {
     const buttonColor = color || "success";
     return (
-      <Button
-        {...props}
-        leadingIcon={checkIcon}
-        color={buttonColor}
-        onClick={onClick}
-        disabled={disabled}
-      >
+      <Button {...props} leadingIcon={checkIcon} color={buttonColor} onClick={onClick} disabled={disabled}>
         {" "}
         {children}
       </Button>
@@ -260,13 +241,7 @@ function CustomUploadButton<T extends File>({
   } else if (status === "error") {
     const buttonColor = color || "danger";
     return (
-      <Button
-        {...props}
-        leadingIcon={warningIcon}
-        color={buttonColor}
-        onClick={onClick}
-        disabled={disabled}
-      >
+      <Button {...props} leadingIcon={warningIcon} color={buttonColor} onClick={onClick} disabled={disabled}>
         {" "}
         {children}
       </Button>

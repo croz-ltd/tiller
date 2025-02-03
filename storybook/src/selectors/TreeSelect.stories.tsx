@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -59,9 +59,7 @@ export const WithoutLabel = () => <TreeSelect {...commonProps} />;
 
 export const WithValue = () => <TreeSelect value={value} label={<Intl name="label" />} {...commonProps} />;
 
-export const Disabled = () => (
-  <TreeSelect value={value} label={<Intl name="label" />} disabled={true} {...commonProps} />
-);
+export const Disabled = () => <TreeSelect value={value} label={<Intl name="label" />} disabled={true} {...commonProps} />;
 
 export const WithPlaceholder = (args, context) => (
   <TreeSelect
@@ -73,9 +71,7 @@ export const WithPlaceholder = (args, context) => (
 
 export const WithHelp = () => <TreeSelect label={<Intl name="label" />} help={<Intl name="help" />} {...commonProps} />;
 
-export const WithError = () => (
-  <TreeSelect label={<Intl name="label" />} error={<Intl name="error" />} {...commonProps} />
-);
+export const WithError = () => <TreeSelect label={<Intl name="label" />} error={<Intl name="error" />} {...commonProps} />;
 
 export const WithValueLabel = () => (
   <TreeSelect

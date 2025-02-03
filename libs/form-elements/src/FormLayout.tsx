@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -124,17 +124,16 @@ function FormLayout({ children, type = "simple", ...props }: FormLayoutProps) {
             <div className={tokens.borderPadding}>
               <div className={tokens.border}>&nbsp;</div>
             </div>
-          </div>
+          </div>,
         );
       }
 
-      const className =
-        type === "simple" ? `${tokens.simpleBorder}` : type === "card" ? "mt-10 sm:mt-0" : "mt-6";
+      const className = type === "simple" ? `${tokens.simpleBorder}` : type === "card" ? "mt-10 sm:mt-0" : "mt-6";
 
       result.push(
         <div key={i * 2 + 1} className={className}>
           {childrenArray[i]}
-        </div>
+        </div>,
       );
     } else {
       result.push(<React.Fragment key={i * 2}>{childrenArray[i]}</React.Fragment>);
@@ -150,18 +149,13 @@ export function FormLayoutSection({ title, subtitle, children, className, ...pro
 
   const sectionContext = React.useMemo(() => ({ title, subtitle }), [title, subtitle]);
 
-  const titleClassName = cx(
-    tokens.title.fontSize,
-    tokens.title.color,
-    tokens.title.fontWeight,
-    tokens.title.lineHeight
-  );
+  const titleClassName = cx(tokens.title.fontSize, tokens.title.color, tokens.title.fontWeight, tokens.title.lineHeight);
 
   const subtitleClassName = cx(
     tokens.subtitle.fontSize,
     tokens.subtitle.color,
     tokens.subtitle.margin,
-    tokens.subtitle.lineHeight
+    tokens.subtitle.lineHeight,
   );
 
   const cardTitleClassName = cx(
@@ -231,14 +225,14 @@ export function FormLayoutSectionContent({ children, ...props }: FormLayoutSecti
     tokens.content.title.fontSize,
     tokens.content.title.color,
     tokens.content.title.fontWeight,
-    tokens.content.title.lineHeight
+    tokens.content.title.lineHeight,
   );
 
   const subtitleClassName = cx(
     tokens.content.subtitle.fontSize,
     tokens.content.subtitle.color,
     tokens.content.subtitle.margin,
-    tokens.content.subtitle.lineHeight
+    tokens.content.subtitle.lineHeight,
   );
 
   if (context?.type === "card") {

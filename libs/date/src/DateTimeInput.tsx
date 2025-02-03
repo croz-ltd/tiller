@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,13 +31,7 @@ import addLeadingZerosToDigit from "./addLeadingZerosToDigit";
 import DatePicker from "./DatePicker";
 import TimePicker, { ClockType, TimePickerProps } from "./TimePicker";
 import { usePickerOpener } from "./usePickerOpener";
-import {
-  checkDatesInterval,
-  convertTwelveHoursTimeTo24Hours,
-  formatDate,
-  getDateFormatByLang,
-  getMaskFromFormat,
-} from "./utils";
+import { checkDatesInterval, convertTwelveHoursTimeTo24Hours, formatDate, getDateFormatByLang, getMaskFromFormat } from "./utils";
 import { tillerTwMerge } from "@tiller-ds/util";
 
 const AM = "AM";

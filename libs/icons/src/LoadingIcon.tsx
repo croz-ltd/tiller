@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -60,15 +60,7 @@ export default function LoadingIcon({ size = 5, className = "", ...props }: Load
       fill="currentColor"
       data-testid={props["data-testid"]}
     >
-      <circle
-        className="path stroke-current"
-        fill="none"
-        strokeWidth="6"
-        strokeLinecap="round"
-        cx="33"
-        cy="33"
-        r="30"
-      />
+      <circle className="path stroke-current" fill="none" strokeWidth="6" strokeLinecap="round" cx="33" cy="33" r="30" />
     </svg>
   );
 }

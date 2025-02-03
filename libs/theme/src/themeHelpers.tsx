@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ const DEFAULT_SHADES: ThemeColorShades = {
   light: "100",
   dark: "800",
   contrast: "white",
-}
+};
 
 export function color(colorName: string, shades?: Partial<ThemeColorShades>, colorsConfig?: Partial<typeof colors>) {
   const finalColorConfig = colorsConfig !== undefined ? colorsConfig : colors;
@@ -43,19 +43,18 @@ export function color(colorName: string, shades?: Partial<ThemeColorShades>, col
     light: finalColorConfig[colorName][finalShades.light],
     dark: finalColorConfig[colorName][finalShades.dark],
     contrast: finalColorConfig[finalShades.contrast],
-  }
+  };
 }
 
-
 export function font(size: string, lineHeight?: string, weight?: string, themeConfig?: Partial<typeof defaultTheme>) {
-  const finalThemeConfig = themeConfig !== undefined ? themeConfig: defaultTheme;
+  const finalThemeConfig = themeConfig !== undefined ? themeConfig : defaultTheme;
   if (lineHeight !== undefined && weight !== undefined) {
     return [
       finalThemeConfig?.fontSize?.[size][0] ?? defaultTheme.fontSize[size][0],
       {
         lineHeight: finalThemeConfig?.lineHeight?.[lineHeight] ?? defaultTheme.lineHeight[lineHeight],
         fontWeight: finalThemeConfig?.fontWeight?.[weight] ?? defaultTheme.fontWeight[weight],
-      }
+      },
     ];
   } else {
     return finalThemeConfig?.fontSize?.[size][0] ?? defaultTheme.fontSize[size][0];

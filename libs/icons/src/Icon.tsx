@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -81,11 +81,5 @@ export default function Icon({ variant = "regular", type, className = "", size =
     [`ph-${type}-${variant}`]: variant !== "regular",
   });
 
-  return (
-    <i
-      className={tillerTwMerge(iconClassName, className)}
-      style={{ ...props.style }}
-      data-testid={props["data-testid"]}
-    />
-  );
+  return <i className={tillerTwMerge(iconClassName, className)} style={{ ...props.style }} data-testid={props["data-testid"]} />;
 }

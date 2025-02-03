@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -114,11 +114,7 @@ function DescriptionList({ children, type = "default", className, ...props }: De
 
   if (type === "clean") {
     for (let i = 0; i < childrenArray.length; i++) {
-      if (
-        childrenArray[i].props.fullWidth === false &&
-        childrenArray[i + 1] &&
-        childrenArray[i + 1].props.fullWidth === false
-      ) {
+      if (childrenArray[i].props.fullWidth === false && childrenArray[i + 1] && childrenArray[i + 1].props.fullWidth === false) {
         rows.push(
           <>
             <div className={tokens.Type.clean.itemBase}>{childrenArray[i]}</div>

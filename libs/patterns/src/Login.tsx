@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -150,16 +150,13 @@ export default function Login({
                         <div className={tokens.logoContainer}>
                           <img src={logo} alt="logo" className={tokens.logoSize} />
                         </div>
-                        )
-                      }
+                      )}
                       {children}
                       <h1 className={tokens.headerContainer}>{<Intl name={title || "login.labels.header"} />}</h1>
                       <InputField
                         className={tokens.inputSpacing}
                         name={useEmail ? "email" : "username"}
-                        label={
-                          useEmail ? <Intl name={"login.labels.email"} /> : <Intl name={"login.labels.username"} />
-                        }
+                        label={useEmail ? <Intl name={"login.labels.email"} /> : <Intl name={"login.labels.username"} />}
                         autoFocus={true}
                         required={true}
                       />
@@ -171,10 +168,7 @@ export default function Login({
                       />
                       {rememberMe === true && (
                         <CheckboxGroupField name="type" label="">
-                          <CheckboxGroupField.Item
-                            label={<Intl name={"login.labels.rememberMe"} />}
-                            value="remember-me"
-                          />
+                          <CheckboxGroupField.Item label={<Intl name={"login.labels.rememberMe"} />} value="remember-me" />
                         </CheckboxGroupField>
                       )}
                       <Button

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -100,11 +100,7 @@ export const WithoutClearButton = () => <TimeInputField name={name} label={<Intl
 export const Disabled = () => <TimeInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
 export const WithCustomPlaceholder = (args, context) => (
-  <TimeInputField
-    name={name}
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-  />
+  <TimeInputField name={name} label={<Intl name="label" />} placeholder={translations[context.globals.language]["placeholder"]} />
 );
 
 export const WithHelp = () => <TimeInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;

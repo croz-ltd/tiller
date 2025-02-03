@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -219,18 +219,10 @@ export const Light = () => {
           <Intl name="dashboard" />
         </SidebarNavigation.Item>
         <SidebarNavigation.Item isExpandable={true} title="Planning" color="light">
-          <SidebarNavigation.SubItem
-            to="/tasks"
-            icon={<Icon type="clipboard" className="text-gray-500" />}
-            color="light"
-          >
+          <SidebarNavigation.SubItem to="/tasks" icon={<Icon type="clipboard" className="text-gray-500" />} color="light">
             <Intl name="tasks" />
           </SidebarNavigation.SubItem>
-          <SidebarNavigation.SubItem
-            to="/reminders"
-            icon={<Icon type="bell" className="text-gray-500" />}
-            color="light"
-          >
+          <SidebarNavigation.SubItem to="/reminders" icon={<Icon type="bell" className="text-gray-500" />} color="light">
             <Intl name="reminders" />
           </SidebarNavigation.SubItem>
           <SidebarNavigation.SubItem to="/events" icon={<Icon type="money" className="text-gray-500" />} color="light">

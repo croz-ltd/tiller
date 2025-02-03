@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -166,11 +166,7 @@ export const ForgotPassword = () => {
 
   return (
     <BrowserRouter>
-      <ForgottenPassword
-        validationSchema={EmailValidationSchema}
-        initialValues={initialValues}
-        handleSubmit={handleSubmit}
-      >
+      <ForgottenPassword validationSchema={EmailValidationSchema} initialValues={initialValues} handleSubmit={handleSubmit}>
         <EmailForm />
       </ForgottenPassword>
     </BrowserRouter>
@@ -197,11 +193,7 @@ export const EmailConfirmation = () => {
 
   return (
     <BrowserRouter>
-      <ForgottenPassword
-        validationSchema={EmailValidationSchema}
-        initialValues={initialValues}
-        handleSubmit={handleSubmit}
-      >
+      <ForgottenPassword validationSchema={EmailValidationSchema} initialValues={initialValues} handleSubmit={handleSubmit}>
         <EmailForm>
           <Alert className="my-2">
             <Intl name="login.labels.checkEmailNotification" />
@@ -237,11 +229,7 @@ export const ResetPassword = () => {
 
   return (
     <BrowserRouter>
-      <ForgottenPassword
-        validationSchema={PasswordValidationSchema}
-        initialValues={initialValues}
-        handleSubmit={handleSubmit}
-      >
+      <ForgottenPassword validationSchema={PasswordValidationSchema} initialValues={initialValues} handleSubmit={handleSubmit}>
         <PasswordResetForm />
       </ForgottenPassword>
     </BrowserRouter>

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -51,13 +51,7 @@ export const WithLabel = () => {
   const [value, setValue] = React.useState<string>("");
 
   return (
-    <Input
-      name={name}
-      value={value}
-      label={<Intl name="label" />}
-      onChange={(e) => setValue(e.target.value)}
-      onBlur={() => {}}
-    />
+    <Input name={name} value={value} label={<Intl name="label" />} onChange={(e) => setValue(e.target.value)} onBlur={() => {}} />
   );
 };
 
@@ -73,13 +67,7 @@ export const WithValue = () => {
   const [value, setValue] = React.useState<string>("Test value");
 
   return (
-    <Input
-      name={name}
-      value={value}
-      label={<Intl name="label" />}
-      onChange={(e) => setValue(e.target.value)}
-      onBlur={() => {}}
-    />
+    <Input name={name} value={value} label={<Intl name="label" />} onChange={(e) => setValue(e.target.value)} onBlur={() => {}} />
   );
 };
 
@@ -319,12 +307,6 @@ export const WithNumber = () => {
   const [value, setValue] = React.useState<string>("");
 
   return (
-    <Input
-      name={name}
-      value={value}
-      label={<Intl name="label" />}
-      type="number"
-      onChange={(e) => setValue(e.target.value)}
-    />
+    <Input name={name} value={value} label={<Intl name="label" />} type="number" onChange={(e) => setValue(e.target.value)} />
   );
 };

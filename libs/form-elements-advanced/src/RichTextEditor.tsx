@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -463,9 +463,7 @@ function RichTextEditorToolbar(): JSX.Element {
       />
       <IconButton
         icon={isLink ? linkBreakIcon : linkIcon}
-        label={
-          isLink ? <Intl name="richTextEditor.actions.editLink" /> : <Intl name="richTextEditor.actions.insertLink" />
-        }
+        label={isLink ? <Intl name="richTextEditor.actions.editLink" /> : <Intl name="richTextEditor.actions.insertLink" />}
         buttonClassName={isLink ? buttonClassesActive : buttonClasses}
         onClick={linkModal.onOpen}
       />

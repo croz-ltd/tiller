@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -152,8 +152,7 @@ export default function TimePicker({
     const distance = Math.sqrt(Math.pow(transformedX, 2) + Math.pow(transformedY, 2));
 
     if (distance <= clockRadius) {
-      const angle =
-        (-(Math.atan2(transformedX, transformedY) * STRAIGHT_ANGLE) / Math.PI + STRAIGHT_ANGLE) % FULL_CIRCLE_ANGLE;
+      const angle = (-(Math.atan2(transformedX, transformedY) * STRAIGHT_ANGLE) / Math.PI + STRAIGHT_ANGLE) % FULL_CIRCLE_ANGLE;
 
       if (viewHours) {
         const hourIndex = Math.round(angle / HOUR_DEGREE);
@@ -248,18 +247,10 @@ export default function TimePicker({
         {use12Hours && (
           <div>
             <div className={tokens.clockButtonsContainer}>
-              <Button
-                onClick={() => onButtonClick(AM)}
-                type="button"
-                variant={value.type === AM ? "filled" : "outlined"}
-              >
+              <Button onClick={() => onButtonClick(AM)} type="button" variant={value.type === AM ? "filled" : "outlined"}>
                 AM
               </Button>
-              <Button
-                onClick={() => onButtonClick(PM)}
-                type="button"
-                variant={value.type === PM ? "filled" : "outlined"}
-              >
+              <Button onClick={() => onButtonClick(PM)} type="button" variant={value.type === PM ? "filled" : "outlined"}>
                 PM
               </Button>
             </div>
@@ -281,17 +272,13 @@ export default function TimePicker({
           onMouseUp={onMouseUp}
         >
           <div className={tokens.twentyFourHoursClockContainer}>
-            {viewHours && !use12Hours && (
-              <div className={tokens.twentyFourHoursClock} ref={twentyFourHoursContainerRef} />
-            )}
+            {viewHours && !use12Hours && <div className={tokens.twentyFourHoursClock} ref={twentyFourHoursContainerRef} />}
             <Hand rotate={viewHours ? hourAngle : minuteAngle} use24HoursHand={use24HourHand && viewHours} />
             {viewHours && !use12Hours && (
               <DigitsContainer digits={TWENTYFOUR_HOURS} translate={-60} value={value.hour} isTwelveHours={false} />
             )}
           </div>
-          {viewHours && (
-            <DigitsContainer digits={TWELVE_HOURS} translate={-90} value={value.hour} isTwelveHours={use12Hours} />
-          )}
+          {viewHours && <DigitsContainer digits={TWELVE_HOURS} translate={-90} value={value.hour} isTwelveHours={use12Hours} />}
           {!viewHours && (
             <DigitsContainer digits={filteredMinutes} translate={-90} value={value.minute} isTwelveHours={use12Hours} />
           )}

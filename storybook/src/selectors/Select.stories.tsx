@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -156,9 +156,7 @@ export const SelectFactory = ({
     allowMultiple={allowMultiple}
     getMultipleSelectedLabel={
       multipleSelectionLabel
-        ? (items: Item[]) => (
-            <>{items.map((item, index) => (index === 0 ? "" : ", ") + item.name + " " + item.surname)}</>
-          )
+        ? (items: Item[]) => <>{items.map((item, index) => (index === 0 ? "" : ", ") + item.name + " " + item.surname)}</>
         : undefined
     }
     disabled={disabled}
@@ -199,9 +197,7 @@ export const WithLabel = () => <Select {...commonProps} label={<Intl name="label
 
 export const WithoutLabel = () => <Select {...commonProps} />;
 
-export const WithValue = () => (
-  <Select value={value} {...commonProps} name={nameWithValue} label={<Intl name="label" />} />
-);
+export const WithValue = () => <Select value={value} {...commonProps} name={nameWithValue} label={<Intl name="label" />} />;
 
 export const Disabled = () => (
   <Select value={value} {...commonProps} name={nameWithValue} label={<Intl name="label" />} disabled={true} />
@@ -239,18 +235,10 @@ export const WithError = () => (
   <Select {...commonProps} error={<Intl name="error" />} name={nameWithError} label={<Intl name="label" />} />
 );
 
-export const WithLoadingIcon = () => (
-  <Select {...commonProps} name={name} loading={true} label={<Intl name="label" />} />
-);
+export const WithLoadingIcon = () => <Select {...commonProps} name={name} loading={true} label={<Intl name="label" />} />;
 
 export const WithMultipleSelection = () => (
-  <Select
-    value={[items[0], items[2]]}
-    {...commonProps}
-    name={nameWithArray}
-    allowMultiple={true}
-    label={<Intl name="label" />}
-  />
+  <Select value={[items[0], items[2]]} {...commonProps} name={nameWithArray} allowMultiple={true} label={<Intl name="label" />} />
 );
 
 export const WithMultipleSelectionAndVisibleLabels = () => (

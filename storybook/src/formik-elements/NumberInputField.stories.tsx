@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -81,9 +81,7 @@ export const WithValue = () => {
   return <NumberInputField name="nameWithValue" label={<Intl name="label" />} />;
 };
 
-export const Disabled = (args) => (
-  <NumberInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />
-);
+export const Disabled = (args) => <NumberInputField name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
 export const WithPlaceholder = (args, context) => (
   <NumberInputField
@@ -93,9 +91,7 @@ export const WithPlaceholder = (args, context) => (
   />
 );
 
-export const WithHelp = (args) => (
-  <NumberInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />
-);
+export const WithHelp = (args) => <NumberInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
 
 export const WithTooltip = (args) => (
   <NumberInputField
@@ -115,9 +111,7 @@ export const WithNegative = (args) => <NumberInputField name={name} allowNegativ
 
 export const WithDecimalScale = (args) => <NumberInputField name={name} decimalScale={3} />;
 
-export const WithFixedDecimalScale = (args) => (
-  <NumberInputField name={name} decimalScale={3} fixedDecimalScale={true} />
-);
+export const WithFixedDecimalScale = (args) => <NumberInputField name={name} decimalScale={3} fixedDecimalScale={true} />;
 
 export const WithLeadingZeros = (args) => <NumberInputField name={name} allowLeadingZeros={true} />;
 
@@ -164,6 +158,4 @@ export const WithInlineLeadingAndTrailingAddOn = (args) => (
   />
 );
 
-export const WithoutIntlProvider = (args) => (
-  <NumberInputField name={name} decimalSeparator="," thousandSeparator="." />
-);
+export const WithoutIntlProvider = (args) => <NumberInputField name={name} decimalSeparator="," thousandSeparator="." />;

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -62,13 +62,7 @@ export const Simple = () => {
   const [value, setValue] = useState<Record<string, boolean>>(valuesNone);
 
   return (
-    <CheckboxGroup
-      name="emailNotifications"
-      label="By Email"
-      value={value}
-      onChange={setValue}
-      className="flex space-x-4"
-    >
+    <CheckboxGroup name="emailNotifications" label="By Email" value={value} onChange={setValue} className="flex space-x-4">
       <CheckboxGroup.Item label="Comments" value="comments" />
       <CheckboxGroup.Item label="Candidates" value="candidates" />
       <CheckboxGroup.Item label="Offers" value="offers" />
@@ -81,13 +75,7 @@ export const WithValue = () => {
   const [value, setValue] = useState<Record<string, boolean>>(values);
 
   return (
-    <CheckboxGroup
-      name="emailNotifications"
-      label="By Email"
-      value={value}
-      onChange={setValue}
-      className="flex space-x-4"
-    >
+    <CheckboxGroup name="emailNotifications" label="By Email" value={value} onChange={setValue} className="flex space-x-4">
       <CheckboxGroup.Item label="Comments" value="comments" />
       <CheckboxGroup.Item label="Candidates" value="candidates" />
       <CheckboxGroup.Item label="Offers" value="offers" />
@@ -108,21 +96,9 @@ export const WithHelp = () => {
       onChange={setValue}
       className="flex space-x-4"
     >
-      <CheckboxGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
-      <CheckboxGroup.Item
-        label="Candidates"
-        value="candidates"
-        help="Get notified when someones posts a comment on a posting."
-      />
-      <CheckboxGroup.Item
-        label="Offers"
-        value="offers"
-        help="Get notified when a candidate accepts or rejects an offer"
-      />
+      <CheckboxGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
+      <CheckboxGroup.Item label="Candidates" value="candidates" help="Get notified when someones posts a comment on a posting." />
+      <CheckboxGroup.Item label="Offers" value="offers" help="Get notified when a candidate accepts or rejects an offer" />
     </CheckboxGroup>
   );
 };
@@ -141,21 +117,9 @@ export const WithError = () => {
       onChange={setValue}
       className="flex space-x-4"
     >
-      <CheckboxGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
-      <CheckboxGroup.Item
-        label="Candidates"
-        value="candidates"
-        help="Get notified when someones posts a comment on a posting."
-      />
-      <CheckboxGroup.Item
-        label="Offers"
-        value="offers"
-        help="Get notified when a candidate accepts or rejects an offer"
-      />
+      <CheckboxGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
+      <CheckboxGroup.Item label="Candidates" value="candidates" help="Get notified when someones posts a comment on a posting." />
+      <CheckboxGroup.Item label="Offers" value="offers" help="Get notified when a candidate accepts or rejects an offer" />
     </CheckboxGroup>
   );
 };
@@ -173,11 +137,7 @@ export const WithDisabledItems = () => {
       onChange={setValue}
       className="flex space-x-4"
     >
-      <CheckboxGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
+      <CheckboxGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
       <CheckboxGroup.Item
         label="Candidates"
         value="candidates"
@@ -207,21 +167,9 @@ export const WithVerticalAlignment = () => {
       onChange={setValue}
       vertical={true}
     >
-      <CheckboxGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
-      <CheckboxGroup.Item
-        label="Candidates"
-        value="candidates"
-        help="Get notified when someones posts a comment on a posting."
-      />
-      <CheckboxGroup.Item
-        label="Offers"
-        value="offers"
-        help="Get notified when a candidate accepts or rejects an offer"
-      />
+      <CheckboxGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
+      <CheckboxGroup.Item label="Candidates" value="candidates" help="Get notified when someones posts a comment on a posting." />
+      <CheckboxGroup.Item label="Offers" value="offers" help="Get notified when a candidate accepts or rejects an offer" />
     </CheckboxGroup>
   );
 };

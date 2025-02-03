@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -84,12 +84,7 @@ export const FormExample = () => {
         <Formik initialValues={{ test: "" }} validationSchema={validationSchema} onSubmit={console.log}>
           {({ handleSubmit, handleReset, values }) => (
             <form onSubmit={handleSubmit} onReset={handleReset} className="space-y-4">
-              <InputField
-                required={true}
-                name="test"
-                label="Test"
-                help="Enter some text to see how async button behaves."
-              />
+              <InputField required={true} name="test" label="Test" help="Enter some text to see how async button behaves." />
               <AsyncButton onClick={() => validateOnClick(values)} type="submit">
                 Submit
               </AsyncButton>

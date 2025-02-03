@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -111,11 +111,7 @@ export const WithNewRow = () => {
             </div>
           </div>
         </DataTableField.NewRow>
-        <DataTable
-          data={dataTableFieldState.data}
-          hook={dataTableHook}
-          rowEditingIndex={dataTableFieldState.rowEditingIndex}
-        >
+        <DataTable data={dataTableFieldState.data} hook={dataTableHook} rowEditingIndex={dataTableFieldState.rowEditingIndex}>
           <DataTable.Column header="Name" accessor="name" title="Name" />
           <DataTable.Column header="Name" accessor="surname" title="Surname" />
           <DataTable.Column header="Age" accessor="age" title="Age" />
@@ -164,11 +160,7 @@ export const WithNewRowAndInitialValues = () => {
             </div>
           </div>
         </DataTableField.NewRow>
-        <DataTable
-          data={dataTableFieldState.data}
-          hook={dataTableHook}
-          rowEditingIndex={dataTableFieldState.rowEditingIndex}
-        >
+        <DataTable data={dataTableFieldState.data} hook={dataTableHook} rowEditingIndex={dataTableFieldState.rowEditingIndex}>
           <DataTable.Column header="Name" accessor="name" title="Name" />
           <DataTable.Column header="Name" accessor="surname" title="Surname" />
           <DataTable.Column header="Age" accessor="age" title="Age" />
@@ -190,11 +182,7 @@ export const WithInlineEdit = () => {
         <DataTable.CardHeader {...dataTableState} {...paginationState}>
           <DataTable.CardHeader.Title>Items</DataTable.CardHeader.Title>
         </DataTable.CardHeader>
-        <DataTable
-          data={dataTableFieldState.data}
-          hook={dataTableHook}
-          rowEditingIndex={dataTableFieldState.rowEditingIndex}
-        >
+        <DataTable data={dataTableFieldState.data} hook={dataTableHook} rowEditingIndex={dataTableFieldState.rowEditingIndex}>
           <DataTable.Column header="Actions" id="actions" canSort={false}>
             {(item: Item, index, row, { isEditMode }) =>
               isEditMode ? (
@@ -402,11 +390,7 @@ export const WithNewRowAndInlineEdit = () => {
             </div>
           </div>
         </DataTableField.NewRow>
-        <DataTable
-          data={dataTableFieldState.data}
-          hook={dataTableHook}
-          rowEditingIndex={dataTableFieldState.rowEditingIndex}
-        >
+        <DataTable data={dataTableFieldState.data} hook={dataTableHook} rowEditingIndex={dataTableFieldState.rowEditingIndex}>
           <DataTable.Column header="Actions" id="actions" canSort={false}>
             {(item: Item, index, row, { isEditMode }) =>
               isEditMode ? (

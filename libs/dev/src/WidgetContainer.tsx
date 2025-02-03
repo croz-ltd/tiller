@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -31,10 +31,7 @@ type WidgetContentProps = {
 function WidgetContainer(props: WidgetContainerProps) {
   const opened = useKeyboardShortcut(props.letter);
 
-  const content = React.useMemo(
-    () => <WidgetContent opened={opened}>{props.children}</WidgetContent>,
-    [opened, props.children]
-  );
+  const content = React.useMemo(() => <WidgetContent opened={opened}>{props.children}</WidgetContent>, [opened, props.children]);
 
   return ReactDOM.createPortal(content, document.body);
 }
@@ -56,7 +53,7 @@ function useKeyboardShortcut(letter: string) {
         setOpened((current) => !current);
       }
     },
-    [letter, setOpened]
+    [letter, setOpened],
   );
 
   React.useEffect(() => {

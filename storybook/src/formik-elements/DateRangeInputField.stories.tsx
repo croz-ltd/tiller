@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -95,18 +95,11 @@ export const WithDateValue = () => {
     startDateWithDateValue: new Date(),
     endDateWithDateValue: new Date("2025-01-01"),
   };
-  return (
-    <DateRangeInputField start="startDateWithDateValue" end="endDateWithDateValue" label={<Intl name="label" />} />
-  );
+  return <DateRangeInputField start="startDateWithDateValue" end="endDateWithDateValue" label={<Intl name="label" />} />;
 };
 
 export const WithoutClearButton = (args) => (
-  <DateRangeInputField
-    start="startDateWithValue"
-    end="endDateWithValue"
-    label={<Intl name="label" />}
-    allowClear={false}
-  />
+  <DateRangeInputField start="startDateWithValue" end="endDateWithValue" label={<Intl name="label" />} allowClear={false} />
 );
 
 export const WithStartValue = () => {
@@ -117,17 +110,10 @@ export const WithStartValue = () => {
   return <DateRangeInputField start="startDateWithValue" end="endDateWithDateValue" label={<Intl name="label" />} />;
 };
 
-export const Disabled = (args) => (
-  <DateRangeInputField start={start} end={end} label={<Intl name="label" />} disabled={true} />
-);
+export const Disabled = (args) => <DateRangeInputField start={start} end={end} label={<Intl name="label" />} disabled={true} />;
 
 export const ReadOnly = (args) => (
-  <DateRangeInputField
-    start="startDateWithValue"
-    end="endDateWithValue"
-    label={<Intl name="label" />}
-    readOnly={true}
-  />
+  <DateRangeInputField start="startDateWithValue" end="endDateWithValue" label={<Intl name="label" />} readOnly={true} />
 );
 
 export const WithCustomPlaceholder = (args, context) => (
