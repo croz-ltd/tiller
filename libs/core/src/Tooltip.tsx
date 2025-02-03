@@ -17,7 +17,7 @@
 
 import * as React from "react";
 
-import { default as ReachTooltip } from "@reach/tooltip";
+import { Tooltip as ReachTooltip } from "@reach/tooltip";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 import { tillerTwMerge } from "@tiller-ds/util";
@@ -78,11 +78,13 @@ export default function Tooltip({ children, label, color = "dark", className, ..
 
   return (
     <ReachTooltip
-     {...props}
+      {...props}
       className={tillerTwMerge(tooltipClassName, className)}
-      label={<pre style={{ all: "unset", whiteSpace: "pre-wrap" }} data-testid={props["data-testid"]}>
+      label={
+        <pre style={{ all: "unset", whiteSpace: "pre-wrap" }} data-testid={props["data-testid"]}>
           <span className={tokens[color].textColor}>{label}</span>
-        </pre>}
+        </pre>
+      }
     >
       <div>{children}</div>
     </ReachTooltip>
