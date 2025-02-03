@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type Variant = "warning" | "danger" | "success" | "info";
 
@@ -33,7 +34,10 @@ export type AlertProps = {
   children: React.ReactNode;
 
   /**
-   * Custom container (div) className.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -97,7 +101,6 @@ export default function Alert({
   const tokens = useTokens("Alert", props.tokens);
 
   const alertClassName = cx(
-    className,
     tokens.variant[variant].padding,
     { [tokens.variant[variant].color]: accentBorder },
     { [tokens.borderRadius]: !accentBorder },
@@ -110,7 +113,7 @@ export default function Alert({
   const textClassName = cx({ [tokens.text.margin]: title }, tokens.text.fontSize, tokens.text.color[variant]);
 
   return (
-    <section className={alertClassName} data-testid={props["data-testid"]} {...props}>
+    <section className={tillerTwMerge(alertClassName, className)} data-testid={props["data-testid"]} {...props}>
       {icon}
       <div>
         {title && <p className={titleClassName}>{title}</p>}

@@ -21,7 +21,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "@tiller-ds/core";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
-import { findChild } from "@tiller-ds/util";
+import { findChildByType, tillerTwMerge } from "@tiller-ds/util";
 
 import DropdownMenu, { DropdownMenuMenuProps } from "./DropdownMenu";
 import NavigationContextProvider, { NavigationContext } from "./NavigationContextProvider";
@@ -66,7 +66,10 @@ export type TopNavigationProps = {
   variant?: "basic" | "centered" | "contained";
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -198,10 +201,6 @@ type TopNavigationItemsTokensProps = {
   tokens?: ComponentTokens<"TopNavigation">;
 };
 
-TopNavigationDropdown.defaultProps = {
-  type: "TopNavigationDropdown",
-};
-
 type TopNavigationDropdownItemProps = {
   /**
    * Item content (not exclusively text).
@@ -266,19 +265,11 @@ type TopNavigationActionProps = {
   className?: string;
 } & TopNavigationItemsTokensProps;
 
-TopNavigationActions.defaultProps = {
-  type: "TopNavigationActions",
-};
-
 type TopNavigationNavigationProps = {
   /**
    * TopNavigation Navigation content (most frequently 'TopNavigation.Navigation.Item').
    */
   children: React.ReactNode;
-};
-
-TopNavigationNavigation.defaultProps = {
-  type: "TopNavigationNavigation",
 };
 
 type ThemeNavigationMenuContainerProps = {
@@ -309,18 +300,11 @@ function TopNavigation({
   };
 
   const menuClasses = cx({ hidden: !isOpen, block: isOpen }, "md:hidden w-full mt-4");
-  const searchBarClasses = cx(topNavigationTokens.searchBarContainer, {
-    "justify-end": variant === "basic",
-    "justify-center": variant === "centered",
-  });
-
   const headerClasses = cx({ "ml-10": !!logo });
-  const navigation = findChild("TopNavigationNavigation", children);
-  const searchBar = findChild("TopNavigationSearchBar", children);
-  const actions = findChild("TopNavigationActions", children);
+  const navigation = findChildByType(TopNavigationNavigation, children);
+  const actions = findChildByType(TopNavigationActions, children);
 
   const baseClassName = cx(
-    className,
     topNavigationTokens.base.master,
     topNavigationTokens.base.padding,
     { [topNavigationTokens.base.dark]: color === "dark" },
@@ -351,7 +335,7 @@ function TopNavigation({
     <NavigationContextProvider small={false} menuOpened={isOpen} actionOpened={false}>
       <NavigationContext.Consumer>
         {({ isActionOpened }) => (
-          <div className={baseClassName} data-testid={props["data-testid"]}>
+          <div className={tillerTwMerge(baseClassName, className)} data-testid={props["data-testid"]}>
             <div className={containerClassName}>
               {!isActionOpened && (
                 <>
@@ -373,10 +357,7 @@ function TopNavigation({
                   )}
                   <div className={topNavigationTokens.innerContainer}>
                     {logo && (variant === "basic" || variant === "contained") && (
-                      <div
-                        className={logoClassName}
-                        data-testid={props["data-testid"] && `${props["data-testid"]}-logo`}
-                      >
+                      <div className={logoClassName} data-testid={props["data-testid"] && `${props["data-testid"]}-logo`}>
                         {logo}
                       </div>
                     )}
@@ -395,16 +376,6 @@ function TopNavigation({
                     data-testid={props["data-testid"] && `${props["data-testid"]}-right-action`}
                   >
                     {topRightAction}
-                  </div>
-                </div>
-              )}
-              {searchBar && (
-                <div className={searchBarClasses}>
-                  <div
-                    className={topNavigationTokens.searchBar}
-                    data-testid={props["data-testid"] && `${props["data-testid"]}-search`}
-                  >
-                    {searchBar}
                   </div>
                 </div>
               )}
@@ -453,18 +424,13 @@ function TopNavigationMenuContainer({
 }: ThemeNavigationMenuContainerProps) {
   const tokens = useTokens("TopNavigation", props.tokens);
   const menuContainerClassName = cx(tokens.menuContainer, { [tokens.border[color]]: variant === "centered" });
-  const innerMenuContainerClassName = cx(
-    tokens.innerMenuContainer,
-    { [className]: variant === "basic" || variant === "contained" },
-    { "justify-start mt-2 pb-3": variant === "centered" },
-  );
+  const innerMenuContainerClassName = cx(tokens.innerMenuContainer, {
+    "justify-start mt-2 pb-3": variant === "centered",
+  });
 
   return (
-    <div className={menuContainerClassName}>
-      <nav
-        className={innerMenuContainerClassName}
-        data-testid={props["data-testid"] && `${props["data-testid"]}-navigation`}
-      >
+    <div className={tillerTwMerge(menuContainerClassName, className)}>
+      <nav className={innerMenuContainerClassName} data-testid={props["data-testid"] && `${props["data-testid"]}-navigation`}>
         {children}
       </nav>
     </div>
@@ -492,7 +458,6 @@ export function TopNavigationItem({
 
   const active = to !== undefined ? location.pathname.startsWith(to) : false;
   const cn = cx(
-    className,
     tokens.Item.master,
     tokens.Item.padding,
     tokens.Item.transition,
@@ -513,6 +478,8 @@ export function TopNavigationItem({
     { [tokens.Item.expandable.subitemsContainer.light]: color === "light" },
     { [tokens.Item.expandable.subitemsContainer.default]: color === "default" },
   );
+
+  const linkClassName = cx(tokens.Item.link.master, { [tokens.Item.link.leading]: iconPlacement === "leading" });
 
   const iconProps = { className: "ml-1", size: 3 };
   const openExpanderIcon = useIcon("openExpander", undefined, iconProps);
@@ -543,7 +510,7 @@ export function TopNavigationItem({
             menuType="text"
             variant="text"
             tokens={{}}
-            className={cn}
+            className={tillerTwMerge(cn, className)}
             onClick={onExpandableItemClick}
             onBlur={() => onMenuOpenedToggle && onMenuOpenedToggle(false)}
             popupBackgroundColor={backgroundColor ? backgroundColor : color}
@@ -557,7 +524,7 @@ export function TopNavigationItem({
             <Link
               {...props}
               to={to || "#"}
-              className={cn + ` items-center`}
+              className={tillerTwMerge(cn + ` items-center`, className)}
               onClick={onExpandableItemClickMobile}
               data-testid={props["data-testid"]}
             >
@@ -576,17 +543,7 @@ export function TopNavigationItem({
   }
 
   return (
-    <Link
-      {...props}
-      to={to || "#"}
-      onClick={onSelect}
-      className={
-        cn +
-        ` md:flex md:items-center md:space-x-0.5 ${
-          iconPlacement === "leading" && "flex-row-reverse md:flex-row-reverse"
-        }`
-      }
-    >
+    <Link {...props} to={to || "#"} onClick={onSelect} className={tillerTwMerge(cn, linkClassName, className)}>
       <span className="whitespace-nowrap">{title || children}</span>
       {icon}
     </Link>
@@ -615,7 +572,6 @@ export function TopNavigationDropdown({
   );
 
   const containerClassName = cx(
-    className,
     topNavigationTokens.Item.expandable.subitemsContainer.master,
     topNavigationTokens.Item.expandable.subitemsContainer.padding,
     topNavigationTokens.Item.expandable.subitemsContainer.width,
@@ -652,7 +608,7 @@ export function TopNavigationDropdown({
         >
           {icon ? React.cloneElement(icon, { className: mobileIconClassName }) : title}
         </Button>
-        {isActionOpened && <div className={containerClassName}>{children}</div>}
+        {isActionOpened && <div className={tillerTwMerge(containerClassName, className)}>{children}</div>}
       </div>
     </>
   );
@@ -684,7 +640,6 @@ export function TopNavigationDropdownItem({
   );
 
   const dropdownItemClassName = cx(
-    className,
     tokens.dropdownItem.master,
     tokens.dropdownItem.fontSize,
     tokens.dropdownItem.transition,
@@ -708,7 +663,7 @@ export function TopNavigationDropdownItem({
       <Link
         to={to ? to : ""}
         onClick={onSelect}
-        className={smallDropdownItemClassName}
+        className={tillerTwMerge(smallDropdownItemClassName, className)}
         data-testid={props["data-testid"]}
       >
         {icon ? iconTextWrapper(children) : children}
@@ -717,7 +672,7 @@ export function TopNavigationDropdownItem({
   }
 
   return (
-    <Link to={to ? to : ""} onClick={onSelect} className={dropdownItemClassName}>
+    <Link to={to ? to : ""} onClick={onSelect} className={tillerTwMerge(dropdownItemClassName, className)}>
       {icon ? iconTextWrapper(children) : children}
     </Link>
   );

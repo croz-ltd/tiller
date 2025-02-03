@@ -21,6 +21,7 @@ import { useFormikContext, useField } from "formik";
 
 import { Intl } from "@tiller-ds/intl";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type FieldErrorProps = {
   /**
@@ -43,7 +44,7 @@ export default function FieldError({ name, className, ...props }: FieldErrorProp
   const formik = useFormikContext();
   const tokens = useTokens("FieldError", props.tokens);
 
-  const errorClassName = cx(className, tokens.error);
+  const errorClassName = cx(tokens.error);
 
   if (!((meta.touched || formik.submitCount > 0) && meta.error)) {
     return null;
@@ -54,5 +55,5 @@ export default function FieldError({ name, className, ...props }: FieldErrorProp
     error = <Intl name={error.replace("intl:", "")} />;
   }
 
-  return <>{meta.error && <p className={errorClassName}>{error}</p>}</>;
+  return <>{meta.error && <p className={tillerTwMerge(errorClassName, className)}>{error}</p>}</>;
 }

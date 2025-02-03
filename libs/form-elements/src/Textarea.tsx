@@ -23,7 +23,10 @@ import Field from "./Field";
 
 export type TextareaProps = {
   /**
-   * Custom class name for the field container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 

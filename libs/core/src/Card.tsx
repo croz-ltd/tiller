@@ -18,7 +18,7 @@
 import * as React from "react";
 
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
-import { createNamedContext, findChild } from "@tiller-ds/util";
+import { createNamedContext, findChildByType, tillerTwMerge } from "@tiller-ds/util";
 
 export type CardProps = {
   /**
@@ -48,6 +48,14 @@ export type CardProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & React.HTMLAttributes<HTMLDivElement> &
   CardTokensProps;
 
@@ -56,6 +64,12 @@ type CardTokensProps = {
 };
 
 export type CardHeaderProps = {
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
   className?: string;
 
   removeSpacing?: boolean;
@@ -85,13 +99,16 @@ type CardHeaderSubtitleProps = {
 type CardHeaderActionsProps = {
   children: React.ReactNode;
   "data-testid"?: string;
-};
+} & TokenProps<"Card">;
 
 export type CardBodyProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional styling for the card body.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -114,6 +131,12 @@ export type CardBodyProps = {
 } & CardTokensProps;
 
 export type CardFooterProps = {
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
   className?: string;
   children: React.ReactNode;
   "data-testid"?: string;
@@ -152,7 +175,6 @@ function Card({ children, status = "idle", isExpanded, className = "", ...props 
   });
 
   const containerClassName = cx(
-    className,
     tokens.container.backgroundColor,
     tokens.container.boxShadow,
     tokens.container.borderRadius,
@@ -160,7 +182,7 @@ function Card({ children, status = "idle", isExpanded, className = "", ...props 
   );
 
   const waitingContainerClassName = cx(
-    "absolute w-full h-full top-0 left-0 z-1",
+    tokens.waitingContainer.master,
     tokens.waitingContainer.backgroundColor,
     tokens.waitingContainer.opacity,
   );
@@ -168,7 +190,7 @@ function Card({ children, status = "idle", isExpanded, className = "", ...props 
   return (
     <CardContextProvider flag={isExpanded}>
       <div className={tokens.master} data-testid={props["data-testid"]}>
-        <div className={containerClassName}>{children}</div>
+        <div className={tillerTwMerge(containerClassName, className)}>{children}</div>
         {status === "waiting" && (
           <div className={waitingContainerClassName}>
             <div className="flex items-center justify-center w-full h-full">{loadingIcon}</div>
@@ -184,16 +206,15 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
   const tokens = useTokens("Card", props.tokens);
 
   const cardHeaderClassName = cx(
-    className,
     { [tokens.header.padding]: !removeSpacing },
     { [tokens.header.borderBottomWidth]: !removeSpacing },
     { [tokens.header.borderColor]: !removeSpacing },
-    { "cursor-pointer": isExpanded !== undefined },
+    { [tokens.header.expandable]: isExpanded !== undefined },
   );
 
-  const title = findChild("CardHeaderTitle", children);
-  const subtitle = findChild("CardHeaderSubtitle", children);
-  const actions = findChild("CardHeaderActions", children);
+  const title = findChildByType(CardHeaderTitle, children);
+  const subtitle = findChildByType(CardHeaderSubtitle, children);
+  const actions = findChildByType(CardHeaderActions, children);
 
   const toggleExpander = () => {
     if (isExpanded !== undefined && onExpanderToggle) {
@@ -206,13 +227,13 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
 
   if (title || subtitle || actions) {
     return (
-      <div className={cardHeaderClassName} onClick={toggleExpander} data-testid={props["data-testid"]}>
-        <div className="-ml-4 -mt-4 flex justify-between items-center sm:flex-nowrap">
-          <div className="ml-4 mt-4">
+      <div className={tillerTwMerge(cardHeaderClassName, className)} onClick={toggleExpander} data-testid={props["data-testid"]}>
+        <div className={tokens.header.innerContainer}>
+          <div className={tokens.header.titleSubtitleContainer}>
             {title}
             {subtitle}
           </div>
-          <div className="mt-4 justify-between items-center flex sm:flex-nowrap">
+          <div className={tokens.header.actions.outerContainer}>
             {actions}
             {isExpanded !== undefined &&
               React.cloneElement(isExpanded ? closeExpanderIcon : openExpanderIcon, { onClick: toggleExpander })}
@@ -222,7 +243,7 @@ function CardHeader({ className = "", removeSpacing = false, children, ...props 
     );
   } else {
     return (
-      <div className={cardHeaderClassName} data-testid={props["data-testid"]}>
+      <div className={tillerTwMerge(cardHeaderClassName, className)} data-testid={props["data-testid"]}>
         {children}
       </div>
     );
@@ -246,10 +267,6 @@ export function CardHeaderTitle({ children, ...props }: CardHeaderTitleProps) {
   );
 }
 
-CardHeaderTitle.defaultProps = {
-  type: "CardHeaderTitle",
-};
-
 function CardHeaderSubtitle({ children, ...props }: CardHeaderSubtitleProps) {
   const tokens = useTokens("Card", props.tokens);
 
@@ -266,34 +283,28 @@ function CardHeaderSubtitle({ children, ...props }: CardHeaderSubtitleProps) {
   );
 }
 
-CardHeaderSubtitle.defaultProps = {
-  type: "CardHeaderSubtitle",
-};
-
 export function CardHeaderActions({ children, ...props }: CardHeaderActionsProps) {
+  const tokens = useTokens("Card", props.tokens);
+
   return (
-    <div className="flex-shrink-0 ml-4 space-x-2" data-testid={props["data-testid"]}>
+    <div className={tokens.header.actions.innerContainer} data-testid={props["data-testid"]}>
       {children}
     </div>
   );
 }
 
-CardHeaderActions.defaultProps = {
-  type: "CardHeaderActions",
-};
-
 function CardBody({ removeSpacing = false, children, className = "", ...props }: CardBodyProps) {
   const { isExpanded } = React.useContext(CardContext);
   const tokens = useTokens("Card", props.tokens);
 
-  const cardBodyClassName = cx(className, { [tokens.body.padding]: !removeSpacing });
+  const cardBodyClassName = cx({ [tokens.body.padding]: !removeSpacing });
 
   if (isExpanded === false) {
     return null;
   }
 
   return (
-    <div className={cardBodyClassName} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(cardBodyClassName, className)} data-testid={props["data-testid"]}>
       {children}
     </div>
   );
@@ -303,19 +314,14 @@ function CardFooter({ children, className = "", ...props }: CardFooterProps) {
   const { isExpanded } = React.useContext(CardContext);
   const tokens = useTokens("Card", props.tokens);
 
-  const cardFooterClassName = cx(
-    tokens.footer.borderTopWidth,
-    tokens.footer.borderColor,
-    tokens.footer.padding,
-    className,
-  );
+  const cardFooterClassName = cx(tokens.footer.borderTopWidth, tokens.footer.borderColor, tokens.footer.padding);
 
   if (isExpanded === false) {
     return null;
   }
 
   return (
-    <div className={cardFooterClassName} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(cardFooterClassName, className)} data-testid={props["data-testid"]}>
       {children}
     </div>
   );

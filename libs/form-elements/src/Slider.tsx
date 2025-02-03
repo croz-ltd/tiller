@@ -22,6 +22,7 @@ import { clamp, isArray, isFinite, isNil, range, reduce, reverse } from "lodash"
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
 
 import Field from "./Field";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type SliderProps = {
   /**
@@ -81,9 +82,12 @@ export type SliderProps = {
   onChange?: (value: number) => void;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
-  className?: string | string[];
+  className?: string;
 
   /**
    * Custom styling for marker(s).
@@ -191,7 +195,7 @@ export default function Slider({ from, to, step, value, getOptionLabel, onChange
     );
   });
 
-  const baseClassName = cx("w-full absolute", tokens.base, tokens.backgroundColor, className);
+  const baseClassName = cx("w-full absolute", tokens.base, tokens.backgroundColor);
 
   const outerClassName = cx("w-full relative select-none", tokens.outerContainer);
 
@@ -203,7 +207,7 @@ export default function Slider({ from, to, step, value, getOptionLabel, onChange
         <div className="w-full absolute flex flex-row justify-between">{markers}</div>
         <div ref={ref} className={innerClassName} {...events}>
           <div className="w-full relative">
-            <div className={baseClassName}>&nbsp;</div>
+            <div className={tillerTwMerge(baseClassName, className)}>&nbsp;</div>
             {!isNil(value) && <SliderValues value={value} from={from} to={to} {...props} />}
           </div>
         </div>

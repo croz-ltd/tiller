@@ -42,7 +42,10 @@ export type DateRangeInputProps = {
   allowClear?: boolean;
 
   /**
-   * Custom class name for the container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 

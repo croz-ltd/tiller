@@ -18,10 +18,18 @@
 import * as React from "react";
 
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type BreadcrumbProps = {
   children: React.ReactNode;
   "data-testid"?: string;
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 } & TokenProps<"Breadcrumbs">;
 
 export type BreadcrumbsProps = {
@@ -36,7 +44,10 @@ export type BreadcrumbsProps = {
   icon?: React.ReactElement;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -62,7 +73,6 @@ function Breadcrumbs({ children, icon, className, ...props }: BreadcrumbsProps) 
   const tokens = useTokens("Breadcrumbs", props.tokens);
 
   const containerClassName = cx(
-    className,
     tokens.master,
     tokens.container.backgroundColor,
     tokens.container.borderRadius,
@@ -81,7 +91,7 @@ function Breadcrumbs({ children, icon, className, ...props }: BreadcrumbsProps) 
 
   return (
     <nav className="flex" data-testid={props["data-testid"]}>
-      <ol className={containerClassName}>
+      <ol className={tillerTwMerge(containerClassName, className)}>
         {React.Children.map(
           children,
           (child, index) =>
@@ -99,11 +109,11 @@ function Breadcrumbs({ children, icon, className, ...props }: BreadcrumbsProps) 
   );
 }
 
-function Breadcrumb({ children, ...props }: BreadcrumbProps) {
+function Breadcrumb({ children, className, ...props }: BreadcrumbProps) {
   const tokens = useTokens("Breadcrumbs", props.tokens);
 
   const breadcrumbClassname = cx(
-    "cursor-pointer",
+    tokens.breadcrumb.master,
     tokens.breadcrumb.fontSize,
     tokens.breadcrumb.fontWeight,
     tokens.breadcrumb.color,
@@ -113,7 +123,7 @@ function Breadcrumb({ children, ...props }: BreadcrumbProps) {
   );
 
   return (
-    <span className={breadcrumbClassname} data-testid={props["data-testid"]}>
+    <span className={tillerTwMerge(breadcrumbClassname, className)} data-testid={props["data-testid"]}>
       {children}
     </span>
   );

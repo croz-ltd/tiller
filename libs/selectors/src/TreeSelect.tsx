@@ -28,7 +28,10 @@ import MenuHandleIcon from "./MenuHandleIcon";
 
 export type TreeSelectProps<T> = {
   /**
-   * Custom className given to the Field component which wraps this component.
+   * Custom classes for the component.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 

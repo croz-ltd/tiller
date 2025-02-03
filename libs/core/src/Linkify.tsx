@@ -21,6 +21,7 @@ import LinkifyLibrary from "linkifyjs/lib/linkify-react";
 import { Options } from "linkifyjs";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type LinkifyColor = "main" | "primary" | "secondary" | "tertiary" | "info" | "danger" | "warning" | "success";
 
@@ -35,6 +36,15 @@ export type LinkifyProps = {
    * Defaults to linkColor defined in the color's configuration of defaultConfig.
    */
   variant?: LinkifyColor;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
+
   /**
    * A unique identifier for testing purposes.
    * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
@@ -54,13 +64,13 @@ type LinkTokensProps = {
   tokens?: ComponentTokens<"Link">;
 };
 
-export default function Linkify({ children, variant = "main", nl2br = true, ...props }: LinkifyProps) {
+export default function Linkify({ children, variant = "main", nl2br = true, className, ...props }: LinkifyProps) {
   const tokens = useTokens("Link", props.tokens);
 
   const linkClassName = cx(tokens.master, tokens.base.fontSize, tokens.base.fontWeight, tokens.color[variant]);
 
   const options = {
-    className: props.className ?? linkClassName,
+    className: tillerTwMerge(linkClassName, className),
     nl2br,
     ...props,
   } as Options;

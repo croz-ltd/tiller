@@ -20,6 +20,7 @@ import * as React from "react";
 import { Tabs as ReachTabs, TabList, TabPanels, TabPanel, Tab as ReachTab, useTabsContext } from "@reach/tabs";
 
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type TabsProps = {
   /**
@@ -189,13 +190,13 @@ type CustomTabsProps = {
 type WithScrollButtonsProps = {
   shouldWrap: boolean;
   children: JSX.Element;
-};
+} & TokenProps<"Tabs">;
 
 type ScrollButtonProps = {
   onClick?: () => void;
   className?: string;
   type: "left" | "right";
-};
+} & TokenProps<"Tabs">;
 
 type SetButtonsVisibilityType = (timeout: number) => void;
 
@@ -320,8 +321,10 @@ function WithScrollButtons({ shouldWrap, children }: WithScrollButtonsProps) {
   return shouldWrap ? <ScrollButtonTabs>{children}</ScrollButtonTabs> : children;
 }
 
-function ScrollButton({ onClick, className, type }: ScrollButtonProps) {
-  const scrollButtonClasses = cx("p-2 text-slate-500 hover:text-slate-700", className);
+function ScrollButton({ onClick, className, type, ...props }: ScrollButtonProps) {
+  const tokens = useTokens("Tabs", props.tokens);
+
+  const scrollButtonClasses = cx(tokens.scrollButtons, className);
 
   const previousIcon = useIcon("paginatorPrevious", undefined, { size: 3 });
   const nextIcon = useIcon("paginatorNext", undefined, { size: 3 });
@@ -334,7 +337,7 @@ function ScrollButton({ onClick, className, type }: ScrollButtonProps) {
   );
 }
 
-function ScrollButtonTabs({ children }) {
+function ScrollButtonTabs({ children, tokens }: Omit<WithScrollButtonsProps, "shouldWrap">) {
   const { tabPanel, setButtonsVisibility, prevButtonShown, nextButtonShown } = React.useContext(CustomTabsContext);
 
   const resizeObserver = React.useRef<ResizeObserver | null>(null);
@@ -383,11 +386,11 @@ function ScrollButtonTabs({ children }) {
 
   return (
     <div className="flex items-center">
-      <ScrollButton type="left" onClick={scrollLeft} className={prevButtonClasses} />
+      <ScrollButton tokens={tokens} type="left" onClick={scrollLeft} className={prevButtonClasses} />
       <div ref={tabPanel} className="overflow-hidden">
         {children}
       </div>
-      <ScrollButton type="right" onClick={scrollRight} className={nextButtonClasses} />
+      <ScrollButton tokens={tokens} type="right" onClick={scrollRight} className={nextButtonClasses} />
     </div>
   );
 }
@@ -437,7 +440,6 @@ function CustomTab({
   );
 
   const tabClassName = cx(
-    className,
     { [tokens.Tab.fullWidth]: fullWidth },
     { [tokens.Tab.noIcon]: icon === null },
     { [tokens.Tab.active.master]: index === selectedIndex },
@@ -471,7 +473,7 @@ function CustomTab({
   };
 
   return (
-    <div className={tabClassName} onClick={handleClick} ref={tab}>
+    <div className={tillerTwMerge(tabClassName, className)} onClick={handleClick} ref={tab}>
       <ReachTab className={tabWrapperClassName} as="a" data-testid={props["data-testid"]}>
         {icon && <div className={iconClassName}>{icon}</div>}
         {children}

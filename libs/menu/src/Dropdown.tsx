@@ -47,7 +47,7 @@ type DropdownProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
-};
+} & TokenProps<"Dropdown">;
 
 type DropdownContentProps = {
   children: React.ReactNode;
@@ -55,7 +55,10 @@ type DropdownContentProps = {
   isExpanded: boolean;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -71,7 +74,7 @@ type DropdownContentProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
-};
+} & TokenProps<"Dropdown">;
 
 type DropdownButtonProps = {
   children: React.ReactNode;
@@ -131,8 +134,9 @@ function Dropdown({ children, className, ...props }: DropdownProps) {
 
 function DropdownContent({ children, isExpanded, className, ...props }: DropdownContentProps) {
   const context = React.useMemo(() => ({ isExpanded }), [isExpanded]);
+  const tokens = useTokens("Dropdown", props.tokens);
 
-  const contentClassName = cx("relative inline-block text-left", className);
+  const contentClassName = cx(tokens.content, className);
 
   return (
     <DropdownContext.Provider value={context}>
@@ -163,7 +167,7 @@ function DropdownMenu({
   const { isExpanded } = React.useContext(DropdownContext);
 
   return (
-    <MenuList {...props} className="z-50" data-testid={props["data-testid"]}>
+    <MenuList {...props} className={tokens.popover} data-testid={props["data-testid"]}>
       <Transition show={isExpanded} {...tokens.Menu.transition}>
         <MenuItems {...props}>{children}</MenuItems>
       </Transition>

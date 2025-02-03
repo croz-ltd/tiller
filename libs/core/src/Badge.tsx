@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type BadgeColor = "primary" | "secondary" | "tertiary" | "info" | "danger" | "warning" | "success" | "white";
 
@@ -30,7 +31,10 @@ export type BadgeProps = {
   children?: React.ReactNode;
 
   /**
-   * Custom additional class name for the badge component.
+   * Custom classes for the badge.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -112,18 +116,17 @@ export default function Badge({
   const tokens = useTokens("Badge", props.tokens);
 
   const containerClassName = cx(
-    className,
-    { [tokens.base.padding]: !small },
-    { [tokens.base.lineHeight]: !small },
-    { [tokens.small.padding]: small },
-    { [tokens.small.lineHeight]: small },
     tokens.master,
+    { [tokens.base.padding]: !small },
+    { [tokens.small.padding]: small },
     tokens.variant[variant].base,
     tokens.variant[variant].color[color].base,
+    { [tokens.small.lineHeight]: small },
+    { [tokens.base.lineHeight]: !small },
   );
 
   return (
-    <span className={containerClassName} data-testid={props["data-testid"]} onClick={onClick}>
+    <span className={tillerTwMerge(containerClassName, className)} data-testid={props["data-testid"]} onClick={onClick}>
       {dot && <BadgeDot color={color} variant={variant} />}
       {children}
       {onRemoveButtonClick && (
@@ -154,9 +157,8 @@ function BadgeDot({ color = "white", variant = "filled", ...props }: BadgeDotPro
 function BadgeRemoveButton({ color = "white", small, onClick, variant, testId, ...props }: BadgeRemoveButtonProps) {
   const tokens = useTokens("Badge", props.tokens);
 
-  const className = cx(tokens.variant[variant].color[color].removeIcon, {
-    "flex-shrink-0 ml-1.5 inline-flex focus:outline-none ": true,
-    "-mr-0.5": small,
+  const className = cx(tokens.variant[variant].color[color].removeIcon, tokens.removeButton.master, {
+    [tokens.removeButton.small]: small,
   });
 
   return (

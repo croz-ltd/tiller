@@ -20,6 +20,7 @@ import * as React from "react";
 import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 import Field, { FieldProps } from "./Field";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type ToggleProps = {
   /**
@@ -33,7 +34,10 @@ export type ToggleProps = {
   checkedIcon?: React.ReactElement;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -77,7 +81,7 @@ export default function Toggle({
 }: ToggleProps) {
   const tokens = useTokens("Toggle", props.tokens);
 
-  const divClassName = cx(className, tokens.container);
+  const divClassName = cx(tokens.container);
 
   const checkboxClassName = cx(
     tokens.base,
@@ -87,9 +91,9 @@ export default function Toggle({
   );
 
   const toggleClassName = cx(
-    tokens.toggle,
-    { "translate-x-5": checked },
-    { "translate-x-0": !checked },
+    tokens.toggle.master,
+    { [tokens.toggle.checked]: checked },
+    { [tokens.toggle.unchecked]: !checked },
     { [tokens.disabled]: disabled },
   );
 
@@ -110,7 +114,7 @@ export default function Toggle({
   });
 
   return (
-    <div className={divClassName}>
+    <div className={tillerTwMerge(divClassName, className)}>
       <Field {...props} data-testid={props["data-testid"] && `${props["data-testid"]}-wrapper`}>
         <div className={tokens.master}>
           {reverse && label && <label className={labelClassName}>{label}</label>}

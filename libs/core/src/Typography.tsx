@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type HeadingElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 type Element = HeadingElement | "p" | "span" | "div";
@@ -46,7 +47,10 @@ export type TypographyProps = {
   iconPlacement?: IconPlacement;
 
   /**
-   * Custom container className.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -85,7 +89,7 @@ export default function Typography({
   const tokens = useTokens("Typography", props.tokens);
 
   const containerClassName = cx(tokens.container.base);
-  const elementClassName = cx(className, tokens.variant[variant].fontSize, tokens.variant[variant].color);
+  const elementClassName = cx(tokens.variant[variant].fontSize, tokens.variant[variant].color);
   const iconClassName = cx(
     tokens.icon[variant],
     tokens.icon.base,
@@ -94,7 +98,7 @@ export default function Typography({
   );
 
   const elementNode = (
-    <Element className={elementClassName} data-testid={!icon ? props["data-testid"] : undefined}>
+    <Element className={tillerTwMerge(elementClassName, className)} data-testid={!icon ? props["data-testid"] : undefined}>
       {children}
     </Element>
   );

@@ -37,7 +37,7 @@ export default function useIcon(
     });
   }
 
-  const { size = 5, className = "", variant = "regular" } = iconProps ?? {};
+  const { size = 5, className = "", variant } = iconProps ?? {};
 
   return icons[iconName]({ size, className, variant });
 }

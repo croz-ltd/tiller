@@ -20,6 +20,7 @@ import * as React from "react";
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
 
 import FieldGroup, { FieldGroupItemProps, FieldGroupProps } from "./FieldGroup";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type Value = string | boolean | null;
 
@@ -32,7 +33,10 @@ export type RadioGroupProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -128,7 +132,7 @@ function RadioGroup({ name, children, value, className = "", onChange, onBlur, .
   );
 }
 
-function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioGroupItemProps) {
+function RadioGroupItem({ value, disabled, color = "primary", className, ...props }: RadioGroupItemProps) {
   const tokens = useTokens("RadioGroup", props.tokens);
   const { name, checked, onChange, onBlur, testId } = React.useContext(RadioGroupContext);
 
@@ -150,7 +154,7 @@ function RadioGroupItem({ value, disabled, color = "primary", ...props }: RadioG
     <FieldGroup.Item
       id={id}
       {...props}
-      className={fieldGroupItemClassName}
+      className={tillerTwMerge(fieldGroupItemClassName, className)}
       data-testid={props["data-testid"] ? `${props["data-testid"]}-wrapper` : testId && `${testId}-${value}-wrapper`}
     >
       <input

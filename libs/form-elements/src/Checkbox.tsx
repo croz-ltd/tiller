@@ -20,6 +20,7 @@ import * as React from "react";
 import { uniqueId } from "lodash";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type CheckboxColor = "primary" | "secondary" | "tertiary" | "info" | "danger" | "warning" | "success" | "white";
 
@@ -35,7 +36,10 @@ export type CheckboxProps = {
   label?: React.ReactNode;
 
   /**
-   * Custom class name for the container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -68,7 +72,6 @@ export default function Checkbox({ id, label, color = "primary", className, ...p
   }, [props.checked]);
 
   const checkboxClassName = cx(
-    className,
     tokens.master,
     tokens.transition,
     tokens.backgroundColor,
@@ -88,7 +91,7 @@ export default function Checkbox({ id, label, color = "primary", className, ...p
       <input
         type="checkbox"
         id={id || defaultId}
-        className={checkboxClassName}
+        className={tillerTwMerge(checkboxClassName, className)}
         {...props}
         checked={isChecked}
         onClick={() => setIsChecked(!isChecked)}

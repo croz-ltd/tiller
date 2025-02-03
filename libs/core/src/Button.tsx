@@ -20,6 +20,7 @@ import * as React from "react";
 import { isEqual } from "lodash";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -30,7 +31,10 @@ export type ButtonProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional class name for the button component.
+   * Custom classes for the button.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -118,7 +122,6 @@ export default function Button({
   const tokens = useTokens("Button", props.tokens);
 
   const buttonClassName = cx(
-    { hidden: hidden },
     { [tokens.disabled.opacity]: disabled },
     tokens.master,
     tokens.base.focus,
@@ -130,7 +133,7 @@ export default function Button({
     { [tokens.variant[variant].color[color].borderColor]: !isEqual(props.tokens, {}) },
     { [tokens.variant[variant].color[color].hover]: !isEqual(props.tokens, {}) && !disabled },
     { [tokens.variant[variant].color[color].shadow]: !isEqual(props.tokens, {}) },
-    className,
+    { hidden: hidden },
   );
 
   const leadingIconClassName = cx(tokens.leadingIcon[size], "flex justify-center items-center");
@@ -139,7 +142,7 @@ export default function Button({
   return (
     <button
       ref={buttonRef}
-      className={buttonClassName}
+      className={tillerTwMerge(buttonClassName, className)}
       id={id}
       data-testid={props["data-testid"] ?? id}
       disabled={disabled}
@@ -147,8 +150,7 @@ export default function Button({
     >
       {leadingIcon && React.cloneElement(leadingIcon as React.ReactElement, { className: leadingIconClassName })}
       {children}
-      {trailingIcon &&
-        React.cloneElement(trailingIcon as React.ReactElement, { className: menu ? "" : trailingIconClassName })}
+      {trailingIcon && React.cloneElement(trailingIcon as React.ReactElement, { className: menu ? "" : trailingIconClassName })}
     </button>
   );
 }

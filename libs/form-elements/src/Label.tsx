@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { cx, TokenProps, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type LabelProps = {
   id?: string;
@@ -32,15 +33,14 @@ export default function Label({ id, className, children, ...props }: LabelProps)
 
   const hasLabel = React.Children.count(children) > 0;
   const labelClassName = cx(
-    className,
     { [tokens.fontSize]: hasLabel },
     { [tokens.color]: hasLabel },
     { [tokens.empty]: !hasLabel },
-    { block: hasLabel }
+    { block: hasLabel },
   );
 
   return (
-    <label htmlFor={id} className={labelClassName}>
+    <label htmlFor={id} className={tillerTwMerge(labelClassName, className)}>
       {children}
     </label>
   );

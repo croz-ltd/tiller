@@ -31,7 +31,10 @@ export type CheckboxGroupProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 

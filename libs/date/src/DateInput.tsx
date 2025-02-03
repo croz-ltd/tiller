@@ -39,7 +39,10 @@ export type DateInputProps = {
   allowClear?: boolean;
 
   /**
-   * Custom class name for the container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -227,9 +230,7 @@ export default function DateInput({
   const { opened, setOpened } = usePickerOpener(false, inputRef, datePickerRef, onBlur);
 
   const checkActiveMonthsValidity =
-    value &&
-    datePicker.activeMonths[0].month === value.getMonth() &&
-    datePicker.activeMonths[0].year === value.getFullYear();
+    value && datePicker.activeMonths[0].month === value.getMonth() && datePicker.activeMonths[0].year === value.getFullYear();
 
   const onOpen = () => {
     if (props.disabled || props.readOnly) {
@@ -289,11 +290,7 @@ export default function DateInput({
         tokens={{ textColor: !value ? "text-body-light" : undefined }}
         onKeyDown={onKeyDown}
       />
-      <Popover
-        className="z-50"
-        targetRef={inputRef}
-        position={popoverPosition === "left" ? positionMatchWidth : positionRight}
-      >
+      <Popover className="z-50" targetRef={inputRef} position={popoverPosition === "left" ? positionMatchWidth : positionRight}>
         {opened && (
           <DatePicker
             datePicker={datePicker}
@@ -363,12 +360,7 @@ function DateInputInput({
       allowClear={allowClear}
       required={required}
       inlineTrailingIcon={
-        <IconButton
-          disabled={props.disabled || props.readOnly}
-          icon={finalDateIcon}
-          onClick={onClick}
-          showTooltip={false}
-        />
+        <IconButton disabled={props.disabled || props.readOnly} icon={finalDateIcon} onClick={onClick} showTooltip={false} />
       }
       autoComplete="off"
     />

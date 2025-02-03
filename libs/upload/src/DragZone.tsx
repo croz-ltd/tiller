@@ -23,7 +23,7 @@ import UploadDropZone from "@rpldy/upload-drop-zone";
 import { Field, FieldProps } from "@tiller-ds/form-elements";
 import { LoadingIcon } from "@tiller-ds/icons";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
-import { usePrevious } from "@tiller-ds/util";
+import { tillerTwMerge, usePrevious } from "@tiller-ds/util";
 
 import UploadyWrapper, { UploadyWrapperProps } from "./UploadyWrapper";
 
@@ -65,7 +65,10 @@ export type DragZoneProps<T extends File> = {
   mapUploadResponse?: (item: BatchItem, originalFileName: string) => T;
 
   /**
-   * Custom additional styling applied to the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -323,7 +326,6 @@ function CustomUploadDropZone({
   const tokens = useTokens("DragZone", props.tokens);
 
   const customUploadDropZoneContainerClassName = cx(
-    className,
     tokens.customUploadDropZoneContainer.master,
     tokens.customUploadDropZoneContainer.margin,
     tokens.customUploadDropZoneContainer.padding,
@@ -374,7 +376,11 @@ function CustomUploadDropZone({
   const showLoader = loader && ((preLoadDelayPassed && uploadActive) || postUploadPeriodActive);
 
   return (
-    <div className={customUploadDropZoneContainerClassName} onClick={onClick} data-testid={props["data-testid"]}>
+    <div
+      className={tillerTwMerge(customUploadDropZoneContainerClassName, className)}
+      onClick={onClick}
+      data-testid={props["data-testid"]}
+    >
       <div className={tokens.customUploadDropZoneDescriptionContainer}>
         {showLoader && loader && uploadPercentage ? loader(uploadPercentage) : uploadZoneIcon}
         <label className={customUploadDropZoneTitleClassName}>{title}</label>

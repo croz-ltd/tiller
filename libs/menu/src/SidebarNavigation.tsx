@@ -25,6 +25,7 @@ import { ComponentTokens, cx, useIcon, useTokens } from "@tiller-ds/theme";
 
 import DropdownMenu, { DropdownMenuMenuProps } from "./DropdownMenu";
 import NavigationContextProvider, { NavigationContext } from "./NavigationContextProvider";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type SidebarNavigationProps = {
   /**
@@ -58,7 +59,10 @@ type SidebarNavigationProps = {
   color?: "default" | "dark" | "light";
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -119,7 +123,10 @@ type SidebarNavigationItemProps = {
   title?: React.ReactNode;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -212,7 +219,10 @@ type SidebarNavigationDropdownProps = {
   icon?: React.ReactElement;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 } & DropdownMenuMenuProps &
@@ -237,7 +247,6 @@ function SidebarNavigation({
   const [isOpen, setIsOpen] = React.useState(false);
 
   const containerClassName = cx(
-    className,
     tokens.container.master,
     tokens.container.padding,
     { [tokens.container.dark]: color === "dark" },
@@ -270,7 +279,7 @@ function SidebarNavigation({
   const menuButtonStyleClassName = cx(tokens.navButtons.margin, tokens.navButtons.size);
 
   const navClass = cx(tokens.base.container, {
-    "md:flex hidden": !isOpen,
+    [tokens.base.closed]: !isOpen,
     flex: isOpen,
   });
 
@@ -297,7 +306,7 @@ function SidebarNavigation({
     <NavigationContextProvider menuOpened={isOpen} actionOpened={false}>
       <NavigationContext.Consumer>
         {({ isActionOpened }) => (
-          <div className={containerClassName} data-testid={props["data-testid"]}>
+          <div className={tillerTwMerge(containerClassName, className)} data-testid={props["data-testid"]}>
             <div className={tokens.topContainer}>
               {!isActionOpened && (
                 <>
@@ -368,7 +377,6 @@ export function SidebarNavigationItem({
 
   const active = to !== undefined ? location.pathname.startsWith(to) : false;
   const cn = cx(
-    className,
     tokens.item.master,
     tokens.item.padding,
     tokens.item.fontSize,
@@ -407,8 +415,13 @@ export function SidebarNavigationItem({
 
   if (isExpandable) {
     return (
-      <div className="cursor-pointer flex flex-col md:items-start items-center">
-        <div {...props} className={cn} onClick={onExpandableItemClick} data-testid={props["data-testid"]}>
+      <div className={tokens.item.expandable.outerContainer}>
+        <div
+          {...props}
+          className={tillerTwMerge(cn, className)}
+          onClick={onExpandableItemClick}
+          data-testid={props["data-testid"]}
+        >
           {icon && <div className={iconClassName}>{icon}</div>}
           {title}
           {expanded ? closeExpanderIcon : openExpanderIcon}
@@ -419,7 +432,7 @@ export function SidebarNavigationItem({
   }
 
   return (
-    <Link {...props} to={to || "#"} onClick={onSelect} className={cn} data-testid={props["data-testid"]}>
+    <Link {...props} to={to || "#"} onClick={onSelect} className={tillerTwMerge(cn, className)} data-testid={props["data-testid"]}>
       {icon && <div className={iconClassName}>{icon}</div>}
       <div className="flex items-center">{title || children}</div>
     </Link>
@@ -457,14 +470,10 @@ export function SidebarNavigationDropdown({
     { [sidebarNavigationTokens.item.expandable.subitemsContainer.default]: popupBackgroundColor === "default" },
   );
 
-  const dropdownMenuContainerClassName = cx(
-    sidebarNavigationTokens.topRightAction.master,
-    { "ml-8": !isActionOpened },
-    className,
-  );
+  const dropdownMenuContainerClassName = cx(sidebarNavigationTokens.topRightAction.master, { "ml-8": !isActionOpened });
 
   return (
-    <div className={dropdownMenuContainerClassName}>
+    <div className={tillerTwMerge(dropdownMenuContainerClassName, className)}>
       <div className="hidden md:block">
         <DropdownMenu
           {...props}
@@ -503,6 +512,7 @@ export function SidebarNavigationDropdownItem({
   onSelect = () => undefined,
   icon,
   to,
+  className,
   ...props
 }: SidebarNavigationDropdownItemProps) {
   const tokens = useTokens("SidebarNavigation", props.tokens);
@@ -524,7 +534,7 @@ export function SidebarNavigationDropdownItem({
 
   const iconTextWrapper = (text: React.ReactNode) => {
     return (
-      <div className="flex items-center md:justify-start justify-center space-x-0.5">
+      <div className={tokens.dropdownItem.iconWrapper}>
         {icon && <div className={iconClassName}>{icon}</div>}
         <div className="flex items-center">{text}</div>
       </div>
@@ -532,7 +542,12 @@ export function SidebarNavigationDropdownItem({
   };
 
   return (
-    <Link to={to ? to : ""} onClick={onSelect} className={dropdownItemClassName} data-testid={props["data-testid"]}>
+    <Link
+      to={to ? to : ""}
+      onClick={onSelect}
+      className={tillerTwMerge(dropdownItemClassName, className)}
+      data-testid={props["data-testid"]}
+    >
       {icon ? iconTextWrapper(children) : children}
     </Link>
   );

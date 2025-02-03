@@ -18,22 +18,12 @@
 import * as React from "react";
 
 import { every, find, flatMap, slice, identity, isEqual, pickBy, sum, xorWith } from "lodash";
-import {
-  Cell,
-  Column,
-  HeaderProps,
-  Row,
-  SortingRule,
-  useExpanded,
-  useRowSelect,
-  useSortBy,
-  useTable,
-} from "react-table";
+import { Cell, Column, HeaderProps, Row, SortingRule, useExpanded, useRowSelect, useSortBy, useTable } from "react-table";
 
 import { Card, CardHeaderProps } from "@tiller-ds/core";
 import { Checkbox } from "@tiller-ds/form-elements";
 import { ComponentTokens, cx, TokenProps, useIcon, useTokens } from "@tiller-ds/theme";
-import { createNamedContext, findChild } from "@tiller-ds/util";
+import { createNamedContext, findChildByType, tillerTwMerge } from "@tiller-ds/util";
 
 type DataTableChild<T extends object> =
   | React.ReactElement<DataTableColumnProps<T> | DataTableExpanderProps<T>>
@@ -148,7 +138,10 @@ export type DataTableProps<T extends object> = {
   lastColumnFixed?: boolean;
 
   /**
-   * Custom additional class name for the main container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -201,7 +194,10 @@ type DataTableColumnProps<T extends object> = {
    */
   title?: string;
   /**
-   * Custom column className.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
   /**
@@ -269,7 +265,10 @@ type DataTableExpanderProps<T extends object> = {
    */
   children: (item: T, index: number) => React.ReactNode;
   /**
-   * Optional class name for the expander column.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 };
@@ -325,7 +324,8 @@ type DataTableCardHeaderProps = {
    * Changes the number of total elements in the message when selecting rows (e.g. 5 selected out of {totalElements} items).
    */
   totalElements: number;
-} & CardHeaderProps;
+} & CardHeaderProps &
+  TokenProps<"DataTable">;
 
 type DataTableInfo<T extends object> = {
   columns: Array<Column<T>>;
@@ -368,16 +368,8 @@ type DataTablePrimaryRowProps = {
   children: React.ReactNode;
 };
 
-DataTablePrimaryRow.defaultProps = {
-  type: "DataTablePrimaryRow",
-};
-
 type DataTableSecondaryRowProps = {
   children: React.ReactNode;
-};
-
-DataTableSecondaryRow.defaultProps = {
-  type: "DataTableSecondaryRow",
 };
 
 const DataTableCardHeaderContext = createNamedContext<DataTableCardHeaderContext>("DataTableCardHeaderContext", {});
@@ -413,10 +405,6 @@ type UseDataTable = [
 
 type DataTableCardHeaderSelectorProps = {
   children?: (selectorInfo: SelectorInfo) => React.ReactNode;
-};
-
-DataTableCardHeaderSelector.defaultProps = {
-  type: "CardHeaderSelector",
 };
 
 type SelectorInfo = {
@@ -510,10 +498,7 @@ type DataTableSummary<T> = {
   operation: Operation;
 };
 
-export function useLocalSummary<T>(
-  data: T[],
-  summaryList: DataTableSummary<T>[],
-): Record<keyof T, Record<Operation, number>> {
+export function useLocalSummary<T>(data: T[], summaryList: DataTableSummary<T>[]): Record<keyof T, Record<Operation, number>> {
   const summaryResult = {} as Record<keyof T, Record<Operation, number>>;
 
   summaryList.forEach((summary) => {
@@ -548,8 +533,8 @@ function DataTable<T extends object>({
 }: DataTableProps<T>) {
   const tokens = useTokens("DataTable", props.tokens);
 
-  const primaryRow = findChild("DataTablePrimaryRow", children);
-  const secondaryRow = findChild("DataTableSecondaryRow", children);
+  const primaryRow = findChildByType(DataTablePrimaryRow, children);
+  const secondaryRow = findChildByType(DataTableSecondaryRow, children);
   const hasSecondaryColumns = React.isValidElement(secondaryRow);
 
   const primaryColumnChildren = React.isValidElement(primaryRow) ? primaryRow.props.children : children;
@@ -596,48 +581,39 @@ function DataTable<T extends object>({
   const differenceOfSortingRules = (rule1: SortingRule<T>[], rule2: SortingRule<T>[]): SortingRule<T>[] =>
     xorWith(rule1, rule2, (r1, r2) => r1.id === r2.id && r1.desc === r2.desc);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    footerGroups,
-    rows,
-    prepareRow,
-    visibleColumns,
-    state,
-    toggleSortBy,
-  } = useTable(
-    {
-      columns,
-      data,
-      stateReducer: (newState, action, prevState) => {
-        const hasNoSort = newState.sortBy.length === 0;
-        const sortingDifference = differenceOfSortingRules(newState.sortBy, sortBy);
+  const { getTableProps, getTableBodyProps, headerGroups, footerGroups, rows, prepareRow, visibleColumns, state, toggleSortBy } =
+    useTable(
+      {
+        columns,
+        data,
+        stateReducer: (newState, action, prevState) => {
+          const hasNoSort = newState.sortBy.length === 0;
+          const sortingDifference = differenceOfSortingRules(newState.sortBy, sortBy);
 
-        if (retainDefaultSortBy && action.type === "toggleSortBy" && (sortingDifference.length === 0 || hasNoSort)) {
-          const sortedCols = sortingDifference.map((rule) => rule.id);
+          if (retainDefaultSortBy && action.type === "toggleSortBy" && (sortingDifference.length === 0 || hasNoSort)) {
+            const sortedCols = sortingDifference.map((rule) => rule.id);
 
-          return {
-            ...newState,
-            sortBy: isEqual(prevState.sortBy, sortBy) ? mapToSortingRules(defaultSortBy, sortedCols) : sortBy,
-          };
-        }
+            return {
+              ...newState,
+              sortBy: isEqual(prevState.sortBy, sortBy) ? mapToSortingRules(defaultSortBy, sortedCols) : sortBy,
+            };
+          }
 
-        return newState;
+          return newState;
+        },
+        autoResetPage: false,
+        autoResetSelectedRows: false,
+        autoResetSortBy: false,
+        manualSortBy: true,
+        initialState: {
+          sortBy,
+        },
+        getRowId,
       },
-      autoResetPage: false,
-      autoResetSelectedRows: false,
-      autoResetSortBy: false,
-      manualSortBy: true,
-      initialState: {
-        sortBy,
-      },
-      getRowId,
-    },
-    useSortBy,
-    useExpanded,
-    useRowSelect,
-  );
+      useSortBy,
+      useExpanded,
+      useRowSelect,
+    );
 
   React.useEffect(() => {
     const sorts: SortInfo[] = state.sortBy.map((sortBy) => ({
@@ -650,13 +626,7 @@ function DataTable<T extends object>({
     }
   }, [hook, state.sortBy]);
 
-  const tableCellClassName = (
-    className: string,
-    align: string,
-    hasBorder: boolean,
-    isSecondaryRow: boolean,
-    cellIndex: number,
-  ) =>
+  const tableCellClassName = (align: string, hasBorder: boolean, isSecondaryRow: boolean, cellIndex: number) =>
     cx(
       { [tokens.primaryRowSpacing]: !isSecondaryRow },
       { [tokens.secondaryRowSpacing]: isSecondaryRow },
@@ -669,7 +639,6 @@ function DataTable<T extends object>({
       tokens.tableCell.fontWeight,
       tokens.tableCell.color,
       tokens.align[align],
-      className,
     );
 
   const tableFooterClassName = (className: string, align: string) => cx(className, tokens.align[align]);
@@ -681,7 +650,7 @@ function DataTable<T extends object>({
     "cursor-pointer": onClick || onDoubleClick,
   });
 
-  const containerClassName = cx(className, tokens.container.master, tokens.container.borderRadius, {
+  const containerClassName = cx(tokens.container.master, tokens.container.borderRadius, {
     "sticky-first": firstColumnFixed,
     "sticky-last": lastColumnFixed,
     "unset-first": !firstColumnFixed,
@@ -721,167 +690,152 @@ function DataTable<T extends object>({
         predicate,
       }}
     >
-      <div className="flex flex-col">
-        <div className={containerClassName}>
-          <table {...getTableProps()} className="min-w-full" data-testid={props["data-testid"]}>
-            {showHeader && (
-              <thead data-testid={props["data-testid"] && `${props["data-testid"]}-head`}>
-                {headerGroups.map((headerGroup, headerGroupKey) => (
-                  <tr key={headerGroupKey} {...headerGroup.getHeaderGroupProps()}>
-                    {headerGroup.headers.slice(0, columnChildrenSize).map((column, columnKey) => (
-                      <th
-                        key={columnKey}
-                        {...column.getHeaderProps(column.getSortByToggleProps())}
-                        className={tableHeaderClassName}
-                        title={column.title}
-                        onClick={() => {
-                          if (column.canSort) {
-                            toggleSortBy(column.id, undefined, multiSort);
-                          }
-                        }}
-                        data-testid={props["data-testid"] && `${props["data-testid"]}-head-${columnKey}`}
-                      >
-                        <DataTableHeader alignHeader={alignHeader} {...column}>
-                          {column.render("Header")}
-                        </DataTableHeader>
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-            )}
-            <tbody {...getTableBodyProps()} data-testid={props["data-testid"] && `${props["data-testid"]}-body`}>
-              {props.emptyState && !data.length ? (
-                <tr>
-                  <td colSpan={visibleColumns.length}>{props.emptyState}</td>
+      <div className={tillerTwMerge(containerClassName, className)}>
+        <table {...getTableProps()} className={tokens.table} data-testid={props["data-testid"]}>
+          {showHeader && (
+            <thead data-testid={props["data-testid"] && `${props["data-testid"]}-head`} className={tokens.head}>
+              {headerGroups.map((headerGroup, headerGroupKey) => (
+                <tr key={headerGroupKey} {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.slice(0, columnChildrenSize).map((column, columnKey) => (
+                    <th
+                      key={columnKey}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                      className={tableHeaderClassName}
+                      title={column.title}
+                      onClick={() => {
+                        if (column.canSort) {
+                          toggleSortBy(column.id, undefined, multiSort);
+                        }
+                      }}
+                      data-testid={props["data-testid"] && `${props["data-testid"]}-head-${columnKey}`}
+                    >
+                      <DataTableHeader alignHeader={alignHeader} {...column}>
+                        {column.render("Header")}
+                      </DataTableHeader>
+                    </th>
+                  ))}
                 </tr>
-              ) : (
-                rows.map((row, rowKey) => {
-                  prepareRow(row);
+              ))}
+            </thead>
+          )}
+          <tbody
+            {...getTableBodyProps()}
+            data-testid={props["data-testid"] && `${props["data-testid"]}-body`}
+            className={tokens.body}
+          >
+            {props.emptyState && !data.length ? (
+              <tr>
+                <td colSpan={visibleColumns.length}>{props.emptyState}</td>
+              </tr>
+            ) : (
+              rows.map((row, rowKey) => {
+                prepareRow(row);
 
-                  const primaryCells = slice(row.cells, 0, columnChildrenSize);
-                  const secondaryCells = hasSecondaryColumns
-                    ? row.cells.slice(columnChildrenSize, totalColumnChildrenSize)
-                    : [];
-                  return (
-                    <React.Fragment key={rowKey}>
+                const primaryCells = slice(row.cells, 0, columnChildrenSize);
+                const secondaryCells = hasSecondaryColumns ? row.cells.slice(columnChildrenSize, totalColumnChildrenSize) : [];
+                return (
+                  <React.Fragment key={rowKey}>
+                    <tr
+                      {...row.getRowProps()}
+                      className={cx(tableRowClassName(rowKey), onClickClasses, getRowClassName?.(row.original, rowKey))}
+                      data-testid={props["data-testid"] && `${props["data-testid"]}-body-${rowKey}`}
+                    >
+                      {primaryCells.map((cell, cellKey) => {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        const colSpan = cell.column.colSpan;
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        const align = cell.column.align;
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        const isSelector = cell.column.id === "selector";
+                        return (
+                          <td
+                            key={cellKey}
+                            className={tillerTwMerge(
+                              tableCellClassName(align, !hasSecondaryColumns, false, cellKey),
+                              cell.column.className || "",
+                            )}
+                            {...cell.getCellProps()}
+                            colSpan={colSpan}
+                            onClick={() => (onClick && !isSelector ? onClick(row.original) : undefined)}
+                            onDoubleClick={() => (onDoubleClick && !isSelector ? onDoubleClick(row.original) : undefined)}
+                            data-testid={props["data-testid"] && `${props["data-testid"]}-body-${rowKey}-${cellKey}`}
+                          >
+                            {cell.render("Cell")}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                    {hasSecondaryColumns && (
                       <tr
                         {...row.getRowProps()}
-                        className={cx(
-                          tableRowClassName(rowKey),
-                          onClickClasses,
-                          getRowClassName?.(row.original, rowKey),
-                        )}
-                        data-testid={props["data-testid"] && `${props["data-testid"]}-body-${rowKey}`}
+                        className={cx(tableRowClassName(rowKey), onClickClasses, getRowClassName?.(row.original, rowKey))}
+                        onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
+                        data-testid={props["data-testid"] && `${props["data-testid"]}-body-secondary-${rowKey}`}
                       >
-                        {primaryCells.map((cell, cellKey) => {
-                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        {secondaryCells.map((cell, cellKey) => {
                           // @ts-ignore
                           const colSpan = cell.column.colSpan;
-                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                           // @ts-ignore
                           const align = cell.column.align;
-                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                          // @ts-ignore
-                          const isSelector = cell.column.id === "selector";
                           return (
                             <td
                               key={cellKey}
-                              className={tableCellClassName(
+                              className={tillerTwMerge(
+                                tableCellClassName(align, true, true, rowKey),
                                 cell.column.className || "",
-                                align,
-                                !hasSecondaryColumns,
-                                false,
-                                cellKey,
                               )}
                               {...cell.getCellProps()}
                               colSpan={colSpan}
-                              onClick={() => (onClick && !isSelector ? onClick(row.original) : undefined)}
-                              onDoubleClick={() =>
-                                onDoubleClick && !isSelector ? onDoubleClick(row.original) : undefined
-                              }
-                              data-testid={props["data-testid"] && `${props["data-testid"]}-body-${rowKey}-${cellKey}`}
+                              onClick={() => (onClick ? onClick(row.original) : undefined)}
+                              onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
+                              data-testid={props["data-testid"] && `${props["data-testid"]}-body-secondary-${rowKey}-${cellKey}`}
                             >
-                              {cell.render("Cell")}
+                              <div className="flex flex-col text-xs">
+                                <div className="font-bold">
+                                  <>{cell.column.Header}</>
+                                </div>
+                                <div>{cell.render("Cell")}</div>
+                              </div>
                             </td>
                           );
                         })}
                       </tr>
-                      {hasSecondaryColumns && (
-                        <tr
-                          {...row.getRowProps()}
-                          className={cx(
-                            tableRowClassName(rowKey),
-                            onClickClasses,
-                            getRowClassName?.(row.original, rowKey),
-                          )}
-                          onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
-                          data-testid={props["data-testid"] && `${props["data-testid"]}-body-secondary-${rowKey}`}
-                        >
-                          {secondaryCells.map((cell, cellKey) => {
-                            // @ts-ignore
-                            const colSpan = cell.column.colSpan;
-                            // @ts-ignore
-                            const align = cell.column.align;
-                            return (
-                              <td
-                                key={cellKey}
-                                className={tableCellClassName(cell.column.className || "", align, true, true, rowKey)}
-                                {...cell.getCellProps()}
-                                colSpan={colSpan}
-                                onClick={() => (onClick ? onClick(row.original) : undefined)}
-                                onDoubleClick={() => (onDoubleClick ? onDoubleClick(row.original) : undefined)}
-                                data-testid={
-                                  props["data-testid"] && `${props["data-testid"]}-body-secondary-${rowKey}-${cellKey}`
-                                }
-                              >
-                                <div className="flex flex-col text-xs">
-                                  <div className="font-bold">
-                                    <>{cell.column.Header}</>
-                                  </div>
-                                  <div>{cell.render("Cell")}</div>
-                                </div>
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      )}
-                      {renderExpandedRow && row.isExpanded ? (
-                        <tr className={tableRowClassName(rowKey)}>
-                          <td
-                            colSpan={visibleColumns.length}
-                            className={tableCellClassName("", "text-left", true, false, rowKey)}
-                          >
-                            {renderExpandedRow(row.original)}
-                          </td>
-                        </tr>
-                      ) : null}
-                    </React.Fragment>
-                  );
-                })
-              )}
-            </tbody>
-            {showFooter && (
-              <tfoot>
-                {footerGroups.map((footerGroup, footerGroupKey) => (
-                  <tr key={footerGroupKey} {...footerGroup.getFooterGroupProps()}>
-                    {footerGroup.headers.slice(0, columnChildrenSize).map((column, columnKey) => (
-                      <td
-                        key={columnKey}
-                        {...column.getFooterProps(column.getSortByToggleProps())}
-                        // @ts-ignore
-                        className={tableFooterClassName(tableInnerFooterClassName, column.align)}
-                        title={column.title}
-                      >
-                        <DataTableFooter {...column}>{column.render("Footer")}</DataTableFooter>
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tfoot>
+                    )}
+                    {renderExpandedRow && row.isExpanded ? (
+                      <tr className={tableRowClassName(rowKey)}>
+                        <td colSpan={visibleColumns.length} className={tableCellClassName("text-left", true, false, rowKey)}>
+                          {renderExpandedRow(row.original)}
+                        </td>
+                      </tr>
+                    ) : null}
+                  </React.Fragment>
+                );
+              })
             )}
-          </table>
-        </div>
+          </tbody>
+          {showFooter && (
+            <tfoot>
+              {footerGroups.map((footerGroup, footerGroupKey) => (
+                <tr key={footerGroupKey} {...footerGroup.getFooterGroupProps()}>
+                  {footerGroup.headers.slice(0, columnChildrenSize).map((column, columnKey) => (
+                    <td
+                      key={columnKey}
+                      {...column.getFooterProps(column.getSortByToggleProps())}
+                      // @ts-ignore
+                      className={tableFooterClassName(tableInnerFooterClassName, column.align)}
+                      title={column.title}
+                    >
+                      <DataTableFooter {...column}>{column.render("Footer")}</DataTableFooter>
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tfoot>
+          )}
+        </table>
       </div>
     </DataTableContext.Provider>
   );
@@ -926,21 +880,15 @@ function DataTableFooter({ children }: DataTableFooterProps) {
   return <>{children}</>;
 }
 
-function DataTableCardHeader({
-  totalElements,
-  selectedCount,
-  isAllRowsSelected,
-  children,
-  ...props
-}: DataTableCardHeaderProps) {
+function DataTableCardHeader({ totalElements, selectedCount, isAllRowsSelected, children, ...props }: DataTableCardHeaderProps) {
   const tokens = useTokens("DataTable", props.tokens);
   const selectorTitle = isAllRowsSelected
     ? totalElements + " selected out of " + totalElements + " items"
     : selectedCount + " selected out of " + totalElements + " items";
 
-  const title = findChild("CardHeaderTitle", children);
-  const actions = findChild("CardHeaderActions", children);
-  const selector = findChild("CardHeaderSelector", children);
+  const title = findChildByType(Card.Header.Title, children);
+  const actions = findChildByType(Card.Header.Actions, children);
+  const selector = findChildByType(DataTableCardHeaderSelector, children);
   const isSelected = isAllRowsSelected || selectedCount !== 0;
 
   const cardHeaderContainer = cx({ [tokens.CardHeader.backgroundColor]: isSelected });
@@ -966,9 +914,7 @@ function DataTableCardHeader({
 function DataTableCardHeaderSelector({ children }: DataTableCardHeaderSelectorProps) {
   const { selectedCount, totalElements, isAllRowsSelected } = React.useContext(DataTableCardHeaderContext);
 
-  const selectorTitle = isAllRowsSelected
-    ? totalElements
-    : selectedCount + " selected out of " + totalElements + " items";
+  const selectorTitle = isAllRowsSelected ? totalElements : selectedCount + " selected out of " + totalElements + " items";
 
   if (selectedCount === 0) return null;
 
@@ -1105,7 +1051,7 @@ function extractColumns<T extends object>(
       return [];
     }
 
-    if (child.props.type === "DataTableColumn") {
+    if (child.type === DataTableColumn) {
       const cell = child.props.children
         ? {
             Cell: ({ row, value }: { row: Row<T>; value: T }) =>
@@ -1127,7 +1073,7 @@ function extractColumns<T extends object>(
         className: child.props.className || "",
         title: child.props.title || "",
         id: child.props.id || child.props.accessor,
-        disableSortBy: !(child.props.canSort ?? true),
+        disableSortBy: !child.props.canSort,
         colSpan: child.props.colSpan || 1,
         align: child.props.align,
         ...cell,
@@ -1136,7 +1082,7 @@ function extractColumns<T extends object>(
       return column as Column<T>;
     }
 
-    if (child.props.type === "DataTableExpander") {
+    if (child.type === DataTableExpander) {
       const predicate = child.props.predicate ?? (() => false);
       const Cell = child.props.predicate
         ? ({ row }: { row: Row<T> }) =>
@@ -1157,11 +1103,10 @@ function extractColumns<T extends object>(
       return [column as unknown as Column<T>];
     }
 
-    if (child.props.type === "DataTableSelector") {
+    if (child.type === DataTableSelector) {
       const predicate = child.props.predicate ?? (() => false);
       const Cell = child.props.children
-        ? ({ row }: { row: Row<T> }) =>
-            child.props.children(row.original, row.index, row, predicate(row.original, row.index))
+        ? ({ row }: { row: Row<T> }) => child.props.children(row.original, row.index, row, predicate(row.original, row.index))
         : ({ row }: { row: Row<T> }) => <SelectorCell row={row} data-testid={testId} />;
 
       const column = {
@@ -1185,7 +1130,7 @@ function extractRenderExpandedRow(children: Array<Exclude<React.ReactNode, boole
       continue;
     }
 
-    if (child.props.type === "DataTableExpander") {
+    if (child.type === DataTableExpander) {
       return child.props.children;
     }
   }
@@ -1197,26 +1142,13 @@ function DataTableColumn<T extends object>(_: DataTableColumnProps<T>) {
   return <></>;
 }
 
-DataTableColumn.defaultProps = {
-  type: "DataTableColumn",
-  canSort: false,
-};
-
 function DataTableExpander<T extends object>(_: DataTableExpanderProps<T>) {
   return <></>;
 }
 
-DataTableExpander.defaultProps = {
-  type: "DataTableExpander",
-};
-
 function DataTableSelector<T extends object>(_: DataTableSelectorProps<T>) {
   return <></>;
 }
-
-DataTableSelector.defaultProps = {
-  type: "DataTableSelector",
-};
 
 DataTableCardHeader.Title = Card.Header.Title;
 DataTableCardHeader.Actions = Card.Header.Actions;
@@ -1239,7 +1171,7 @@ const isConfigurationEqual = (prevChildren, nextChildren) => {
     return false;
   }
   const getConfiguration = (children: Array<Exclude<React.ReactNode, boolean | null | undefined>>) =>
-    children.flatMap((child) => (React.isValidElement(child) ? child.props.type : undefined));
+    children.flatMap((child) => (React.isValidElement(child) ? child.type : undefined));
   return isEqual(getConfiguration(prevChildArray), getConfiguration(nextChildArray));
 };
 

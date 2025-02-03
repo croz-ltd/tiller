@@ -18,6 +18,7 @@
 import * as React from "react";
 
 import { cx } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type LoadingIconProps = {
   /**
@@ -27,7 +28,10 @@ type LoadingIconProps = {
   size?: number;
 
   /**
-   * Custom additional class name for the svg icon.
+   * Custom classes for the svg icon.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -46,11 +50,11 @@ type LoadingIconProps = {
 };
 
 export default function LoadingIcon({ size = 5, className = "", ...props }: LoadingIconProps) {
-  const svgClassName = cx("spinner", `w-${size} h-${size}`, className);
+  const svgClassName = cx("spinner", `w-${size} h-${size}`);
 
   return (
     <svg
-      className={svgClassName}
+      className={tillerTwMerge(svgClassName, className)}
       viewBox="0 0 66 66"
       xmlns="http://www.w3.org/2000/svg"
       fill="currentColor"

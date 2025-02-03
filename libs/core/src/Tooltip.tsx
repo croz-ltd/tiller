@@ -20,6 +20,7 @@ import * as React from "react";
 import { default as ReachTooltip } from "@reach/tooltip";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type TooltipProps = {
   /**
@@ -33,7 +34,10 @@ export type TooltipProps = {
   label: React.ReactNode;
 
   /**
-   * Custom additional class name for the main container.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -64,24 +68,21 @@ export default function Tooltip({ children, label, color = "dark", className, ..
   const tokens = useTokens("Tooltip", props.tokens);
 
   const tooltipClassName = cx(
-    className,
     tokens.master,
     tokens.padding,
     tokens.borderRadius,
-    tokens.fontSize,
     tokens.color,
+    tokens.fontSize,
     tokens[color].backgroundColor,
   );
 
   return (
     <ReachTooltip
-      {...props}
-      className={tooltipClassName}
-      label={
-        <pre style={{ all: "unset", whiteSpace: "pre-wrap" }} data-testid={props["data-testid"]}>
+     {...props}
+      className={tillerTwMerge(tooltipClassName, className)}
+      label={<pre style={{ all: "unset", whiteSpace: "pre-wrap" }} data-testid={props["data-testid"]}>
           <span className={tokens[color].textColor}>{label}</span>
-        </pre>
-      }
+        </pre>}
     >
       <div>{children}</div>
     </ReachTooltip>

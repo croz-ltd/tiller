@@ -20,6 +20,7 @@ import * as React from "react";
 import { cx, IconVariant as ThemeIconVariant } from "@tiller-ds/theme";
 
 import iconTypes from "./iconTypes";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type IconType = typeof iconTypes[number] | undefined;
 
@@ -75,10 +76,16 @@ export default function Icon({ variant = "regular", type, className = "", size =
 
   const iconSize = iconSizes[size];
 
-  const iconClassName = cx(iconSize, className, {
+  const iconClassName = cx(iconSize, {
     [`ph-${type}`]: variant === "regular",
     [`ph-${type}-${variant}`]: variant !== "regular",
   });
 
-  return <i className={iconClassName} style={{ ...props.style }} data-testid={props["data-testid"]} />;
+  return (
+    <i
+      className={tillerTwMerge(iconClassName, className)}
+      style={{ ...props.style }}
+      data-testid={props["data-testid"]}
+    />
+  );
 }

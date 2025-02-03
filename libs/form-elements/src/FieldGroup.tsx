@@ -19,6 +19,7 @@ import * as React from "react";
 
 import { Intl, useLabel } from "@tiller-ds/intl";
 import { ComponentTokens, cx, TokenProps, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type FieldGroupProps = {
   /**
@@ -27,7 +28,10 @@ export type FieldGroupProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional styling for the component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -114,7 +118,6 @@ function FieldGroup({
   }
 
   const containerClassName = cx(
-    className,
     fieldGroupTokens.Group.content.master,
     { [fieldGroupTokens.Group.content.horizontal]: !vertical },
     { [fieldGroupTokens.Group.content.vertical]: vertical },
@@ -131,7 +134,7 @@ function FieldGroup({
         )}
       </legend>
       <p className={fieldGroupTokens.Group.help}>{help}</p>
-      <div className={containerClassName}>{children}</div>
+      <div className={tillerTwMerge(containerClassName, className)}>{children}</div>
       {errorMessage && <p className={fieldGroupTokens.Group.error}>{errorMessage}</p>}
     </fieldset>
   );
@@ -140,10 +143,10 @@ function FieldGroup({
 function FieldGroupItem({ label, help, id, children, className = "", disabled, ...props }: FieldGroupItemProps) {
   const tokens = useTokens("FieldGroup", props.tokens);
 
-  const fieldGroupItemClassName = cx(className, { [tokens.GroupItem.disabled]: disabled });
+  const fieldGroupItemClassName = cx({ [tokens.GroupItem.disabled]: disabled });
 
   return (
-    <div className={fieldGroupItemClassName} data-testid={props["data-testid"]}>
+    <div className={tillerTwMerge(fieldGroupItemClassName, className)} data-testid={props["data-testid"]}>
       <div className={tokens.GroupItem.container}>
         <div className={tokens.GroupItem.content}>{children}</div>
         <div className={tokens.GroupItem.info}>

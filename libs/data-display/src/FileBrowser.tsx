@@ -88,6 +88,14 @@ type ChildrenProps<T extends File> = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 };
 
 type ChildrenFunction<T extends File> = (props: ChildrenProps<T>) => React.ReactNode;
@@ -105,6 +113,14 @@ type FileBrowserProps<T extends File> = {
    */
   fetchDirectory: (directory: T, currentPath?: T[]) => Promise<T[]>;
   children?: ChildrenFunction<T>;
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
 
   /**
    * A unique identifier for testing purposes.
@@ -183,7 +199,7 @@ export function FileBrowser<T extends File>(props: FileBrowserProps<T>): JSX.Ele
   };
 
   return (
-    <div data-testid={props["data-testid"]}>
+    <div data-testid={props["data-testid"]} className={props.className}>
       {children ? (
         children({
           currentFiles,
@@ -227,7 +243,7 @@ function FileBrowserTable<T extends File>({
   ...props
 }: ChildrenProps<T>) {
   return (
-    <>
+    <div className={props.className}>
       {breadcrumbs && (
         <div className="flex flex-row h-10">
           <Breadcrumbs
@@ -275,7 +291,7 @@ function FileBrowserTable<T extends File>({
           {(file: File) => (file.type ? <Typography>{file.type}</Typography> : <Typography>-</Typography>)}
         </DataTable.Column>
       </DataTable>
-    </>
+    </div>
   );
 }
 

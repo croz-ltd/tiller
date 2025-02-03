@@ -20,6 +20,7 @@ import * as React from "react";
 import { Link as ReactRouterLink, LinkProps as ReactRouterLinkProps } from "react-router-dom";
 
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 type LinkColor = "main" | "primary" | "secondary" | "tertiary" | "info" | "danger" | "warning" | "success";
 
@@ -50,6 +51,15 @@ export type LinkProps = {
    * // In tests:
    * getByTestId('my-component');
    */
+
+  /**
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
+   */
+  className?: string;
+
   "data-testid"?: string;
 } & Omit<ReactRouterLinkProps, "to"> &
   LinkTokensProps;
@@ -61,24 +71,23 @@ type LinkTokensProps = {
 export default function Link({ children, variant = "main", to, className, ...props }: LinkProps) {
   const tokens = useTokens("Link", props.tokens);
 
-  const linkClassName = cx(
-    className,
-    tokens.master,
-    tokens.base.fontSize,
-    tokens.base.fontWeight,
-    tokens.color[variant],
-  );
+  const linkClassName = cx(tokens.master, tokens.base.fontSize, tokens.base.fontWeight, tokens.color[variant]);
 
   if (to) {
     return (
-      <ReactRouterLink {...props} to={to} className={linkClassName} data-testid={props["data-testid"]}>
+      <ReactRouterLink
+        {...props}
+        to={to}
+        className={tillerTwMerge(linkClassName, className)}
+        data-testid={props["data-testid"]}
+      >
         {children}
       </ReactRouterLink>
     );
   }
 
   return (
-    <a {...props} type="button" className={linkClassName} data-testid={props["data-testid"]}>
+    <a {...props} type="button" className={tillerTwMerge(linkClassName, className)} data-testid={props["data-testid"]}>
       {children}
     </a>
   );

@@ -20,6 +20,7 @@ import * as React from "react";
 import { ComponentTokens, cx, useTokens } from "@tiller-ds/theme";
 
 import Button, { ButtonProps } from "./Button";
+import { tillerTwMerge } from "@tiller-ds/util";
 
 export type ButtonGroupsProps = {
   /**
@@ -29,7 +30,10 @@ export type ButtonGroupsProps = {
   children: React.ReactNode;
 
   /**
-   * Custom additional class name for the main container component.
+   * Custom classes for the container.
+   * Overrides conflicting default styles, if any.
+   *
+   * The provided `className` is processed using `tailwind-merge` to eliminate redundant or conflicting Tailwind classes.
    */
   className?: string;
 
@@ -49,9 +53,10 @@ export type ButtonGroupsProps = {
 
 type ButtonGroupsTokensProps = {
   tokens?: ComponentTokens<"ButtonGroups">;
+  buttonTokens?: ComponentTokens<"Button">;
 };
 
-export type ButtonGroupsButtonProps = ButtonProps;
+export type ButtonGroupsButtonProps = Omit<ButtonProps, "tokens"> & ButtonGroupsTokensProps;
 
 type ButtonGroupContext = {
   index: number;
@@ -63,10 +68,10 @@ const ButtonGroupContext = React.createContext<ButtonGroupContext>({ index: 0, c
 function ButtonGroups({ children, className, ...props }: ButtonGroupsProps) {
   const tokens = useTokens("ButtonGroups", props.tokens);
 
-  const baseClassName = cx(tokens.master, tokens.base, className);
+  const baseClassName = cx(tokens.master, tokens.base);
 
   return (
-    <span className={baseClassName} data-testid={props["data-testid"]}>
+    <span className={tillerTwMerge(baseClassName, className)} data-testid={props["data-testid"]}>
       {React.Children.map(children, (child, key) => (
         <ButtonGroupContext.Provider key={key} value={{ index: key, count: React.Children.count(children) }}>
           {child}
@@ -89,12 +94,13 @@ export function ButtonGroupsButton({
   ...props
 }: ButtonGroupsButtonProps) {
   const { index, count } = React.useContext(ButtonGroupContext);
+  const tokens = useTokens("ButtonGroups", props.tokens);
+  const buttonTokens = useTokens("Button", props.buttonTokens);
 
   const roundedClassName = cx(
-    className,
-    "rounded-none -ml-px",
-    { "rounded-l-md": index === 0 },
-    { "rounded-r-md": index + 1 === count },
+    tokens.Button.master,
+    { [tokens.Button.first]: index === 0 },
+    { [tokens.Button.last]: index + 1 === count },
   );
 
   return (
@@ -102,13 +108,14 @@ export function ButtonGroupsButton({
       size={size}
       onClick={onClick}
       disabled={disabled}
-      className={roundedClassName}
+      className={tillerTwMerge(roundedClassName, className)}
       variant={variant}
       color={color}
       rounded={false}
       leadingIcon={leadingIcon}
       trailingIcon={trailingIcon}
       {...props}
+      tokens={buttonTokens}
     >
       {children}
     </Button>
@@ -125,22 +132,21 @@ export function ButtonGroupsIconButton({
   ...props
 }: ButtonGroupsButtonProps) {
   const { index, count } = React.useContext(ButtonGroupContext);
+  const tokens = useTokens("ButtonGroups", props.tokens as ComponentTokens<"ButtonGroups">);
+  const buttonTokens = useTokens("Button", props.buttonTokens);
 
-  const roundedClassName = cx(
-    className,
-    { "rounded-l-md": index === 0 },
-    { "rounded-r-md -ml-px": index + 1 === count },
-  );
+  const roundedClassName = cx({ [tokens.IconButton.first]: index === 0 }, { [tokens.IconButton.last]: index + 1 === count });
 
   return (
     <Button
       disabled={disabled}
       onClick={onClick}
-      className={roundedClassName}
+      className={tillerTwMerge(roundedClassName, className)}
       variant={variant}
       color={color}
       rounded={false}
       {...props}
+      tokens={buttonTokens}
     >
       {children}
     </Button>
