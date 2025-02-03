@@ -65,6 +65,7 @@ export default function TimeInputField({ name, allowClear = true, ...props }: Ti
       onBlur={onBlur}
       allowClear={allowClear}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

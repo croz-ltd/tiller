@@ -152,6 +152,7 @@ export default function AutocompleteField<T>({
       options={options}
       getOptionValue={getOptionValue}
       {...props}
+      data-testid={name ?? props["data-testid"]}
       value={value}
       onChange={onChange}
       onBlur={onBlur}

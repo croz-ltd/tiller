@@ -50,6 +50,7 @@ function RadioGroupField({ name, children, ...props }: RadioGroupFieldProps) {
       onChange={onChange}
       onBlur={onBlur}
       error={meta.touched && !field.value ? initialError.current || meta.error : undefined}
+      data-testid={name ?? props["data-testid"]}
     >
       {children}
     </RadioGroup>
@@ -57,7 +58,7 @@ function RadioGroupField({ name, children, ...props }: RadioGroupFieldProps) {
 }
 
 function RadioGroupFieldItem(props: RadioGroupFieldItemProps) {
-  return <RadioGroup.Item {...props} />;
+  return <RadioGroup.Item {...props} data-testid={props.value ?? props["data-testid"]} />;
 }
 
 RadioGroupField.Item = RadioGroupFieldItem;

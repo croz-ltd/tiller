@@ -60,6 +60,7 @@ export default function DateTimeInputField({ name, allowClear = true, ...props }
       onBlur={onBlur}
       allowClear={allowClear}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

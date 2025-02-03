@@ -33,6 +33,19 @@ export type FieldErrorProps = {
    * Custom additional styling applied to the component.
    */
   className?: string;
+
+  /**
+   * A unique identifier for testing purposes.
+   * This identifier can be used in testing frameworks like Jest or Cypress to locate specific elements for testing.
+   * It helps ensure that UI components are behaving as expected across different scenarios.
+   * @type {string}
+   * @example
+   * // Usage:
+   * <MyComponent data-testid="my-component" />
+   * // In tests:
+   * getByTestId('my-component');
+   */
+  "data-testid"?: string;
 } & InputTokensProps;
 
 type InputTokensProps = {
@@ -55,5 +68,13 @@ export default function FieldError({ name, className, ...props }: FieldErrorProp
     error = <Intl name={error.replace("intl:", "")} />;
   }
 
-  return <>{meta.error && <p className={tillerTwMerge(errorClassName, className)}>{error}</p>}</>;
+  return (
+    <>
+      {meta.error && (
+        <p className={tillerTwMerge(errorClassName, className)} data-testid={name ?? props["data-testid"]}>
+          {error}
+        </p>
+      )}
+    </>
+  );
 }

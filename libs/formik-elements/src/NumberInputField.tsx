@@ -53,6 +53,7 @@ export default function NumberInputField({ name, ...props }: NumberInputFieldPro
       onChange={onChange}
       onBlur={onBlur}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }

@@ -36,5 +36,13 @@ export default function ToggleField({ name, ...props }: ToggleFieldProps) {
 
   const onClick = () => helpers.setValue(!field.value, shouldValidate);
 
-  return <Toggle checked={field.value} onClick={onClick} error={meta.touched && meta.error} {...props} />;
+  return (
+    <Toggle
+      checked={field.value}
+      onClick={onClick}
+      error={meta.touched && meta.error}
+      {...props}
+      data-testid={name ?? props["data-testid"]}
+    />
+  );
 }

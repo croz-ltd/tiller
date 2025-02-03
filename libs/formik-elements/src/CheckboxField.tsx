@@ -51,7 +51,14 @@ export default function CheckboxField({ name, label, containerClassName, ...prop
 
   return (
     <div className={tillerTwMerge(checkboxFieldContainerClassName, containerClassName)}>
-      <Checkbox id={id} label={label} {...field} checkboxTokens={checkboxTokens} {...props} />
+      <Checkbox
+        id={id}
+        label={label}
+        {...field}
+        checkboxTokens={checkboxTokens}
+        {...props}
+        data-testid={name ?? props["data-testid"]}
+      />
     </div>
   );
 }

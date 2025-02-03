@@ -79,5 +79,13 @@ export default function SliderField({ name, index, resetAllSubsequent, ...props 
     }
   };
 
-  return <Slider {...props} {...field} error={meta.touched && meta.error} onChange={onChange} />;
+  return (
+    <Slider
+      {...props}
+      {...field}
+      error={meta.touched && meta.error}
+      onChange={onChange}
+      data-testid={name ?? props["data-testid"]}
+    />
+  );
 }

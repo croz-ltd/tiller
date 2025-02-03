@@ -41,12 +41,7 @@ type PasswordInputFieldProps = {
   help?: React.ReactNode;
 } & Omit<InputFieldProps, InputOnlyPropsUnion>;
 
-export default function PasswordInputField({
-  name,
-  label,
-  help = "Caps Lock is On.",
-  ...props
-}: PasswordInputFieldProps) {
+export default function PasswordInputField({ name, label, help = "Caps Lock is On.", ...props }: PasswordInputFieldProps) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [capsLock, setCapsLock] = React.useState(false);
   const passwordInputRef = React.useRef<HTMLInputElement>(null);
@@ -85,6 +80,7 @@ export default function PasswordInputField({
       label={label}
       onKeyDown={onKeyDown}
       {...props}
+      data-testid={name ?? props["data-testid"]}
     />
   );
 }
