@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -57,10 +57,7 @@ export class IntlUtil {
 
   getPhrase(translation: LanguageTranslation, messageData: MessageData) {
     for (const param of this.getParams(translation)) {
-      const paramType = this.getPluralRule(
-        (messageData.params?.[param] as number) || 0,
-        !!translation?.[this.TYPE_ZERO]
-      );
+      const paramType = this.getPluralRule((messageData.params?.[param] as number) || 0, !!translation?.[this.TYPE_ZERO]);
 
       if (!translation?.[paramType]) {
         return { phrase: this._dictionary.messages[messageData.name], isReference: true };
@@ -86,8 +83,7 @@ export class IntlUtil {
   parse(phrase: string, messageData: MessageData, isReference = false) {
     const parts = phrase.split(this._paramRegex);
     const formats = this.getFormats(
-      this._dictionary.messages[messageData.name] ||
-        this._dictionary.translations[this._lang][messageData.name].toString()
+      this._dictionary.messages[messageData.name] || this._dictionary.translations[this._lang][messageData.name].toString(),
     );
 
     const toRender: React.ReactNode[] = [];

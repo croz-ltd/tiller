@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@ interface ThemeTokenProps {
   component: ThemeComponentType;
 }
 
-function ThemeTokenAttribute({keyName, value}: {keyName: string, value: any}) {
-  if (typeof value === 'string' || value instanceof String) {
+function ThemeTokenAttribute({ keyName, value }: { keyName: string; value: any }) {
+  if (typeof value === "string" || value instanceof String) {
     return (
       <p>
         <span>{keyName}</span>: "<span className="text-danger">{value}</span>",
@@ -33,7 +33,11 @@ function ThemeTokenAttribute({keyName, value}: {keyName: string, value: any}) {
     return (
       <p>
         <span>{keyName}</span>: {"{"}
-        <div className="pl-4">{Object.keys(value).map((key, i) => <ThemeTokenAttribute key={i} keyName={key} value={value[key]} />)}</div>
+        <div className="pl-4">
+          {Object.keys(value).map((key, i) => (
+            <ThemeTokenAttribute key={i} keyName={key} value={value[key]} />
+          ))}
+        </div>
         {"},"}
       </p>
     );
@@ -45,7 +49,7 @@ export default function ThemeTokens({ component }: ThemeTokenProps) {
   return (
     <div className="border rounded-md p-6">
       <pre className="text-[13px]">
-        <ThemeTokenAttribute keyName={component} value={tokenDefinition}/>
+        <ThemeTokenAttribute keyName={component} value={tokenDefinition} />
       </pre>
     </div>
   );

@@ -18,7 +18,29 @@ import { Meta } from "@storybook/addon-docs";
 
 # 📝 Release Notes
 
-## **1.16.0 - latest** <span>_(Dec 17th 2024)_</span>
+## **1.17.0 - latest** <span>_(Feb 3rd 2025)_</span>
+
+**<h4>🚨 Breaking changes </h4>**
+
+1. Renamed `testId` to `data-testid` to remove console errors on all components using it
+2. Restructured and/or changed token configuration structure for `Tooltip`, `Badge`, `ButtonGroups`, `Card`, `DataTable`,
+   `Dropdown`, `IconButton`, `Placeholder`, `ProgressBar`, `SidebarNavigation`, `TopNavigation` and `Toggle`
+   (see all changes [here](https://github.com/croz-ltd/tiller/pull/301/files#diff-5e2a6a03da42daa58c46bab675e2faeb686af1ab16d0c850fb00622a5bfcdd88))
+
+**<h4>🐛 Bug Fixes</h4>**
+
+- Fixed console errors for `testId` prop by renaming it to `data-testid` ([#272](https://github.com/croz-ltd/tiller/issues/272))
+- Fixed `SidebarNavigation` and `TopNavigation` inconsistencies by fixing incorrect prop drilling on `SidebarNavigation.Dropdown` and `TopNavigation.Dropdown` subcomponents ([#299](https://github.com/croz-ltd/tiller/issues/299))
+
+**<h4>⚡ Component Improvements</h4>**
+
+- Expanded `className` prop to more components and fixed class merging/overriding with `tailwind-merge` ([#122](https://github.com/croz-ltd/tiller/issues/122))
+- Added automatic `data-testid` prop value assigning to all field components based on their `name` prop or `value` prop for `CheckboxGroupField.Item` and `RadioGroupField.Item` ([#272](https://github.com/croz-ltd/tiller/issues/272))
+- Improved tooltip appearance by adjusting font and adding a `light` theme option via `color` prop ([#297](https://github.com/croz-ltd/tiller/issues/297))
+- Added `onSelect` prop to `TopNavigation.Item` and `SidebarNavigation.Item` for custom additional action execution when clicking on an item ([#299](https://github.com/croz-ltd/tiller/issues/299))
+- Minimized stutter when clicking the `DropdownMenu` on screen edge ([#295](https://github.com/croz-ltd/tiller/issues/295))
+
+## 1.16.0 <span>_(Dec 17th 2024)_</span>
 
 **<h4>🚨 Breaking changes </h4>**
 

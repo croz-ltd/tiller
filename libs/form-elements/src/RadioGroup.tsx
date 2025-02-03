@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -122,9 +122,7 @@ function RadioGroup({ name, children, value, className = "", onChange, onBlur, .
 
   return (
     <FieldGroup {...props} className={className} data-testid={props["data-testid"]}>
-      <RadioGroupContext.Provider
-        value={{ name, checked: value, onChange: contextOnChange, testId: props["data-testid"] }}
-      >
+      <RadioGroupContext.Provider value={{ name, checked: value, onChange: contextOnChange, testId: props["data-testid"] }}>
         {children}
         <input className={tokens.input} ref={inputRef} />
       </RadioGroupContext.Provider>

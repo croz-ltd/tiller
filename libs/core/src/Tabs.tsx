@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -230,8 +230,7 @@ function useCustomTabsContext(scrollable: boolean): CustomTabsContextType {
       }
 
       if (tabPanel.current) {
-        const isScrolledToTheEnd =
-          tabPanel.current.scrollLeft === tabPanel.current.scrollWidth - tabPanel.current.offsetWidth;
+        const isScrolledToTheEnd = tabPanel.current.scrollLeft === tabPanel.current.scrollWidth - tabPanel.current.offsetWidth;
         if (isScrolledToTheEnd) {
           setNextButtonShown(false);
         } else {

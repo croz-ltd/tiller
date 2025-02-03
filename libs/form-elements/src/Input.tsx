@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -305,11 +305,7 @@ const Input = React.forwardRef(
         >
           {error && <InputIcon icon={finalWarningIcon} inputId={props.id} trailing={true} />}
           {!disabled && !props.readOnly && props.value && allowClear && finalClearIcon && (
-            <button
-              type="button"
-              onClick={onReset}
-              data-testid={props["data-testid"] && `${props["data-testid"]}-clear`}
-            >
+            <button type="button" onClick={onReset} data-testid={props["data-testid"] && `${props["data-testid"]}-clear`}>
               {finalClearIcon}
             </button>
           )}
@@ -341,9 +337,7 @@ function InputIcon({ icon, trailing, inputId, ...props }: InputIconProps) {
 
 function InputAddOn({ addOn, className, ...props }: InputAddOnProps) {
   const tokens = useTokens("Input", props.tokens);
-  const cn = className
-    ? className
-    : cx(tokens.addOn.container, tokens.addOn.color, tokens.addOn.fontSize, tokens.addOn.outline);
+  const cn = className ? className : cx(tokens.addOn.container, tokens.addOn.color, tokens.addOn.fontSize, tokens.addOn.outline);
   return <span className={cn}>{addOn}</span>;
 }
 

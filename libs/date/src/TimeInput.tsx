@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -134,9 +134,7 @@ type TimeInputTokens = {
   inputTokens?: ComponentTokens<"Input">;
 };
 
-export type TimePickerValue =
-  | { hour: null; minute: null; type: "" }
-  | { hour: number; minute: number; type: ClockType };
+export type TimePickerValue = { hour: null; minute: null; type: "" } | { hour: number; minute: number; type: ClockType };
 
 export default function TimeInput({
   className,
@@ -336,9 +334,7 @@ export default function TimeInput({
         onChange={(e) => onChange(e.target.value)}
         onReset={onReset}
         allowClear={allowClear}
-        inlineTrailingIcon={
-          <IconButton disabled={props.disabled} icon={finalTimeIcon} onClick={onOpen} showTooltip={false} />
-        }
+        inlineTrailingIcon={<IconButton disabled={props.disabled} icon={finalTimeIcon} onClick={onOpen} showTooltip={false} />}
         tokens={{ textColor: !value ? "text-body-light" : undefined }}
         autoComplete="off"
       />

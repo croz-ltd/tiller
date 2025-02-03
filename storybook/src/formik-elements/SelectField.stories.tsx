@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -167,9 +167,7 @@ export const SelectFieldFactory = ({
     allowMultiple={allowMultiple}
     getMultipleSelectedLabel={
       multipleSelectionLabel
-        ? (items: Item[]) => (
-            <>{items.map((item, index) => (index === 0 ? "" : ", ") + item.name + " " + item.surname)}</>
-          )
+        ? (items: Item[]) => <>{items.map((item, index) => (index === 0 ? "" : ", ") + item.name + " " + item.surname)}</>
         : undefined
     }
     disabled={disabled}
@@ -217,9 +215,7 @@ export const WithValue = () => {
   return <SelectField {...commonProps} name="nameWithValue" label={<Intl name="label" />} />;
 };
 
-export const Disabled = () => (
-  <SelectField {...commonProps} name={nameWithValue} label={<Intl name="label" />} disabled={true} />
-);
+export const Disabled = () => <SelectField {...commonProps} name={nameWithValue} label={<Intl name="label" />} disabled={true} />;
 
 export const DisabledItems = () => (
   <SelectField
@@ -235,9 +231,7 @@ export const WithPlaceholder = () => (
   <SelectField {...commonProps} label={<Intl name="label" />} placeholder={<Intl name="placeholder" />} />
 );
 
-export const WithHelp = () => (
-  <SelectField {...commonProps} label={<Intl name="label" />} help={<Intl name="help" />} />
-);
+export const WithHelp = () => <SelectField {...commonProps} label={<Intl name="label" />} help={<Intl name="help" />} />;
 
 export const WithTooltip = () => (
   <SelectField
@@ -253,9 +247,7 @@ export const WithTooltip = () => (
 
 export const WithError = () => <SelectField {...commonProps} name={nameWithError} label={<Intl name="label" />} />;
 
-export const WithLoadingIcon = () => (
-  <SelectField {...commonProps} name={name} loading={true} label={<Intl name="label" />} />
-);
+export const WithLoadingIcon = () => <SelectField {...commonProps} name={name} loading={true} label={<Intl name="label" />} />;
 
 export const WithMultipleSelection = () => (
   <SelectField {...commonProps} name={nameWithArray} allowMultiple={true} label={<Intl name="label" />} />
@@ -273,9 +265,7 @@ export const WithMultipleSelectionAndVisibleLabels = () => (
   />
 );
 
-export const WithMissingOption = () => (
-  <SelectField {...commonProps} label={<Intl name="label" />} name={nameWithMissingValue} />
-);
+export const WithMissingOption = () => <SelectField {...commonProps} label={<Intl name="label" />} name={nameWithMissingValue} />;
 
 export const WithNoOptions = () => <SelectField label={<Intl name="label" />} name={name} options={[]} />;
 

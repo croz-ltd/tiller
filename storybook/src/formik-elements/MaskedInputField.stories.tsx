@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -74,11 +74,7 @@ export const WithKeptCharsPositions = (args) => <MaskedInputField name={name} ma
 export const WithMaskHidden = (args) => <MaskedInputField name={name} mask={mask} showMask={false} />;
 
 export const WithCustomPlaceholder = (args) => (
-  <MaskedInputField
-    name={name}
-    mask={[/[0-9]/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]}
-    placeholder="MM/DD/YYYY"
-  />
+  <MaskedInputField name={name} mask={[/[0-9]/, /\d/, "/", /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/]} placeholder="MM/DD/YYYY" />
 );
 
 export const WithLabel = (args) => <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} />;
@@ -98,9 +94,7 @@ export const WithValue = () => {
   );
 };
 
-export const Disabled = (args) => (
-  <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} disabled={true} />
-);
+export const Disabled = (args) => <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} disabled={true} />;
 
 export const WithPlaceholder = (args, context) => (
   <MaskedInputField
@@ -144,9 +138,7 @@ export const WithTrailingIconAndError = (args) => (
   />
 );
 
-export const WithAddOn = (args) => (
-  <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} addOn={addOn} />
-);
+export const WithAddOn = (args) => <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} addOn={addOn} />;
 
 export const WithInlineLeadingAddOn = (args) => (
   <MaskedInputField name={name} mask={mask} label={<Intl name="label" />} inlineLeadingAddOn={inlineLeadingAddOn} />

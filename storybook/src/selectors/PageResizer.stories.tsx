@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -49,9 +49,7 @@ export default {
   ],
 };
 
-export const Simple = () => (
-  <PageResizer pageSize={10} pageSizes={[3, 5, 10]} totalElements={20} onPageSizeChange={() => {}} />
-);
+export const Simple = () => <PageResizer pageSize={10} pageSizes={[3, 5, 10]} totalElements={20} onPageSizeChange={() => {}} />;
 
 export const WithItems = () => {
   // incl-code
@@ -86,9 +84,7 @@ export const Custom = () => {
       </div>
       <div className="flex flex-col space-y-4 mt-4 w-fit">
         <PageResizer pageSize={pageSize} pageSizes={[3, 5, 10]} totalElements={20} onPageSizeChange={setPageSize}>
-          {(selector) => (
-            <p className="text-sm flex items-center leading-5 text-gray-700">Shown results per page: {selector}</p>
-          )}
+          {(selector) => <p className="text-sm flex items-center leading-5 text-gray-700">Shown results per page: {selector}</p>}
         </PageResizer>
       </div>
     </>

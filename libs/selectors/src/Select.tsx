@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -327,8 +327,7 @@ function Select<T>({
     "flex align-center",
   );
 
-  const activeClassName = (hovered: boolean) =>
-    cx(tokens.Item.active.regular, { [tokens.Item.active.hovered]: hovered });
+  const activeClassName = (hovered: boolean) => cx(tokens.Item.active.regular, { [tokens.Item.active.hovered]: hovered });
 
   const loadingInnerClassName = cx(tokens.Loading.inner.padding, tokens.Loading.inner.margin);
 
@@ -349,10 +348,8 @@ function Select<T>({
       {options.length !== 0 ? placeholder || <>&nbsp;</> : (noResultsPlaceholder || noResultsText) ?? <>&nbsp;</>}
     </div>
   );
-  const singleOptionLabelFn = (singleValue?: T | null) =>
-    !isNil(singleValue) ? optionLabelFn(singleValue) : placeholderElement;
-  const selectedFn = (array: T[]) =>
-    getMultipleSelectedLabel ? getMultipleSelectedLabel(array) : `${array.length} selected`;
+  const singleOptionLabelFn = (singleValue?: T | null) => (!isNil(singleValue) ? optionLabelFn(singleValue) : placeholderElement);
+  const selectedFn = (array: T[]) => (getMultipleSelectedLabel ? getMultipleSelectedLabel(array) : `${array.length} selected`);
   const arrayLabelFn = (array: T[]) => (array.length <= 1 ? singleOptionLabelFn(array[0]) : selectedFn(array));
   const valueLabel = Array.isArray(value) ? arrayLabelFn(value) : singleOptionLabelFn(value);
 
@@ -370,12 +367,7 @@ function Select<T>({
   const SelectItems = () => (
     <>
       {filteredOptions.map((option: T, index: number) => (
-        <SelectItem
-          key={index}
-          index={index}
-          option={option}
-          testId={props["item-testid"] && props["item-testid"](option)}
-        />
+        <SelectItem key={index} index={index} option={option} testId={props["item-testid"] && props["item-testid"](option)} />
       ))}
     </>
   );
@@ -422,15 +414,7 @@ function Select<T>({
   };
 
   return (
-    <Field
-      id={id}
-      label={label}
-      tooltip={tooltip}
-      required={required}
-      help={help}
-      error={error}
-      containerClassName={className}
-    >
+    <Field id={id} label={label} tooltip={tooltip} required={required} help={help} error={error} containerClassName={className}>
       <div className={tokens.container} ref={containerRef}>
         <button
           className={selectClassName}

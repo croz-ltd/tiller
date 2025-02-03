@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -77,17 +77,9 @@ export const WithHelp = () => {
 
   return (
     <RadioGroup name={name} label="By Email" help="Email notification" onChange={setState} value={state}>
-      <RadioGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
+      <RadioGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
       <RadioGroup.Item label="Candidates" value="candidates" help="Get notified when a candidate applies for a job." />
-      <RadioGroup.Item
-        label="Offers"
-        value="offers"
-        help="Get notified when a candidate accepts or rejects an offer."
-      />
+      <RadioGroup.Item label="Offers" value="offers" help="Get notified when a candidate accepts or rejects an offer." />
     </RadioGroup>
   );
 };
@@ -97,25 +89,10 @@ export const WithError = () => {
   const [state, setState] = useState<string | boolean | null>("");
 
   return (
-    <RadioGroup
-      name={name}
-      label="By Email"
-      help="Email notification"
-      onChange={setState}
-      value={state}
-      error="Test error text"
-    >
-      <RadioGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
+    <RadioGroup name={name} label="By Email" help="Email notification" onChange={setState} value={state} error="Test error text">
+      <RadioGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
       <RadioGroup.Item label="Candidates" value="candidates" help="Get notified when a candidate applies for a job." />
-      <RadioGroup.Item
-        label="Offers"
-        value="offers"
-        help="Get notified when a candidate accepts or rejects an offer."
-      />
+      <RadioGroup.Item label="Offers" value="offers" help="Get notified when a candidate accepts or rejects an offer." />
     </RadioGroup>
   );
 };
@@ -126,11 +103,7 @@ export const WithDisabledItems = () => {
 
   return (
     <RadioGroup name={name} label="By Email" help="Email notification" onChange={setState} value={state}>
-      <RadioGroup.Item
-        label="Comments"
-        value="comments"
-        help="Get notified when someones posts a comment on a posting."
-      />
+      <RadioGroup.Item label="Comments" value="comments" help="Get notified when someones posts a comment on a posting." />
       <RadioGroup.Item
         label="Candidates"
         value="candidates"
@@ -152,14 +125,7 @@ export const WithVerticalAlignment = () => {
   const [state, setState] = useState<string | boolean | null>("");
 
   return (
-    <RadioGroup
-      name={name}
-      label="By Email"
-      help="Email notification"
-      onChange={setState}
-      value={state}
-      vertical={true}
-    >
+    <RadioGroup name={name} label="By Email" help="Email notification" onChange={setState} value={state} vertical={true}>
       <RadioGroup.Item label="Comments" value="comments" />
       <RadioGroup.Item label="Candidates" value="candidates" />
       <RadioGroup.Item label="Offers" value="offers" />

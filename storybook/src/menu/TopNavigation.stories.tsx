@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -157,12 +157,7 @@ export const Dark = (args, context) => (
           title={translations[context.globals.language]["planning"]}
           color="dark"
         >
-          <TopNavigation.Navigation.SubItem
-            to={tasksLink}
-            icon={<Icon type="clipboard" />}
-            onSelect={() => {}}
-            color="dark"
-          >
+          <TopNavigation.Navigation.SubItem to={tasksLink} icon={<Icon type="clipboard" />} onSelect={() => {}} color="dark">
             {tasks}
           </TopNavigation.Navigation.SubItem>
           <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={() => {}} color="dark">
@@ -223,12 +218,7 @@ export const Light = (args, context) => (
           title={translations[context.globals.language]["planning"]}
           color="light"
         >
-          <TopNavigation.Navigation.SubItem
-            to={tasksLink}
-            icon={<Icon type="clipboard" />}
-            onSelect={() => {}}
-            color="light"
-          >
+          <TopNavigation.Navigation.SubItem to={tasksLink} icon={<Icon type="clipboard" />} onSelect={() => {}} color="light">
             {tasks}
           </TopNavigation.Navigation.SubItem>
           <TopNavigation.Navigation.SubItem to={remindersLink} onSelect={() => {}} color="light">

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -361,8 +361,7 @@ function Autocomplete<T extends {}>({
 
   const selectedPlaceholder = `${selectedOptions.length} selected`;
   const placeholderLabel =
-    selectedFn(selectedOptions) ||
-    (validateUsage() ? (selectedOptions.length > 0 ? selectedPlaceholder : undefined) : false);
+    selectedFn(selectedOptions) || (validateUsage() ? (selectedOptions.length > 0 ? selectedPlaceholder : undefined) : false);
 
   const safeItemToString = (value: T | null | undefined) => (value ? itemToString(value) : "");
   const initialInputValue = !Array.isArray(value) && !allowMultiple ? safeItemToString(value) : "";
@@ -415,11 +414,7 @@ function Autocomplete<T extends {}>({
         }
       }
 
-      if (
-        type === useCombobox.stateChangeTypes.InputKeyDownArrowDown &&
-        !allowMultiple &&
-        highlightedIndex === maxItems - 1
-      ) {
+      if (type === useCombobox.stateChangeTypes.InputKeyDownArrowDown && !allowMultiple && highlightedIndex === maxItems - 1) {
         setHighlightedIndex(0);
       }
 
@@ -648,11 +643,7 @@ function Autocomplete<T extends {}>({
     { "pt-2.5": tags && tagsContained && !value },
   );
 
-  const loadingInnerClassName = cx(
-    autocompleteTokens.Loading.inner.padding,
-    autocompleteTokens.Loading.inner.margin,
-    "bg-white",
-  );
+  const loadingInnerClassName = cx(autocompleteTokens.Loading.inner.padding, autocompleteTokens.Loading.inner.margin, "bg-white");
 
   const tagPlaceholderClassName = cx(
     autocompleteTokens.tagPlaceholder.master,
@@ -841,17 +832,7 @@ function Autocomplete<T extends {}>({
     );
   };
 
-  const SelectItem = ({
-    option,
-    index,
-    custom,
-    testId,
-  }: {
-    option: T;
-    index: number;
-    custom?: boolean;
-    testId?: string;
-  }) => {
+  const SelectItem = ({ option, index, custom, testId }: { option: T; index: number; custom?: boolean; testId?: string }) => {
     const label = safeItemToString(option);
     const checkFirstChar = label.toLowerCase()[0] === inputValue?.toLowerCase()[0];
     const checkFirstWord = label.split(" ")[0].toLowerCase().includes(inputValue.split(" ")[0].toLowerCase());
@@ -862,9 +843,7 @@ function Autocomplete<T extends {}>({
       autocompleteTokens.Item.complex.selected.size,
     );
 
-    const selected = getOptionValue
-      ? (arrayIncludes(selectedOptions, option) as boolean)
-      : selectedOptions.includes(option);
+    const selected = getOptionValue ? (arrayIncludes(selectedOptions, option) as boolean) : selectedOptions.includes(option);
     const hovered = highlightedIndex === index;
 
     const customContains = customOptions.includes(option);

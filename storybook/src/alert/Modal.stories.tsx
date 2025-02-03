@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -213,12 +213,11 @@ export const WithScrollbar = () => {
           <DescriptionList.Item label="Born">March 4, 1895 </DescriptionList.Item>
           <DescriptionList.Item label="Salary expectation">$120,000</DescriptionList.Item>
           <DescriptionList.Item label="About">
-            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui
-            ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat.
-            Excepteur qui ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa
-            consequat. Excepteur qui ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum
-            culpa consequat. Excepteur qui ipsum Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt
-            cillum culpa consequat. Excepteur qui ipsum
+            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
+            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
+            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
+            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
+            Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
           </DescriptionList.Item>
         </DescriptionList>
         <Modal.Footer>
@@ -283,11 +282,7 @@ export const WithBypassedFocusLock = () => {
         </Modal.Footer>
       </Modal>
 
-      <Popup
-        text="Without this option, focus is locked on 'first' modal."
-        isOpen={showPopup}
-        setIsOpen={setShowPopup}
-      />
+      <Popup text="Without this option, focus is locked on 'first' modal." isOpen={showPopup} setIsOpen={setShowPopup} />
       <Popup
         text="With bypassed focus lock, input field can get focused."
         isOpen={showBypassedFocusLockPopup}

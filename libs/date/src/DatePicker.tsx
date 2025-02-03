@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -272,11 +272,7 @@ function DatePickerMonthContainer({ ...props }) {
           <div className={tokens.DatePicker.Month.headerContainer}>
             <MonthPickerLabels {...month} />
             <div>
-              <NavigationButton
-                onClick={datePicker.goToPreviousMonths}
-                icon={previousIcon}
-                hiddenText="Previous month"
-              />
+              <NavigationButton onClick={datePicker.goToPreviousMonths} icon={previousIcon} hiddenText="Previous month" />
               <NavigationButton onClick={datePicker.goToNextMonths} icon={nextIcon} hiddenText="Next month" />
             </div>
           </div>
@@ -297,11 +293,7 @@ function DateRangeMonthPickerContainer({ ...props }) {
 
   return (
     <>
-      <NavigationButton
-        onClick={datePicker.goToPreviousMonths}
-        icon={previousIcon}
-        hiddenText="Previous set of months"
-      />
+      <NavigationButton onClick={datePicker.goToPreviousMonths} icon={previousIcon} hiddenText="Previous set of months" />
       <div className={"flex flex-col md:flex-row w-full " + (!mobile ? "space-x-6" : undefined)}>
         {datePicker.activeMonths.map((month: { year: number; month: number }) => (
           <div key={`${month.year}-${month.month}`} className={mobile ? undefined : "w-1/2"}>
@@ -361,8 +353,7 @@ function MonthPickerLabels({ month, year, ...props }: MonthPickerLabelsProps) {
   const { monthLabel } = useMonth({
     year,
     month,
-    monthLabelFormat: (date: Date) =>
-      intlContext?.intl.formatDate(date, { month: "long" }) || dateFns.format(date, "MMMM"),
+    monthLabelFormat: (date: Date) => intlContext?.intl.formatDate(date, { month: "long" }) || dateFns.format(date, "MMMM"),
   });
 
   const onChevronDownClick = () => {
@@ -404,8 +395,7 @@ function MonthPicker({ year, month, firstDayOfWeek }: MonthPickerProps) {
     year,
     month,
     firstDayOfWeek,
-    monthLabelFormat: (date: Date) =>
-      intlContext?.intl.formatDate(date, { month: "long" }) || dateFns.format(date, "MMMM"),
+    monthLabelFormat: (date: Date) => intlContext?.intl.formatDate(date, { month: "long" }) || dateFns.format(date, "MMMM"),
     weekdayLabelFormat: (date: Date) =>
       intlContext?.intl.formatDate(date, { weekday: "short" }) || dateFns.format(date, "EEEEEE"),
   });
@@ -515,8 +505,7 @@ function DatePickerDay({ dayLabel, date, ...props }: DatePickerDayProps) {
   const dayButtonClassName = cx(
     tokens.DatePicker.Button.base,
     {
-      [tokens.DatePicker.Button.selected]:
-        datePicker.isDateSelected(date) && !datePicker.isFirstOrLastSelectedDate(date),
+      [tokens.DatePicker.Button.selected]: datePicker.isDateSelected(date) && !datePicker.isFirstOrLastSelectedDate(date),
     },
     { [tokens.DatePicker.Button.firstOrLast]: datePicker.isFirstOrLastSelectedDate(date) },
     { [tokens.DatePicker.Button.hovered]: datePicker.isDateHovered(date) && isDateRange },

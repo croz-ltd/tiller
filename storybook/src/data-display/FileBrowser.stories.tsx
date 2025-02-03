@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -120,9 +120,7 @@ export const WithCustomDisplay = () => (
           </Breadcrumbs>
           {!pending && (
             <IconButton
-              icon={
-                <Icon type="caret-up" className="pt-1 px-1 text-body-light hover:text-body duration-150 ease-in-out" />
-              }
+              icon={<Icon type="caret-up" className="pt-1 px-1 text-body-light hover:text-body duration-150 ease-in-out" />}
               onClick={goBack}
               disabled={currentPath.length === 1}
               showTooltip={false}

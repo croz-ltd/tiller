@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ export function usePickerOpener(
   isOpened: boolean,
   inputRef: React.RefObject<HTMLInputElement>,
   pickerRef: React.RefObject<HTMLDivElement>,
-  onBlur?: () => void
+  onBlur?: () => void,
 ) {
   const [opened, setOpened] = React.useState<boolean>(isOpened);
 
@@ -30,8 +30,7 @@ export function usePickerOpener(
       const { relatedTarget, target } = event;
 
       const isOutsideInput = inputRef.current && !inputRef.current?.contains((relatedTarget || target) as Element);
-      const isOutsideTimePicker =
-        pickerRef.current && !pickerRef.current?.contains((relatedTarget || target) as Element);
+      const isOutsideTimePicker = pickerRef.current && !pickerRef.current?.contains((relatedTarget || target) as Element);
 
       if (opened && isOutsideInput && isOutsideTimePicker) {
         setOpened(false);

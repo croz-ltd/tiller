@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -124,7 +124,7 @@ type Callback = (added?: string | string[], deleted?: string | string[]) => void
  */
 export default function useFileUpload<T extends File>(
   files: Array<Omit<T, "status">> = [],
-  autoTrack: boolean = false
+  autoTrack: boolean = false,
 ): UseFileUpload<T> {
   const [uploadedFiles, setUploadedFiles] = React.useState<T[]>([]);
   const [uploadedFileIds, setUploadedFileIds] = React.useState<string[]>([]);
@@ -140,7 +140,7 @@ export default function useFileUpload<T extends File>(
   const removeUploadedFileIds = React.useCallback((ids: string | string[] | null) => {
     if (ids !== null) {
       setUploadedFileIds((previousFileIds) =>
-        previousFileIds.filter((id) => (Array.isArray(ids) ? !ids.includes(id) : id !== ids))
+        previousFileIds.filter((id) => (Array.isArray(ids) ? !ids.includes(id) : id !== ids)),
       );
     }
   }, []);
@@ -154,7 +154,7 @@ export default function useFileUpload<T extends File>(
         updateCallback?.(item.id, undefined);
       }
     },
-    [updateCallback]
+    [updateCallback],
   );
 
   // Add initial files on mount
@@ -172,7 +172,7 @@ export default function useFileUpload<T extends File>(
         updateCallback?.(undefined, ids);
       }
     },
-    [updateCallback]
+    [updateCallback],
   );
 
   const onUploadedFileIds = React.useCallback((fileIds: string[] | null) => {
@@ -185,7 +185,7 @@ export default function useFileUpload<T extends File>(
 
   const uploadedFilesFinal = React.useMemo(
     () => uploadedFiles.filter((file) => uploadedFileIds.includes(file.id)),
-    [uploadedFiles, uploadedFileIds]
+    [uploadedFiles, uploadedFileIds],
   );
 
   return {

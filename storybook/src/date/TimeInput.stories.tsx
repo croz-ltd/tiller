@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -101,13 +101,7 @@ export const Disabled = () => {
   const [time, setTime] = React.useState<string | null>(null);
 
   return (
-    <TimeInput
-      name={name}
-      value={time}
-      onChange={(newTime) => setTime(newTime)}
-      onReset={() => setTime(null)}
-      disabled={true}
-    />
+    <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => setTime(null)} disabled={true} />
   );
 };
 
@@ -187,9 +181,7 @@ export const WithLocalTime = () => {
   // incl-code
   const [time, setTime] = React.useState<string | null>("11:21:28.635803");
 
-  return (
-    <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => {}} onBlur={() => {}} />
-  );
+  return <TimeInput name={name} value={time} onChange={(newTime) => setTime(newTime)} onReset={() => {}} onBlur={() => {}} />;
 };
 
 export const WithOffsetTime = () => {

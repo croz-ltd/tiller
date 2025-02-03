@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -97,11 +97,7 @@ export const ReadOnly = () => <DateInputField name="dateWithValue" label={<Intl 
 export const WithoutClearButton = () => <DateInputField name={name} label={<Intl name="label" />} allowClear={false} />;
 
 export const WithCustomPlaceholder = (args, context) => (
-  <DateInputField
-    name={name}
-    label={<Intl name="label" />}
-    placeholder={translations[context.globals.language]["placeholder"]}
-  />
+  <DateInputField name={name} label={<Intl name="label" />} placeholder={translations[context.globals.language]["placeholder"]} />
 );
 
 export const WithHelp = () => <DateInputField name={name} label={<Intl name="label" />} help={<Intl name="help" />} />;
@@ -121,12 +117,7 @@ export const WithTooltip = () => (
 export const WithError = () => <DateInputField name="dateWithError" label={<Intl name="label" />} />;
 
 export const WithMinAndMaxDate = () => (
-  <DateInputField
-    name={name}
-    label={<Intl name="label" />}
-    minDate={new Date("2019-01-20")}
-    maxDate={new Date("2020-02-25")}
-  />
+  <DateInputField name={name} label={<Intl name="label" />} minDate={new Date("2019-01-20")} maxDate={new Date("2020-02-25")} />
 );
 
 export const WithMinAndMaxDateAndValue = () => {

@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -210,9 +210,7 @@ export const WithFileListAndCustomLoader = () => {
         send={useMockSender.send}
         allowMultiple={true}
         title={<Intl name="dragZoneTitle" />}
-        loader={(percentage) => (
-          <span className="animate-pulse text-body-light h-7 my-px ">Uploading... {percentage}%</span>
-        )}
+        loader={(percentage) => <span className="animate-pulse text-body-light h-7 my-px ">Uploading... {percentage}%</span>}
       />
       <FileList hook={useFileUploadHook}>
         {(file, helpers) => (

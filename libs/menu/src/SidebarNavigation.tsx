@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -432,7 +432,13 @@ export function SidebarNavigationItem({
   }
 
   return (
-    <Link {...props} to={to || "#"} onClick={onSelect} className={tillerTwMerge(cn, className)} data-testid={props["data-testid"]}>
+    <Link
+      {...props}
+      to={to || "#"}
+      onClick={onSelect}
+      className={tillerTwMerge(cn, className)}
+      data-testid={props["data-testid"]}
+    >
       {icon && <div className={iconClassName}>{icon}</div>}
       <div className="flex items-center">{title || children}</div>
     </Link>

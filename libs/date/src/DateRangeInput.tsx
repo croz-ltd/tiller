@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -283,9 +283,7 @@ export default function DateRangeInput({
     onDatesChange,
   });
   const checkActiveMonthsValidity =
-    start &&
-    datePicker.activeMonths[0].month === start?.getMonth() &&
-    datePicker.activeMonths[0].year === start?.getFullYear();
+    start && datePicker.activeMonths[0].month === start?.getMonth() && datePicker.activeMonths[0].year === start?.getFullYear();
 
   React.useEffect(() => {
     if (start && end && !checkActiveMonthsValidity) {
@@ -329,8 +327,7 @@ export default function DateRangeInput({
       const { relatedTarget, target } = event;
 
       const isOutsideInput = inputRef.current && !inputRef.current?.contains((relatedTarget || target) as Element);
-      const isOutsideDatePicker =
-        datePickerRef.current && !datePickerRef.current?.contains((relatedTarget || target) as Element);
+      const isOutsideDatePicker = datePickerRef.current && !datePickerRef.current?.contains((relatedTarget || target) as Element);
 
       if (opened && isOutsideInput && isOutsideDatePicker) {
         setOpened(false);
@@ -411,11 +408,7 @@ export default function DateRangeInput({
         dateFormat={dateFormat}
         tokens={{ textColor: !(formattedStart && formattedEnd) ? "text-body-light" : undefined }}
       />
-      <Popover
-        className="z-50"
-        targetRef={inputRef}
-        position={popoverPosition === "left" ? positionMatchWidth : positionRight}
-      >
+      <Popover className="z-50" targetRef={inputRef} position={popoverPosition === "left" ? positionMatchWidth : positionRight}>
         {opened && (
           <DatePicker
             datePicker={datePicker}
@@ -483,12 +476,7 @@ function DateRangeInputInput({
       onReset={props.onReset}
       allowClear={allowClear}
       inlineTrailingIcon={
-        <IconButton
-          disabled={props.disabled || props.readOnly}
-          icon={finalDateIcon}
-          onClick={onClick}
-          showTooltip={false}
-        />
+        <IconButton disabled={props.disabled || props.readOnly} icon={finalDateIcon} onClick={onClick} showTooltip={false} />
       }
       autoComplete="off"
     />

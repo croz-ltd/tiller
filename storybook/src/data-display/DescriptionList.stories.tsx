@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -96,9 +96,9 @@ export const DescriptionListFactory = ({ type, sameColumn, rowQuantity, classNam
           case 9:
             return (
               <DescriptionList.Item label="About" type={sameColumn ? "same-column" : undefined}>
-                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
-                qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure
-                nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+                Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
+                aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit
+                ad adipisicing reprehenderit deserunt qui eu.
               </DescriptionList.Item>
             );
           default:
@@ -137,9 +137,9 @@ export const Default = () => (
     <DescriptionList.Item label="Email address">margotfoster@example</DescriptionList.Item>
     <DescriptionList.Item label="Salary expectation">$120,000</DescriptionList.Item>
     <DescriptionList.Item label="About">
-      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
-      aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit
-      ad adipisicing reprehenderit deserunt qui eu.
+      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
+      consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing
+      reprehenderit deserunt qui eu.
     </DescriptionList.Item>
     <DescriptionList.Item label="Crimes">Triple homicide in Reno, Nevada.</DescriptionList.Item>
     <DescriptionList.Item label="Guns used">.357 Magnum, Tactical knife, flashbang</DescriptionList.Item>
@@ -164,9 +164,9 @@ export const SameColumn = () => (
     {false}
     {undefined}
     <DescriptionList.Item label="About" type="same-column">
-      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
-      aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit
-      ad adipisicing reprehenderit deserunt qui eu.
+      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
+      consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing
+      reprehenderit deserunt qui eu.
     </DescriptionList.Item>
     <DescriptionList.Item label="Crimes" type="same-column">
       Triple homicide in Reno, Nevada.
@@ -184,9 +184,9 @@ export const Striped = () => (
     <DescriptionList.Item label="Email address">margotfoster@example</DescriptionList.Item>
     <DescriptionList.Item label="Salary expectation">$120,000</DescriptionList.Item>
     <DescriptionList.Item label="About">
-      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
-      aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit
-      ad adipisicing reprehenderit deserunt qui eu.
+      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
+      consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing
+      reprehenderit deserunt qui eu.
     </DescriptionList.Item>
     <DescriptionList.Item label="Crimes">Triple homicide in Reno, Nevada.</DescriptionList.Item>
     <DescriptionList.Item label="Guns used">.357 Magnum, Tactical knife, flashbang</DescriptionList.Item>
@@ -200,9 +200,9 @@ export const Clean = () => (
     <DescriptionList.Item label="Email address">margotfoster@example</DescriptionList.Item>
     <DescriptionList.Item label="Salary expectation">$120,000</DescriptionList.Item>
     <DescriptionList.Item label="About">
-      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum
-      aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit
-      ad adipisicing reprehenderit deserunt qui eu.
+      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
+      consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing
+      reprehenderit deserunt qui eu.
     </DescriptionList.Item>
     <DescriptionList.Item label="Crimes">Triple homicide in Reno, Nevada.</DescriptionList.Item>
     <DescriptionList.Item label="Guns used">.357 Magnum, Tactical knife, flashbang</DescriptionList.Item>

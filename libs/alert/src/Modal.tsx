@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -283,10 +283,7 @@ function Modal<T = unknown>({
     tokens.Container.Content.container.boxShadow,
   );
 
-  const overlayInnerClassName = cx(
-    tokens.Container.Overlay.inner.master,
-    tokens.Container.Overlay.inner.backgroundColor,
-  );
+  const overlayInnerClassName = cx(tokens.Container.Overlay.inner.master, tokens.Container.Overlay.inner.backgroundColor);
 
   return (
     <DialogOverlay isOpen={isOpen} onDismiss={onDismiss} dangerouslyBypassFocusLock={dangerouslyBypassFocusLock}>
@@ -295,11 +292,7 @@ function Modal<T = unknown>({
           <div className={tokens.Container.Overlay.outer}>
             <div className={overlayInnerClassName}>&nbsp;</div>
           </div>
-          <DialogContent
-            className={contentContainerClassName}
-            aria-label="Dialog Content"
-            data-testid={props["data-testid"]}
-          >
+          <DialogContent className={contentContainerClassName} aria-label="Dialog Content" data-testid={props["data-testid"]}>
             {canDismiss && (
               <div className={tokens.Container.Content.dismiss}>
                 <ModalDismiss data-testid={`${props["data-testid"]}-dismiss`} />
@@ -322,11 +315,7 @@ function ModalDismiss({ ariaLabel = "Close", dismissIcon, className, ...props }:
   const tokens = useTokens("Modal", props.tokens);
   const { onClose } = useModalContext();
 
-  const dismissButtonClassName = cx(
-    tokens.Dismiss.button.master,
-    tokens.Dismiss.button.color,
-    tokens.Dismiss.button.hover,
-  );
+  const dismissButtonClassName = cx(tokens.Dismiss.button.master, tokens.Dismiss.button.color, tokens.Dismiss.button.hover);
 
   const finalDismissIcon = useIcon("dismiss", dismissIcon);
 

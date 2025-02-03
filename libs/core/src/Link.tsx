@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -75,12 +75,7 @@ export default function Link({ children, variant = "main", to, className, ...pro
 
   if (to) {
     return (
-      <ReactRouterLink
-        {...props}
-        to={to}
-        className={tillerTwMerge(linkClassName, className)}
-        data-testid={props["data-testid"]}
-      >
+      <ReactRouterLink {...props} to={to} className={tillerTwMerge(linkClassName, className)} data-testid={props["data-testid"]}>
         {children}
       </ReactRouterLink>
     );

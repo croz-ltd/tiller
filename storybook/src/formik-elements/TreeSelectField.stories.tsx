@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -104,9 +104,7 @@ export const WithPlaceholder = (args, context) => (
   />
 );
 
-export const WithHelp = () => (
-  <TreeSelectField label={<Intl name="label" />} help={<Intl name="help" />} {...commonProps} />
-);
+export const WithHelp = () => <TreeSelectField label={<Intl name="label" />} help={<Intl name="help" />} {...commonProps} />;
 
 export const WithError = () => <TreeSelectField label={<Intl name="label" />} {...commonProps} name={nameWithError} />;
 

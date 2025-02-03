@@ -1,5 +1,5 @@
 /*
- *    Copyright 2023 CROZ d.o.o, the original author or authors.
+ *    Copyright 2025 CROZ d.o.o, the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,10 +24,7 @@ import { FieldProps as InternalFieldProps } from "./Field";
 import { InputProps as InternalInputProps } from "./Input";
 import { MaskedInputProps as InternalMaskedInputProps } from "./MaskedInput";
 import { NumberInputProps as InternalNumberInputProps } from "./NumberInput";
-import {
-  RadioGroupItemProps as InternalRadioGroupItemProps,
-  RadioGroupProps as InternalRadioGroupProps,
-} from "./RadioGroup";
+import { RadioGroupItemProps as InternalRadioGroupItemProps, RadioGroupProps as InternalRadioGroupProps } from "./RadioGroup";
 import { SliderProps as InternalSliderProps } from "./Slider";
 import { TextareaProps as InternalTextareaProps } from "./Textarea";
 import { ToggleProps as InternalToggleProps } from "./Toggle";
