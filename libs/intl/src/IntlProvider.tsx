@@ -65,6 +65,12 @@ type IntlProviderProps = {
    * Configuration for label keys used internally in Tiller (like 'Required'). Override these if you cannot use default keys provided by Tiller.
    */
   keyConfig?: CommonKeys;
+
+  /**
+   * Defines custom render functions for rich text elements (e.g. <b>, <i>, <a>) used in translated messages.
+   * Useful when you want to control the styling or behavior of specific tags in your localized content.
+   */
+  defaultRichTextElements?: Record<string, (chunks: React.ReactNode) => React.ReactNode>;
 };
 
 type IntlProviderWrapperProps = {
@@ -155,12 +161,12 @@ function IntlProviderWrapper({ children, intl }: IntlProviderWrapperProps) {
   return <IntlContext.Provider value={value}>{children}</IntlContext.Provider>;
 }
 
-export default function IntlProvider({ children, lang, dictionary, loadDictionary, keyConfig }: IntlProviderProps) {
+export default function IntlProvider({ children, lang, dictionary, loadDictionary, keyConfig, defaultRichTextElements }: IntlProviderProps) {
   const intl = useIntl(lang, dictionary, loadDictionary, keyConfig);
 
   return (
     <>
-      <ReactIntlProvider locale={lang}>
+      <ReactIntlProvider locale={lang} defaultRichTextElements={defaultRichTextElements} >
         <IntlProviderWrapper intl={intl}>{children}</IntlProviderWrapper>
       </ReactIntlProvider>
     </>
