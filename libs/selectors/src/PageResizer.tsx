@@ -73,13 +73,21 @@ type PageResizerProps = {
    * getByTestId('my-component');
    */
   "data-testid"?: string;
+
+  /**
+   * Minimum number of elements required to show the PageResizer.
+   * If `totalElements` is less than or equal to this value, the component is hidden.
+   *
+   * @default 5
+   */
+  displayThreshold?: number
 } & PageResizerTokensProps;
 
 type PageResizerTokensProps = {
   tokens?: ComponentTokens<"PageResizer">;
 };
 
-export default function PageResizer({ pageSizes, onPageSizeChange, children, className, ...props }: PageResizerProps) {
+export default function PageResizer({ pageSizes, onPageSizeChange, children, className, displayThreshold = 5, ...props }: PageResizerProps) {
   const intl = useIntlContext();
   const tokens = useTokens("PageResizer", props.tokens);
   const { pageSize, totalElements } = props;
@@ -106,7 +114,7 @@ export default function PageResizer({ pageSizes, onPageSizeChange, children, cla
     />
   );
 
-  if (totalElements <= 5) {
+  if (totalElements <= displayThreshold) {
     return <div />;
   }
 
