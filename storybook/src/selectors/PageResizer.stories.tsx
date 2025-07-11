@@ -96,6 +96,11 @@ export const WithPagination = () => {
   const [pageSize, setPageSize] = React.useState(5);
   const [paginationState, paginationHook] = useLocalPagination(items, pageSize);
 
+  const onPageSizeChange = (pageSize: number) => {
+    setPageSize(pageSize);
+    paginationHook.onPageChange(0);
+  };
+
   return (
     <>
       <div className={`flex space-x-2 p-2 rounded-md w-fit`}>
@@ -103,7 +108,7 @@ export const WithPagination = () => {
       </div>
       <div className="flex flex-col space-y-4 mt-4 w-fit">
         <Pagination {...paginationState} {...paginationHook} />
-        <PageResizer {...paginationState} pageSizes={[3, 5, 10]} onPageSizeChange={setPageSize} />
+        <PageResizer {...paginationState} pageSizes={[3, 5, 10]} onPageSizeChange={onPageSizeChange} />
       </div>
     </>
   );
